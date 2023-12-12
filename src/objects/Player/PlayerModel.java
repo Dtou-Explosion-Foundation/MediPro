@@ -6,15 +6,18 @@ public class PlayerModel extends GameObjectModel {
 
     // movement
     float speedX = 0;
-    float speedLimitX = 100;
-    float resitX = 3f;
-    float accX = 5f;
+    float speedLimitX = 3f;
+    float resitX = 0.7f;
+    float accX = 1.5f;
 
     // sprite animation
+    int spritesIdleIndex = 1;
     int spritesIndex = 0;
     int[] spritesRange = { 0, 3 };
-    final static float changeSpriteTime = 30;
-    float changeSpriteTimer = changeSpriteTime;
+    final static float changeSpriteTime = 0.1f;
+    byte direction = 1;
+    Boolean isWalking = false;
+    float changeSpriteTimer = 0;
 
     public PlayerModel() {
         super();
@@ -27,15 +30,25 @@ public class PlayerModel extends GameObjectModel {
     }
 
     public void moveRight() {
-        speedX += accX;
+        direction = 1;
+        isWalking = true;
     }
 
     public void moveLeft() {
-        speedX -= accX;
+        direction = -1;
+        isWalking = true;
     }
 
     @Override
     public void update(float dt) {
+
+        // apply movement
+        if (isWalking) {
+            speedX += accX * direction;
+            isWalking = false;
+        } else {
+            spritesIndex = spritesIdleIndex;
+        }
 
         // update position
         x += speedX;
@@ -51,13 +64,19 @@ public class PlayerModel extends GameObjectModel {
                 speedX = 0;
         }
 
+        // apply speed limit
+        if (speedX > speedLimitX)
+            speedX = speedLimitX;
+        else if (speedX < -speedLimitX)
+            speedX = -speedLimitX;
+
         // update sprite animation
-        changeSpriteTimer -= dt;
-        if (changeSpriteTimer <= 0) {
+        changeSpriteTimer += dt;
+        if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
             if (++spritesIndex > spritesRange[1])
                 spritesIndex = spritesRange[0];
-            // changeSpriteTimer = changeSpriteTime / (this.speedX / this.speedLimitX);
-            changeSpriteTimer = changeSpriteTime;
+            changeSpriteTimer = 0;
         }
+
     }
 }

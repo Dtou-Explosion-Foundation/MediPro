@@ -20,12 +20,12 @@ public class PlayerController extends GameObjectController implements KeyListene
 
         switch (k) {
             case KeyEvent.VK_LEFT:
-                logger.info("left key pressed");
+            case KeyEvent.VK_A:
                 playerModel.moveLeft();
                 keyStateX = -1;
                 break;
             case KeyEvent.VK_RIGHT:
-                logger.info("right key pressed");
+            case KeyEvent.VK_D:
                 playerModel.moveRight();
                 keyStateX = 1;
                 break;
