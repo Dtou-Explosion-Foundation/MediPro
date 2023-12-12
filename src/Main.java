@@ -17,10 +17,10 @@ import javax.swing.JPanel;
 public class Main {
 	public static void main(String[] args) {
 		setupLogger();
-		GameWindow gw = new GameWindow("GameWindow", 1024, 768);
-		GamePanel gp = new GamePanel();
-		gw.add(gp);
-		gw.setVisible(true);
+		JFrame window = new GameWindow("GameWindow", 1024, 768);
+		JPanel panel = new GamePanel();
+		window.add(panel);
+		window.setVisible(true);
 	}
 
 	private static void setupLogger() {
