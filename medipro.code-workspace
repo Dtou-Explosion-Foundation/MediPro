@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.formatOnSave": true,
+		"java.project.sourcePaths": [
+			"src"
+		],
+		"java.project.outputPath": "bin",
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit"
+		},
+		"[java]": {
+			"editor.pasteAs.enabled": false
+		},
+	}
+}

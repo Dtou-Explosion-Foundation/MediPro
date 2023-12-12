@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "wayou.vscode-todo-highlight",
+        "spmeesseman.vscode-taskexplorer",
+        "emilast.logfilehighlighter",
+        "ibm.output-colorizer",
+        "redhat.java",
+        "usernamehw.errorlens",
+        "vscjava.vscode-java-debug",
+        "eamodio.gitlens"
+    ]
+}
