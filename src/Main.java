@@ -18,6 +18,7 @@ import objects.Player.PlayerView;
 
 public class Main {
 	static final Logger logger = Logger.getLogger("");
+	static World mainWorld;
 
 	public static void main(String[] args) {
 		setupLogger();
@@ -39,17 +40,19 @@ public class Main {
 				}
 			}
 		};
+
 		window.setVisible(true);
 		timer.scheduleAtFixedRate(task, 0, (long) (1000f / Config.FPS));
 	}
 
 	static void setupWorld(GamePanel panel) {
+		mainWorld = new World();
 		{
 			PlayerModel model = new PlayerModel();
 			PlayerView view = new PlayerView(model);
 			PlayerController controller = new PlayerController(model, view);
 			panel.addKeyListener(controller);
-			panel.controllers.add(controller);
+			mainWorld.addController(controller);
 		}
 	}
 
