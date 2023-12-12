@@ -28,7 +28,7 @@ public class Main {
 		Formatter formatter = new SimpleFormatter();
 		Handler rootHandler;
 		try {
-			File logFolder = System.getProperty("user.dir").endsWith("src") ? new File("../log") : new File("log");
+			File logFolder = new File("log");
 			logFolder.mkdir();
 			rootHandler = new FileHandler(logFolder.toString() + "/"
 					+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
