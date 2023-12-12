@@ -1,10 +1,9 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
@@ -12,15 +11,46 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+import objects.Player.PlayerController;
+import objects.Player.PlayerModel;
+import objects.Player.PlayerView;
 
 public class Main {
+	static final Logger logger = Logger.getLogger("");
+
 	public static void main(String[] args) {
 		setupLogger();
+		logger.info("Start game");
 		JFrame window = new GameWindow("GameWindow", 1024, 768);
-		JPanel panel = new MoveCharaPanel();
+		GamePanel panel = new GamePanel();
+		panel.setFocusable(true);
+		setupWorld(panel);
 		window.add(panel);
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+			Boolean isIdle = true;
+
+			public void run() {
+				if (isIdle) {
+					isIdle = false;
+					panel.repaint();
+					isIdle = true;
+				}
+			}
+		};
 		window.setVisible(true);
+		timer.scheduleAtFixedRate(task, 0, (long) (1000f / Config.FPS));
+	}
+
+	static void setupWorld(GamePanel panel) {
+		{
+			PlayerModel model = new PlayerModel();
+			PlayerView view = new PlayerView(model);
+			PlayerController controller = new PlayerController(model, view);
+			panel.addKeyListener(controller);
+			panel.controllers.add(controller);
+		}
 	}
 
 	private static void setupLogger() {
@@ -38,25 +68,5 @@ public class Main {
 			System.err.println("Error on creating log file");
 			e.printStackTrace();
 		}
-	}
-}
-
-class GameWindow extends JFrame {
-
-	public GameWindow(String title, int width, int height) {
-		super(title);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(width, height);
-		setLocationRelativeTo(null);
-		setResizable(false);
-	}
-}
-
-class GamePanel extends JPanel {
-	Image img = Toolkit.getDefaultToolkit().getImage("img/background_sample.png");
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(img, 0, 0, this);
 	}
 }
