@@ -17,7 +17,6 @@ public class Main {
 		setupLogger();
 		logger.info("Start game");
 		JFrame window = new GameFrame("GameWindow", 1024, 768);
-
 		window.setVisible(true);
 	}
 

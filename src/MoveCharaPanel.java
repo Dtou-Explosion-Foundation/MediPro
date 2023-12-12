@@ -12,15 +12,16 @@ import javax.swing.JPanel;
 
 public class MoveCharaPanel extends JPanel {
     int x = 250; // キャラの描画位置（x座標）
-    int y = 250; // キャラの描画位置（y座標）
-    int mode = 0; // 状態（0:停止,1:起動）
+    int y = 500; // キャラの描画位置（y座標）
+    int mode = 0; // 状態（0:停止,1:前進,-1:後進）
+
     Image img[] = new Image[4];
     int p = 0; // 画像番号
     Image back; // 背景画像
     int offset = 0; // 背景の書き出し位置
 
     public MoveCharaPanel() {
-        setPreferredSize(new Dimension(600, 400));
+        setPreferredSize(new Dimension(1024, 768));
         addKeyListener(new MoveByKeyPanel());
         this.setFocusable(true);
         try {
@@ -39,8 +40,8 @@ public class MoveCharaPanel extends JPanel {
     // 描画
     public void paintComponent(Graphics g) {
         // 背景
-        g.drawImage(back, offset, 0, 600, 400, null);
-        g.drawImage(back, offset + 600, 0, 600, 400, null);
+        g.drawImage(back, offset, 0, 1024, 768, null);
+        g.drawImage(back, offset + 1024, 0, 1024, 768, null);
         // キャラ
         g.drawImage(img[p], x, y, null);
     }
@@ -52,7 +53,7 @@ public class MoveCharaPanel extends JPanel {
             while (mode == 1) {
                 // 背景を左に動かす
                 offset = offset - 10;
-                if (offset < -600) {
+                if (offset < -1024) {
                     offset = 0;
                 }
                 // 画像の変更
@@ -68,7 +69,7 @@ public class MoveCharaPanel extends JPanel {
             while (mode == -1) {
                 offset = offset + 10;
                 if (offset > 0) {
-                    offset = -599;
+                    offset = -1023;
                 }
                 // 画像の変更
                 if (p == 0) {
