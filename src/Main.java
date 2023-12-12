@@ -18,7 +18,7 @@ public class Main {
 	public static void main(String[] args) {
 		setupLogger();
 		JFrame window = new GameWindow("GameWindow", 1024, 768);
-		JPanel panel = new GamePanel();
+		JPanel panel = new MoveCharaPanel();
 		window.add(panel);
 		window.setVisible(true);
 	}
