@@ -17,12 +17,10 @@ import javax.swing.JPanel;
 public class Main {
 	public static void main(String[] args) {
 		setupLogger();
-		GameWindow gw = new GameWindow("GameWindow", 1024, 768);
-		// JPanel gp = new GamePanel();
-		JPanel gp = new MoveCharaPanel();
-		gw.add(gp);
-
-		gw.setVisible(true);
+		JFrame window = new GameWindow("GameWindow", 1024, 768);
+		JPanel panel = new MoveCharaPanel();
+		window.add(panel);
+		window.setVisible(true);
 	}
 
 	private static void setupLogger() {
@@ -30,7 +28,7 @@ public class Main {
 		Formatter formatter = new SimpleFormatter();
 		Handler rootHandler;
 		try {
-			File logFolder = System.getProperty("user.dir").endsWith("src") ? new File("../log") : new File("log");
+			File logFolder = new File("log");
 			logFolder.mkdir();
 			rootHandler = new FileHandler(logFolder.toString() + "/"
 					+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
