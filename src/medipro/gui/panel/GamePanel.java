@@ -13,13 +13,13 @@ import medipro.world.TestWorld;
 import medipro.world.World;
 
 public class GamePanel extends JPanel {
-    World world;
+    public World world;
 
     Duration deltaTime = Duration.ZERO;
     Instant beginTime = Instant.now();
 
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
-    JFrame frame;
+    public JFrame frame;
 
     public GamePanel(JFrame frame) {
         super();

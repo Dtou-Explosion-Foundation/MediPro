@@ -1,10 +1,15 @@
 package medipro.world;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import medipro.object.background.TileModel;
+import medipro.object.background.TileView;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -62,6 +67,19 @@ public class TestWorld extends World {
                 MarkerModel model = new MarkerModel(this);
                 view.models.add(model);
                 controller.models.add(model);
+            }
+        }
+        {
+            try {
+                TileModel model = new TileModel(this, ImageIO.read(new File("img/character/bear0.png")));
+                TileView view = new TileView();
+                // TileController controller = new TileController();
+                view.models.add(model);
+                // controller.models.add(model);
+                // this.addViewAndController(view, controller, 10);
+                this.addView(view, 10);
+            } catch (IOException e) {
+                logger.warning(e.toString());
             }
         }
         {

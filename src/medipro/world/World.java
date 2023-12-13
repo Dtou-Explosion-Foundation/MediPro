@@ -16,11 +16,11 @@ import medipro.object.base.gameobject.GameObjectView;
 
 public abstract class World {
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
-    ArrayList<GameObjectController> controllers;
-    ArrayList<ArrayList<GameObjectView>> views;
+    public ArrayList<GameObjectController> controllers;
+    public ArrayList<ArrayList<GameObjectView>> views;
 
-    JPanel panel;
-    Optional<CameraModel> camera = Optional.empty();
+    public JPanel panel;
+    public Optional<CameraModel> camera = Optional.empty();
 
     public World(JPanel panel) {
         logger.info("Init World");
