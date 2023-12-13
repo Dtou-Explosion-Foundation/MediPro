@@ -10,8 +10,8 @@ public abstract class GameObjectModel {
 
     public World world;
 
-    public int x;
-    public int y;
+    public double x;
+    public double y;
 
     public double rotation;
 

@@ -10,8 +10,8 @@ public class FollowingCameraModel extends CameraModel {
 
     public Optional<GameObjectModel> target = Optional.empty();
 
-    public int originX = 0;
-    public int originY = 0;
+    public double originX = 0;
+    public double originY = 0;
 
     public FollowingCameraModel(World world, GameObjectModel target) {
         super(world);
