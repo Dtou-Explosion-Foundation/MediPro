@@ -1,3 +1,5 @@
+package medipro.gui.panel;
+
 import java.awt.Graphics;
 import java.time.Duration;
 import java.time.Instant;
@@ -6,15 +8,10 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import worlds.TestWorld;
-import worlds.World;
+import medipro.world.TestWorld;
+import medipro.world.World;
 
 public class GamePanel extends JPanel {
-    // Image img =
-    // Toolkit.getDefaultToolkit().getImage("img/background_sample.png");
-
-    // public ArrayList<GameObjectController> controllers;
-
     World world;
 
     Duration deltaTime = Duration.ZERO;

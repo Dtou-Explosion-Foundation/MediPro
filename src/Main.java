@@ -10,6 +10,8 @@ import java.util.logging.SimpleFormatter;
 
 import javax.swing.JFrame;
 
+import medipro.gui.frame.GameFrame;
+
 public class Main {
 	static final Logger logger = Logger.getLogger("");
 

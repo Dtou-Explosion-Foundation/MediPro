@@ -16,6 +16,9 @@
 		"[java]": {
 			"editor.pasteAs.enabled": false
 		},
-		"extensions.ignoreRecommendations": true
+		"extensions.ignoreRecommendations": true,
+		"cSpell.words": [
+			"medipro"
+		]
 	}
 }

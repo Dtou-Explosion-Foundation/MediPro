@@ -1,10 +1,13 @@
+package medipro.gui.frame;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import configs.Config;
+import medipro.config.Config;
+import medipro.gui.panel.GamePanel;
 
 public class GameFrame extends JFrame {
     final Logger logger = Logger.getLogger(this.getClass().getSimpleName());

@@ -1,9 +1,9 @@
-package objects.FollowingCamera;
+package medipro.object.camera;
 
 import java.util.Optional;
 
-import objects.base.Camera.CameraModel;
-import objects.base.GameObject.GameObjectModel;
+import medipro.object.base.camera.CameraModel;
+import medipro.object.base.gameobject.GameObjectModel;
 
 public class FollowingCameraModel extends CameraModel {
 

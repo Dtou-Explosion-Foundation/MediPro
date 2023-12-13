@@ -1,6 +1,6 @@
-package objects.base.Camera;
+package medipro.object.base.camera;
 
-import objects.base.GameObject.GameObjectModel;
+import medipro.object.base.gameobject.GameObjectModel;
 
 public class CameraModel extends GameObjectModel {
 

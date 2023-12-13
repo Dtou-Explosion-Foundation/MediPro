@@ -1,4 +1,4 @@
-package worlds;
+package medipro.world;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
-import configs.Config;
-import objects.base.Camera.CameraController;
-import objects.base.GameObject.GameObjectController;
+import medipro.config.Config;
+import medipro.object.base.camera.CameraController;
+import medipro.object.base.gameobject.GameObjectController;
 
 public abstract class World {
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());

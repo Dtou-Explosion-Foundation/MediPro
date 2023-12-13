@@ -1,6 +1,6 @@
-package objects.Player;
+package medipro.object.player;
 
-import objects.base.GameObject.GameObjectModel;
+import medipro.object.base.gameobject.GameObjectModel;
 
 public class PlayerModel extends GameObjectModel {
 

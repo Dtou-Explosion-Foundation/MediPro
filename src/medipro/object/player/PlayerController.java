@@ -1,11 +1,11 @@
-package objects.Player;
+package medipro.object.player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import objects.base.GameObject.GameObjectController;
-import objects.base.GameObject.GameObjectModel;
-import objects.base.GameObject.GameObjectView;
+import medipro.object.base.gameobject.GameObjectController;
+import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.base.gameobject.GameObjectView;
 
 public class PlayerController extends GameObjectController implements KeyListener {
     public PlayerController(GameObjectModel model, GameObjectView view) {

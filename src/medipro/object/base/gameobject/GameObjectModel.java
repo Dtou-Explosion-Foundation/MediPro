@@ -1,4 +1,4 @@
-package objects.base.GameObject;
+package medipro.object.base.gameobject;
 
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;

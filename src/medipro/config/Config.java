@@ -1,4 +1,4 @@
-package configs;
+package medipro.config;
 
 public final class Config {
     public static final int WINDOW_WIDTH = 1024;

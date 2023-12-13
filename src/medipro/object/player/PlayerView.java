@@ -1,4 +1,4 @@
-package objects.Player;
+package medipro.object.player;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -9,8 +9,8 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import objects.base.GameObject.GameObjectModel;
-import objects.base.GameObject.GameObjectView;
+import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.base.gameobject.GameObjectView;
 
 public class PlayerView extends GameObjectView {
     Image sprites[] = new Image[4];

@@ -1,6 +1,6 @@
-package objects.FollowingCamera;
+package medipro.object.camera;
 
-import objects.base.GameObject.GameObjectModel;
+import medipro.object.base.gameobject.GameObjectModel;
 
 public class SmoothFollowingCameraModel extends FollowingCameraModel {
 

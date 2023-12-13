@@ -1,20 +1,20 @@
-package worlds;
+package medipro.world;
 
 import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import objects.FollowingCamera.SmoothFollowingCameraModel;
-import objects.Player.PlayerController;
-import objects.Player.PlayerModel;
-import objects.Player.PlayerView;
-import objects.base.Camera.CameraController;
-import objects.base.Camera.CameraModel;
-import objects.base.Camera.CameraView;
-import objects.base.GameObject.GameObjectModel;
-import objects.ornaments.Marker.MarkerContoller;
-import objects.ornaments.Marker.MarkerModel;
-import objects.ornaments.Marker.MarkerView;
+import medipro.object.base.camera.CameraController;
+import medipro.object.base.camera.CameraModel;
+import medipro.object.base.camera.CameraView;
+import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.camera.SmoothFollowingCameraModel;
+import medipro.object.ornament.marker.MarkerController;
+import medipro.object.ornament.marker.MarkerModel;
+import medipro.object.ornament.marker.MarkerView;
+import medipro.object.player.PlayerController;
+import medipro.object.player.PlayerModel;
+import medipro.object.player.PlayerView;
 
 public class TestWorld extends World {
 
@@ -24,10 +24,10 @@ public class TestWorld extends World {
 
     @Override
     public void setupWorld(JPanel panel) {
-        GameObjectModel cameraTraget;
+        GameObjectModel cameraTarget;
         {
             PlayerModel model = new PlayerModel();
-            cameraTraget = model;
+            cameraTarget = model;
             PlayerView view = new PlayerView(model);
             PlayerController controller = new PlayerController(model, view);
             panel.addKeyListener(controller);
@@ -36,11 +36,11 @@ public class TestWorld extends World {
         {
             MarkerModel model = new MarkerModel();
             MarkerView view = new MarkerView(model);
-            MarkerContoller controller = new MarkerContoller(model, view);
+            MarkerController controller = new MarkerController(model, view);
             this.addController(controller);
         }
         {
-            CameraModel model = new SmoothFollowingCameraModel(cameraTraget);
+            CameraModel model = new SmoothFollowingCameraModel(cameraTarget);
             CameraView view = new CameraView(model);
             CameraController controller = new CameraController(model, view);
             this.addController(controller);

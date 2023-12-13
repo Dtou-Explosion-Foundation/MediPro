@@ -1,9 +1,9 @@
-package objects.base.Camera;
+package medipro.object.base.camera;
 
 import java.awt.Graphics;
 
-import objects.base.GameObject.GameObjectModel;
-import objects.base.GameObject.GameObjectView;
+import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.base.gameobject.GameObjectView;
 
 public class CameraView extends GameObjectView {
 
