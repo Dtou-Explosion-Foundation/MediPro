@@ -7,7 +7,6 @@ public abstract class GameObjectController {
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
     public ArrayList<GameObjectModel> models;
-    // public GameObjectView view;
 
     public GameObjectController() {
         this.models = new ArrayList<GameObjectModel>();
