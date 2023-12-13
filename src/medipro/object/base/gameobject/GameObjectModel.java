@@ -11,7 +11,7 @@ public abstract class GameObjectModel {
 
     // TODO: add rotation, scale, etc.
 
-    abstract public void update(float dt);
+    // abstract public void update(float dt);
 
     public AffineTransform getTransformMatrix() {
         AffineTransform transform = new AffineTransform();

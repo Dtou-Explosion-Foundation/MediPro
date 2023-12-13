@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import medipro.config.Config;
+import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
 
 public class GameFrame extends JFrame {
@@ -40,6 +40,6 @@ public class GameFrame extends JFrame {
                 }
             }
         };
-        timer.scheduleAtFixedRate(task, 0, (long) (1000f / Config.FPS));
+        timer.scheduleAtFixedRate(task, 0, (long) (1000f / InGameConfig.FPS));
     }
 }

@@ -1,5 +1,6 @@
 package medipro.world;
 
+import java.awt.Color;
 import java.util.Optional;
 
 import javax.swing.JPanel;
@@ -7,6 +8,7 @@ import javax.swing.JPanel;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.camera.SmoothFollowingCameraController;
 import medipro.object.camera.SmoothFollowingCameraModel;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
@@ -28,24 +30,44 @@ public class TestWorld extends World {
             PlayerModel model = new PlayerModel();
             cameraTarget = model;
             PlayerView view = new PlayerView(model);
-            PlayerController controller = new PlayerController(model, view);
+            PlayerController controller = new PlayerController(model);
             panel.addKeyListener(controller);
-            this.addController(controller);
+            this.addViewAndController(view, controller, 10);
         }
         {
-            MarkerModel model = new MarkerModel();
-            MarkerView view = new MarkerView(model);
-            MarkerController controller = new MarkerController(model, view);
-            this.addController(controller);
+            MarkerView view = new MarkerView();
+            MarkerController controller = new MarkerController();
+            this.addViewAndController(view, controller, 20);
+            {
+                MarkerModel model = new MarkerModel();
+                model.x = 100;
+                model.y = -25;
+                model.color = Color.BLUE;
+                view.models.add(model);
+                controller.models.add(model);
+            }
+            {
+                MarkerModel model = new MarkerModel();
+                model.x = -100;
+                model.y = -50;
+                model.color = Color.GREEN;
+                view.models.add(model);
+                controller.models.add(model);
+            }
+            {
+                MarkerModel model = new MarkerModel();
+                view.models.add(model);
+                controller.models.add(model);
+            }
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(cameraTarget);
             model.scale = 2;
             model.originY = (int) (10 / model.scale);
             CameraView view = new CameraView(model);
-            CameraController controller = new CameraController(model, view);
-            this.addController(controller);
-            camera = Optional.of(controller);
+            CameraController controller = new SmoothFollowingCameraController(model);
+            this.addViewAndController(view, controller);
+            camera = Optional.of(model);
         }
     }
 }

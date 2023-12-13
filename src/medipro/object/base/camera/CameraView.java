@@ -12,7 +12,7 @@ public class CameraView extends GameObjectView {
     }
 
     @Override
-    public void draw(Graphics2D g) {
+    public void draw(GameObjectModel model, Graphics2D g) {
     }
 
 }

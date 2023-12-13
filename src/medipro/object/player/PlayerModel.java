@@ -39,9 +39,17 @@ public class PlayerModel extends GameObjectModel {
         isWalking = true;
     }
 
-    @Override
-    public void update(float dt) {
+    public void updateAnimation(float dt) {
+        // update sprite animation
+        changeSpriteTimer += dt;
+        if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
+            if (++spritesIndex > spritesRange[1])
+                spritesIndex = spritesRange[0];
+            changeSpriteTimer = 0;
+        }
+    }
 
+    public void updateMovement(float dt) {
         // apply movement
         if (isWalking) {
             speedX += accX * direction;
@@ -69,14 +77,6 @@ public class PlayerModel extends GameObjectModel {
             speedX = speedLimitX;
         else if (speedX < -speedLimitX)
             speedX = -speedLimitX;
-
-        // update sprite animation
-        changeSpriteTimer += dt;
-        if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
-            if (++spritesIndex > spritesRange[1])
-                spritesIndex = spritesRange[0];
-            changeSpriteTimer = 0;
-        }
 
     }
 }

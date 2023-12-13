@@ -31,7 +31,7 @@ public class PlayerView extends GameObjectView {
     }
 
     @Override
-    public void draw(Graphics2D g) {
+    public void draw(GameObjectModel model, Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
         Image image = sprites[playerModel.spritesIndex];
         if (playerModel.direction == -1) {
