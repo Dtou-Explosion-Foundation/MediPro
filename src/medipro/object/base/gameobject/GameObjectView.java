@@ -1,16 +1,33 @@
 package medipro.object.base.gameobject;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public abstract class GameObjectView {
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
-    public GameObjectModel model;
+    public ArrayList<GameObjectModel> models;
 
-    public GameObjectView(GameObjectModel model) {
-        this.model = model;
+    public GameObjectView() {
+        this.models = new ArrayList<GameObjectModel>();
     }
 
-    abstract public void draw(Graphics g);
+    public GameObjectView(GameObjectModel... models) {
+        this();
+        for (GameObjectModel model : models) {
+            this.models.add(model);
+        }
+    }
+
+    public void drawModels(Graphics2D g, AffineTransform cameraTransform) {
+
+        for (GameObjectModel model : models) {
+            g.setTransform(cameraTransform);
+            this.draw(model, g);
+        }
+    }
+
+    abstract public void draw(GameObjectModel model, Graphics2D g);
 }

@@ -3,19 +3,38 @@ package medipro.object.base.gameobject;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
+import medipro.world.World;
+
 public abstract class GameObjectModel {
-    protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public int x;
-    public int y;
+    public World world;
 
-    // TODO: add rotation, scale, etc.
+    public double x;
+    public double y;
 
-    abstract public void update(float dt);
+    public double rotation;
+
+    public double scaleX;
+    public double scaleY;
+
+    public GameObjectModel(World world) {
+        this.world = world;
+
+        this.x = 0;
+        this.y = 0;
+
+        this.rotation = 0;
+
+        this.scaleX = 1;
+        this.scaleY = 1;
+    }
 
     public AffineTransform getTransformMatrix() {
         AffineTransform transform = new AffineTransform();
         transform.translate(x, y);
+        transform.rotate(rotation);
+        transform.scale(scaleX, scaleY);
         return transform;
     }
 }

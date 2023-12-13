@@ -1,26 +1,27 @@
 package medipro.object.player;
 
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class PlayerModel extends GameObjectModel {
 
     // movement
-    float speedX = 0;
-    float speedLimitX = 3f;
-    float resitX = 0.7f;
-    float accX = 1.5f;
+    double speedX = 0;
+    double speedLimitX = 100;
+    double resitX = 600;
+    double accX = 1200;
 
     // sprite animation
     int spritesIdleIndex = 1;
     int spritesIndex = 0;
     int[] spritesRange = { 0, 3 };
-    final static float changeSpriteTime = 0.1f;
+    final static float changeSpriteTime = 0.15f;
     byte direction = 1;
     Boolean isWalking = false;
     float changeSpriteTimer = 0;
 
-    public PlayerModel() {
-        super();
+    public PlayerModel(World world) {
+        super(world);
         logger.info("PlayerModel created");
     }
 
@@ -39,27 +40,35 @@ public class PlayerModel extends GameObjectModel {
         isWalking = true;
     }
 
-    @Override
-    public void update(float dt) {
+    public void updateAnimation(float dt) {
+        // update sprite animation
+        changeSpriteTimer += dt;
+        if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
+            if (++spritesIndex > spritesRange[1])
+                spritesIndex = spritesRange[0];
+            changeSpriteTimer = 0;
+        }
+    }
 
+    public void updateMovement(float dt) {
         // apply movement
         if (isWalking) {
-            speedX += accX * direction;
+            speedX += accX * direction * dt;
             isWalking = false;
         } else {
             spritesIndex = spritesIdleIndex;
         }
 
         // update position
-        x += speedX;
+        x += speedX * dt;
 
         // apply resistance
         if (speedX > 0) {
-            speedX -= resitX;
+            speedX -= resitX * dt;
             if (speedX < 0)
                 speedX = 0;
         } else if (speedX < 0) {
-            speedX += resitX;
+            speedX += resitX * dt;
             if (speedX > 0)
                 speedX = 0;
         }
@@ -69,14 +78,5 @@ public class PlayerModel extends GameObjectModel {
             speedX = speedLimitX;
         else if (speedX < -speedLimitX)
             speedX = -speedLimitX;
-
-        // update sprite animation
-        changeSpriteTimer += dt;
-        if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
-            if (++spritesIndex > spritesRange[1])
-                spritesIndex = spritesRange[0];
-            changeSpriteTimer = 0;
-        }
-
     }
 }

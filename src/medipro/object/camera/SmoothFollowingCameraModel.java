@@ -1,21 +1,13 @@
 package medipro.object.camera;
 
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class SmoothFollowingCameraModel extends FollowingCameraModel {
 
-    public float followingSpeed = 0.1f;
+    public Double followingSpeed = 0.1;
 
-    public SmoothFollowingCameraModel(GameObjectModel target) {
-        super(target);
+    public SmoothFollowingCameraModel(World world, GameObjectModel target) {
+        super(world, target);
     }
-
-    @Override
-    public void update(float dt) {
-        if (target.isPresent()) {
-            this.x = (int) ((target.get().x - this.x) * followingSpeed + this.x);
-            this.y = (int) ((target.get().y - this.y) * followingSpeed + this.y);
-        }
-    }
-
 }

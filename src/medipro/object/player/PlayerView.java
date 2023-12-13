@@ -1,6 +1,6 @@
 package medipro.object.player;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -31,17 +31,17 @@ public class PlayerView extends GameObjectView {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(GameObjectModel model, Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
         Image image = sprites[playerModel.spritesIndex];
         if (playerModel.direction == -1) {
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-image.getWidth(null), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            g.drawImage(op.filter((BufferedImage) image, null), playerModel.x - SPRITE_WIDTH / 2,
-                    playerModel.y - SPRITE_HEIGHT, null);
+            g.drawImage(op.filter((BufferedImage) image, null), (int) (playerModel.x - SPRITE_WIDTH / 2),
+                    (int) (playerModel.y - SPRITE_HEIGHT), null);
         } else {
-            g.drawImage(image, playerModel.x - SPRITE_WIDTH / 2, playerModel.y - SPRITE_HEIGHT, null);
+            g.drawImage(image, (int) (playerModel.x - SPRITE_WIDTH / 2), (int) (playerModel.y - SPRITE_HEIGHT), null);
         }
     }
 }

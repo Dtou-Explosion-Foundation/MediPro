@@ -10,14 +10,18 @@
 			"src"
 		],
 		"java.project.outputPath": "bin",
+		"java.cleanup.actionsOnSave": [
+			"addOverride",
+		],
 		"editor.codeActionsOnSave": {
 			"source.organizeImports": "explicit"
 		},
 		"[java]": {
 			"editor.pasteAs.enabled": false
 		},
-		"extensions.ignoreRecommendations": true,
+		// "extensions.ignoreRecommendations": true,
 		"cSpell.words": [
+			"gameobject",
 			"medipro"
 		]
 	}

@@ -1,24 +1,29 @@
 package medipro.object.base.gameobject;
 
-import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public abstract class GameObjectController {
     protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
 
-    public GameObjectModel model;
-    public GameObjectView view;
+    public ArrayList<GameObjectModel> models;
 
-    public GameObjectController(GameObjectModel model, GameObjectView view) {
-        this.model = model;
-        this.view = view;
+    public GameObjectController() {
+        this.models = new ArrayList<GameObjectModel>();
     }
 
-    public void update(float dt) {
-        model.update(dt);
+    public GameObjectController(GameObjectModel... models) {
+        this();
+        for (GameObjectModel model : models) {
+            this.models.add(model);
+        }
     }
 
-    public void draw(Graphics g) {
-        view.draw(g);
+    public void updateModels(float dt) {
+        for (GameObjectModel model : models) {
+            this.update(model, dt);
+        }
     }
+
+    abstract public void update(GameObjectModel model, float dt);
 }

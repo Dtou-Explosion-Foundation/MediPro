@@ -1,6 +1,7 @@
 package medipro.gui.panel;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.logging.Logger;
@@ -17,7 +18,7 @@ public class GamePanel extends JPanel {
     Duration deltaTime = Duration.ZERO;
     Instant beginTime = Instant.now();
 
-    final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
     JFrame frame;
 
     public GamePanel(JFrame frame) {
@@ -27,9 +28,10 @@ public class GamePanel extends JPanel {
         world = new TestWorld(this);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        world.updateAndDraw(g, deltaTime.toNanos() / 1000000000f);
+        world.updateAndDraw((Graphics2D) g, deltaTime.toNanos() / 1000000000f);
         Instant currentTime = Instant.now();
         deltaTime = Duration.between(beginTime, currentTime);
         beginTime = currentTime;

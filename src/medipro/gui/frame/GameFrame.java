@@ -6,11 +6,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import medipro.config.Config;
+import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
 
 public class GameFrame extends JFrame {
-    final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public GameFrame(String title, int width, int height) {
         super(title);
@@ -29,6 +29,7 @@ public class GameFrame extends JFrame {
         TimerTask task = new TimerTask() {
             Boolean isIdle = true;
 
+            @Override
             public void run() {
                 if (isIdle) {
                     isIdle = false;
@@ -39,6 +40,6 @@ public class GameFrame extends JFrame {
                 }
             }
         };
-        timer.scheduleAtFixedRate(task, 0, (long) (1000f / Config.FPS));
+        timer.scheduleAtFixedRate(task, 0, (long) (1000f / InGameConfig.FPS));
     }
 }

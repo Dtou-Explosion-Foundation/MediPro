@@ -4,26 +4,17 @@ import java.util.Optional;
 
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class FollowingCameraModel extends CameraModel {
 
     public Optional<GameObjectModel> target = Optional.empty();
 
-    // public FollowingCameraModel() {
-    // super();
-    // }
+    public double originX = 0;
+    public double originY = 0;
 
-    public FollowingCameraModel(GameObjectModel target) {
-        super();
+    public FollowingCameraModel(World world, GameObjectModel target) {
+        super(world);
         this.target = Optional.of(target);
     }
-
-    @Override
-    public void update(float dt) {
-        if (target.isPresent()) {
-            this.x = target.get().x;
-            this.y = target.get().y;
-        }
-    }
-
 }
