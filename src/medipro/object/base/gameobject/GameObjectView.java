@@ -1,6 +1,6 @@
 package medipro.object.base.gameobject;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
 public abstract class GameObjectView {
@@ -12,5 +12,5 @@ public abstract class GameObjectView {
         this.model = model;
     }
 
-    abstract public void draw(Graphics g);
+    abstract public void draw(Graphics2D g);
 }
