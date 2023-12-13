@@ -14,7 +14,7 @@ import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
 
 public abstract class World {
-    protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
     ArrayList<GameObjectController> controllers;
 
     JPanel panel;

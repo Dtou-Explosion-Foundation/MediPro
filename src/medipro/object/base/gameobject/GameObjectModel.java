@@ -4,7 +4,7 @@ import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
 public abstract class GameObjectModel {
-    protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public int x;
     public int y;
