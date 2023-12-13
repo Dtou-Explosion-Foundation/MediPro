@@ -14,6 +14,7 @@ public class MoveCharaPanel extends JPanel {
     int x = 250; // キャラの描画位置（x座標）
     int y = 500; // キャラの描画位置（y座標）
     int mode = 0; // 状態（0:停止,1:前進,-1:後進）
+
     Image img[] = new Image[4];
     int p = 0; // 画像番号
     Image back; // 背景画像

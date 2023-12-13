@@ -1,6 +1,3 @@
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -12,14 +9,16 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+import medipro.gui.frame.GameFrame;
 
 public class Main {
+	static final Logger logger = Logger.getLogger("");
+
 	public static void main(String[] args) {
 		setupLogger();
-		JFrame window = new GameWindow("GameWindow", 1024, 768);
-		JPanel panel = new MoveCharaPanel();
-		window.add(panel);
+		logger.info("Start game");
+		JFrame window = new GameFrame("GameWindow", 1024, 768);
 		window.setVisible(true);
 	}
 
@@ -38,25 +37,5 @@ public class Main {
 			System.err.println("Error on creating log file");
 			e.printStackTrace();
 		}
-	}
-}
-
-class GameWindow extends JFrame {
-
-	public GameWindow(String title, int width, int height) {
-		super(title);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(width, height);
-		setLocationRelativeTo(null);
-		setResizable(false);
-	}
-}
-
-class GamePanel extends JPanel {
-	Image img = Toolkit.getDefaultToolkit().getImage("img/background_sample.png");
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(img, 0, 0, this);
 	}
 }
