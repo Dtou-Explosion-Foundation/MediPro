@@ -1,6 +1,8 @@
 package medipro.world;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -9,6 +11,7 @@ import javax.swing.JPanel;
 
 import medipro.config.Config;
 import medipro.object.base.camera.CameraController;
+import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
 
 public abstract class World {
@@ -31,18 +34,16 @@ public abstract class World {
     public abstract void setupWorld(JPanel panel);
 
     public void updateAndDraw(Graphics g, float dt) {
-        int cameraX = 0;
-        int cameraY = 0;
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform transform;
         if (camera.isPresent()) {
             CameraController _camera = camera.get();
-            cameraX -= _camera.model.x;
-            cameraY += _camera.model.y;
+            transform = ((CameraModel) _camera.model).getTransformMatrix();
+        } else {
+            transform = new AffineTransform();
+            transform.translate(Config.WINDOW_WIDTH / 2, Config.WINDOW_HEIGHT / 2);
         }
-        cameraX += Config.WINDOW_WIDTH / 2;
-        cameraY += Config.WINDOW_HEIGHT / 2;
-
-        g.translate(cameraX, cameraY);
-
+        g2d.transform(transform);
         for (GameObjectController controller : controllers) {
             controller.update(dt);
         }

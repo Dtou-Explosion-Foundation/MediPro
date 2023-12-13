@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import medipro.object.base.camera.CameraController;
-import medipro.object.base.camera.CameraModel;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.camera.SmoothFollowingCameraModel;
@@ -40,15 +39,13 @@ public class TestWorld extends World {
             this.addController(controller);
         }
         {
-            CameraModel model = new SmoothFollowingCameraModel(cameraTarget);
+            SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(cameraTarget);
+            model.scale = 2;
+            model.originY = (int) (10 / model.scale);
             CameraView view = new CameraView(model);
             CameraController controller = new CameraController(model, view);
             this.addController(controller);
-            // controller.model.x = 300;
-            // controller.model.y = 300;
             camera = Optional.of(controller);
-            logger.info("Set Camera: " + controller.model.x + ", " + controller.model.y);
-
         }
     }
 }
