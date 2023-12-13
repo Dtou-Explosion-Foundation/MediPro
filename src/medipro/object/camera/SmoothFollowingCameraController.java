@@ -38,8 +38,8 @@ public class SmoothFollowingCameraController extends CameraController {
                     (targetPos.y - cameraPos.y) * _model.followingSpeed + cameraPos.y);
             invertTransform.transform(newCameraPos, newCameraPos);
 
-            _model.x = (int) newCameraPos.x + _model.originX;
-            _model.y = (int) newCameraPos.y + _model.originY;
+            _model.x = newCameraPos.x + _model.originX;
+            _model.y = newCameraPos.y + _model.originY;
         }
     }
 }
