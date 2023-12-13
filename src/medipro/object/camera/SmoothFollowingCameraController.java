@@ -7,12 +7,23 @@ import java.awt.geom.Point2D;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.gameobject.GameObjectModel;
 
+/**
+ * ターゲットをスムーズに追跡するカメラのコントローラー.
+ */
 public class SmoothFollowingCameraController extends CameraController {
 
+    /**
+     * カメラコントローラを生成する.
+     * 
+     * @param models 格納するモデル
+     */
     public SmoothFollowingCameraController(GameObjectModel... models) {
         super(models);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(GameObjectModel model, float dt) {
         SmoothFollowingCameraModel _model = (SmoothFollowingCameraModel) model;

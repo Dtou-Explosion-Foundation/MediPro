@@ -12,11 +12,29 @@ import javax.imageio.ImageIO;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
+/**
+ * プレイヤーのビュー.
+ */
 public class PlayerView extends GameObjectView {
+    /**
+     * アニメーション用のスプライトの配列.
+     */
     Image sprites[] = new Image[4];
+
+    /**
+     * スプライトの幅
+     */
     final int SPRITE_WIDTH = 64;
+    /**
+     * スプライトの高さ
+     */
     final int SPRITE_HEIGHT = 64;
 
+    /**
+     * プレイヤービューを生成する.
+     * 
+     * @param model 格納するモデル
+     */
     public PlayerView(GameObjectModel model) {
         super(model);
         try {
@@ -30,11 +48,15 @@ public class PlayerView extends GameObjectView {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(GameObjectModel model, Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
         Image image = sprites[playerModel.spritesIndex];
         if (playerModel.direction == -1) {
+            // 反転してから描画する
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-image.getWidth(null), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);

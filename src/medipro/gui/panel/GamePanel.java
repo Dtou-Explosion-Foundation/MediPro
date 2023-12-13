@@ -12,15 +12,37 @@ import javax.swing.JPanel;
 import medipro.world.TestWorld;
 import medipro.world.World;
 
+/**
+ * ゲームのパネルを実装するクラス.
+ */
 public class GamePanel extends JPanel {
+    /**
+     * パネルに表示するワールド.
+     */
     World world;
-
+    /**
+     * 前回のフレームからの経過時間.
+     */
     Duration deltaTime = Duration.ZERO;
-    Instant beginTime = Instant.now();
+    /**
+     * 前回のフレームの時間.
+     */
+    Instant prevTime = Instant.now();
 
+    /**
+     * ロガー.
+     */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
+    /**
+     * パネルが配置されたゲームのウインドウ.
+     */
     JFrame frame;
 
+    /**
+     * ゲームのパネルを生成する.
+     * 
+     * @param frame パネルが配置されたゲームのウインドウ
+     */
     public GamePanel(JFrame frame) {
         super();
         logger.info("Init GamePanel");
@@ -28,12 +50,15 @@ public class GamePanel extends JPanel {
         world = new TestWorld(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         world.updateAndDraw((Graphics2D) g, deltaTime.toNanos() / 1000000000f);
         Instant currentTime = Instant.now();
-        deltaTime = Duration.between(beginTime, currentTime);
-        beginTime = currentTime;
+        deltaTime = Duration.between(prevTime, currentTime);
+        prevTime = currentTime;
     }
 }

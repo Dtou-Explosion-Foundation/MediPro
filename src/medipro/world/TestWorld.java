@@ -17,12 +17,23 @@ import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 import medipro.object.player.PlayerView;
 
+/**
+ * テスト用のワールド
+ */
 public class TestWorld extends World {
 
+    /**
+     * テスト用のワールドを生成する.
+     * 
+     * @param panel ワールドが配置されているパネル
+     */
     public TestWorld(JPanel panel) {
         super(panel);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setupWorld(JPanel panel) {
         GameObjectModel cameraTarget;

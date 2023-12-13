@@ -9,9 +9,22 @@ import javax.swing.JFrame;
 import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
 
+/**
+ * ゲームのウインドウを実装するクラス.
+ */
 public class GameFrame extends JFrame {
+    /**
+     * ロガー.
+     */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
+    /**
+     * ゲームのウインドウを生成する.
+     * 
+     * @param title  ウインドウのタイトル
+     * @param width  ウインドウの幅
+     * @param height ウインドウの高さ
+     */
     public GameFrame(String title, int width, int height) {
         super(title);
         logger.info("Init GameFrame");
