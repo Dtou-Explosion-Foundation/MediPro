@@ -1,6 +1,7 @@
 package medipro.object.player;
 
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class PlayerModel extends GameObjectModel {
 
@@ -19,8 +20,8 @@ public class PlayerModel extends GameObjectModel {
     Boolean isWalking = false;
     float changeSpriteTimer = 0;
 
-    public PlayerModel() {
-        super();
+    public PlayerModel(World world) {
+        super(world);
         logger.info("PlayerModel created");
     }
 

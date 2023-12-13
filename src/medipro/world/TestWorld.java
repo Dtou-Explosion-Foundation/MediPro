@@ -27,7 +27,7 @@ public class TestWorld extends World {
     public void setupWorld(JPanel panel) {
         GameObjectModel cameraTarget;
         {
-            PlayerModel model = new PlayerModel();
+            PlayerModel model = new PlayerModel(this);
             cameraTarget = model;
             PlayerView view = new PlayerView(model);
             PlayerController controller = new PlayerController(model);
@@ -39,7 +39,7 @@ public class TestWorld extends World {
             MarkerController controller = new MarkerController();
             this.addViewAndController(view, controller, 20);
             {
-                MarkerModel model = new MarkerModel();
+                MarkerModel model = new MarkerModel(this);
                 model.x = 100;
                 model.y = -25;
                 model.color = Color.BLUE;
@@ -47,7 +47,7 @@ public class TestWorld extends World {
                 controller.models.add(model);
             }
             {
-                MarkerModel model = new MarkerModel();
+                MarkerModel model = new MarkerModel(this);
                 model.x = -100;
                 model.y = -50;
                 model.color = Color.GREEN;
@@ -55,13 +55,13 @@ public class TestWorld extends World {
                 controller.models.add(model);
             }
             {
-                MarkerModel model = new MarkerModel();
+                MarkerModel model = new MarkerModel(this);
                 view.models.add(model);
                 controller.models.add(model);
             }
         }
         {
-            SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(cameraTarget);
+            SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
             model.scale = 2;
             model.originY = (int) (10 / model.scale);
             CameraView view = new CameraView(model);

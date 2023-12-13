@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class FollowingCameraModel extends CameraModel {
 
@@ -12,8 +13,8 @@ public class FollowingCameraModel extends CameraModel {
     public int originX = 0;
     public int originY = 0;
 
-    public FollowingCameraModel(GameObjectModel target) {
-        super();
+    public FollowingCameraModel(World world, GameObjectModel target) {
+        super(world);
         this.target = Optional.of(target);
     }
 }

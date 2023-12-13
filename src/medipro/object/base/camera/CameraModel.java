@@ -4,8 +4,13 @@ import java.awt.geom.AffineTransform;
 
 import medipro.config.InGameConfig;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class CameraModel extends GameObjectModel {
+
+    public CameraModel(World world) {
+        super(world);
+    }
 
     public float scale = 1;
 
