@@ -74,8 +74,8 @@ public abstract class World {
 
         for (ArrayList<GameObjectView> views : views) {
             for (GameObjectView view : views) {
-                g.setTransform(transform);
-                view.drawModels(g);
+                // g.setTransform(transform);
+                view.drawModels(g, transform);
             }
         }
     }

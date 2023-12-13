@@ -42,6 +42,9 @@ public class TestWorld extends World {
                 MarkerModel model = new MarkerModel(this);
                 model.x = 100;
                 model.y = -25;
+                model.rotation = Math.toRadians(30);
+                model.scaleX = 3.5;
+                model.scaleY = 1.5;
                 model.color = Color.BLUE;
                 view.models.add(model);
                 controller.models.add(model);
@@ -50,6 +53,7 @@ public class TestWorld extends World {
                 MarkerModel model = new MarkerModel(this);
                 model.x = -100;
                 model.y = -50;
+                model.rotation = Math.toRadians(70);
                 model.color = Color.GREEN;
                 view.models.add(model);
                 controller.models.add(model);

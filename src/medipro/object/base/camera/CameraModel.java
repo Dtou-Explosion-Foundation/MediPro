@@ -12,7 +12,7 @@ public class CameraModel extends GameObjectModel {
         super(world);
     }
 
-    public float scale = 1;
+    public double scale = 1;
 
     @Override
     public AffineTransform getTransformMatrix() {

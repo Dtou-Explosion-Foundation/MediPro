@@ -1,6 +1,7 @@
 package medipro.object.base.gameobject;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -20,8 +21,10 @@ public abstract class GameObjectView {
         }
     }
 
-    public void drawModels(Graphics2D g) {
+    public void drawModels(Graphics2D g, AffineTransform cameraTransform) {
+
         for (GameObjectModel model : models) {
+            g.setTransform(cameraTransform);
             this.draw(model, g);
         }
     }

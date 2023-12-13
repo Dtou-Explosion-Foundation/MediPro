@@ -10,8 +10,11 @@ public class MarkerView extends GameObjectView {
     @Override
     public void draw(GameObjectModel model, Graphics2D g) {
         MarkerModel markerModel = (MarkerModel) model;
+        g.transform(model.getTransformMatrix());
         g.setColor(markerModel.color);
-        g.fillOval(model.x - markerModel.radius / 2, model.y - markerModel.radius / 2, markerModel.radius,
+        // g.fillOval(-markerModel.radius / 2, -markerModel.radius / 2,
+        // markerModel.radius,
+        g.fillRect(-markerModel.radius / 2, -markerModel.radius / 2, markerModel.radius,
                 markerModel.radius);
     }
 }

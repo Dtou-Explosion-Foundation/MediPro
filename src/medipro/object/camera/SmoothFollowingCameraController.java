@@ -27,13 +27,13 @@ public class SmoothFollowingCameraController extends CameraController {
                 invertTransform = new AffineTransform();
             }
 
-            Point2D.Float targetPos = new Point2D.Float();
-            transform.transform(new Point2D.Float(_target.x, _target.y), targetPos);
+            Point2D.Double targetPos = new Point2D.Double();
+            transform.transform(new Point2D.Double(_target.x, _target.y), targetPos);
 
-            Point2D.Float cameraPos = new Point2D.Float();
-            transform.transform(new Point2D.Float(_model.x, _model.y), cameraPos);
+            Point2D.Double cameraPos = new Point2D.Double();
+            transform.transform(new Point2D.Double(_model.x, _model.y), cameraPos);
 
-            Point2D.Float newCameraPos = new Point2D.Float(
+            Point2D.Double newCameraPos = new Point2D.Double(
                     (targetPos.x - cameraPos.x) * _model.followingSpeed + cameraPos.x,
                     (targetPos.y - cameraPos.y) * _model.followingSpeed + cameraPos.y);
             invertTransform.transform(newCameraPos, newCameraPos);

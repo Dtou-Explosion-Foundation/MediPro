@@ -11,7 +11,12 @@ public class MarkerController extends GameObjectController {
 
     @Override
     public void update(GameObjectModel model, float dt) {
-
+        MarkerModel markerModel = (MarkerModel) model;
+        markerModel.rotation += 1f * dt;
+        markerModel.scaleX += 1 * dt;
+        if (markerModel.scaleX > 5) {
+            markerModel.scaleX = 0;
+        }
     }
 
 }
