@@ -13,6 +13,7 @@ public class CameraModel extends GameObjectModel {
     public void update(float dt) {
     }
 
+    @Override
     public AffineTransform getTransformMatrix() {
         AffineTransform transform = new AffineTransform();
         transform.scale(scale, scale);

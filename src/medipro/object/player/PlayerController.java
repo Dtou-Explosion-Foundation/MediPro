@@ -14,6 +14,7 @@ public class PlayerController extends GameObjectController implements KeyListene
 
     byte keyStateX = 0;
 
+    @Override
     public void keyPressed(KeyEvent e) {
         int k = e.getKeyCode();
         PlayerModel playerModel = (PlayerModel) model;
@@ -32,9 +33,11 @@ public class PlayerController extends GameObjectController implements KeyListene
         }
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         keyStateX = 0;
     }
