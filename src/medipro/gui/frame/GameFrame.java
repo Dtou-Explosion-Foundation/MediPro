@@ -19,7 +19,7 @@ public class GameFrame extends JFrame {
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
-     * ゲームのウインドウを生成する.
+     * ゲームのウインドウを生成する. 生成後、FPSに基づいてPanelを再描画する.
      * 
      * @param title  ウインドウのタイトル
      * @param width  ウインドウの幅

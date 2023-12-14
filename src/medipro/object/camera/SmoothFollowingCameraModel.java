@@ -8,7 +8,7 @@ import medipro.world.World;
  */
 public class SmoothFollowingCameraModel extends FollowingCameraModel {
     /**
-     * ターゲットを追跡する際のスピード.
+     * ターゲットを追跡する際のスピード. 最大スピードに対する割合で指定する.
      */
     public Double followingSpeed = 0.1;
 

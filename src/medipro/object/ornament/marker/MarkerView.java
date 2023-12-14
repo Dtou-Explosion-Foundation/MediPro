@@ -11,7 +11,10 @@ import medipro.object.base.gameobject.GameObjectView;
 public class MarkerView extends GameObjectView {
 
     /**
-     * {@inheritDoc}
+     * モデルを元に描画を行う. テスト用の図形を描画する.
+     * 
+     * @param model 描画対象のモデル
+     * @param g     描画対象のGraphics2D
      */
     @Override
     public void draw(GameObjectModel model, Graphics2D g) {

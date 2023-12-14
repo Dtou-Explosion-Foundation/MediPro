@@ -17,7 +17,7 @@ import medipro.world.World;
  */
 public class GamePanel extends JPanel {
     /**
-     * パネルに表示するワールド.
+     * パネルの子ワールド.
      */
     World world;
     /**
@@ -34,7 +34,7 @@ public class GamePanel extends JPanel {
      */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
     /**
-     * パネルが配置されたゲームのウインドウ.
+     * パネルの親ウインドウ.
      */
     JFrame frame;
 

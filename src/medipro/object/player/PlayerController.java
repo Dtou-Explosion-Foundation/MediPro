@@ -12,12 +12,12 @@ import medipro.object.base.gameobject.GameObjectModel;
 public class PlayerController extends GameObjectController implements KeyListener {
 
     /**
-     * 横方向のキーの状態.
+     * 横方向のキーの状態. 右:-1, 左:1, 停止:0
      */
     byte keyStateX = 0;
 
     /**
-     * プレイヤーコントローラを生成する.
+     * プレイヤーのコントローラを生成する.
      * 
      * @param models 格納するモデル
      */
@@ -26,7 +26,7 @@ public class PlayerController extends GameObjectController implements KeyListene
     }
 
     /**
-     * {@inheritDoc}
+     * キーが押された時の処理. keyStateXを設定する.格納するモデルに対して、moveLeft()またはmoveRight()を呼び出す.
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -50,14 +50,18 @@ public class PlayerController extends GameObjectController implements KeyListene
     }
 
     /**
-     * {@inheritDoc}
+     * キーがタイプされた時の処理. 未使用
+     * 
+     * @param e キーイベント
      */
     @Override
     public void keyTyped(KeyEvent e) {
     }
 
     /**
-     * {@inheritDoc}
+     * キーが離された時の処理. keyStateXをリセットする.
+     * 
+     * @param e キーイベント
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -65,7 +69,12 @@ public class PlayerController extends GameObjectController implements KeyListene
     }
 
     /**
-     * {@inheritDoc}
+     * モデルを次フレームの状態に更新する. keyStateXに応じてmoveLeft()またはmoveRight()を呼び出す.
+     * keyPressed()で既に呼び出されている場合も、再度呼び出されるので注意. その後、{@code updateMovement},
+     * {@code updateAnimation}の順に{@code PlayerModel}を更新する.
+     * 
+     * @param model 更新対象のモデル
+     * @param dt    前フレームからの経過時間
      */
     @Override
     public void update(GameObjectModel model, float dt) {

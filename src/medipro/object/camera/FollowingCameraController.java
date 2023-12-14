@@ -22,7 +22,10 @@ public class FollowingCameraController extends CameraController {
     }
 
     /**
-     * {@inheritDoc}
+     * モデルを次フレームの状態に更新する. カメラをターゲットの位置と同じ位置にカメラの位置を更新する.
+     * 
+     * @param model 更新対象のモデル
+     * @param dt    前フレームからの経過時間
      */
     @Override
     public void update(GameObjectModel model, float dt) {

@@ -18,7 +18,10 @@ public class MarkerController extends GameObjectController {
     }
 
     /**
-     * {@inheritDoc}
+     * モデルを次フレームの状態に更新する. 一秒に1radiusだけ回転させる. また一秒に1scaleXだけ拡大させ、5を超えたら0に戻す.
+     * 
+     * @param model 更新対象のモデル
+     * @param dt    前フレームからの経過時間
      */
     @Override
     public void update(GameObjectModel model, float dt) {

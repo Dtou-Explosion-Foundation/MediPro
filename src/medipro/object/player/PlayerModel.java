@@ -28,7 +28,7 @@ public class PlayerModel extends GameObjectModel {
 
     // sprite animation
     /**
-     * 待機時のスプライトのインデックス.
+     * 移動していない時のスプライトのインデックス.
      */
     int spritesIdleIndex = 1;
     /**
@@ -40,7 +40,7 @@ public class PlayerModel extends GameObjectModel {
      */
     int[] spritesRange = { 0, 3 };
     /**
-     * スプライトのアニメーションの最大切り替え時間.
+     * スプライトのアニメーションの最大切り替え時間. changeSpriteTimerがこの値を超えたらスプライトを切り替える。
      */
     final static float changeSpriteTime = 0.15f;
     /**
@@ -77,7 +77,8 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 右に移動する。実際に移動処理が行われるのはupdateMovement()のタイミング。
+     * 次のフレームで右に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング.
+     * {@code direction}と{@code isWalking}を更新する.
      */
     public void moveRight() {
         direction = 1;
@@ -85,7 +86,8 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 左に移動する。実際に移動処理が行われるのはupdateMovement()のタイミング。
+     * 次のフレームで左に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング.
+     * {@code direction}と{@code isWalking}を更新する.
      */
     public void moveLeft() {
         direction = -1;
@@ -94,6 +96,8 @@ public class PlayerModel extends GameObjectModel {
 
     /**
      * 1フレーム分、アニメーションを更新する。
+     * {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える。
+     * 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる。
      * 
      * @param dt 前フレームからの経過時間
      */
@@ -108,7 +112,7 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 1フレーム分、移動処理を行う。
+     * 1フレーム分、移動処理を行う。 スピードに加速度を加算し、位置を更新する。 また、スピードに抵抗を加算する。 さらに、スピードの上限を超えないようにする。
      * 
      * @param dt 前フレームからの経過時間
      */
