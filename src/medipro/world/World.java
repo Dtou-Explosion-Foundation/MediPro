@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 import medipro.config.EngineConfig;
-import medipro.config.InGameConfig;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectView;
@@ -35,11 +34,11 @@ public abstract class World {
     /**
      * Worldが配置されているパネル.
      */
-    JPanel panel;
+    public JPanel panel;
     /**
      * カメラ.
      */
-    Optional<CameraModel> camera = Optional.empty();
+    public Optional<CameraModel> camera = Optional.empty();
 
     /**
      * ワールドを生成する.
@@ -133,7 +132,7 @@ public abstract class World {
             transform = ((CameraModel) _camera).getTransformMatrix();
         } else {
             transform = new AffineTransform();
-            transform.translate(InGameConfig.WINDOW_WIDTH / 2, InGameConfig.WINDOW_HEIGHT / 2);
+            transform.translate(this.panel.getWidth() / 2, this.panel.getHeight() / 2);
         }
 
         for (ArrayList<GameObjectView> views : views) {

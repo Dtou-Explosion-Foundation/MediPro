@@ -2,7 +2,6 @@ package medipro.object.base.camera;
 
 import java.awt.geom.AffineTransform;
 
-import medipro.config.InGameConfig;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.world.World;
 
@@ -32,7 +31,7 @@ public class CameraModel extends GameObjectModel {
     @Override
     public AffineTransform getTransformMatrix() {
         AffineTransform transform = new AffineTransform();
-        transform.translate(InGameConfig.WINDOW_WIDTH / 2, InGameConfig.WINDOW_HEIGHT / 2);
+        transform.translate(this.world.panel.getWidth() / 2, this.world.panel.getHeight() / 2);
         transform.scale(scale, scale);
         transform.translate(-x, y);
         return transform;
