@@ -2,6 +2,7 @@ package medipro.gui.panel;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.logging.Logger;
@@ -60,7 +61,16 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        world.updateAndDraw((Graphics2D) g, deltaTime.toNanos() / 1000000000f);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+        // RenderingHints.VALUE_RENDER_QUALITY);
+        // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+        // RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        // g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        // RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        world.updateAndDraw(g2, deltaTime.toNanos() / 1000000000f);
         Instant currentTime = Instant.now();
         deltaTime = Duration.between(prevTime, currentTime);
         prevTime = currentTime;
