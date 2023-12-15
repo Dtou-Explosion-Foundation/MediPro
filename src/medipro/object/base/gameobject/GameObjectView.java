@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public abstract class GameObjectView {
-    protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public ArrayList<GameObjectModel> models;
 
     public GameObjectView() {
+
         this.models = new ArrayList<GameObjectModel>();
     }
 
