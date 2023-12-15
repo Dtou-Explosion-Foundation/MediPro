@@ -1,12 +1,11 @@
-package medipro.object.background;
+package medipro.object.base.gridobject;
 
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 
-public class TileController extends GameObjectController {
+public abstract class GridObjectController extends GameObjectController {
 
     @Override
     public void update(GameObjectModel model, float dt) {
     }
-
 }
