@@ -1,13 +1,26 @@
 package medipro.object.example.grid;
 
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gridobject.GridObjectView;
 
+/**
+ * グリッドオブジェクトの例のビュー.
+ */
 public class ExampleGridView extends GridObjectView {
 
+    /**
+     * モデルを元に描画を行う. テスト用の図形と画像を描画する.
+     * 
+     * @param model 描画対象のモデル.
+     * @param g     描画対象のGraphics2D.
+     * @param grid  グリッドの範囲.この内部に描画する.
+     * @param gridX グリッドのX座標方向のインデックス. 右下が0.
+     * @param gridY グリッドのY座標方向のインデックス. 右下が0.
+     */
     @Override
     public void drawGrid(GameObjectModel model, Graphics2D g, Rectangle grid, int gridX, int gridY) {
         ExampleGridModel gridModel = (ExampleGridModel) model;

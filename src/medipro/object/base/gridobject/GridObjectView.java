@@ -11,12 +11,24 @@ import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
+/**
+ * グリッドオブジェクトのビュー.
+ */
 public abstract class GridObjectView extends GameObjectView {
 
+    /**
+     * グリッドオブジェクトのビューを生成する.
+     */
     public GridObjectView() {
         super();
     }
 
+    /**
+     * 描画範囲内のグリッドを計算し、drawGridを呼び出す.
+     * 
+     * @param model 描画対象のモデル
+     * @param g     描画対象のGraphics2D
+     */
     @Override
     public void draw(GameObjectModel model, Graphics2D g) {
         g.setTransform(model.world.camera.get().getTransformMatrix());
@@ -58,11 +70,28 @@ public abstract class GridObjectView extends GameObjectView {
         }
     }
 
-    public abstract void drawGrid(GameObjectModel model, Graphics2D g, Rectangle grid);
+    /**
+     * グリッドを描画する.
+     * 
+     * @param model 描画対象のモデル.
+     * @param g     描画対象のGraphics2D.
+     * @param grid  グリッドの範囲.この内部に描画する.
+     * @param gridX グリッドのX座標方向のインデックス. 右下が0.
+     * @param gridY グリッドのY座標方向のインデックス. 右下が0.
+     */
+    public abstract void drawGrid(GameObjectModel model, Graphics2D g, Rectangle grid, int gridX, int gridY);
 
+    /**
+     * 4点の座標から、その4点を内部に持つ最小の水平な長方形を返す.
+     * 
+     * @param point1 4点の座標
+     * @param point2 4点の座標
+     * @param point3 4点の座標
+     * @param point4 4点の座標
+     * @return 4点を内部に持つ最小の水平な長方形
+     */
     private static Rectangle2D.Double getEnclosingRectangle(Point2D.Double point1, Point2D.Double point2,
-            Point2D.Double point3,
-            Point2D.Double point4) {
+            Point2D.Double point3, Point2D.Double point4) {
         double minX = Math.min(Math.min(point1.x, point2.x), Math.min(point3.x, point4.x));
         double maxX = Math.max(Math.max(point1.x, point2.x), Math.max(point3.x, point4.x));
         double minY = Math.min(Math.min(point1.y, point2.y), Math.min(point3.y, point4.y));

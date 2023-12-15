@@ -3,7 +3,9 @@ medipro.gui.frame
 medipro.gui.panel
 medipro.object.base.camera
 medipro.object.base.gameobject
+medipro.object.base.gridobject
 medipro.object.camera
+medipro.object.example.grid
 medipro.object.ornament.marker
 medipro.object.player
 medipro.world

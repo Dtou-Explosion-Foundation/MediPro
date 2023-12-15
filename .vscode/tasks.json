@@ -6,7 +6,7 @@
         {
             "label": "gen javadoc",
             "type": "shell",
-            "command": "javadoc -private -d ${workspaceFolder}/javadoc -sourcepath ${workspaceFolder}/src -subpackages medipro"
+            "command": "javadoc -private -d ${workspaceFolder}/javadoc -sourcepath ${workspaceFolder}/src -subpackages medipro -quiet"
         }
     ]
 }

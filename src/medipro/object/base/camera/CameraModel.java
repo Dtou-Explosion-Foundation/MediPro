@@ -42,8 +42,8 @@ public class CameraModel extends GameObjectModel {
     /**
      * カメラの表示範囲をワールド座標で取得する.
      * 
-     * @return カメラの表示範囲を示す4点の座標
-     * @throws NoninvertibleTransformException
+     * @return カメラの表示範囲を示す4点の座標.
+     * @throws NoninvertibleTransformException 逆行列が存在しない場合のエラー.
      */
     public Point2D.Double[] getVisibleArea() throws NoninvertibleTransformException {
         Point2D.Double[] points = new Point2D.Double[4];
