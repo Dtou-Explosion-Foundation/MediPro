@@ -19,7 +19,6 @@ public abstract class GridObjectView extends GameObjectView {
 
     @Override
     public void draw(GameObjectModel model, Graphics2D g) {
-        // logger.info("TileView.draw() called");
         g.setTransform(model.world.camera.get().getTransformMatrix());
         GridObjectModel gridModel = (GridObjectModel) model;
         Rectangle2D.Double bounds;
@@ -40,17 +39,20 @@ public abstract class GridObjectView extends GameObjectView {
         int gridWidth = (int) (gridModel.width * gridModel.scaleX);
         int gridHeight = (int) (gridModel.height * gridModel.scaleY);
 
-        int originX = (int) (bounds.x / gridWidth) * gridWidth
-                + (int) (model.x % gridWidth);
+        int originX = (int) (bounds.x / gridWidth) * gridWidth + (int) (model.x % gridWidth);
+        int originY = (int) (bounds.y / gridHeight) * gridHeight + (int) (model.y % gridHeight);
 
-        int originY = (int) (bounds.y / gridHeight) * gridHeight
-                + (int) (model.y % gridHeight);
+        int originGridX = (int) ((originX - model.x) / gridWidth);
+        int originGridY = (int) ((originY - model.y) / gridHeight);
 
         for (int ix = -2; ix < bounds.width / gridWidth + 2; ix++) {
             for (int iy = -2; iy < bounds.height / gridHeight + 2; iy++) {
                 AffineTransform transform = g.getTransform();
                 g.translate(originX + ix * gridWidth, originY + iy * gridHeight);
-                this.drawGrid(gridModel, g, new Rectangle(0, 0, gridWidth, gridHeight));
+                // this.drawGrid(gridModel, g, new Rectangle(0, 0, gridWidth, gridHeight), ix,
+                // iy);
+                this.drawGrid(gridModel, g, new Rectangle(0, 0, gridWidth, gridHeight), originGridX + ix,
+                        originGridY + iy);
                 g.setTransform(transform);
             }
         }

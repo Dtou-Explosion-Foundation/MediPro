@@ -91,6 +91,8 @@ public class TestWorld extends World {
             }
             ExampleGridView view = new ExampleGridView();
             ExampleGridController controller = new ExampleGridController();
+            model.x = 58;
+            model.y = -100;
             model.scaleX = 0.1;
             model.scaleY = 0.1;
             if (model != null)
