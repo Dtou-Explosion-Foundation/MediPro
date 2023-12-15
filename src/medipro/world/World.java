@@ -22,19 +22,22 @@ public abstract class World {
      * ロガー.
      */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
+
     /**
      * 格納しているコントローラー.
      */
-    ArrayList<GameObjectController> controllers;
+    public ArrayList<GameObjectController> controllers;
+
     /**
      * 格納しているビュー.
      */
-    ArrayList<ArrayList<GameObjectView>> views;
+    public ArrayList<ArrayList<GameObjectView>> views;
 
     /**
      * Worldが配置されているパネル.
      */
     public JPanel panel;
+
     /**
      * カメラ.
      */

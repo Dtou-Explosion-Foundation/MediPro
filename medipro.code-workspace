@@ -22,6 +22,7 @@
 		// "extensions.ignoreRecommendations": true,
 		"cSpell.words": [
 			"gameobject",
+			"gridobject",
 			"medipro"
 		],
 		"java.format.settings.url": ".vscode/java-formatter.xml"

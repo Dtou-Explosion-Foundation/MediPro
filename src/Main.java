@@ -48,6 +48,8 @@ public class Main {
 	private static void setupLogger() {
 		LogManager.getLogManager().reset();
 		Logger root = Logger.getLogger("medipro");
+		Formatter formatter = new LogFormatter();
+		// Formatter formatter = new SimpleFormatter();
 		// デフォルトのハンドラを削除
 		root.setUseParentHandlers(false);
 		for (Handler h : root.getHandlers()) {
@@ -63,8 +65,11 @@ public class Main {
 			// ファイルへの出力を設定
 			Handler rootFileHandler = new FileHandler(logFolder.toString() + "/"
 					+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
-			rootFileHandler.setFormatter(new LogFormatter());
+			rootFileHandler.setFormatter(formatter);
 			root.addHandler(rootFileHandler);
+			Handler rootConsoleHandler = new ConsoleHandler();
+			rootConsoleHandler.setFormatter(formatter);
+			root.addHandler(rootConsoleHandler);
 		} catch (SecurityException | IOException e) {
 			System.err.println("Error on creating log file");
 			e.printStackTrace();
@@ -157,6 +162,7 @@ class LogFormatter extends Formatter {
 				pw.close();
 				sb.append(sw.toString());
 			} catch (Exception ex) {
+				System.err.println("Error on formatting log message");
 			}
 		}
 

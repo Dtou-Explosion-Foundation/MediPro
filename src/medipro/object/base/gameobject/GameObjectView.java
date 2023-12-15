@@ -12,7 +12,7 @@ public abstract class GameObjectView {
     /**
      * ロガー.
      */
-    protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * 格納しているモデル.
@@ -23,6 +23,7 @@ public abstract class GameObjectView {
      * ゲームオブジェクトビューを生成する。
      */
     public GameObjectView() {
+
         this.models = new ArrayList<GameObjectModel>();
     }
 

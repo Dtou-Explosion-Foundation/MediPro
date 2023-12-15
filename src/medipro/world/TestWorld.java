@@ -1,8 +1,11 @@
 package medipro.world;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import medipro.object.base.camera.CameraController;
@@ -10,6 +13,9 @@ import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.camera.SmoothFollowingCameraController;
 import medipro.object.camera.SmoothFollowingCameraModel;
+import medipro.object.example.grid.ExampleGridController;
+import medipro.object.example.grid.ExampleGridModel;
+import medipro.object.example.grid.ExampleGridView;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
@@ -29,6 +35,7 @@ public class TestWorld extends World {
      */
     public TestWorld(JPanel panel) {
         super(panel);
+        logger.info("TestWorld created");
     }
 
     /**
@@ -74,6 +81,23 @@ public class TestWorld extends World {
                 view.models.add(model);
                 controller.models.add(model);
             }
+        }
+        {
+            ExampleGridModel model = null;
+            try {
+                model = new ExampleGridModel(this, ImageIO.read(new File("img/background/Brickwall3_Texture.png")));
+            } catch (IOException e) {
+                logger.warning(e.toString());
+            }
+            ExampleGridView view = new ExampleGridView();
+            ExampleGridController controller = new ExampleGridController();
+            model.scaleX = 0.1;
+            model.scaleY = 0.1;
+            if (model != null)
+                view.models.add(model);
+            controller.models.add(model);
+            this.addViewAndController(view, controller, 0);
+
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);

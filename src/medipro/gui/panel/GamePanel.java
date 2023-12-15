@@ -16,14 +16,17 @@ import medipro.world.World;
  * ゲームのパネルを実装するクラス.
  */
 public class GamePanel extends JPanel {
+
     /**
      * パネルの子ワールド.
      */
-    World world;
+    public World world;
+
     /**
      * 前回のフレームからの経過時間.
      */
     Duration deltaTime = Duration.ZERO;
+
     /**
      * 前回のフレームの時間.
      */
@@ -33,10 +36,11 @@ public class GamePanel extends JPanel {
      * ロガー.
      */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
+
     /**
      * パネルの親ウインドウ.
      */
-    JFrame frame;
+    public JFrame frame;
 
     /**
      * ゲームのパネルを生成する.
