@@ -16,7 +16,7 @@ public class CameraModel extends GameObjectModel {
      * 
      * @param world オブジェクトが存在するワールド
      */
-    public CameraModel(final World world) {
+    public CameraModel(World world) {
         super(world);
     }
 
@@ -47,8 +47,8 @@ public class CameraModel extends GameObjectModel {
      */
     public Point2D.Double[] getVisibleArea() throws NoninvertibleTransformException {
         Point2D.Double[] points = new Point2D.Double[4];
-        double width = InGameConfig.WINDOW_WIDTH;
-        double height = InGameConfig.WINDOW_HEIGHT;
+        double width = world.panel.getWidth();
+        double height = world.panel.getHeight();
         AffineTransform transform = getTransformMatrix().createInverse();
         points[0] = new Point2D.Double(0, 0);
         points[1] = new Point2D.Double(width, 0);

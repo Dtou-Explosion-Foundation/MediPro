@@ -67,9 +67,6 @@ public class Main {
 					+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
 			rootFileHandler.setFormatter(formatter);
 			root.addHandler(rootFileHandler);
-			Handler rootConsoleHandler = new ConsoleHandler();
-			rootConsoleHandler.setFormatter(formatter);
-			root.addHandler(rootConsoleHandler);
 		} catch (SecurityException | IOException e) {
 			System.err.println("Error on creating log file");
 			e.printStackTrace();

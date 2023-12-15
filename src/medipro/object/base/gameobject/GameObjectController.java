@@ -12,7 +12,7 @@ public abstract class GameObjectController {
     /**
      * ロガー.
      */
-    protected final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
+    protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * 格納しているモデル.

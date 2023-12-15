@@ -55,6 +55,7 @@ public abstract class World {
         for (int i = 0; i < EngineConfig.LAYER_NUM; i++) {
             this.views.add(new ArrayList<GameObjectView>());
         }
+        this.panel = panel;
         setupWorld(panel);
     }
 
