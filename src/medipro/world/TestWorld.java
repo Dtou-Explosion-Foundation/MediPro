@@ -32,7 +32,7 @@ public class TestWorld extends World {
         {
             BackgroundModel model = new BackgroundModel(this);
             BackgroundView view = new BackgroundView(model);
-            BackgroundController controller = new BackgroundController(model);
+            //BackgroundController controller = new BackgroundController(model);
             this.addView(view,0);
         }
         {
