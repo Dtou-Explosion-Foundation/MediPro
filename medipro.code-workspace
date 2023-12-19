@@ -22,8 +22,16 @@
 		// "extensions.ignoreRecommendations": true,
 		"cSpell.words": [
 			"gameobject",
+			"glautodrawable",
+			"glcapabilities",
+			"gljpanel",
+			"glprofile",
+			"glsl",
 			"gridobject",
-			"medipro"
+			"jframe",
+			"JOGL",
+			"medipro",
+			"windowevent"
 		],
 		"java.format.settings.url": ".vscode/java-formatter.xml",
 		"java.project.referencedLibraries": [
