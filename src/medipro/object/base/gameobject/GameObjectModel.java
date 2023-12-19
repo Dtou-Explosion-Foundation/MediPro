@@ -3,7 +3,7 @@ package medipro.object.base.gameobject;
 import java.awt.geom.AffineTransform;
 import java.util.logging.Logger;
 
-import medipro.world.World;
+import medipro.object.base.World;
 
 /**
  * ゲームオブジェクトのモデルクラス. オブジェクトのワールド内での位置や回転、拡大率などを保持する.

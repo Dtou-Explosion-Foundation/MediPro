@@ -2,8 +2,8 @@ package medipro.object.ornament.marker;
 
 import java.awt.Color;
 
+import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
-import medipro.world.World;
 
 /**
  * マーカーのモデル.

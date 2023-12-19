@@ -3,8 +3,8 @@ package medipro.object.example.grid;
 import java.awt.Image;
 import java.util.Optional;
 
+import medipro.object.base.World;
 import medipro.object.base.gridobject.GridObjectModel;
-import medipro.world.World;
 
 /**
  * グリッドオブジェクトの例のモデル.

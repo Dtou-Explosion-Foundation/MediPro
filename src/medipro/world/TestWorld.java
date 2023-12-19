@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;

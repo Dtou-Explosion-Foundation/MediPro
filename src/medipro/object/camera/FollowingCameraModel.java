@@ -2,9 +2,9 @@ package medipro.object.camera;
 
 import java.util.Optional;
 
+import medipro.object.base.World;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
-import medipro.world.World;
 
 /**
  * ターゲットを追跡するカメラのモデル.
@@ -28,7 +28,7 @@ public class FollowingCameraModel extends CameraModel {
     /**
      * カメラモデルを生成する.
      * 
-     * @param world モデルが存在するワールド
+     * @param world  モデルが存在するワールド
      * @param target 追跡する対象のオブジェクト
      */
     public FollowingCameraModel(World world, GameObjectModel target) {

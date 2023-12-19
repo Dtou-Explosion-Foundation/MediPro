@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import medipro.object.base.World;
 import medipro.world.TestWorld;
-import medipro.world.World;
 
 /**
  * ゲームのパネルを実装するクラス.
