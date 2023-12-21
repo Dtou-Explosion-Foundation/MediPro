@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 
 import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
@@ -37,22 +38,30 @@ public class JoglTest {
             @Override
             public void reshape(GLAutoDrawable glautodrawable, int x, int y, int width, int height) {
                 // OneTriangle.setup(glautodrawable.getGL().getGL4(), width, height);
-                GL4 var0 = glautodrawable.getGL().getGL4();
-                int var1 = width;
-                int var2 = height;
-                // var0.glMatrixMode(5889);
-                // var0.glLoadIdentity();
-                // GLUGL4es1 var3 = new GLUGL4es1();
-                // var3.gluOrtho2D(0.0F, (float) var1, 0.0F, (float) var2);
-                // var0.glMatrixMode(5888);
-                // var0.glLoadIdentity();
-                var0.glViewport(0, 0, var1, var2);
+                GL4 gl = glautodrawable.getGL().getGL4();
+                gl.glViewport(0, 0, width, height);
             }
 
             @Override
             public void init(GLAutoDrawable glautodrawable) {
+                showGLInfo(glautodrawable);
                 GL4 gl = glautodrawable.getGL().getGL4();
                 programId = compileShaders(gl);
+                // OneTriangle.setup(glautodrawable.getGL().getGL2(), width, height);
+            }
+
+            private void showGLInfo(GLAutoDrawable glautodrawable) {
+                System.err.println("利用可能なプロファイルのリスト");
+                for (String prof : GLProfile.GL_PROFILE_LIST_ALL) {
+                    System.err.println(prof);
+                }
+                System.err.println();
+                System.err.println("選択されたGLCapabilities: " + glautodrawable.getChosenGLCapabilities());
+                GL gl = glautodrawable.getGL();
+                System.err.println("INIT GL: " + gl.getClass().getName());
+                System.err.println("GL_VENDOR: " + gl.glGetString(GL.GL_VENDOR));
+                System.err.println("GL_RENDERER: " + gl.glGetString(GL.GL_RENDERER));
+                System.err.println("GL_VERSION: " + gl.glGetString(GL.GL_VERSION));
             }
 
             @Override
@@ -68,6 +77,10 @@ public class JoglTest {
                 GL4 gl = glautodrawable.getGL().getGL4();
                 int width = glautodrawable.getSurfaceWidth();
                 int height = glautodrawable.getSurfaceHeight();
+
+                programId = compileShaders(gl);
+
+                // OneTriangle.render(gl, width, height);
 
                 gl.glClear(GL4.GL_COLOR_BUFFER_BIT | GL4.GL_DEPTH_BUFFER_BIT);
                 gl.glUseProgram(programId);

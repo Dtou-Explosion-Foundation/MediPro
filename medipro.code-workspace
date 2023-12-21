@@ -10,6 +10,9 @@
 			"src"
 		],
 		"java.project.outputPath": "bin",
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar"
+		],
 		"java.cleanup.actionsOnSave": [
 			"addOverride",
 		],
@@ -34,8 +37,5 @@
 			"windowevent"
 		],
 		"java.format.settings.url": ".vscode/java-formatter.xml",
-		"java.project.referencedLibraries": [
-			"lib/**/*.jar"
-		]
 	}
 }
