@@ -3,14 +3,25 @@ package medipro.object.base.camera;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 
+/**
+ * カメラのコントローラを実装するクラス.
+ */
 public class CameraController extends GameObjectController {
 
-    public CameraController(GameObjectModel... models) {
+    /**
+     * カメラコントローラを生成する.
+     * 
+     * @param models 格納するモデル
+     */
+    public CameraController(final GameObjectModel... models) {
         super(models);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(final GameObjectModel model, final float dt) {
 
     }
 

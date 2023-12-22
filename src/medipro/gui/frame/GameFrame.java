@@ -1,7 +1,9 @@
 package medipro.gui.frame;
 
+import java.awt.Dimension;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -9,21 +11,39 @@ import javax.swing.JFrame;
 import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
 
+/**
+ * ゲームのウインドウを実装するクラス.
+ */
 public class GameFrame extends JFrame {
+    /**
+     * ロガー.
+     */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
+    /**
+     * ゲームのウインドウを生成する. 生成後、FPSに基づいてPanelを再描画する.
+     * 
+     * @param title  ウインドウのタイトル
+     * @param width  ウインドウの幅
+     * @param height ウインドウの高さ
+     */
     public GameFrame(String title, int width, int height) {
         super(title);
         logger.info("Init GameFrame");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(width, height);
+        // this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        // this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
 
         GamePanel panel = new GamePanel(this);
         panel.setFocusable(true);
-        // setupWorld(panel);
+        panel.setPreferredSize(new Dimension(width, height));
         this.add(panel);
+        this.pack();
+
+        logger.log(Level.FINE, "frame size: " + this.getSize());
+        logger.log(Level.FINE, "panel size: " + panel.getSize());
 
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
