@@ -5,7 +5,6 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -45,20 +44,20 @@ public class MoveCharaPanel extends JPanel {
         g.drawImage(img[p], x, y, null);
     }
 
-    // スレッド(アニメージョン)
+    // スレッド(アニメーション)
     class AnimeThread extends Thread {
         public void run() {
             // 右に歩く
             while (mode == 1) {
                 // 背景を左に動かす
-                offset = offset - 10;
+                offset = offset - 5;
                 if (offset < -1024) {
                     offset = 0;
                 }
                 // 画像の変更
                 p = (p + 1) % 4;
                 repaint();
-                // 100ms(0.1秒)待機
+                // 100ms待機
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
@@ -66,7 +65,7 @@ public class MoveCharaPanel extends JPanel {
             }
             // 左に歩く
             while (mode == -1) {
-                offset = offset + 10;
+                offset = offset + 5;
                 if (offset > 0) {
                     offset = -1023;
                 }
@@ -76,7 +75,7 @@ public class MoveCharaPanel extends JPanel {
                 }
                 p = (p - 1) % 4;
                 repaint();
-                // 100ms(0.1秒)待機
+                // 100ms待機
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
