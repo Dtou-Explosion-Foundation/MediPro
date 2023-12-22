@@ -1,14 +1,15 @@
 package medipro.titlemenu;
 
-import java.util.logging.Logger;
+import medipro.world.World;
 
-public class TitleMenuModel {
-    protected final Logger logger = Logger.getLogger(this.getClass().getName());
+import medipro.object.base.gameobject.GameObjectModel;
 
-    private String[] menuItems = {"Start Game", "Options","Quit"};
+public class TitleMenuModel extends GameObjectModel{
+    private String[] menuItems = {"Start Game", "Options", "Quit"};
     private int selectedItem = 0;
 
-    public TitleMenuModel(){
+    public TitleMenuModel(World world){
+        super(world);
         logger.info("Init TitleMenu.");
     }
 

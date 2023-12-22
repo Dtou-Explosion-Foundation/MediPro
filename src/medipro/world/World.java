@@ -19,7 +19,7 @@ public abstract class World {
     ArrayList<GameObjectController> controllers;
     ArrayList<ArrayList<GameObjectView>> views;
 
-    JPanel panel;
+    private JPanel panel;
     Optional<CameraModel> camera = Optional.empty();
 
     public World(JPanel panel) {
@@ -29,7 +29,13 @@ public abstract class World {
         for (int i = 0; i < EngineConfig.LAYER_NUM; i++) {
             this.views.add(new ArrayList<GameObjectView>());
         }
+        
+        this.panel = panel;
         setupWorld(panel);
+    }
+
+    public JPanel getPanel(){
+        return panel;
     }
 
     public void addControllers(GameObjectController... controllers) {

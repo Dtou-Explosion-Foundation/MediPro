@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import medipro.world.TestWorld;
+import medipro.world.TitleMenuWorld;
 import medipro.world.World;
 
 public class GamePanel extends JPanel {
@@ -25,7 +26,12 @@ public class GamePanel extends JPanel {
         super();
         logger.info("Init GamePanel");
         this.frame = frame;
-        world = new TestWorld(this);
+        // world = new TestWorld(this);
+        world = new TitleMenuWorld(this);
+    }
+
+    public void setWorld(World world){
+        this.world = world;
     }
 
     @Override
