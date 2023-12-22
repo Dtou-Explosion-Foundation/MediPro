@@ -35,8 +35,8 @@ public class PlayerView extends GameObjectView {
      * 
      * @param model 格納するモデル
      */
-    public PlayerView(GameObjectModel model) {
-        super(model);
+    public PlayerView(GameObjectModel... models) {
+        super(models);
         try {
             sprites[0] = ImageIO.read(new File("img/character/bear0.png"));
             sprites[1] = ImageIO.read(new File("img/character/bear1.png"));

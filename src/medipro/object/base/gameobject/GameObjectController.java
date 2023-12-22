@@ -21,18 +21,11 @@ public abstract class GameObjectController {
 
     /**
      * ゲームオブジェクトコントローラを生成する.
-     */
-    public GameObjectController() {
-        this.models = new ArrayList<GameObjectModel>();
-    }
-
-    /**
-     * ゲームオブジェクトコントローラを生成する.
      * 
      * @param models 格納するモデル
      */
-    public GameObjectController(GameObjectModel... models) {
-        this();
+    public GameObjectController(GameObjectModel[] models) {
+        this.models = new ArrayList<GameObjectModel>();
         for (GameObjectModel model : models) {
             this.models.add(model);
         }

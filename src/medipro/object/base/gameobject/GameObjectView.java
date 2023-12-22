@@ -21,19 +21,11 @@ public abstract class GameObjectView {
 
     /**
      * ゲームオブジェクトビューを生成する。
-     */
-    public GameObjectView() {
-
-        this.models = new ArrayList<GameObjectModel>();
-    }
-
-    /**
-     * ゲームオブジェクトビューを生成する。
      * 
      * @param models 格納するモデル
      */
-    public GameObjectView(GameObjectModel... models) {
-        this();
+    public GameObjectView(GameObjectModel[] models) {
+        this.models = new ArrayList<GameObjectModel>();
         for (GameObjectModel model : models) {
             this.models.add(model);
         }

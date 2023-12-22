@@ -19,8 +19,8 @@ public abstract class GridObjectView extends GameObjectView {
     /**
      * グリッドオブジェクトのビューを生成する.
      */
-    public GridObjectView() {
-        super();
+    public GridObjectView(GameObjectModel... models) {
+        super(models);
     }
 
     /**

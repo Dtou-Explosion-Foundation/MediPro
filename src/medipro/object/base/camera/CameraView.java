@@ -15,8 +15,8 @@ public class CameraView extends GameObjectView {
      * 
      * @param model 格納するモデル
      */
-    public CameraView(GameObjectModel model) {
-        super(model);
+    public CameraView(GameObjectModel... models) {
+        super(models);
     }
 
     /**

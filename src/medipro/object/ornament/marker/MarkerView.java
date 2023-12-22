@@ -10,6 +10,10 @@ import medipro.object.base.gameobject.GameObjectView;
  */
 public class MarkerView extends GameObjectView {
 
+    public MarkerView(GameObjectModel... models) {
+        super(models);
+    }
+
     /**
      * モデルを元に描画を行う. テスト用の図形を描画する.
      * 
