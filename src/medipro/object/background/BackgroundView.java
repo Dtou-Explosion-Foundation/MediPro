@@ -11,19 +11,19 @@ import medipro.object.base.gameobject.GameObjectView;
 
 public class BackgroundView extends GameObjectView {
     private Image image;
-    
-    public BackgroundView(GameObjectModel model) {
-        super(model);
+
+    public BackgroundView(GameObjectModel... models) {
+        super(models);
         try {
             image = ImageIO.read(new File("img/background/background_sample.png"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.warning(e.toString());
         }
     }
-    
+
     @Override
-    public void draw(GameObjectModel model,Graphics2D g) {
-        g.drawImage(image, 0, -250,1024,768, null);
-        g.drawImage(image, -1024, -250,1024,768, null);
+    public void draw(GameObjectModel model, Graphics2D g) {
+        g.drawImage(image, 0, -250, 1024, 768, null);
+        g.drawImage(image, -1024, -250, 1024, 768, null);
     }
 }
