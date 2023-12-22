@@ -8,10 +8,9 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import medipro.object.base.World;
-import medipro.object.background.BackgroundController;
 import medipro.object.background.BackgroundModel;
 import medipro.object.background.BackgroundView;
+import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -23,6 +22,9 @@ import medipro.object.example.grid.ExampleGridView;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
+import medipro.object.overlay.fps.FpsOverlayController;
+import medipro.object.overlay.fps.FpsOverlayModel;
+import medipro.object.overlay.fps.FpsOverlayView;
 import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 import medipro.object.player.PlayerView;
@@ -51,8 +53,8 @@ public class TestWorld extends World {
         {
             BackgroundModel model = new BackgroundModel(this);
             BackgroundView view = new BackgroundView(model);
-            //BackgroundController controller = new BackgroundController(model);
-            this.addView(view,0);
+            // BackgroundController controller = new BackgroundController(model);
+            this.addView(view, 0);
         }
         {
             PlayerModel model = new PlayerModel(this);
@@ -112,8 +114,14 @@ public class TestWorld extends World {
 
         }
         {
+            FpsOverlayModel model = new FpsOverlayModel(this);
+            FpsOverlayView view = new FpsOverlayView(model);
+            FpsOverlayController controller = new FpsOverlayController(model);
+            this.addViewAndController(view, controller, 100);
+        }
+        {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
-            model.scale = 2;
+            model.scale = 1;
             model.originY = (int) (10 / model.scale);
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
