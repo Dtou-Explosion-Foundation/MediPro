@@ -9,6 +9,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import medipro.object.base.World;
+import medipro.object.background.BackgroundController;
+import medipro.object.background.BackgroundModel;
+import medipro.object.background.BackgroundView;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -45,6 +48,12 @@ public class TestWorld extends World {
     @Override
     public void setupWorld(JPanel panel) {
         GameObjectModel cameraTarget;
+        {
+            BackgroundModel model = new BackgroundModel(this);
+            BackgroundView view = new BackgroundView(model);
+            //BackgroundController controller = new BackgroundController(model);
+            this.addView(view,0);
+        }
         {
             PlayerModel model = new PlayerModel(this);
             cameraTarget = model;
