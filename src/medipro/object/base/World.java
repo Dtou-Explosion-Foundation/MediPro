@@ -3,8 +3,10 @@ package medipro.object.base;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -144,5 +146,16 @@ public abstract class World {
                 view.drawModels(g, transform);
             }
         }
+    }
+
+    public <T> List<T> getInstances(Class<T> type) {
+        if (type.isAssignableFrom(GameObjectController.class)) {
+            return controllers.stream().filter(controller -> type.isInstance(controller))
+                    .map(controller -> type.cast(controller)).collect(Collectors.toList());
+        } else if (type.isAssignableFrom(GameObjectView.class)) {
+            return views.stream().flatMap(List::stream).filter(views -> type.isInstance(views))
+                    .map(views -> type.cast(views)).collect(Collectors.toList());
+        }
+        return null;
     }
 }
