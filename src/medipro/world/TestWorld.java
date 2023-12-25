@@ -19,6 +19,8 @@ import medipro.object.camera.SmoothFollowingCameraModel;
 import medipro.object.example.grid.ExampleGridController;
 import medipro.object.example.grid.ExampleGridModel;
 import medipro.object.example.grid.ExampleGridView;
+import medipro.object.manager.gamemanager.GameManagerController;
+import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
@@ -127,6 +129,11 @@ public class TestWorld extends World {
             CameraController controller = new SmoothFollowingCameraController(model);
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
+        }
+        {
+            GameManagerModel model = new GameManagerModel(this);
+            GameManagerController controller = new GameManagerController(model);
+            this.addControllers(controller);
         }
     }
 }
