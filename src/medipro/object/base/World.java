@@ -148,14 +148,9 @@ public abstract class World {
         }
     }
 
-    public <T> List<T> getInstances(Class<T> type) {
-        if (type.isAssignableFrom(GameObjectController.class)) {
-            return controllers.stream().filter(controller -> type.isInstance(controller))
-                    .map(controller -> type.cast(controller)).collect(Collectors.toList());
-        } else if (type.isAssignableFrom(GameObjectView.class)) {
-            return views.stream().flatMap(List::stream).filter(views -> type.isInstance(views))
-                    .map(views -> type.cast(views)).collect(Collectors.toList());
-        }
-        return null;
+    public <T extends GameObjectController> List<T> getControllers(Class<T> type) {
+        return controllers.stream().filter(controller -> type.isInstance(controller)).map(controller -> {
+            return type.cast(controller);
+        }).collect(Collectors.toList());
     }
 }

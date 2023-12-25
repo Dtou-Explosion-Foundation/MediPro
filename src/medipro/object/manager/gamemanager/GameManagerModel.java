@@ -9,7 +9,8 @@ public class GameManagerModel extends GameObjectModel {
 
     public GameManagerModel(World world) {
         super(world);
-        logger.info("gamemanagercontoller is " + world.getInstances(GameManagerController.class));
+        // logger.info("GameManagerModel created");
+        // logger.info("MarkerController is " +
+        // world.getControllers(MarkerController.class));
     }
-
 }

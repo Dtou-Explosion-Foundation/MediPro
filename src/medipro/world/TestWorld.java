@@ -52,6 +52,7 @@ public class TestWorld extends World {
     @Override
     public void setupWorld(JPanel panel) {
         GameObjectModel cameraTarget;
+
         {
             BackgroundModel model = new BackgroundModel(this);
             BackgroundView view = new BackgroundView(model);
