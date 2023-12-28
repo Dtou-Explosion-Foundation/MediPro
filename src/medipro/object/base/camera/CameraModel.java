@@ -25,6 +25,8 @@ public class CameraModel extends GameObjectModel {
      */
     public double scale = 1;
 
+    private int ubo = -1;
+
     /**
      * グローバル座標からカメラ座標に変換するアフィン変換行列を取得する. ローカル座標とは違い,カメラの中心を原点とするので注意.
      * 
@@ -62,6 +64,14 @@ public class CameraModel extends GameObjectModel {
             transform.transform(points[i], points[i]);
         }
         return points;
+    }
+
+    public int getUBO() {
+        return ubo;
+    }
+
+    public void setUBO(int ubo) {
+        this.ubo = ubo;
     }
 
 }

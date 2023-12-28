@@ -68,4 +68,5 @@ public abstract class GameObjectModel {
         transform.scale(scaleX, scaleY);
         return transform;
     }
+
 }

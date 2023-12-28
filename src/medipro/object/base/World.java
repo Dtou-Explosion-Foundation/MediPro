@@ -17,8 +17,7 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectView;
 
 /**
- * ワールドを管理するクラス。 コントローラーとビューを格納し、毎フレームごとに更新と描画を行う。
- * ビューはレイヤーごとに保存され、レイヤー0が最背面に描画される。
+ * ワールドを管理するクラス。 コントローラーとビューを格納し、毎フレームごとに更新と描画を行う。 ビューはレイヤーごとに保存され、レイヤー0が最背面に描画される。
  */
 public abstract class World implements GLEventListener {
     /**
@@ -151,7 +150,7 @@ public abstract class World implements GLEventListener {
     public void draw(Graphics2D g) {
         for (ArrayList<GameObjectView> views : views) {
             for (GameObjectView view : views) {
-                view.drawModels(g, getCameraTransform());
+                view.draw(g, getCameraTransform());
             }
         }
     }

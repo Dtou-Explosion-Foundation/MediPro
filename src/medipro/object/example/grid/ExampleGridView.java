@@ -13,6 +13,10 @@ import medipro.object.base.gridobject.GridObjectView;
  */
 public class ExampleGridView extends GridObjectView {
 
+    public ExampleGridView(ExampleGridModel model) {
+        super(model);
+    }
+
     /**
      * モデルを元に描画を行う. テスト用の図形と画像を描画する.
      * 

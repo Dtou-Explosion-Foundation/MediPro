@@ -19,8 +19,8 @@ public abstract class GridObjectView extends GameObjectView {
     /**
      * グリッドオブジェクトのビューを生成する.
      */
-    public GridObjectView() {
-        super();
+    public GridObjectView(GridObjectModel model) {
+        super(model);
     }
 
     /**
@@ -30,7 +30,7 @@ public abstract class GridObjectView extends GameObjectView {
      * @param g     描画対象のGraphics2D
      */
     @Override
-    public void draw(GameObjectModel model, Graphics2D g) {
+    public void draw(Graphics2D g) {
         g.setTransform(model.world.camera.get().getTransformMatrix());
         GridObjectModel gridModel = (GridObjectModel) model;
         Rectangle2D.Double bounds;

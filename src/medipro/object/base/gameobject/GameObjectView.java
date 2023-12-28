@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -35,28 +34,17 @@ public abstract class GameObjectView implements GLEventListener {
     /**
      * 格納しているモデル.
      */
-    public ArrayList<GameObjectModel> models;
+    public GameObjectModel model;
 
     public boolean drawAsUI = false;
 
     /**
      * ゲームオブジェクトビューを生成する。
-     */
-    public GameObjectView() {
-
-        this.models = new ArrayList<GameObjectModel>();
-    }
-
-    /**
-     * ゲームオブジェクトビューを生成する。
      * 
-     * @param models 格納するモデル
+     * @param model 格納するモデル
      */
-    public GameObjectView(GameObjectModel... models) {
-        this();
-        for (GameObjectModel model : models) {
-            this.models.add(model);
-        }
+    public GameObjectView(GameObjectModel model) {
+        this.model = model;
     }
 
     /**
@@ -65,22 +53,19 @@ public abstract class GameObjectView implements GLEventListener {
      * @param g               描画対象のGraphics2D
      * @param cameraTransform カメラ座標へ変換するためのアフィン変換行列
      */
-    public void drawModels(Graphics2D g, AffineTransform cameraTransform) {
-        for (GameObjectModel model : models) {
-            g.setTransform(cameraTransform);
-            if (!drawAsUI || !InGameConfig.USE_OPENGL)
-                g.transform(model.getTransformMatrix());
-            this.draw(model, g);
-        }
+    public void draw(Graphics2D g, AffineTransform cameraTransform) {
+        g.setTransform(cameraTransform);
+        if (!drawAsUI || !InGameConfig.USE_OPENGL)
+            g.transform(model.getTransformMatrix());
+        this.draw(g);
     }
 
     /**
      * モデルを元に描画を行う
      * 
-     * @param model 描画対象のモデル
-     * @param g     描画対象のGraphics2D
+     * @param g 描画対象のGraphics2D
      */
-    abstract public void draw(GameObjectModel model, Graphics2D g);
+    protected abstract void draw(Graphics2D g);
 
     @Override
     public void display(GLAutoDrawable drawable) {
@@ -91,7 +76,7 @@ public abstract class GameObjectView implements GLEventListener {
 
         int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
         float[] modelMat = { //
-                1f, 0f, 0f, 0.4f, //
+                1f, 0f, 0f, 0f, //
                 0f, 1f, 0f, 0f, //
                 0f, 0f, 1f, 0f, //
                 0f, 0f, 0f, 1f, //
@@ -165,37 +150,19 @@ public abstract class GameObjectView implements GLEventListener {
     }
 
     IntBuffer vbo = Buffers.newDirectIntBuffer(2);
-    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
 
-    void initBuffers(GLAutoDrawable drawable, int program) {
+    protected void initBuffers(GLAutoDrawable drawable, int program) {
 
         GL4 gl = drawable.getGL().getGL4();
         gl.glUseProgram(program);
 
         gl.glGenBuffers(2, vbo);
-        gl.glGenBuffers(1, ubo);
 
         float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
         float[] uv = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f };
 
-        float[] projMat = { //
-                1f, 0f, 0f, 0f, //
-                0f, 1f, 0f, 0f, //
-                0f, 0f, 1f, 0f, //
-                0f, 0f, 0f, 1f, //
-        };
-
-        float[] viewMat = { //
-                1f, 0f, 0f, 0f, //
-                0f, 1f, 0f, 0f, //
-                0f, 0f, 1f, 0f, //
-                0f, 0f, 0f, 1f, //
-        };
-
         FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
         FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(uv);
-        FloatBuffer cameraMatBuffer = FloatBuffer.allocate(projMat.length + viewMat.length).put(projMat).put(viewMat)
-                .flip();
 
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * vertices.length, vertexBuffer, GL4.GL_STATIC_DRAW);
@@ -203,9 +170,6 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * uv.length, uvBuffer, GL4.GL_STATIC_DRAW);
 
-        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
-        gl.glBufferData(GL4.GL_UNIFORM_BUFFER, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer,
-                GL4.GL_STATIC_DRAW);
     }
 
     void bindBuffers(GLAutoDrawable drawable, int program) {
@@ -223,9 +187,10 @@ public abstract class GameObjectView implements GLEventListener {
 
         int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
         int bindingPoint = 0; // 衝突してはいけない
-        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
         gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
-        gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, ubo.get(0));
+        gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, cameraUbo);
     }
 
     private void handleShaderCompileError(GLAutoDrawable drawable, int shader) {

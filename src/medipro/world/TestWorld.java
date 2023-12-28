@@ -54,33 +54,35 @@ public class TestWorld extends World {
             this.addViewAndController(view, controller, 10);
         }
         {
-            MarkerView view = new MarkerView();
             MarkerController controller = new MarkerController();
-            this.addViewAndController(view, controller, 20);
+            this.addControllers(controller);
             {
                 MarkerModel model = new MarkerModel(this);
+                MarkerView view = new MarkerView(model);
                 model.x = 100;
                 model.y = -25;
                 model.rotation = Math.toRadians(30);
                 model.scaleX = 3.5;
                 model.scaleY = 1.5;
                 model.color = Color.BLUE;
-                view.models.add(model);
                 controller.models.add(model);
+                this.addView(view, 20);
             }
             {
                 MarkerModel model = new MarkerModel(this);
+                MarkerView view = new MarkerView(model);
                 model.x = -100;
                 model.y = -50;
                 model.rotation = Math.toRadians(70);
                 model.color = Color.GREEN;
-                view.models.add(model);
                 controller.models.add(model);
+                this.addView(view, 20);
             }
             {
                 MarkerModel model = new MarkerModel(this);
-                view.models.add(model);
+                MarkerView view = new MarkerView(model);
                 controller.models.add(model);
+                this.addView(view, 20);
             }
         }
         {
@@ -90,14 +92,14 @@ public class TestWorld extends World {
             } catch (IOException e) {
                 logger.warning(e.toString());
             }
-            ExampleGridView view = new ExampleGridView();
+            ExampleGridView view = new ExampleGridView(model);
             ExampleGridController controller = new ExampleGridController();
             model.x = 58;
             model.y = -100;
             model.scaleX = 0.1;
             model.scaleY = 0.1;
-            if (model != null)
-                view.models.add(model);
+            // if (model != null)
+            //     view.models.add(model);
             controller.models.add(model);
             this.addViewAndController(view, controller, 0);
 

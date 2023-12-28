@@ -7,12 +7,12 @@ import medipro.object.base.gameobject.GameObjectView;
 
 public class GLMarkerView extends GameObjectView {
 
-    public GLMarkerView(GameObjectModel... models) {
-        super(models);
+    public GLMarkerView(GameObjectModel model) {
+        super(model);
     }
 
     @Override
-    public void draw(GameObjectModel model, Graphics2D g) {
+    public void draw(Graphics2D g) {
     }
 
 }
