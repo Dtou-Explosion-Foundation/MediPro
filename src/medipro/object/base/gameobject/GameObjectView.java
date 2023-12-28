@@ -1,9 +1,7 @@
 package medipro.object.base.gameobject;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -87,32 +85,23 @@ public abstract class GameObjectView implements GLEventListener {
     @Override
     public void display(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
-        for (GameObjectModel model : models) {
-            // logger.info("GameObjectView:display");
-            BufferedImage im = new BufferedImage(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT,
-                    BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = im.createGraphics();
-            g2.setColor(Color.green);
-            g2.fillOval(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
-            this.draw(model, g2);
-            g2.dispose();
-            // int[] textureID = new int[1];
-            // gl.glGenTextures(1, textureID, 0);
-            // gl.glBindTexture(GL4.GL_TEXTURE_2D, textureID[0]);
-            // Texture texture = AWTTextureIO.newTexture(gl.getGLProfile(), im, false);
-            // texture.bind(gl);
-            gl.glUseProgram(shaderProgram);
+        // for (GameObjectModel model : models) {
+        //     BufferedImage im = new BufferedImage(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT,
+        //             BufferedImage.TYPE_INT_ARGB);
+        //     Graphics2D g2 = im.createGraphics();
+        //     g2.setColor(Color.green);
+        //     g2.fillOval(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
+        //     this.draw(model, g2);
+        //     g2.dispose();
+        // }
+        gl.glUseProgram(shaderProgram);
 
-            int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
-            // logger.info("sample2dLocation: " + sample2dLocation);
+        int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        gl.glBindTextureUnit(sample2dLocation, textureName.get(0));
+        gl.glBindSampler(sample2dLocation, samplerName.get(0));
 
-            gl.glBindTextureUnit(sample2dLocation, textureName.get(0));
-            gl.glBindSampler(sample2dLocation, samplerName.get(0));
-
-            this.bindBuffers(drawable, shaderProgram);
-            gl.glDrawArrays(GL4.GL_TRIANGLES, 0, 3);
-
-        }
+        this.bindBuffers(drawable, shaderProgram);
+        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
     }
 
     @Override
@@ -195,8 +184,9 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glGenBuffers(2, vbo);
 
         // float[] vertices = { 0.0f, 0.5f, 0.5f, -0.5f, -0.5f, -0.5f };
-        float[] vertices = { -0.5f, -0.5f, 0.5f, 0.5f, 0.f, 0.5f };
-        float[] uv = { 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f };
+        float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
+        // float[] uv = { 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f };
+        float[] uv = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f };
 
         FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
         FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(uv);
@@ -288,45 +278,3 @@ public abstract class GameObjectView implements GLEventListener {
     }
 
 }
-
-// public int loadTexture(GLAutoDrawable drawable, BufferedImage image) throws IOException {
-//     GL4 gl = drawable.getGL().getGL4();
-//     if (false) {
-
-//         int[] pixels = new int[image.getWidth() * image.getHeight()];
-//         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
-//         ByteBuffer buffer = ByteBuffer.allocateDirect(image.getWidth() * image.getHeight() * 4);
-
-//         for (int h = 0; h < image.getHeight(); h++) {
-//             for (int w = 0; w < image.getWidth(); w++) {
-//                 int pixel = pixels[h * image.getWidth() + w];
-
-//                 buffer.put((byte) ((pixel >> 16) & 0xFF));
-//                 buffer.put((byte) ((pixel >> 8) & 0xFF));
-//                 buffer.put((byte) (pixel & 0xFF));
-//                 buffer.put((byte) ((pixel >> 24) & 0xFF));
-//             }
-//         }
-
-//         buffer.flip();
-//         IntBuffer textures = Buffers.newDirectIntBuffer(1);
-//         gl.glGenTextures(1, textures);
-//         gl.glBindTexture(GL4.GL_TEXTURE_2D, textures.get(0));
-//         gl.glTexParameterf(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_LINEAR_MIPMAP_LINEAR);
-//         gl.glTexParameterf(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_LINEAR);
-
-//         gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, GL4.GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL4.GL_RGBA,
-//                 GL4.GL_UNSIGNED_BYTE, buffer);
-//         gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
-
-//         return textures.get(0);
-//     } else {
-//         try {
-//             InputStream resourceStream = new FileInputStream("img\\background\\Brickwall3_Texture.png"); //(3)
-//             return TextureIO.newTexture(resourceStream, false, TextureIO.PNG).getTextureObject(); //(4)
-//         } catch (GLException | IOException e) {
-//             e.printStackTrace();
-//             return -1;
-//         }
-//     }
-// }
