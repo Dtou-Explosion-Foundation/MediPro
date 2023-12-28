@@ -141,13 +141,23 @@ public class HelloCustom implements GLEventListener {
         gl.glUseProgram(program);
         gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
 
-        gl.glEnableVertexAttribArray(posAttrib);
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo[0]);
+        gl.glEnableVertexAttribArray(posAttrib);
         gl.glVertexAttribPointer(posAttrib, 3, GL4.GL_FLOAT, false, 0, 0);
 
-        gl.glEnableVertexAttribArray(colAttrib);
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo[1]);
+        gl.glEnableVertexAttribArray(colAttrib);
         gl.glVertexAttribPointer(colAttrib, 3, GL4.GL_FLOAT, false, 0, 0);
+
+        int modelMatUniform = gl.glGetUniformLocation(program, "modelMat");
+        float[] modelMat = { //
+                1f, 0f, 0f, 0.5f, //
+                0f, 1f, 0f, 0.5f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
+        FloatBuffer modelMatBuffer = FloatBuffer.wrap(modelMat);
+        gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
 
         gl.glDrawArrays(GL4.GL_TRIANGLES, 0, 3);
     }
