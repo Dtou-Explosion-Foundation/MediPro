@@ -120,11 +120,6 @@ public abstract class GameObjectView implements GLEventListener {
         shaderProgram = initShaders(drawable);
         gl.glUseProgram(shaderProgram);
 
-        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
-        int uTextureUniform = gl.glGetUniformLocation(shaderProgram, "uTexture");
-        logger.info("modelMatUniform = " + modelMatUniform);
-        logger.info("uTextureUniform = " + uTextureUniform);
-
         initBuffers(drawable, shaderProgram);
         initTextures(drawable);
         initSamplers(drawable);
@@ -135,26 +130,24 @@ public abstract class GameObjectView implements GLEventListener {
     void initTextures(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         try {
-            InputStream texture = new FileInputStream("img\\background\\Brickwall3_Texture.png");
+            InputStream textureStream = new FileInputStream("img\\background\\Brickwall3_Texture.png");
 
-            TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), texture, false, TextureIO.PNG);
+            TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
 
-            gl.glCreateTextures(GL4.GL_TEXTURE_2D, 1, textureName);
+            gl.glGenTextures(1, textureName);
+            gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
 
-            gl.glTextureParameteri(textureName.get(0), GL4.GL_TEXTURE_BASE_LEVEL, 0);
-            gl.glTextureParameteri(textureName.get(0), GL4.GL_TEXTURE_MAX_LEVEL, 0);
+            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 2);
 
-            gl.glTextureStorage2D(textureName.get(0), 1, // level
-                    textureData.getInternalFormat(), textureData.getWidth(), textureData.getHeight());
+            gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+                    textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+                    textureData.getBuffer());
 
-            gl.glTextureSubImage2D(textureName.get(0), 0, // level
-                    0, 0, // offset
-                    textureData.getWidth(), textureData.getHeight(), textureData.getPixelFormat(),
-                    textureData.getPixelType(), textureData.getBuffer());
+            gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
 
         } catch (IOException ex) {
-            // Logger.getLogger(HelloGlobe.class.getName()).log(Level.SEVERE, null, ex);
-            logger.log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, ex.toString());
         }
     }
 
@@ -172,7 +165,7 @@ public abstract class GameObjectView implements GLEventListener {
     }
 
     IntBuffer vbo = Buffers.newDirectIntBuffer(2);
-    IntBuffer ubo = Buffers.newDirectIntBuffer(2);
+    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
 
     void initBuffers(GLAutoDrawable drawable, int program) {
 
@@ -180,19 +173,39 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glUseProgram(program);
 
         gl.glGenBuffers(2, vbo);
-        gl.glGenBuffers(2, ubo);
+        gl.glGenBuffers(1, ubo);
 
         float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
         float[] uv = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f };
 
+        float[] projMat = { //
+                1f, 0f, 0f, 0f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
+
+        float[] viewMat = { //
+                1f, 0f, 0f, 0f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
+
         FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
         FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(uv);
+        FloatBuffer cameraMatBuffer = FloatBuffer.allocate(projMat.length + viewMat.length).put(projMat).put(viewMat)
+                .flip();
 
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * vertices.length, vertexBuffer, GL4.GL_STATIC_DRAW);
 
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * uv.length, uvBuffer, GL4.GL_STATIC_DRAW);
+
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBufferData(GL4.GL_UNIFORM_BUFFER, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer,
+                GL4.GL_STATIC_DRAW);
     }
 
     void bindBuffers(GLAutoDrawable drawable, int program) {
@@ -207,6 +220,12 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
         gl.glEnableVertexAttribArray(uvAttrib);
         gl.glVertexAttribPointer(uvAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
+
+        int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
+        int bindingPoint = 0; // 衝突してはいけない
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
+        gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, ubo.get(0));
     }
 
     private void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
