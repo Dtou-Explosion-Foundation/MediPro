@@ -1,122 +1,270 @@
 package test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
 
 import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLDebugListener;
+import com.jogamp.opengl.GLDebugMessage;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
+import com.jogamp.opengl.util.texture.TextureData;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
-public class HelloGraphics2D implements GLEventListener {
+import medipro.config.InGameConfig;
 
-    @Override
-    public void init(GLAutoDrawable drawable) {
-        System.err.println("init");
-        drawSomething();
-    }
+public class HelloGraphics2D implements GLEventListener, GLDebugListener {
+    protected static final Logger logger = Logger.getLogger("medipro");
 
     @Override
     public void display(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+        gl.glUseProgram(shaderProgram);
 
-        float[] colors = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
-        float[] vertices = { 0.0f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, -0.5f, 0.0f };
+        this.bindBuffers(drawable, shaderProgram);
 
-        String vertexSource = "#version 460 core                            \n"
-                + "layout(location = 0) in  vec3 position;      \n" + "layout(location = 1) in  vec3 color;         \n"
-                + "out vec4 vColor;                             \n" + "void main()                                  \n"
-                + "{                                            \n" + "  vColor = vec4(color, 1.0);                 \n"
-                + "  gl_Position = vec4(position, 1.0);         \n" + "}                                            \n";
-        String fragmentSource = "#version 460 core                            \n"
-                + "precision mediump float;                     \n" + "in  vec4 vColor;                             \n"
-                + "out vec4 outColor;                           \n" + "void main()                                  \n"
-                + "{                                            \n" + "  outColor = vColor;                         \n"
-                + "}                                            \n";
+        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
+        float[] modelMat = { //
+                1f, 0f, 0f, 0.4f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
+        FloatBuffer modelMatBuffer = FloatBuffer.wrap(modelMat);
+        gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
 
-        int[] vbo = new int[2];
-        gl.glGenBuffers(2, vbo, 0);
+        int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        gl.glBindTextureUnit(sample2dLocation, textureName.get(0));
+        gl.glBindSampler(sample2dLocation, samplerName.get(0));
 
-        FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
-        FloatBuffer vertexColorBuffer = Buffers.newDirectFloatBuffer(colors);
+        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
+    }
 
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo[0]);
-        gl.glBufferData(GL4.GL_ARRAY_BUFFER, 4 * vertices.length, vertexBuffer, GL4.GL_STATIC_DRAW);
+    private BufferedImage drawSomething() {
+        BufferedImage image = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+        g.setColor(Color.RED);
+        g.fillOval(0, 0, 300, 300);
+        g.dispose();
+        return image;
+    }
 
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo[1]);
-        gl.glBufferData(GL4.GL_ARRAY_BUFFER, 4 * colors.length, vertexColorBuffer, GL4.GL_STATIC_DRAW);
+    @Override
+    public void dispose(GLAutoDrawable drawable) {
 
-        int vs = gl.glCreateShader(GL4.GL_VERTEX_SHADER);
-        int fs = gl.glCreateShader(GL4.GL_FRAGMENT_SHADER);
+    }
 
-        String[] vsrc = new String[] { vertexSource };
-        int[] vlengths = new int[] { vsrc[0].length() };
-        gl.glShaderSource(vs, 1, vsrc, vlengths, 0);
-        gl.glCompileShader(vs);
+    int shaderProgram = -1;
 
-        String[] fsrc = new String[] { fragmentSource };
-        int[] flengths = new int[] { fsrc[0].length() };
-        gl.glShaderSource(fs, 1, fsrc, flengths, 0);
-        gl.glCompileShader(fs);
+    @Override
+    public void init(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
 
-        int program = gl.glCreateProgram();
-        gl.glAttachShader(program, vs);
-        gl.glAttachShader(program, fs);
-        gl.glLinkProgram(program);
+        drawable.getContext().addGLDebugListener(this);
+        // gl.glDebugMessageControl(GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, 0, null, false);
+        // gl.glDebugMessageControl(GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, GL4.GL_DEBUG_SEVERITY_HIGH, 0, null, true);
+        // gl.glDebugMessageControl(GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, GL4.GL_DEBUG_SEVERITY_MEDIUM, 0, null, true);
+
+        String version = gl.glGetString(GL4.GL_VERSION);
+        logger.info("OpenGLのバージョン: " + version);
+
+        shaderProgram = initShaders(drawable);
+        gl.glUseProgram(shaderProgram);
+
+        initBuffers(drawable, shaderProgram);
+        initTextures(drawable);
+        initSamplers(drawable);
+    }
+
+    IntBuffer textureName = Buffers.newDirectIntBuffer(1);
+
+    void initTextures(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        // try {
+        // InputStream textureStream = new FileInputStream("img\\background\\Brickwall3_Texture.png");
+
+        // TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
+        TextureData textureData = AWTTextureIO.newTextureData(gl.getGLProfile(), drawSomething(), false);
+
+        gl.glGenTextures(1, textureName);
+        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
+
+        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 2);
+
+        gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+                textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+                textureData.getBuffer());
+
+        gl.glGenerateMipmap(GL.GL_TEXTURE_2D);
+
+        // } catch (IOException ex) {
+        // logger.log(Level.SEVERE, null, ex);
+        // }
+    }
+
+    IntBuffer samplerName = Buffers.newDirectIntBuffer(1);
+
+    void initSamplers(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        gl.glGenSamplers(1, samplerName);
+
+        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_NEAREST);
+        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_NEAREST);
+
+        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE);
+        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE);
+    }
+
+    IntBuffer vbo = Buffers.newDirectIntBuffer(2);
+    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
+
+    void initBuffers(GLAutoDrawable drawable, int program) {
+
+        GL4 gl = drawable.getGL().getGL4();
         gl.glUseProgram(program);
 
-        int posAttrib = gl.glGetAttribLocation(program, "position");
-        gl.glEnableVertexAttribArray(posAttrib);
+        gl.glGenBuffers(2, vbo);
+        gl.glGenBuffers(1, ubo);
 
-        int colAttrib = gl.glGetAttribLocation(program, "color");
-        gl.glEnableVertexAttribArray(colAttrib);
+        float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
+        float[] uv = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f };
 
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo[0]);
-        gl.glVertexAttribPointer(posAttrib, 3, GL4.GL_FLOAT, false, 0, 0);
+        float[] projMat = { //
+                1f, 0f, 0f, 0f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
 
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo[1]);
-        gl.glVertexAttribPointer(colAttrib, 3, GL4.GL_FLOAT, false, 0, 0);
+        float[] viewMat = { //
+                1f, 0f, 0f, 0f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
 
-        gl.glDrawArrays(GL4.GL_TRIANGLES, 0, 3);
+        FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
+        FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(uv);
+
+        FloatBuffer cameraMatBuffer = FloatBuffer.allocate(projMat.length + viewMat.length).put(projMat).put(viewMat)
+                .flip();
+
+        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
+        gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * vertices.length, vertexBuffer, GL4.GL_STATIC_DRAW);
+
+        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
+        gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * uv.length, uvBuffer, GL4.GL_STATIC_DRAW);
+
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBufferData(GL4.GL_UNIFORM_BUFFER, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer,
+                GL4.GL_STATIC_DRAW);
+    }
+
+    void bindBuffers(GLAutoDrawable drawable, int program) {
+        GL4 gl = drawable.getGL().getGL4();
+
+        int vertexAttrib = gl.glGetAttribLocation(program, "aPosition");
+        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
+        gl.glEnableVertexAttribArray(vertexAttrib);
+        gl.glVertexAttribPointer(vertexAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
+
+        int uvAttrib = gl.glGetAttribLocation(program, "aTexcoord");
+        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
+        gl.glEnableVertexAttribArray(uvAttrib);
+        gl.glVertexAttribPointer(uvAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
+
+        int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
+        int bindingPoint = 0; // 衝突してはいけない
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
+        gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, ubo.get(0));
+    }
+
+    private void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
+        GL4 gl = drawable.getGL().getGL4();
+        int[] success = new int[1];
+        gl.glGetShaderiv(shader, GL4.GL_COMPILE_STATUS, success, 0);
+        if (success[0] == GL4.GL_FALSE) {
+            byte[] log = new byte[512];
+            gl.glGetShaderInfoLog(shader, 512, null, 0, log, 0);
+            System.out.println("Shader compilation failed: " + new String(log));
+        }
+    }
+
+    // final String shaderFile = "shader/simple2d/simple2d";
+    final String shaderFile = "shader/test/GameObject";
+
+    int initShaders(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        int program = gl.glCreateProgram();
+        try (BufferedReader brv = new BufferedReader(new FileReader(shaderFile + ".vert"))) {
+            int vert = gl.glCreateShader(GL4.GL_VERTEX_SHADER);
+            String vertSrc = brv.lines().collect(Collectors.joining("\n"));
+            gl.glShaderSource(vert, 1, new String[] { vertSrc }, null);
+            gl.glCompileShader(vert);
+            this.handleShaderCompileError(drawable, vert);
+            gl.glAttachShader(program, vert);
+        } catch (IOException e) {
+            logger.warning(e.toString());
+        }
+
+        try (BufferedReader brv = new BufferedReader(new FileReader(shaderFile + ".frag"))) {
+            int frag = gl.glCreateShader(GL4.GL_FRAGMENT_SHADER);
+            String fragSrc = brv.lines().collect(Collectors.joining("\n"));
+            gl.glShaderSource(frag, 1, new String[] { fragSrc }, null);
+            gl.glCompileShader(frag);
+            this.handleShaderCompileError(drawable, frag);
+            gl.glAttachShader(program, frag);
+        } catch (IOException e) {
+            logger.warning(e.toString());
+        }
+
+        gl.glLinkProgram(program);
+        // プログラムのリンク時のエラーを確認
+        int[] success = new int[1];
+        gl.glGetProgramiv(program, GL4.GL_LINK_STATUS, success, 0);
+        if (success[0] == GL4.GL_FALSE) {
+            byte[] log = new byte[512];
+            gl.glGetProgramInfoLog(program, 512, null, 0, log, 0);
+            System.out.println("Program linking failed: " + new String(log));
+        }
+        return program;
     }
 
     @Override
-    public void dispose(GLAutoDrawable arg0) {
-    }
+    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
 
-    @Override
-    public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4) {
-    }
-
-    public BufferedImage drawSomething() {
-        BufferedImage im = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2 = im.createGraphics();
-        g2.drawOval(0, 0, 256, 256);
-        // System.err.println("drawSomething bound: " + g2.getClipBounds());
-        // System.err.println("drawSomething bound: " + g2.bou);
-        return im;
     }
 
     public static void main(String[] args) {
+
         final GLProfile profile = GLProfile.get(GLProfile.GL4);
+
         GLCapabilities capabilities = new GLCapabilities(profile);
         GLJPanel gljpanel = new GLJPanel(capabilities);
 
         HelloGraphics2D hello = new HelloGraphics2D();
         gljpanel.addGLEventListener(hello);
         gljpanel.setPreferredSize(new Dimension(640, 480));
-
-        // gljpanel.initializeBackend(false);
 
         final JFrame frame = new JFrame("Hello, World!");
         frame.getContentPane().add(gljpanel);
@@ -132,13 +280,18 @@ public class HelloGraphics2D implements GLEventListener {
             public void run() {
                 if (isIdle) {
                     isIdle = false;
-                    gljpanel.repaint();
+                    frame.repaint();
                     isIdle = true;
                 } else {
-                    System.err.println("Game is running slow");
+                    logger.warning("Game is running slow");
                 }
             }
         };
-        timer.scheduleAtFixedRate(task, 0, (long) (1000f / 10));
+        timer.scheduleAtFixedRate(task, 0, (long) (1000f / InGameConfig.FPS));
+    }
+
+    @Override
+    public void messageSent(GLDebugMessage arg0) {
+        logger.info(arg0.getDbgMsg());
     }
 }

@@ -2,14 +2,12 @@ package medipro.object.base.gameobject;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -18,7 +16,7 @@ import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.util.texture.TextureData;
-import com.jogamp.opengl.util.texture.TextureIO;
+import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 import medipro.config.InGameConfig;
 
@@ -37,6 +35,8 @@ public abstract class GameObjectView implements GLEventListener {
     public GameObjectModel model;
 
     public boolean drawAsUI = false;
+
+    protected static int nextBindingPoint = 0;
 
     /**
      * ゲームオブジェクトビューを生成する。
@@ -114,26 +114,40 @@ public abstract class GameObjectView implements GLEventListener {
 
     void initTextures(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
-        try {
-            InputStream textureStream = new FileInputStream("img\\background\\Brickwall3_Texture.png");
+        // InputStream textureStream;
+        // try {
+        //  textureStream = new FileInputStream("img\\background\\Brickwall3_Texture.png");
+        // } catch (IOException ex) {
+        //     logger.log(Level.SEVERE, ex.toString());
+        // }
+        // TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
+        double cameraScale = this.model.world.camera.isPresent() ? this.model.world.camera.get().scale : 1;
 
-            TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
-
-            gl.glGenTextures(1, textureName);
-            gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-
-            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
-            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 2);
-
-            gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
-                    textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
-                    textureData.getBuffer());
-
-            gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
-
-        } catch (IOException ex) {
-            logger.log(Level.SEVERE, ex.toString());
+        BufferedImage bufferedImage = new BufferedImage((int) (InGameConfig.WINDOW_WIDTH / cameraScale),
+                (int) (InGameConfig.WINDOW_HEIGHT / cameraScale), BufferedImage.TYPE_INT_ARGB);
+        {
+            Graphics2D g = bufferedImage.createGraphics();
+            AffineTransform transform = new AffineTransform();
+            transform.translate(InGameConfig.WINDOW_WIDTH / cameraScale / 2,
+                    InGameConfig.WINDOW_HEIGHT / cameraScale / 2);
+            g.setTransform(transform);
+            draw(g);
+            g.dispose();
         }
+        TextureData textureData = AWTTextureIO.newTextureData(gl.getGLProfile(), bufferedImage, false);
+
+        gl.glGenTextures(1, textureName);
+        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
+
+        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 2);
+
+        gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+                textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+                textureData.getBuffer());
+
+        gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
+
     }
 
     IntBuffer samplerName = Buffers.newDirectIntBuffer(1);
@@ -186,7 +200,7 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glVertexAttribPointer(uvAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
 
         int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
-        int bindingPoint = 0; // 衝突してはいけない
+        int bindingPoint = nextBindingPoint++; // 衝突してはいけない
         int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
         gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
         gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
