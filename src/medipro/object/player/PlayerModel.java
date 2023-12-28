@@ -101,7 +101,7 @@ public class PlayerModel extends GameObjectModel {
      * 
      * @param dt 前フレームからの経過時間
      */
-    public void updateAnimation(float dt) {
+    public void updateAnimation(double dt) {
         // update sprite animation
         changeSpriteTimer += dt;
         if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
@@ -116,7 +116,7 @@ public class PlayerModel extends GameObjectModel {
      * 
      * @param dt 前フレームからの経過時間
      */
-    public void updateMovement(float dt) {
+    public void updateMovement(double dt) {
         // apply movement
         if (isWalking) {
             speedX += accX * direction * dt;

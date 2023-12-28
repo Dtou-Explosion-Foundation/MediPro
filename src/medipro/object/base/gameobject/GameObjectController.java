@@ -43,7 +43,7 @@ public abstract class GameObjectController {
      * 
      * @param dt 前フレームからの経過時間
      */
-    public void updateModels(float dt) {
+    public void updateModels(double dt) {
         for (GameObjectModel model : models) {
             this.update(model, dt);
         }
@@ -55,5 +55,5 @@ public abstract class GameObjectController {
      * @param model 更新対象のモデル
      * @param dt    前フレームからの経過時間
      */
-    public abstract void update(GameObjectModel model, float dt);
+    public abstract void update(GameObjectModel model, double dt);
 }

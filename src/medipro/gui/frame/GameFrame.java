@@ -1,15 +1,20 @@
 package medipro.gui.frame;
 
 import java.awt.Dimension;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import medipro.config.InGameConfig;
-import medipro.gui.panel.GamePanel;
+import medipro.gui.panel.G2dGamePanel;
+import medipro.gui.panel.GLGamePanel;
+import medipro.gui.panel.IGamePanel;
 
 /**
  * ゲームのウインドウを実装するクラス.
@@ -35,8 +40,7 @@ public class GameFrame extends JFrame {
         // this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
-        GamePanel panel = new GamePanel(this);
+        JPanel panel = InGameConfig.USE_OPENGL ? new GLGamePanel(this) : new G2dGamePanel(this);
         panel.setFocusable(true);
         panel.setPreferredSize(new Dimension(width, height));
         this.add(panel);
@@ -48,12 +52,23 @@ public class GameFrame extends JFrame {
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             Boolean isIdle = true;
+            Duration deltaTime = Duration.ZERO;
+            Instant prevTime = Instant.now();
+
+            double getDeltaTime() {
+                Instant currentTime = Instant.now();
+                deltaTime = Duration.between(prevTime, currentTime);
+                prevTime = currentTime;
+                return deltaTime.toNanos() / 1000000000.0;
+            }
 
             @Override
             public void run() {
                 if (isIdle) {
                     isIdle = false;
                     panel.repaint();
+                    if (panel instanceof IGamePanel)
+                        ((IGamePanel) panel).update(getDeltaTime());
                     isIdle = true;
                 } else {
                     logger.warning("Game is running slow");

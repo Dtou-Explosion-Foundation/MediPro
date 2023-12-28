@@ -1,0 +1,63 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Hello",
+            "request": "launch",
+            "mainClass": "Hello",
+            "projectName": "MediPro_e3918ee"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "MediPro_e3918ee"
+        },
+        {
+            "type": "java",
+            "name": "MoveCharaPanel",
+            "request": "launch",
+            "mainClass": "MoveCharaPanel",
+            "projectName": "MediPro_e3918ee"
+        },
+        {
+            "type": "java",
+            "name": "HelloCustom",
+            "request": "launch",
+            "mainClass": "test.HelloCustom",
+            "projectName": "MediPro_e3918ee"
+        },
+        {
+            "type": "java",
+            "name": "HelloGraphics2D",
+            "request": "launch",
+            "mainClass": "test.HelloGraphics2D",
+            "projectName": "MediPro_e3918ee"
+        },
+        {
+            "type": "java",
+            "name": "HelloPanel",
+            "request": "launch",
+            "mainClass": "test.HelloPanel",
+            "projectName": "MediPro_e3918ee"
+        },
+        {
+            "type": "java",
+            "name": "HelloPanelSimple2d",
+            "request": "launch",
+            "mainClass": "test.HelloPanelSimple2d",
+            "projectName": "MediPro_e3918ee"
+        }
+    ]
+}

@@ -21,7 +21,7 @@ public class CameraController extends GameObjectController {
      * {@inheritDoc}
      */
     @Override
-    public void update(final GameObjectModel model, final float dt) {
+    public void update(final GameObjectModel model, final double dt) {
 
     }
 

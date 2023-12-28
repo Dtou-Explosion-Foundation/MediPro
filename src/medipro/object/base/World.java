@@ -8,6 +8,9 @@ import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
+
 import medipro.config.EngineConfig;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
@@ -17,7 +20,7 @@ import medipro.object.base.gameobject.GameObjectView;
  * ワールドを管理するクラス。 コントローラーとビューを格納し、毎フレームごとに更新と描画を行う。
  * ビューはレイヤーごとに保存され、レイヤー0が最背面に描画される。
  */
-public abstract class World {
+public abstract class World implements GLEventListener {
     /**
      * ロガー.
      */
@@ -120,29 +123,73 @@ public abstract class World {
     public abstract void setupWorld(JPanel panel);
 
     /**
-     * 格納しているコントローラにアップデート通知を送った後、ビューに描画通知を送る。
+     * 格納しているコントローラにアップデート通知を送る。
      * 
-     * @param g  Graphics2D
      * @param dt 前フレームからの経過時間
      */
-    public void updateAndDraw(Graphics2D g, float dt) {
-        for (GameObjectController controller : controllers) {
-            controller.updateModels(dt);
-        }
+    public void update(double deltaTime) {
+        for (GameObjectController controller : controllers)
+            controller.updateModels(deltaTime);
+    }
 
-        AffineTransform transform;
+    public AffineTransform getCameraTransform() {
         if (camera.isPresent()) {
             CameraModel _camera = camera.get();
-            transform = ((CameraModel) _camera).getTransformMatrix();
+            return ((CameraModel) _camera).getTransformMatrix();
         } else {
-            transform = new AffineTransform();
+            AffineTransform transform = new AffineTransform();
             transform.translate(this.panel.getWidth() / 2, this.panel.getHeight() / 2);
+            return transform;
         }
+    }
 
+    /**
+     * 格納しているビューに描画通知を送る。
+     * 
+     * @param g Graphics2D
+     */
+    public void draw(Graphics2D g) {
         for (ArrayList<GameObjectView> views : views) {
             for (GameObjectView view : views) {
-                view.drawModels(g, transform);
+                view.drawModels(g, getCameraTransform());
             }
         }
     }
+
+    @Override
+    public void init(GLAutoDrawable drawable) {
+        for (ArrayList<GameObjectView> views : views) {
+            for (GameObjectView view : views) {
+                view.init(drawable);
+            }
+        }
+    }
+
+    @Override
+    public void dispose(GLAutoDrawable drawable) {
+        for (ArrayList<GameObjectView> views : views) {
+            for (GameObjectView view : views) {
+                view.dispose(drawable);
+            }
+        }
+    }
+
+    @Override
+    public void display(GLAutoDrawable drawable) {
+        for (ArrayList<GameObjectView> views : views) {
+            for (GameObjectView view : views) {
+                view.display(drawable);
+            }
+        }
+    }
+
+    @Override
+    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
+        for (ArrayList<GameObjectView> views : views) {
+            for (GameObjectView view : views) {
+                view.reshape(drawable, x, y, w, h);
+            }
+        }
+    }
+
 }

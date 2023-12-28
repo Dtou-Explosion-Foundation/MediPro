@@ -60,10 +60,9 @@ public class PlayerView extends GameObjectView {
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-image.getWidth(null), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            g.drawImage(op.filter((BufferedImage) image, null), (int) (playerModel.x - SPRITE_WIDTH / 2),
-                    (int) (playerModel.y - SPRITE_HEIGHT), null);
+            g.drawImage(op.filter((BufferedImage) image, null), (int) (-SPRITE_WIDTH / 2), -SPRITE_HEIGHT, null);
         } else {
-            g.drawImage(image, (int) (playerModel.x - SPRITE_WIDTH / 2), (int) (playerModel.y - SPRITE_HEIGHT), null);
+            g.drawImage(image, (int) (-SPRITE_WIDTH / 2), -SPRITE_HEIGHT, null);
         }
     }
 }

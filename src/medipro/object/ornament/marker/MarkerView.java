@@ -19,7 +19,6 @@ public class MarkerView extends GameObjectView {
     @Override
     public void draw(GameObjectModel model, Graphics2D g) {
         MarkerModel markerModel = (MarkerModel) model;
-        g.transform(model.getTransformMatrix());
         g.setColor(markerModel.color);
         // g.fillOval(-markerModel.radius / 2, -markerModel.radius / 2,
         // markerModel.radius,

@@ -24,7 +24,7 @@ public class MarkerController extends GameObjectController {
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(GameObjectModel model, double dt) {
         MarkerModel markerModel = (MarkerModel) model;
         markerModel.rotation += 1f * dt;
         markerModel.scaleX += 1 * dt;

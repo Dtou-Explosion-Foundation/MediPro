@@ -29,7 +29,7 @@ public class SmoothFollowingCameraController extends CameraController {
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(GameObjectModel model, double dt) {
         // TODO:dtを使ってFPSに依存しないようにする
         SmoothFollowingCameraModel _model = (SmoothFollowingCameraModel) model;
         if (_model.target.isPresent()) {

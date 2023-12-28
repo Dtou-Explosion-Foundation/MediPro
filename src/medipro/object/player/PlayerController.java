@@ -77,7 +77,7 @@ public class PlayerController extends GameObjectController implements KeyListene
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(GameObjectModel model, double dt) {
         PlayerModel playerModel = (PlayerModel) model;
         switch (keyStateX) {
         case -1:

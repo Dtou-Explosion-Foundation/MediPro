@@ -13,6 +13,10 @@ public final class InGameConfig {
      */
     public static final int WINDOW_HEIGHT = 768;
     /**
+     * OpenGLを使用するかどうか.
+     */
+    public static final boolean USE_OPENGL = true;
+    /**
      * 一秒あたりのフレーム数.
      */
     public static final int FPS = 30;

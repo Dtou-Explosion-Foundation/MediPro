@@ -38,5 +38,8 @@
 		],
 		"java.format.settings.url": ".vscode/java-formatter.xml",
 		"java.debug.settings.vmArgs": "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
+		"clang-format.executable": "C:\\Program Files\\LLVM\\bin\\clang-format.exe",
+		"clang-format.language.glsl.style": "{BasedOnStyle: llvm, IndentWidth: 4}",
+		"java.debug.settings.onBuildFailureProceed": true,
 	}
 }
