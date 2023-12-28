@@ -46,6 +46,8 @@ public class GameFrame extends JFrame {
         this.add(panel);
         this.pack();
 
+        this.setLocationRelativeTo(null);
+
         logger.log(Level.FINE, "frame size: " + this.getSize());
         logger.log(Level.FINE, "panel size: " + panel.getSize());
 
