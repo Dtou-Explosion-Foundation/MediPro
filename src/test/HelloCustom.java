@@ -150,6 +150,7 @@ public class HelloCustom implements GLEventListener {
         gl.glVertexAttribPointer(colAttrib, 3, GL4.GL_FLOAT, false, 0, 0);
 
         int modelMatUniform = gl.glGetUniformLocation(program, "modelMat");
+
         float[] modelMat = { //
                 1f, 0f, 0f, 0.5f, //
                 0f, 1f, 0f, 0.5f, //

@@ -1,7 +1,6 @@
-package medipro.object.base.gameobject;
+package test;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -9,78 +8,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javax.swing.JFrame;
+
 import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLDebugListener;
+import com.jogamp.opengl.GLDebugMessage;
 import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.TextureIO;
 
 import medipro.config.InGameConfig;
 
-/**
- * ゲームオブジェクトのビュークラス。 複数のモデルを保持し、順に描画することができる。
- */
-public abstract class GameObjectView implements GLEventListener {
-    /**
-     * ロガー.
-     */
-    protected final Logger logger = Logger.getLogger(this.getClass().getName());
-
-    /**
-     * 格納しているモデル.
-     */
-    public ArrayList<GameObjectModel> models;
-
-    public boolean drawAsUI = false;
-
-    /**
-     * ゲームオブジェクトビューを生成する。
-     */
-    public GameObjectView() {
-
-        this.models = new ArrayList<GameObjectModel>();
-    }
-
-    /**
-     * ゲームオブジェクトビューを生成する。
-     * 
-     * @param models 格納するモデル
-     */
-    public GameObjectView(GameObjectModel... models) {
-        this();
-        for (GameObjectModel model : models) {
-            this.models.add(model);
-        }
-    }
-
-    /**
-     * 格納しているモデルに対してそれぞれdraw()を呼び出す。
-     * 
-     * @param g               描画対象のGraphics2D
-     * @param cameraTransform カメラ座標へ変換するためのアフィン変換行列
-     */
-    public void drawModels(Graphics2D g, AffineTransform cameraTransform) {
-        for (GameObjectModel model : models) {
-            g.setTransform(cameraTransform);
-            if (!drawAsUI || !InGameConfig.USE_OPENGL)
-                g.transform(model.getTransformMatrix());
-            this.draw(model, g);
-        }
-    }
-
-    /**
-     * モデルを元に描画を行う
-     * 
-     * @param model 描画対象のモデル
-     * @param g     描画対象のGraphics2D
-     */
-    abstract public void draw(GameObjectModel model, Graphics2D g);
+public class HelloCustomTexture implements GLEventListener, GLDebugListener {
+    protected static final Logger logger = Logger.getLogger("medipro");
 
     @Override
     public void display(GLAutoDrawable drawable) {
@@ -117,13 +69,16 @@ public abstract class GameObjectView implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
 
+        drawable.getContext().addGLDebugListener(this);
+        // gl.glDebugMessageControl(GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, 0, null, false);
+        // gl.glDebugMessageControl(GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, GL4.GL_DEBUG_SEVERITY_HIGH, 0, null, true);
+        // gl.glDebugMessageControl(GL4.GL_DONT_CARE, GL4.GL_DONT_CARE, GL4.GL_DEBUG_SEVERITY_MEDIUM, 0, null, true);
+
+        String version = gl.glGetString(GL4.GL_VERSION);
+        logger.info("OpenGLのバージョン: " + version);
+
         shaderProgram = initShaders(drawable);
         gl.glUseProgram(shaderProgram);
-
-        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
-        int uTextureUniform = gl.glGetUniformLocation(shaderProgram, "uTexture");
-        logger.info("modelMatUniform = " + modelMatUniform);
-        logger.info("uTextureUniform = " + uTextureUniform);
 
         initBuffers(drawable, shaderProgram);
         initTextures(drawable);
@@ -135,25 +90,23 @@ public abstract class GameObjectView implements GLEventListener {
     void initTextures(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         try {
-            InputStream texture = new FileInputStream("img\\background\\Brickwall3_Texture.png");
+            InputStream textureStream = new FileInputStream("img\\background\\Brickwall3_Texture.png");
 
-            TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), texture, false, TextureIO.PNG);
+            TextureData textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
 
-            gl.glCreateTextures(GL4.GL_TEXTURE_2D, 1, textureName);
+            gl.glGenTextures(1, textureName);
+            gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
 
-            gl.glTextureParameteri(textureName.get(0), GL4.GL_TEXTURE_BASE_LEVEL, 0);
-            gl.glTextureParameteri(textureName.get(0), GL4.GL_TEXTURE_MAX_LEVEL, 0);
+            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 2);
 
-            gl.glTextureStorage2D(textureName.get(0), 1, // level
-                    textureData.getInternalFormat(), textureData.getWidth(), textureData.getHeight());
+            gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+                    textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+                    textureData.getBuffer());
 
-            gl.glTextureSubImage2D(textureName.get(0), 0, // level
-                    0, 0, // offset
-                    textureData.getWidth(), textureData.getHeight(), textureData.getPixelFormat(),
-                    textureData.getPixelType(), textureData.getBuffer());
+            gl.glGenerateMipmap(GL.GL_TEXTURE_2D);
 
         } catch (IOException ex) {
-            // Logger.getLogger(HelloGlobe.class.getName()).log(Level.SEVERE, null, ex);
             logger.log(Level.SEVERE, null, ex);
         }
     }
@@ -172,7 +125,7 @@ public abstract class GameObjectView implements GLEventListener {
     }
 
     IntBuffer vbo = Buffers.newDirectIntBuffer(2);
-    IntBuffer ubo = Buffers.newDirectIntBuffer(2);
+    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
 
     void initBuffers(GLAutoDrawable drawable, int program) {
 
@@ -180,19 +133,40 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glUseProgram(program);
 
         gl.glGenBuffers(2, vbo);
-        gl.glGenBuffers(2, ubo);
+        gl.glGenBuffers(1, ubo);
 
         float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
         float[] uv = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f };
 
+        float[] projMat = { //
+                1f, 0f, 0f, 0f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
+
+        float[] viewMat = { //
+                1f, 0f, 0f, 0f, //
+                0f, 1f, 0f, 0f, //
+                0f, 0f, 1f, 0f, //
+                0f, 0f, 0f, 1f, //
+        };
+
         FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
         FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(uv);
+
+        FloatBuffer cameraMatBuffer = FloatBuffer.allocate(projMat.length + viewMat.length).put(projMat).put(viewMat)
+                .flip();
 
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * vertices.length, vertexBuffer, GL4.GL_STATIC_DRAW);
 
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * uv.length, uvBuffer, GL4.GL_STATIC_DRAW);
+
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBufferData(GL4.GL_UNIFORM_BUFFER, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer,
+                GL4.GL_STATIC_DRAW);
     }
 
     void bindBuffers(GLAutoDrawable drawable, int program) {
@@ -207,6 +181,12 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
         gl.glEnableVertexAttribArray(uvAttrib);
         gl.glVertexAttribPointer(uvAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
+
+        int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
+        int bindingPoint = 0; // 衝突してはいけない
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
+        gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, ubo.get(0));
     }
 
     private void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
@@ -216,12 +196,12 @@ public abstract class GameObjectView implements GLEventListener {
         if (success[0] == GL4.GL_FALSE) {
             byte[] log = new byte[512];
             gl.glGetShaderInfoLog(shader, 512, null, 0, log, 0);
-            System.out.println("Vertex shader compilation failed: " + new String(log));
+            System.out.println("Shader compilation failed: " + new String(log));
         }
     }
 
     // final String shaderFile = "shader/simple2d/simple2d";
-    final String shaderFile = "shader/gameobject/GameObject";
+    final String shaderFile = "shader/test/GameObject";
 
     int initShaders(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
@@ -265,4 +245,43 @@ public abstract class GameObjectView implements GLEventListener {
 
     }
 
+    public static void main(String[] args) {
+
+        final GLProfile profile = GLProfile.get(GLProfile.GL4);
+
+        GLCapabilities capabilities = new GLCapabilities(profile);
+        GLJPanel gljpanel = new GLJPanel(capabilities);
+
+        HelloCustomTexture hello = new HelloCustomTexture();
+        gljpanel.addGLEventListener(hello);
+        gljpanel.setPreferredSize(new Dimension(640, 480));
+
+        final JFrame frame = new JFrame("Hello, World!");
+        frame.getContentPane().add(gljpanel);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            Boolean isIdle = true;
+
+            @Override
+            public void run() {
+                if (isIdle) {
+                    isIdle = false;
+                    frame.repaint();
+                    isIdle = true;
+                } else {
+                    logger.warning("Game is running slow");
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(task, 0, (long) (1000f / InGameConfig.FPS));
+    }
+
+    @Override
+    public void messageSent(GLDebugMessage arg0) {
+        logger.info(arg0.getDbgMsg());
+    }
 }
