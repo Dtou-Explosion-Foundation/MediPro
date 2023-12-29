@@ -9,7 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import medipro.object.base.World;
-//import medipro.object.background.BackgroundController;
+
+import medipro.object.background.BackgroundController;
 import medipro.object.background.BackgroundModel;
 import medipro.object.background.BackgroundView;
 import medipro.object.base.camera.CameraController;
