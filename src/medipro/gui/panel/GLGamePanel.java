@@ -11,7 +11,7 @@ import com.jogamp.opengl.awt.GLJPanel;
 
 import medipro.config.InGameConfig;
 import medipro.object.base.World;
-import medipro.world.GLWorld;
+import medipro.world.TestWorld;
 
 /**
  * OpenGLで描画されるゲームのパネルを実装するクラス.
@@ -43,7 +43,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         logger.info("Init GLGamePanel");
         this.addGLEventListener(this);
         this.frame = frame;
-        world = new GLWorld(this);
+        world = new TestWorld(this);
     }
 
     @Override
@@ -69,8 +69,13 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void init(GLAutoDrawable drawable) {
         logger.info("GLGamePanel:init");
-        if (InGameConfig.USE_OPENGL)
+
+        if (InGameConfig.USE_OPENGL) {
+            GL4 gl = drawable.getGL().getGL4();
+            gl.glEnable(GL4.GL_BLEND);
+            gl.glBlendFunc(GL4.GL_SRC_ALPHA, GL4.GL_ONE_MINUS_SRC_ALPHA);
             world.init(drawable);
+        }
     }
 
     @Override

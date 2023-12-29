@@ -15,6 +15,7 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.math.Matrix4f;
 import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
@@ -33,8 +34,6 @@ public abstract class GameObjectView implements GLEventListener {
      * 格納しているモデル.
      */
     public GameObjectModel model;
-
-    public boolean drawAsUI = false;
 
     protected static int nextBindingPoint = 0;
 
@@ -55,8 +54,7 @@ public abstract class GameObjectView implements GLEventListener {
      */
     public void draw(Graphics2D g, AffineTransform cameraTransform) {
         g.setTransform(cameraTransform);
-        if (!drawAsUI || !InGameConfig.USE_OPENGL)
-            g.transform(model.getTransformMatrix());
+        g.transform(model.getTransformMatrix());
         this.draw(g);
     }
 
@@ -75,17 +73,22 @@ public abstract class GameObjectView implements GLEventListener {
         this.bindBuffers(drawable, shaderProgram);
 
         int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
-        float[] modelMat = { //
-                1f, 0f, 0f, 0f, //
-                0f, 1f, 0f, 0f, //
-                0f, 0f, 1f, 0f, //
-                0f, 0f, 0f, 1f, //
-        };
-        FloatBuffer modelMatBuffer = FloatBuffer.wrap(modelMat);
+
+        float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().scale : 1f;
+
+        Matrix4f tempMat = new Matrix4f();
+        Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
+                .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
+                .scale(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT, 1, tempMat)// スケーリング
+                .scale(1f / cameraScale, 1f / cameraScale, 1, tempMat)// スケーリング
+        ;
+
+        FloatBuffer modelMatBuffer = modelMat.transpose().get(FloatBuffer.allocate(4 * 4)).flip();
         gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
 
         int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
-        gl.glBindTextureUnit(sample2dLocation, textureName.get(0));
+        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
+        // gl.glBindTextureUnit(sample2dLocation, textureName.get(0));
         gl.glBindSampler(sample2dLocation, samplerName.get(0));
 
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
@@ -132,6 +135,7 @@ public abstract class GameObjectView implements GLEventListener {
                     InGameConfig.WINDOW_HEIGHT / cameraScale / 2);
             g.setTransform(transform);
             draw(g);
+            // draw(g, null);
             g.dispose();
         }
         TextureData textureData = AWTTextureIO.newTextureData(gl.getGLProfile(), bufferedImage, false);
@@ -172,7 +176,7 @@ public abstract class GameObjectView implements GLEventListener {
 
         gl.glGenBuffers(2, vbo);
 
-        float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
+        float[] vertices = { -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
         float[] uv = { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f };
 
         FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);

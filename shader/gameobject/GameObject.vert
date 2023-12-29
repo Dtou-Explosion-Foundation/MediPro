@@ -14,6 +14,7 @@ uniform mat4 modelMat;
 out vec2 vTexcoord;
 
 void main() {
+    // vTexcoord = (projMat * (viewMat * (modelMat * vec4(aTexcoord, 1.0, 1.0)))).xy;
     vTexcoord = aTexcoord;
     gl_Position = projMat * (viewMat * (modelMat * vec4(aPosition, 1.0, 1.0)));
 }

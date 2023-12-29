@@ -52,7 +52,7 @@ public class HelloGraphics2D implements GLEventListener, GLDebugListener {
         gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
 
         int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
-        gl.glBindTextureUnit(sample2dLocation, textureName.get(0));
+        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
         gl.glBindSampler(sample2dLocation, samplerName.get(0));
 
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
@@ -252,7 +252,35 @@ public class HelloGraphics2D implements GLEventListener, GLDebugListener {
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
+        GL4 gl = drawable.getGL().getGL4();
+        gl.glViewport(0, 0, w, h);
+        // initTextures(drawable);
+        {
+            // TextureData textureData = AWTTextureIO.newTextureData(gl.getGLProfile(), drawSomething(), false);
 
+            // gl.glGenTextures(1, textureName);
+            // gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
+
+            // gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+            // gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 2);
+
+            // gl.glTexImage2D(GL.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+            //         textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+            //         textureData.getBuffer());
+
+            // gl.glGenerateMipmap(GL.GL_TEXTURE_2D);
+        }
+
+        // initSamplers(drawable);
+        {
+            // gl.glGenSamplers(1, samplerName);
+
+            // gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_NEAREST);
+            // gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_NEAREST);
+
+            // gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE);
+            // gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE);
+        }
     }
 
     public static void main(String[] args) {
