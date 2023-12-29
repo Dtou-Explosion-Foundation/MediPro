@@ -1,8 +1,5 @@
 package medipro.titlemenu;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -10,7 +7,6 @@ import medipro.gui.panel.GamePanel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.world.TestWorld;
-import medipro.world.World;
 
 public class TitleMenuController extends GameObjectController implements KeyListener {
 

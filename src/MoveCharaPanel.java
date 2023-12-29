@@ -37,7 +37,12 @@ public class MoveCharaPanel extends JPanel {
 
     }
 
+    
+    /** 
+     * @param g
+     */
     // 描画
+    @Override
     public void paintComponent(Graphics g) {
         // 背景
         g.drawImage(back, offset, 0, 1024, 768, null);
@@ -48,6 +53,7 @@ public class MoveCharaPanel extends JPanel {
 
     // スレッド(アニメージョン)
     class AnimeThread extends Thread {
+        @Override
         public void run() {
             // 右に歩く
             while (mode == 1) {
@@ -88,6 +94,7 @@ public class MoveCharaPanel extends JPanel {
 
     // キー
     class MoveByKeyPanel extends JPanel implements KeyListener {
+        @Override
         public void keyPressed(KeyEvent e) {
             int k = e.getKeyCode();
             switch (k) {
@@ -105,9 +112,11 @@ public class MoveCharaPanel extends JPanel {
             repaint();
         }
 
+        @Override
         public void keyTyped(KeyEvent e) {
         }
 
+        @Override
         public void keyReleased(KeyEvent e) {
             mode = 0;
         }

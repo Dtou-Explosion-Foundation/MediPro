@@ -1,10 +1,14 @@
 package medipro.world;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import medipro.object.base.World;
 //import medipro.object.background.BackgroundController;
 import medipro.object.background.BackgroundModel;
 import medipro.object.background.BackgroundView;
@@ -13,6 +17,9 @@ import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.camera.SmoothFollowingCameraController;
 import medipro.object.camera.SmoothFollowingCameraModel;
+import medipro.object.example.grid.ExampleGridController;
+import medipro.object.example.grid.ExampleGridModel;
+import medipro.object.example.grid.ExampleGridView;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
@@ -20,12 +27,24 @@ import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 import medipro.object.player.PlayerView;
 
+/**
+ * テスト用のワールド
+ */
 public class TestWorld extends World {
 
+    /**
+     * テスト用のワールドを生成する.
+     * 
+     * @param panel ワールドが配置されているパネル
+     */
     public TestWorld(JPanel panel) {
         super(panel);
+        logger.info("TestWorld created");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setupWorld(JPanel panel) {
         GameObjectModel cameraTarget;
@@ -73,6 +92,25 @@ public class TestWorld extends World {
                 view.models.add(model);
                 controller.models.add(model);
             }
+        }
+        {
+            ExampleGridModel model = null;
+            try {
+                model = new ExampleGridModel(this, ImageIO.read(new File("img/background/Brickwall3_Texture.png")));
+            } catch (IOException e) {
+                logger.warning(e.toString());
+            }
+            ExampleGridView view = new ExampleGridView();
+            ExampleGridController controller = new ExampleGridController();
+            model.x = 58;
+            model.y = -100;
+            model.scaleX = 0.1;
+            model.scaleY = 0.1;
+            if (model != null)
+                view.models.add(model);
+            controller.models.add(model);
+            this.addViewAndController(view, controller, 0);
+
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);

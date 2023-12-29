@@ -2,6 +2,7 @@ package medipro.world;
 
 import javax.swing.JPanel;
 
+import medipro.object.base.World;
 import medipro.titlemenu.TitleMenuModel;
 import medipro.titlemenu.TitleMenuView;
 import medipro.titlemenu.TitleMenuController;

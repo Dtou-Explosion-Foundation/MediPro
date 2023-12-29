@@ -1,6 +1,6 @@
 package medipro.titlemenu;
 
-import medipro.world.World;
+import medipro.object.base.World;
 
 import medipro.object.base.gameobject.GameObjectModel;
 
