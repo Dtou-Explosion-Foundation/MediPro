@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import medipro.object.base.World;
+
 import medipro.object.background.BackgroundController;
 import medipro.object.background.BackgroundModel;
 import medipro.object.background.BackgroundView;
@@ -59,6 +60,7 @@ public class TestWorld extends World {
             cameraTarget = model;
             PlayerView view = new PlayerView(model);
             PlayerController controller = new PlayerController(model);
+            if (panel == null) logger.warning("Panel is null");
             panel.addKeyListener(controller);
             this.addViewAndController(view, controller, 10);
         }

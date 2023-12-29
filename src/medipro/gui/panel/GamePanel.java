@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import medipro.object.base.World;
 import medipro.world.TestWorld;
 
+import medipro.world.TitleMenuWorld;
+import medipro.object.base.World;
+
 /**
  * ゲームのパネルを実装するクラス.
  */
@@ -52,7 +55,12 @@ public class GamePanel extends JPanel {
         super();
         logger.info("Init GamePanel");
         this.frame = frame;
-        world = new TestWorld(this);
+        // world = new TestWorld(this);
+        world = new TitleMenuWorld(this);
+    }
+
+    public void setWorld(World world){
+        this.world = world;
     }
 
     /**

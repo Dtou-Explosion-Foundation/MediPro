@@ -145,4 +145,8 @@ public abstract class World {
             }
         }
     }
+
+    public JPanel getPanel(){
+        return panel;
+    }
 }
