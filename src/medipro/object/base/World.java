@@ -124,7 +124,7 @@ public abstract class World implements GLEventListener {
     /**
      * 格納しているコントローラにアップデート通知を送る。
      * 
-     * @param dt 前フレームからの経過時間
+     * @param deltaTime 前フレームからの経過時間
      */
     public void update(double deltaTime) {
         for (GameObjectController controller : controllers)

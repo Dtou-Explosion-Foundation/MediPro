@@ -26,8 +26,7 @@ public abstract class GridObjectView extends GameObjectView {
     /**
      * 描画範囲内のグリッドを計算し、drawGridを呼び出す.
      * 
-     * @param model 描画対象のモデル
-     * @param g     描画対象のGraphics2D
+     * @param g 描画対象のGraphics2D
      */
     @Override
     public void draw(Graphics2D g) {

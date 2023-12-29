@@ -16,8 +16,7 @@ public class MarkerView extends GameObjectView {
     /**
      * モデルを元に描画を行う. テスト用の図形を描画する.
      * 
-     * @param model 描画対象のモデル
-     * @param g     描画対象のGraphics2D
+     * @param g 描画対象のGraphics2D
      */
     @Override
     public void draw(Graphics2D g) {
