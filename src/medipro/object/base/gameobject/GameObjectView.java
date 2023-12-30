@@ -15,6 +15,7 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.math.Matrix4f;
 import com.jogamp.opengl.util.texture.TextureData;
 import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
@@ -65,17 +66,27 @@ public abstract class GameObjectView implements GLEventListener {
     protected abstract void draw(Graphics2D g);
 
     protected int shaderProgram = -1;
-    protected IntBuffer textureName = Buffers.newDirectIntBuffer(1);
-    protected IntBuffer samplerName = Buffers.newDirectIntBuffer(1);
-    protected IntBuffer vbo = Buffers.newDirectIntBuffer(2);
+    protected IntBuffer textureName;
+    protected IntBuffer samplerName;
+    protected IntBuffer vbo;
 
     protected String getShaderPath(String ext) {
         return "shader/G2dWrapper/G2dWrapper" + "." + ext;
     }
 
+    protected float getSpriteWidth() {
+        return InGameConfig.WINDOW_WIDTH;
+    }
+
+    protected float getSpriteHeight() {
+        return InGameConfig.WINDOW_HEIGHT;
+    }
+
     @Override
     public void init(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
+
+        initNames();
 
         shaderProgram = initShaders(drawable);
         gl.glUseProgram(shaderProgram);
@@ -83,6 +94,12 @@ public abstract class GameObjectView implements GLEventListener {
         initBuffers(drawable, shaderProgram);
         initTextures(drawable);
         initSamplers(drawable);
+    }
+
+    protected void initNames() {
+        textureName = Buffers.newDirectIntBuffer(1);
+        samplerName = Buffers.newDirectIntBuffer(1);
+        vbo = Buffers.newDirectIntBuffer(2);
     }
 
     protected void initTextures(GLAutoDrawable drawable) {
@@ -205,22 +222,28 @@ public abstract class GameObjectView implements GLEventListener {
     protected void bindBuffers(GLAutoDrawable drawable, int program) {
         GL4 gl = drawable.getGL().getGL4();
 
-        int vertexAttrib = gl.glGetAttribLocation(program, "aPosition");
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
-        gl.glEnableVertexAttribArray(vertexAttrib);
-        gl.glVertexAttribPointer(vertexAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
+        int vertexLocation = gl.glGetAttribLocation(program, "aPosition");
+        if (vertexLocation != -1) {
+            gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
+            gl.glEnableVertexAttribArray(vertexLocation);
+            gl.glVertexAttribPointer(vertexLocation, 2, GL4.GL_FLOAT, false, 0, 0);
+        }
 
-        int uvAttrib = gl.glGetAttribLocation(program, "aTexcoord");
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
-        gl.glEnableVertexAttribArray(uvAttrib);
-        gl.glVertexAttribPointer(uvAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
+        int uvLocation = gl.glGetAttribLocation(program, "aTexcoord");
+        if (uvLocation != -1) {
+            gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
+            gl.glEnableVertexAttribArray(uvLocation);
+            gl.glVertexAttribPointer(uvLocation, 2, GL4.GL_FLOAT, false, 0, 0);
+        }
 
-        // int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
-        // int bindingPoint = nextBindingPoint++; // 衝突してはいけない
-        // int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
-        // gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
-        // gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
-        // gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, cameraUbo);
+        int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
+        if (cameraTransformLocation != -1) {
+            int bindingPoint = nextBindingPoint++; // 衝突してはいけない
+            int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
+            gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
+            gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
+            gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, cameraUbo);
+        }
     }
 
     protected void updateTextures(GLAutoDrawable drawable) {
@@ -245,8 +268,19 @@ public abstract class GameObjectView implements GLEventListener {
 
     protected void updateUniforms(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
-        {
-            int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
+        if (modelMatUniform != -1) {
+
+            Matrix4f tempMat = new Matrix4f();
+            Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
+                    .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
+                    .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// スケーリング
+            ;
+            FloatBuffer modelMatBuffer = modelMat.transpose().get(FloatBuffer.allocate(4 * 4)).flip();
+            gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
+        }
+        int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        if (sample2dLocation != -1) {
             gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
             gl.glBindSampler(sample2dLocation, samplerName.get(0));
         }

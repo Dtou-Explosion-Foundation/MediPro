@@ -10,7 +10,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
 
@@ -32,15 +31,6 @@ public class PlayerView extends GameObjectView {
      * アニメーション用のスプライトの配列.
      */
     private Image sprites[];
-
-    /**
-     * スプライトの幅
-     */
-    final int SPRITE_WIDTH = 64;
-    /**
-     * スプライトの高さ
-     */
-    final int SPRITE_HEIGHT = 64;
 
     /**
      * プレイヤービューを生成する.
@@ -73,16 +63,12 @@ public class PlayerView extends GameObjectView {
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-image.getWidth(null), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            g.drawImage(op.filter((BufferedImage) image, null), (int) (-SPRITE_WIDTH / 2), -SPRITE_HEIGHT, null);
+            g.drawImage(op.filter((BufferedImage) image, null), (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(),
+                    null);
         } else {
-            g.drawImage(image, (int) (-SPRITE_WIDTH / 2), -SPRITE_HEIGHT, null);
+            g.drawImage(image, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
         }
     }
-
-    protected int shaderProgram = -1;
-    protected IntBuffer textureName = Buffers.newDirectIntBuffer(3);
-    protected IntBuffer samplerName = Buffers.newDirectIntBuffer(1);
-    protected IntBuffer vbo = Buffers.newDirectIntBuffer(2);
 
     @Override
     protected String getShaderPath(String ext) {
@@ -91,15 +77,19 @@ public class PlayerView extends GameObjectView {
     }
 
     @Override
-    public void init(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
+    protected float getSpriteWidth() {
+        return 64;
+    }
 
-        shaderProgram = initShaders(drawable);
-        gl.glUseProgram(shaderProgram);
+    @Override
+    protected float getSpriteHeight() {
+        return 64;
+    }
 
-        initBuffers(drawable, shaderProgram);
-        initTextures(drawable);
-        initSamplers(drawable);
+    @Override
+    protected void initNames() {
+        super.initNames();
+        textureName = Buffers.newDirectIntBuffer(3);
     }
 
     @Override
@@ -130,91 +120,27 @@ public class PlayerView extends GameObjectView {
     }
 
     @Override
-    protected void initSamplers(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        samplerName.clear();
-        gl.glGenSamplers(1, samplerName);
-
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_NEAREST);
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_NEAREST);
-
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_WRAP_S, GL4.GL_CLAMP_TO_EDGE);
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_WRAP_T, GL4.GL_CLAMP_TO_EDGE);
-    }
-
-    @Override
-    protected void initBuffers(GLAutoDrawable drawable, int program) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glUseProgram(program);
-        vbo.clear();
-
-        gl.glGenBuffers(2, vbo);
-
-        float[] vertices = { -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
-        float[] uv = { 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f };
-
-        FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
-        FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(uv);
-
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
-        gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * vertices.length, vertexBuffer, GL4.GL_STATIC_DRAW);
-
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
-        gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * uv.length, uvBuffer, GL4.GL_STATIC_DRAW);
-    }
-
-    @Override
-    public void display(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glUseProgram(shaderProgram);
-
-        this.bindBuffers(drawable, shaderProgram);
-
-        updateUniforms(drawable);
-
-        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
-    }
-
-    @Override
-    protected void bindBuffers(GLAutoDrawable drawable, int program) {
-        GL4 gl = drawable.getGL().getGL4();
-
-        int vertexAttrib = gl.glGetAttribLocation(program, "aPosition");
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(0));
-        gl.glEnableVertexAttribArray(vertexAttrib);
-        gl.glVertexAttribPointer(vertexAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
-
-        int uvAttrib = gl.glGetAttribLocation(program, "aTexcoord");
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vbo.get(1));
-        gl.glEnableVertexAttribArray(uvAttrib);
-        gl.glVertexAttribPointer(uvAttrib, 2, GL4.GL_FLOAT, false, 0, 0);
-
-        int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
-        int bindingPoint = nextBindingPoint++; // 衝突してはいけない
-        int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
-        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
-        gl.glUniformBlockBinding(program, cameraTransformLocation, bindingPoint);
-        gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, cameraUbo);
+    protected void updateTextures(GLAutoDrawable drawable) {
     }
 
     @Override
     protected void updateUniforms(GLAutoDrawable drawable) {
         PlayerModel playerModel = (PlayerModel) model;
         GL4 gl = drawable.getGL().getGL4();
-        {
-            int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
+        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
+        if (modelMatUniform != -1) {
 
             Matrix4f tempMat = new Matrix4f();
             Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
                     .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
-                    .scale(SPRITE_WIDTH, SPRITE_HEIGHT, 1, tempMat)// スケーリング
+                    .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// スケーリング
                     .scale(playerModel.direction, 1, 1, tempMat)// 左右反転
             ;
             FloatBuffer modelMatBuffer = modelMat.transpose().get(FloatBuffer.allocate(4 * 4)).flip();
             gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
         }
-        {
-            int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        if (sample2dLocation != -1) {
             gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(playerModel.animations[playerModel.animationIndex]));
             gl.glBindSampler(sample2dLocation, samplerName.get(0));
         }
