@@ -82,6 +82,10 @@ public abstract class GameObjectView implements GLEventListener {
         return InGameConfig.WINDOW_HEIGHT;
     }
 
+    protected boolean needUpdateTexture() {
+        return true;
+    }
+
     @Override
     public void init(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
@@ -213,7 +217,8 @@ public abstract class GameObjectView implements GLEventListener {
 
         this.bindBuffers(drawable, shaderProgram);
 
-        this.updateTextures(drawable);
+        if (this.needUpdateTexture())
+            this.updateTextures(drawable);
         this.updateUniforms(drawable);
 
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);

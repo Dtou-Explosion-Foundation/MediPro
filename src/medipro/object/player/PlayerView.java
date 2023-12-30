@@ -87,6 +87,11 @@ public class PlayerView extends GameObjectView {
     }
 
     @Override
+    protected boolean needUpdateTexture() {
+        return false;
+    }
+
+    @Override
     protected void initNames() {
         super.initNames();
         textureName = Buffers.newDirectIntBuffer(3);
@@ -117,10 +122,6 @@ public class PlayerView extends GameObjectView {
                     textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
                     textureData.getBuffer());
         }
-    }
-
-    @Override
-    protected void updateTextures(GLAutoDrawable drawable) {
     }
 
     @Override
