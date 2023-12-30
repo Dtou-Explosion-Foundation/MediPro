@@ -52,7 +52,7 @@ public class GLWorld extends World {
         }
         {
             CameraModel model = new CameraModel(this);
-            model.scale = 1;
+            model.setScale(1);
             model.x = 0;
             CameraView view = new CameraView(model);
             CameraController controller = new CameraController(model);

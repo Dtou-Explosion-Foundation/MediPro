@@ -12,4 +12,6 @@ public class EngineConfig {
      * デフォルトのレイヤー.
      */
     public static final byte DEFAULT_LAYER = 63;
+
+    public static final int DEFAULT_MONITOR = 1;
 }

@@ -2,14 +2,13 @@ package medipro.gui.panel;
 
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
-
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLJPanel;
 
 import medipro.config.InGameConfig;
+import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
 import medipro.world.TestWorld;
 
@@ -31,19 +30,24 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     /**
      * パネルの親ウインドウ.
      */
-    public JFrame frame;
+    public GameFrame frame;
 
     /**
      * ゲームのパネルを生成する.
      * 
      * @param frame パネルが配置されたゲームのウインドウ
      */
-    public GLGamePanel(JFrame frame) {
+    public GLGamePanel(GameFrame frame) {
         super();
         logger.info("Init GLGamePanel");
         this.addGLEventListener(this);
         this.frame = frame;
         world = new TestWorld(this);
+    }
+
+    @Override
+    public GameFrame getFrame() {
+        return frame;
     }
 
     @Override
@@ -83,4 +87,5 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         if (InGameConfig.USE_OPENGL)
             world.reshape(drawable, x, y, w, h);
     }
+
 }

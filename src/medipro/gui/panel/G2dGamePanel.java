@@ -5,10 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import medipro.config.InGameConfig;
+import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
 import medipro.world.TestWorld;
 
@@ -30,14 +30,14 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
     /**
      * パネルの親ウインドウ.
      */
-    public JFrame frame;
+    public GameFrame frame;
 
     /**
      * ゲームのパネルを生成する.
      * 
      * @param frame パネルが配置されたゲームのウインドウ
      */
-    public G2dGamePanel(JFrame frame) {
+    public G2dGamePanel(GameFrame frame) {
         super();
         logger.info("Init GamePanel");
         this.frame = frame;
@@ -47,6 +47,11 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
     @Override
     public void update(double deltaTime) {
         world.update(deltaTime);
+    }
+
+    @Override
+    public GameFrame getFrame() {
+        return frame;
     }
 
     /**
