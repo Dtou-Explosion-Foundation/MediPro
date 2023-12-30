@@ -125,21 +125,32 @@ public class PlayerView extends GameObjectView {
     }
 
     @Override
+    protected Matrix4f getModelMatrix() {
+        PlayerModel playerModel = (PlayerModel) model;
+        Matrix4f tempMat = new Matrix4f();
+        Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
+                .translate(0, -getSpriteHeight() / 2, 0, tempMat) // 足
+                .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
+                .scale(playerModel.direction, 1, 1, tempMat)// 左右反転
+                .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
+                .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
+                .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
+        ;
+        return modelMat;
+    }
+
+    @Override
     protected void updateUniforms(GLAutoDrawable drawable) {
         PlayerModel playerModel = (PlayerModel) model;
         GL4 gl = drawable.getGL().getGL4();
+
         int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
         if (modelMatUniform != -1) {
 
-            Matrix4f tempMat = new Matrix4f();
-            Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
-                    .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
-                    .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// スケーリング
-                    .scale(playerModel.direction, 1, 1, tempMat)// 左右反転
-            ;
-            FloatBuffer modelMatBuffer = modelMat.transpose().get(FloatBuffer.allocate(4 * 4)).flip();
+            FloatBuffer modelMatBuffer = this.getModelMatrix().transpose().get(FloatBuffer.allocate(4 * 4)).flip();
             gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
         }
+
         int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
         if (sample2dLocation != -1) {
             gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(playerModel.animations[playerModel.animationIndex]));

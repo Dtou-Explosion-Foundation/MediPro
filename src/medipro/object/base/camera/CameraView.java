@@ -42,18 +42,9 @@ public class CameraView extends GameObjectView {
         gl.glGenBuffers(1, ubo);
 
         Matrix4f tempMat = new Matrix4f();
-        Matrix4f projMat = new Matrix4f().transpose();
-        // Matrix4f viewMat = new Matrix4f().translate((float) cameraModel.x, (float) cameraModel.y, 0, tempMat);
-        logger.info("cameraModel.scale: " + cameraModel.scale);
-        Matrix4f viewMat = new Matrix4f() // カメラ中心の座標に変換
-                .scale((float) cameraModel.scale, (float) cameraModel.scale, 1, tempMat) // スケーリング
-                .scale(1f / InGameConfig.WINDOW_WIDTH, 1f / InGameConfig.WINDOW_HEIGHT, 1, tempMat) // ウインドウサイズに変換
-                .scale(1, -1, 1, tempMat) // 上下反転
-                .translate((float) -cameraModel.x, (float) cameraModel.y, 0, tempMat);
-
         FloatBuffer cameraMatBuffer = FloatBuffer.allocate(4 * 4 * 2)
-                .put(projMat.get(FloatBuffer.allocate(4 * 4)).flip())
-                .put(viewMat.get(FloatBuffer.allocate(4 * 4)).flip()).flip();
+                .put(tempMat.get(FloatBuffer.allocate(4 * 4)).flip())
+                .put(tempMat.get(FloatBuffer.allocate(4 * 4)).flip()).flip();
 
         gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
         gl.glBufferData(GL4.GL_UNIFORM_BUFFER, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer,
@@ -69,8 +60,9 @@ public class CameraView extends GameObjectView {
         Matrix4f tempMat = new Matrix4f();
         Matrix4f projMat = new Matrix4f().transpose();
         Matrix4f viewMat = new Matrix4f() // カメラ中心の座標に変換
-                .scale((float) cameraModel.scale, (float) cameraModel.scale, 1, tempMat) // スケーリング
-                .scale(1f / InGameConfig.WINDOW_WIDTH, 1f / InGameConfig.WINDOW_HEIGHT, 1, tempMat) // ウインドウサイズに変換
+                .scale((float) cameraModel.getScale(), (float) cameraModel.getScale(), 1, tempMat) // スケーリング
+                .scale((float) (2.0 / InGameConfig.WINDOW_WIDTH), (float) (2.0 / InGameConfig.WINDOW_HEIGHT), 1,
+                        tempMat) // -1~1をウインドウサイズに変換
                 .scale(1, -1, 1, tempMat) // 上下反転
                 .translate((float) -cameraModel.x, (float) cameraModel.y, 0, tempMat);
 

@@ -75,11 +75,13 @@ public abstract class GameObjectView implements GLEventListener {
     }
 
     protected float getSpriteWidth() {
-        return InGameConfig.WINDOW_WIDTH;
+        float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().getScale() : 1f;
+        return InGameConfig.WINDOW_WIDTH * cameraScale;
     }
 
     protected float getSpriteHeight() {
-        return InGameConfig.WINDOW_HEIGHT;
+        float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().getScale() : 1f;
+        return InGameConfig.WINDOW_HEIGHT * cameraScale;
     }
 
     protected boolean needUpdateTexture() {
@@ -149,7 +151,9 @@ public abstract class GameObjectView implements GLEventListener {
 
         gl.glGenBuffers(2, vbo);
 
-        float[] vertices = { -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
+        // float[] vertices = { -1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
+        float[] vertices = { -0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f };
+
         float[] uv = { 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f };
 
         FloatBuffer vertexBuffer = Buffers.newDirectFloatBuffer(vertices);
@@ -188,7 +192,6 @@ public abstract class GameObjectView implements GLEventListener {
         }
 
         gl.glLinkProgram(program);
-        // プログラムのリンク時のエラーを確認
         int[] success = new int[1];
         gl.glGetProgramiv(program, GL4.GL_LINK_STATUS, success, 0);
         if (success[0] == GL4.GL_FALSE) {
@@ -243,6 +246,7 @@ public abstract class GameObjectView implements GLEventListener {
 
         int cameraTransformLocation = gl.glGetUniformBlockIndex(program, "CameraTransform");
         if (cameraTransformLocation != -1) {
+            // TODO: bindingPointはinitBuffersで決めるべき?
             int bindingPoint = nextBindingPoint++; // 衝突してはいけない
             int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
             gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
@@ -271,17 +275,22 @@ public abstract class GameObjectView implements GLEventListener {
                 textureData.getPixelFormat(), textureData.getPixelType(), textureData.getBuffer());
     }
 
+    protected Matrix4f getModelMatrix() {
+        Matrix4f tempMat = new Matrix4f();
+        Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
+                .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
+                .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
+                .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
+                .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
+        ;
+        return modelMat;
+    }
+
     protected void updateUniforms(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
         if (modelMatUniform != -1) {
-
-            Matrix4f tempMat = new Matrix4f();
-            Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
-                    .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
-                    .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// スケーリング
-            ;
-            FloatBuffer modelMatBuffer = modelMat.transpose().get(FloatBuffer.allocate(4 * 4)).flip();
+            FloatBuffer modelMatBuffer = this.getModelMatrix().transpose().get(FloatBuffer.allocate(4 * 4)).flip();
             gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
         }
         int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");

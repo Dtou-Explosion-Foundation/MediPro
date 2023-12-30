@@ -46,6 +46,16 @@ public class PlayerController extends GameObjectController implements KeyListene
             }
             keyStateX = 1;
             break;
+        case KeyEvent.VK_UP:
+        case KeyEvent.VK_W:
+            for (GameObjectModel model : models)
+                ((PlayerModel) model).y -= 10;
+            break;
+        case KeyEvent.VK_DOWN:
+        case KeyEvent.VK_S:
+            for (GameObjectModel model : models)
+                ((PlayerModel) model).y += 10;
+            break;
         }
     }
 
@@ -69,9 +79,7 @@ public class PlayerController extends GameObjectController implements KeyListene
     }
 
     /**
-     * モデルを次フレームの状態に更新する. keyStateXに応じてmoveLeft()またはmoveRight()を呼び出す.
-     * keyPressed()で既に呼び出されている場合も、再度呼び出されるので注意. その後、{@code updateMovement},
-     * {@code updateAnimation}の順に{@code PlayerModel}を更新する.
+     * モデルを次フレームの状態に更新する. keyStateXに応じてmoveLeft()またはmoveRight()を呼び出す. keyPressed()で既に呼び出されている場合も、再度呼び出されるので注意. その後、{@code updateMovement}, {@code updateAnimation}の順に{@code PlayerModel}を更新する.
      * 
      * @param model 更新対象のモデル
      * @param dt    前フレームからの経過時間

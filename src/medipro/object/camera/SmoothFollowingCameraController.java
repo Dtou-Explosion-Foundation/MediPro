@@ -22,8 +22,7 @@ public class SmoothFollowingCameraController extends CameraController {
     }
 
     /**
-     * モデルを次フレームの状態に更新する. カメラをターゲットの位置に近づけるようにカメラの位置を更新する.
-     * カメラ座標に変換した上で比較するので、ズームや回転に対応している.
+     * モデルを次フレームの状態に更新する. カメラをターゲットの位置に近づけるようにカメラの位置を更新する. カメラ座標に変換した上で比較するので、ズームや回転に対応している.
      * 
      * @param model 更新対象のモデル
      * @param dt    前フレームからの経過時間
@@ -31,6 +30,7 @@ public class SmoothFollowingCameraController extends CameraController {
     @Override
     public void update(GameObjectModel model, double dt) {
         // TODO:dtを使ってFPSに依存しないようにする
+        // TODO:逆行列を使わないようにする
         SmoothFollowingCameraModel _model = (SmoothFollowingCameraModel) model;
         if (_model.target.isPresent()) {
             GameObjectModel _target = _model.target.get();

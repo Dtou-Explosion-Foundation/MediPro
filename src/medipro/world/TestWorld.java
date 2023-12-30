@@ -94,8 +94,8 @@ public class TestWorld extends World {
             }
             ExampleGridView view = new ExampleGridView(model);
             ExampleGridController controller = new ExampleGridController();
-            model.x = 58;
-            model.y = -100;
+            // model.x = 58;
+            // model.y = -100;
             model.scaleX = 0.1;
             model.scaleY = 0.1;
             // if (model != null)
@@ -106,10 +106,11 @@ public class TestWorld extends World {
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
-            model.scale = 2;
-            model.originY = (int) (10 / model.scale);
+            model.setScale(1);
+            model.originY = (int) (10 / model.getScale());
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
+            // CameraController controller = new FollowingCameraController(model);
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
         }

@@ -12,6 +12,7 @@ import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 
 import medipro.config.EngineConfig;
+import medipro.config.InGameConfig;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectView;
@@ -137,7 +138,7 @@ public abstract class World implements GLEventListener {
             return ((CameraModel) _camera).getTransformMatrix();
         } else {
             AffineTransform transform = new AffineTransform();
-            transform.translate(this.panel.getWidth() / 2, this.panel.getHeight() / 2);
+            transform.translate(InGameConfig.WINDOW_WIDTH / 2, InGameConfig.WINDOW_HEIGHT / 2);
             return transform;
         }
     }
