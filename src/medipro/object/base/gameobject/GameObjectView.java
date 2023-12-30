@@ -86,14 +86,14 @@ public abstract class GameObjectView implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
 
-        initNames();
+        this.initNames();
 
-        shaderProgram = initShaders(drawable);
+        shaderProgram = this.initShaders(drawable);
         gl.glUseProgram(shaderProgram);
 
-        initBuffers(drawable, shaderProgram);
-        initTextures(drawable);
-        initSamplers(drawable);
+        this.initBuffers(drawable, shaderProgram);
+        this.initTextures(drawable);
+        this.initSamplers(drawable);
     }
 
     protected void initNames() {
@@ -195,7 +195,7 @@ public abstract class GameObjectView implements GLEventListener {
         return program;
     }
 
-    protected void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
+    private void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
         GL4 gl = drawable.getGL().getGL4();
         int[] success = new int[1];
         gl.glGetShaderiv(shader, GL4.GL_COMPILE_STATUS, success, 0);
@@ -213,8 +213,8 @@ public abstract class GameObjectView implements GLEventListener {
 
         this.bindBuffers(drawable, shaderProgram);
 
-        updateTextures(drawable);
-        updateUniforms(drawable);
+        this.updateTextures(drawable);
+        this.updateUniforms(drawable);
 
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
     }
