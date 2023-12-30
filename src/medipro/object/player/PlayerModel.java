@@ -121,9 +121,6 @@ public class PlayerModel extends GameObjectModel {
             animationIndex = spritesIdleIndex;
         }
 
-        // update position
-        x += speedX * dt;
-
         // apply resistance
         if (speedX > 0) {
             speedX -= resitX * dt;
@@ -140,5 +137,8 @@ public class PlayerModel extends GameObjectModel {
             speedX = speedLimitX;
         else if (speedX < -speedLimitX)
             speedX = -speedLimitX;
+
+        // update position
+        x += speedX * dt;
     }
 }
