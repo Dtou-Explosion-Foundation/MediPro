@@ -4,6 +4,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
+import medipro.config.InGameConfig;
+import medipro.gui.panel.IGamePanel;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
@@ -23,7 +25,23 @@ public class CameraModel extends GameObjectModel {
     /**
      * カメラのズーム倍率.
      */
-    public double scale = 1;
+    private double scale = 1;
+
+    public double getScale() {
+        if (InGameConfig.USE_OPENGL)
+            return scale;
+        else {
+            if (this.world.panel instanceof IGamePanel)
+                return scale * ((IGamePanel) this.world.panel).getFrame().getScreenScaleFactor();
+            else
+                return scale;
+        }
+        // return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
+    }
 
     private int ubo = -1;
 
@@ -34,9 +52,13 @@ public class CameraModel extends GameObjectModel {
      */
     @Override
     public AffineTransform getTransformMatrix() {
+        double screenScaleFactor = ((IGamePanel) this.world.panel).getFrame().getScreenScaleFactor();
         AffineTransform transform = new AffineTransform();
-        transform.translate(this.world.panel.getWidth() / 2, this.world.panel.getHeight() / 2);
-        transform.scale(scale, scale);
+        // transform.translate(this.world.panel.getWidth() / 2, this.world.panel.getHeight() / 2);
+        // transform.translate(InGameConfig.WINDOW_WIDTH / 2, InGameConfig.WINDOW_HEIGHT / 2);
+        transform.translate(InGameConfig.WINDOW_WIDTH / 2 * screenScaleFactor,
+                InGameConfig.WINDOW_HEIGHT / 2 * screenScaleFactor);
+        transform.scale(getScale(), getScale());
         transform.translate(-x, y);
         return transform;
     }
