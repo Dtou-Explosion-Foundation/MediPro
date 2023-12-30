@@ -44,7 +44,7 @@ public class TestWorld extends World {
      */
     @Override
     public void setupWorld(JPanel panel) {
-        GameObjectModel cameraTarget;
+        GameObjectModel cameraTarget = null;
         {
             PlayerModel model = new PlayerModel(this);
             cameraTarget = model;

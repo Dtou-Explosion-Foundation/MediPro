@@ -45,12 +45,33 @@ public abstract class GameObjectView implements GLEventListener {
         this.model = model;
     }
 
-    int shaderProgram = -1;
-    IntBuffer textureName = Buffers.newDirectIntBuffer(1);
-    IntBuffer samplerName = Buffers.newDirectIntBuffer(1);
-    IntBuffer vbo = Buffers.newDirectIntBuffer(2);
-    // final String shaderFile = "shader/simple2d/simple2d";
-    final String shaderFile = "shader/G2dWrapper/G2dWrapper";
+    /**
+     * 格納しているモデルに対してそれぞれdraw()を呼び出す。
+     * 
+     * @param g               描画対象のGraphics2D
+     * @param cameraTransform カメラ座標へ変換するためのアフィン変換行列
+     */
+    public void draw(Graphics2D g, AffineTransform cameraTransform) {
+        g.setTransform(cameraTransform);
+        g.transform(model.getTransformMatrix());
+        this.draw(g);
+    }
+
+    /**
+     * モデルを元に描画を行う
+     * 
+     * @param g 描画対象のGraphics2D
+     */
+    protected abstract void draw(Graphics2D g);
+
+    protected int shaderProgram = -1;
+    protected IntBuffer textureName = Buffers.newDirectIntBuffer(1);
+    protected IntBuffer samplerName = Buffers.newDirectIntBuffer(1);
+    protected IntBuffer vbo = Buffers.newDirectIntBuffer(2);
+
+    protected String getShaderPath(String ext) {
+        return "shader/G2dWrapper/G2dWrapper" + "." + ext;
+    }
 
     @Override
     public void init(GLAutoDrawable drawable) {
@@ -64,7 +85,7 @@ public abstract class GameObjectView implements GLEventListener {
         initSamplers(drawable);
     }
 
-    void initTextures(GLAutoDrawable drawable) {
+    protected void initTextures(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         AffineTransform cameraTransform = this.model.world.camera.isPresent()
                 ? this.model.world.camera.get().getTransformMatrix()
@@ -90,7 +111,7 @@ public abstract class GameObjectView implements GLEventListener {
                 textureData.getBuffer());
     }
 
-    void initSamplers(GLAutoDrawable drawable) {
+    protected void initSamplers(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         gl.glGenSamplers(1, samplerName);
 
@@ -120,10 +141,10 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glBufferData(GL4.GL_ARRAY_BUFFER, Float.BYTES * uv.length, uvBuffer, GL4.GL_STATIC_DRAW);
     }
 
-    int initShaders(GLAutoDrawable drawable) {
+    protected int initShaders(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         int program = gl.glCreateProgram();
-        try (BufferedReader brv = new BufferedReader(new FileReader(shaderFile + ".vert"))) {
+        try (BufferedReader brv = new BufferedReader(new FileReader(getShaderPath("vert")))) {
             int vert = gl.glCreateShader(GL4.GL_VERTEX_SHADER);
             String vertSrc = brv.lines().collect(Collectors.joining("\n"));
             gl.glShaderSource(vert, 1, new String[] { vertSrc }, null);
@@ -134,7 +155,7 @@ public abstract class GameObjectView implements GLEventListener {
             logger.warning(e.toString());
         }
 
-        try (BufferedReader brv = new BufferedReader(new FileReader(shaderFile + ".frag"))) {
+        try (BufferedReader brv = new BufferedReader(new FileReader(getShaderPath("frag")))) {
             int frag = gl.glCreateShader(GL4.GL_FRAGMENT_SHADER);
             String fragSrc = brv.lines().collect(Collectors.joining("\n"));
             gl.glShaderSource(frag, 1, new String[] { fragSrc }, null);
@@ -157,7 +178,7 @@ public abstract class GameObjectView implements GLEventListener {
         return program;
     }
 
-    private void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
+    protected void handleShaderCompileError(GLAutoDrawable drawable, int shader) {
         GL4 gl = drawable.getGL().getGL4();
         int[] success = new int[1];
         gl.glGetShaderiv(shader, GL4.GL_COMPILE_STATUS, success, 0);
@@ -168,25 +189,6 @@ public abstract class GameObjectView implements GLEventListener {
         }
     }
 
-    /**
-     * 格納しているモデルに対してそれぞれdraw()を呼び出す。
-     * 
-     * @param g               描画対象のGraphics2D
-     * @param cameraTransform カメラ座標へ変換するためのアフィン変換行列
-     */
-    public void draw(Graphics2D g, AffineTransform cameraTransform) {
-        g.setTransform(cameraTransform);
-        g.transform(model.getTransformMatrix());
-        this.draw(g);
-    }
-
-    /**
-     * モデルを元に描画を行う
-     * 
-     * @param g 描画対象のGraphics2D
-     */
-    protected abstract void draw(Graphics2D g);
-
     @Override
     public void display(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
@@ -195,15 +197,12 @@ public abstract class GameObjectView implements GLEventListener {
         this.bindBuffers(drawable, shaderProgram);
 
         updateTextures(drawable);
-
-        int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
-        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-        gl.glBindSampler(sample2dLocation, samplerName.get(0));
+        updateUniforms(drawable);
 
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
     }
 
-    void bindBuffers(GLAutoDrawable drawable, int program) {
+    protected void bindBuffers(GLAutoDrawable drawable, int program) {
         GL4 gl = drawable.getGL().getGL4();
 
         int vertexAttrib = gl.glGetAttribLocation(program, "aPosition");
@@ -224,7 +223,7 @@ public abstract class GameObjectView implements GLEventListener {
         // gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, bindingPoint, cameraUbo);
     }
 
-    void updateTextures(GLAutoDrawable drawable) {
+    protected void updateTextures(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         AffineTransform cameraTransform = this.model.world.camera.isPresent()
                 ? this.model.world.camera.get().getTransformMatrix()
@@ -242,6 +241,15 @@ public abstract class GameObjectView implements GLEventListener {
         gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
         gl.glTexSubImage2D(GL4.GL_TEXTURE_2D, 0, 0, 0, textureData.getWidth(), textureData.getHeight(),
                 textureData.getPixelFormat(), textureData.getPixelType(), textureData.getBuffer());
+    }
+
+    protected void updateUniforms(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        {
+            int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+            gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
+            gl.glBindSampler(sample2dLocation, samplerName.get(0));
+        }
     }
 
     @Override

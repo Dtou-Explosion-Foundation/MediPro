@@ -33,6 +33,6 @@ public class FollowingCameraModel extends CameraModel {
      */
     public FollowingCameraModel(World world, GameObjectModel target) {
         super(world);
-        this.target = Optional.of(target);
+        this.target = Optional.ofNullable(target);
     }
 }

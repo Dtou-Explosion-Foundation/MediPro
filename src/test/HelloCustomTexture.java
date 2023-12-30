@@ -242,7 +242,7 @@ public class HelloCustomTexture implements GLEventListener, GLDebugListener {
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-        GL4 gl = drawable.getGL().getGL4();
+        // GL4 gl = drawable.getGL().getGL4();
         logger.info("HelloCustomTexture::reshape");
         // gl.glViewport(x, y, w, h);
     }
