@@ -37,7 +37,6 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		setupLogger();
-		// System.setProperty("sun.java2d.uiScale", "1");
 		logger.info("Start game");
 		JFrame window = new GameFrame("GameWindow", 1024, 768);
 		window.setVisible(true);

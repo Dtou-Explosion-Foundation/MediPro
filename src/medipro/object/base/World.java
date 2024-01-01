@@ -3,8 +3,10 @@ package medipro.object.base;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -192,4 +194,9 @@ public abstract class World implements GLEventListener {
         }
     }
 
+    public <T extends GameObjectController> List<T> getControllers(Class<T> type) {
+        return controllers.stream().filter(controller -> type.isInstance(controller)).map(controller -> {
+            return type.cast(controller);
+        }).collect(Collectors.toList());
+    }
 }
