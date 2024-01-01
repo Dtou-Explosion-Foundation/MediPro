@@ -49,12 +49,12 @@ public class PlayerController extends GameObjectController implements KeyListene
         case KeyEvent.VK_UP:
         case KeyEvent.VK_W:
             for (GameObjectModel model : models)
-                ((PlayerModel) model).y -= 10;
+                ((PlayerModel) model).y += 10;
             break;
         case KeyEvent.VK_DOWN:
         case KeyEvent.VK_S:
             for (GameObjectModel model : models)
-                ((PlayerModel) model).y += 10;
+                ((PlayerModel) model).y -= 10;
             break;
         }
     }

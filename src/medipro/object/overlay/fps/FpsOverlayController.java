@@ -10,9 +10,9 @@ public class FpsOverlayController extends GameObjectController {
     }
 
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(GameObjectModel model, double dt) {
         FpsOverlayModel fpsOverlayModel = (FpsOverlayModel) model;
-        fpsOverlayModel.updateFpsHistory((int) (1f / dt));
-
+        fpsOverlayModel.updateFpsHistory((short) (1 / dt));
     }
+
 }

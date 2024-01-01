@@ -129,13 +129,14 @@ public class PlayerView extends GameObjectView {
         PlayerModel playerModel = (PlayerModel) model;
         Matrix4f tempMat = new Matrix4f();
         Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
-                .translate(0, -getSpriteHeight() / 2, 0, tempMat) // 足
+                .translate(0, +getSpriteHeight() / 2, 0, tempMat) // 足
                 .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
                 .scale(playerModel.direction, 1, 1, tempMat)// 左右反転
                 .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
                 .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
                 .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
         ;
+        // Matri
         return modelMat;
     }
 

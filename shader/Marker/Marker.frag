@@ -8,5 +8,6 @@ in vec2 vTexcoord;
 out vec4 vColor;
 
 void main() {
-    vColor = vec4(uColor.rgb, 0.2);
+    // vColor = vec4(uColor.rgb, 0.2);
+    vColor = uColor;
 }

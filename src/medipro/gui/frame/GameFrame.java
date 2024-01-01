@@ -5,17 +5,16 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
@@ -68,33 +67,71 @@ public class GameFrame extends JFrame implements ComponentListener {
         logger.log(Level.FINE, "frame size: " + this.getSize());
         logger.log(Level.FINE, "panel size: " + panel.getSize());
 
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            Boolean isIdle = true;
-            Duration deltaTime = Duration.ZERO;
-            Instant prevTime = Instant.now();
+        // {
+        //     Duration deltaTime = Duration.ZERO;
+        //     Instant prevTime = Instant.now();
+        //     while (true) {
 
-            double getDeltaTime() {
-                Instant currentTime = Instant.now();
-                deltaTime = Duration.between(prevTime, currentTime);
-                prevTime = currentTime;
-                return deltaTime.toNanos() / 1000000000.0;
-            }
+        //         Instant currentTime = Instant.now();
+        //         deltaTime = Duration.between(prevTime, currentTime);
+        //         double deltaDouble = deltaTime.toNanos() / 1000000000.0;
+        //         if (1 / deltaDouble > InGameConfig.FPS) {
+        //             prevTime = currentTime;
+        //             panel.repaint();
+        //             if (panel instanceof IGamePanel)
+        //                 ((IGamePanel) panel).update(deltaDouble);
+        //         }
+        //     }
+        // }
+        // if (isIdle == false) {
+        //     logger.warning("Game is running slow");
+        // }
+        {
+            Timer timer = new Timer(1000 / InGameConfig.FPS, new ActionListener() {
+                long lastRepaintTime = -1;
 
-            @Override
-            public void run() {
-                if (isIdle) {
-                    isIdle = false;
-                    panel.repaint();
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    long currentTime = System.nanoTime();
+                    long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
+                    lastRepaintTime = currentTime;
+                    double test = (deltaTime / 1000000000.0);
+                    // logger.info("FPS: " + 1 / test);
+                    repaint();
                     if (panel instanceof IGamePanel)
-                        ((IGamePanel) panel).update(getDeltaTime());
-                    isIdle = true;
-                } else {
-                    logger.warning("Game is running slow");
+                        ((IGamePanel) panel).update(deltaTime / 1000000000.0);
                 }
-            }
-        };
-        timer.scheduleAtFixedRate(task, 0, (long) (1000f / InGameConfig.FPS));
+            });
+            timer.start();
+        }
+
+        // Timer timer = new Timer();
+        // TimerTask task = new TimerTask() {
+        //     Boolean isIdle = true;
+        //     Duration deltaTime = Duration.ZERO;
+        //     Instant prevTime = Instant.now();
+
+        //     double getDeltaTime() {
+        //         Instant currentTime = Instant.now();
+        //         deltaTime = Duration.between(prevTime, currentTime);
+        //         prevTime = currentTime;
+        //         return deltaTime.toNanos() / 1000000000.0;
+        //     }
+
+        //     @Override
+        //     public void run() {
+        //         if (isIdle) {
+        //             isIdle = false;
+        //             panel.repaint();
+        //             if (panel instanceof IGamePanel)
+        //                 ((IGamePanel) panel).update(getDeltaTime());
+        //             isIdle = true;
+        //         } else {
+        //             logger.warning("Game is running slow");
+        //         }
+        //     }
+        // };
+        // timer.scheduleAtFixedRate(task, 0, (long) (1000.0 / InGameConfig.FPS));
     }
 
     public GraphicsDevice getCurrentGraphicsDevice() {

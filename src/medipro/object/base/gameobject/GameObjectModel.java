@@ -63,7 +63,7 @@ public abstract class GameObjectModel {
      */
     public AffineTransform getTransformMatrix() {
         AffineTransform transform = new AffineTransform();
-        transform.translate(x, y);
+        transform.translate(x, -y);
         transform.rotate(rotation);
         transform.scale(scaleX, scaleY);
         return transform;

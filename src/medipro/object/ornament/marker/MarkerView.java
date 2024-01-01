@@ -58,16 +58,14 @@ public class MarkerView extends GameObjectView {
     }
 
     @Override
-    protected void updateUniforms(GLAutoDrawable drawable) {
-        super.updateUniforms(drawable);
+    protected void initUniforms(GLAutoDrawable drawable) {
+        super.initUniforms(drawable);
         MarkerModel markerModel = (MarkerModel) model;
         GL4 gl = drawable.getGL().getGL4();
 
-        // TODO: 一度だけでよい?
         int uColorLocation = gl.glGetUniformLocation(shaderProgram, "uColor");
         if (uColorLocation != -1) {
             gl.glUniform4fv(uColorLocation, 1, markerModel.color.getRGBComponents(null), 0);
-            // gl.glUniform4fv(uColorLocation, 1, null);
         }
     }
 }

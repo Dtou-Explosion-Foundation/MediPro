@@ -8,8 +8,6 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import medipro.object.background.BackgroundModel;
-import medipro.object.background.BackgroundView;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
@@ -19,8 +17,6 @@ import medipro.object.camera.SmoothFollowingCameraModel;
 import medipro.object.example.grid.ExampleGridController;
 import medipro.object.example.grid.ExampleGridModel;
 import medipro.object.example.grid.ExampleGridView;
-import medipro.object.manager.gamemanager.GameManagerController;
-import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
@@ -53,12 +49,12 @@ public class TestWorld extends World {
     public void setupWorld(JPanel panel) {
         GameObjectModel cameraTarget = null;
 
-        {
-            BackgroundModel model = new BackgroundModel(this);
-            BackgroundView view = new BackgroundView(model);
-            // BackgroundController controller = new BackgroundController(model);
-            this.addView(view, 0);
-        }
+        // {
+        //     BackgroundModel model = new BackgroundModel(this);
+        //     BackgroundView view = new BackgroundView(model);
+        //     // BackgroundController controller = new BackgroundController(model);
+        //     this.addView(view, 0);
+        // }
         {
             PlayerModel model = new PlayerModel(this);
             cameraTarget = model;
@@ -127,17 +123,19 @@ public class TestWorld extends World {
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
             model.setScale(1);
-            model.originY = (int) (10 / model.getScale());
+            model.followingSpeed = 0.08;
+            // model.originY = (int) (-100 / model.getScale());
+            model.originY = 50;
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
             // CameraController controller = new FollowingCameraController(model);
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
         }
-        {
-            GameManagerModel model = new GameManagerModel(this);
-            GameManagerController controller = new GameManagerController(model);
-            this.addControllers(controller);
-        }
+        // {
+        //     GameManagerModel model = new GameManagerModel(this);
+        //     GameManagerController controller = new GameManagerController(model);
+        //     this.addControllers(controller);
+        // }
     }
 }

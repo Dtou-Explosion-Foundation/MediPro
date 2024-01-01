@@ -10,10 +10,10 @@ import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
 public class BackgroundView extends GameObjectView {
-    private Image image;
+    private Image image = null;
 
-    public BackgroundView(GameObjectModel... models) {
-        super(models);
+    public BackgroundView(GameObjectModel model) {
+        super(model);
         try {
             image = ImageIO.read(new File("img/background/background_sample.png"));
         } catch (Exception e) {
@@ -22,7 +22,9 @@ public class BackgroundView extends GameObjectView {
     }
 
     @Override
-    public void draw(GameObjectModel model, Graphics2D g) {
+    protected void draw(Graphics2D g) {
+        if (image == null)
+            return;
         g.drawImage(image, 0, -250, 1024, 768, null);
         g.drawImage(image, -1024, -250, 1024, 768, null);
     }

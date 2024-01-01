@@ -75,7 +75,7 @@ public abstract class GridObjectView extends GameObjectView {
                 AffineTransform transform = g.getTransform();
                 g.translate(originX + ix * gridWidth, originY + iy * gridHeight);
                 this.drawGrid(gridModel, g, new Rectangle(0, 0, gridWidth, gridHeight), originGridX + ix,
-                        originGridY + iy);
+                        -(originGridY + iy));
                 g.setTransform(transform);
             }
         }
@@ -132,7 +132,7 @@ public abstract class GridObjectView extends GameObjectView {
         float x = cameraModel.isPresent() ? (float) cameraModel.get().x : (float) model.x;
         float y = cameraModel.isPresent() ? (float) cameraModel.get().y : (float) model.y;
         Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
-                .translate(x, -y, 0, tempMat) // 座標
+                .translate(x, y, 0, tempMat) // 座標
                 .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
                 .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
         // .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
@@ -188,13 +188,8 @@ public abstract class GridObjectView extends GameObjectView {
         int gridSizeLocation = gl.glGetUniformLocation(shaderProgram, "Grids");
         if (gridSizeLocation != -1)
             gl.glUniform2fv(gridSizeLocation, 1,
-                    new float[] { InGameConfig.WINDOW_WIDTH * cameraScale / gridModel.width / (float) gridModel.scaleX,
-                            InGameConfig.WINDOW_HEIGHT * cameraScale / gridModel.height / (float) gridModel.scaleY },
+                    new float[] { InGameConfig.WINDOW_WIDTH / cameraScale / gridModel.width / (float) gridModel.scaleX,
+                            InGameConfig.WINDOW_HEIGHT / cameraScale / gridModel.height / (float) gridModel.scaleY },
                     0);
-
-        // int cameraScaleLocation = gl.glGetUniformLocation(shaderProgram, "CameraScale");
-        // if (cameraScaleLocation != -1)
-        //     gl.glUniform1f(cameraScaleLocation, (float) model.world.camera.get().scale);
     }
-
 }

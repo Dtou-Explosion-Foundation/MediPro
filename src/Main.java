@@ -40,6 +40,18 @@ public class Main {
 		logger.info("Start game");
 		JFrame window = new GameFrame("GameWindow", 1024, 768);
 		window.setVisible(true);
+
+		// AffineTransform transform1 = new AffineTransform();
+		// transform1.scale(2, 0);
+		// AffineTransform transform2 = new AffineTransform();
+		// transform2.translate(2, 0);
+
+		// transform1.concatenate(transform2);
+		// Point2D ps = new Point2D.Double(0, 0);
+		// Point2D pd = new Point2D.Double();
+		// transform1.transform(ps, pd);
+		// logger.info("ps: " + ps.toString());
+		// logger.info("pd: " + pd.toString());
 	}
 
 	/**

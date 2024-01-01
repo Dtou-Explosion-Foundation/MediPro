@@ -14,7 +14,7 @@ public class GameManagerController extends GameObjectController {
     }
 
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(GameObjectModel model, double dt) {
 
     }
 
