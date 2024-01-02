@@ -122,7 +122,7 @@ public class TestWorld extends World {
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
-            model.setScale(1);
+            model.setScale(2);
             model.followingSpeed = 0.08;
             // model.originY = (int) (-100 / model.getScale());
             model.originY = 50;

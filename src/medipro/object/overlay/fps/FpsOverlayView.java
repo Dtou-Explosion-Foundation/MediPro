@@ -138,12 +138,12 @@ public class FpsOverlayView extends GameObjectView {
         }
 
         float cameraScale = cameraModel.isPresent() ? (float) cameraModel.get().getScale() : 1f;
-        cameraScale = 2f;
+        // cameraScale = 2f;
 
         Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
                 .translate(x, y, 0, tempMat) // 座標
-                .translate(-InGameConfig.WINDOW_WIDTH / cameraScale,
-                        (InGameConfig.WINDOW_HEIGHT - TEXTURE_HEIGHT) / cameraScale, 0, tempMat)
+                .translate(-InGameConfig.WINDOW_WIDTH / cameraScale / 2,
+                        (InGameConfig.WINDOW_HEIGHT - TEXTURE_HEIGHT) / cameraScale / 2, 0, tempMat)
                 .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
                 .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
                 .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
