@@ -19,5 +19,5 @@ public final class InGameConfig {
     /**
      * 一秒あたりのフレーム数.
      */
-    public static final int FPS = 1200;
+    public static final int FPS = 60;
 }
