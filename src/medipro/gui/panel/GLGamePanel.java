@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLJPanel;
 
@@ -37,8 +38,8 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
      * 
      * @param frame パネルが配置されたゲームのウインドウ
      */
-    public GLGamePanel(GameFrame frame) {
-        super();
+    public GLGamePanel(GameFrame frame, GLCapabilities capabilities) {
+        super(capabilities);
         logger.info("Init GLGamePanel");
         this.addGLEventListener(this);
         this.frame = frame;
