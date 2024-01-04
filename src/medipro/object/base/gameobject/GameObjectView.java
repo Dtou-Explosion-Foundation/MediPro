@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.logging.Logger;
@@ -281,11 +282,27 @@ public abstract class GameObjectView implements GLEventListener {
             draw(g, cameraTransform);
             g.dispose();
         }
-        TextureData textureData = AWTTextureIO.newTextureData(gl.getGLProfile(), bufferedImage, false);
+        int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
+        bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0,
+                bufferedImage.getWidth());
+        ByteBuffer buffer = ByteBuffer.allocateDirect(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
+
+        for (int h = bufferedImage.getHeight() - 1; h >= 0; h--) {
+            for (int w = 0; w < bufferedImage.getWidth(); w++) {
+                int pixel = pixels[h * bufferedImage.getWidth() + w];
+
+                buffer.put((byte) ((pixel >> 16) & 0xFF));
+                buffer.put((byte) ((pixel >> 8) & 0xFF));
+                buffer.put((byte) (pixel & 0xFF));
+                buffer.put((byte) ((pixel >> 24) & 0xFF));
+            }
+        }
+
+        buffer.flip();
 
         gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-        gl.glTexSubImage2D(GL4.GL_TEXTURE_2D, 0, 0, 0, textureData.getWidth(), textureData.getHeight(),
-                textureData.getPixelFormat(), textureData.getPixelType(), textureData.getBuffer());
+        gl.glTexSubImage2D(GL4.GL_TEXTURE_2D, 0, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), GL4.GL_RGBA,
+                GL4.GL_UNSIGNED_BYTE, buffer);
     }
 
     protected Matrix4f getModelMatrix() {
