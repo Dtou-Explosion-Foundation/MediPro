@@ -18,7 +18,6 @@ public class TitleMenuView extends GameObjectView{
     public void draw(GameObjectModel model, Graphics2D g) {
         TitleMenuModel titleMenuModel = (TitleMenuModel) model;
         String[] menuItems = titleMenuModel.getMenuItems();
-        logger.info("Title menu Draw");
         for (int i = 0; i < menuItems.length; i++) {
             g.setFont(new Font("SansSerif",Font.BOLD,50));
             if(i == titleMenuModel.getSelectedItem()) {
