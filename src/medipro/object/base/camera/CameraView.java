@@ -8,7 +8,6 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.math.Matrix4f;
-import com.jogamp.opengl.math.Vec4f;
 
 import medipro.config.InGameConfig;
 import medipro.object.base.gameobject.GameObjectView;
@@ -84,7 +83,7 @@ public class CameraView extends GameObjectView {
 
     @Override
     protected void updateUniforms(GLAutoDrawable drawable) {
-        logger.info("CameraView::updateUniforms cameraModelPos: (" + model.x + ", " + model.y + ")");
+        // logger.info("CameraView::updateUniforms cameraModelPos: (" + model.x + ", " + model.y + ")");
         GL4 gl = drawable.getGL().getGL4();
         CameraModel cameraModel = (CameraModel) model;
 

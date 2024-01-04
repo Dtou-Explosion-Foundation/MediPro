@@ -45,13 +45,29 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
     }
 
     @Override
+    public boolean shouldInvokeUpdate() {
+        return false;
+    }
+
+    @Override
     public void update(double deltaTime) {
+        logger.info("---------- G2dGamePanel::update -----------");
         world.update(deltaTime);
+        logger.info("-----------------------------");
     }
 
     @Override
     public GameFrame getFrame() {
         return frame;
+    }
+
+    private long lastRepaintTime = -1;
+
+    private double getDeltaTime() {
+        long currentTime = System.nanoTime();
+        long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
+        lastRepaintTime = currentTime;
+        return deltaTime / 1000000000.0;
     }
 
     /**
@@ -60,7 +76,9 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        this.update(this.getDeltaTime());
         if (!InGameConfig.USE_OPENGL) {
+            logger.info("---------- G2dGamePanel::paintComponent -----------");
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
@@ -73,6 +91,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
 
             // world.updateAndDraw(g2, this.getDeltaTime());
             world.draw(g2);
+            logger.info("-----------------------------");
         }
     }
 }

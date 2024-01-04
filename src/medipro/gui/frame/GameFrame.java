@@ -99,12 +99,19 @@ public class GameFrame extends JFrame implements ComponentListener {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    long currentTime = System.nanoTime();
-                    long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
-                    lastRepaintTime = currentTime;
-                    repaint();
-                    if (panel instanceof IGamePanel)
+
+                    if (panel instanceof IGamePanel && ((IGamePanel) panel).shouldInvokeUpdate()) {
+                        long currentTime = System.nanoTime();
+                        long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
+                        lastRepaintTime = currentTime;
+                        // logger.info("---------- update -----------");
                         ((IGamePanel) panel).update(deltaTime / 1000000000.0);
+
+                    }
+                    // logger.info("---------- repaint ----------");
+
+                    repaint();
+                    // logger.info("-----------------------------");
                 }
             });
             timer.start();

@@ -52,16 +52,35 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     }
 
     @Override
+    public boolean shouldInvokeUpdate() {
+        return false;
+    }
+
+    private long lastRepaintTime = -1;
+
+    private double getDeltaTime() {
+        long currentTime = System.nanoTime();
+        long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
+        lastRepaintTime = currentTime;
+        return deltaTime / 1000000000.0;
+    }
+
+    @Override
     public void update(double deltaTime) {
+        logger.info("---------- GLGamePanel::update -----------");
         world.update(deltaTime);
+        logger.info("-----------------------------");
     }
 
     @Override
     public void display(GLAutoDrawable drawable) {
         if (InGameConfig.USE_OPENGL) {
+            this.update(this.getDeltaTime());
+            logger.info("---------- GLGamePanel::display ----------");
             GL4 gl = drawable.getGL().getGL4();
             gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
             world.display(drawable);
+            logger.info("-----------------------------");
         }
     }
 

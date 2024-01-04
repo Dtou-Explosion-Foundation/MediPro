@@ -6,4 +6,6 @@ public interface IGamePanel {
     public void update(double deltaTime);
 
     public GameFrame getFrame();
+
+    public boolean shouldInvokeUpdate();
 }
