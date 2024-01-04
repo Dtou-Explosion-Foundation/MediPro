@@ -15,8 +15,8 @@ public class SmoothFollowingCameraController extends CameraController {
      * 
      * @param models 格納するモデル
      */
-    public SmoothFollowingCameraController(GameObjectModel... models) {
-        super(models);
+    public SmoothFollowingCameraController(GameObjectModel model) {
+        super(model);
     }
 
     /**
@@ -26,7 +26,7 @@ public class SmoothFollowingCameraController extends CameraController {
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, double dt) {
+    public void update(double dt) {
         // TODO:dtを使ってFPSに依存しないようにする
         // TODO:逆行列を使わないようにする
         SmoothFollowingCameraModel _model = (SmoothFollowingCameraModel) model;

@@ -17,9 +17,14 @@ import medipro.object.camera.SmoothFollowingCameraModel;
 import medipro.object.example.grid.ExampleGridController;
 import medipro.object.example.grid.ExampleGridModel;
 import medipro.object.example.grid.ExampleGridView;
+import medipro.object.manager.gamemanager.GameManagerController;
+import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
+import medipro.object.ornament.texture.TextureController;
+import medipro.object.ornament.texture.TextureModel;
+import medipro.object.ornament.texture.TextureView;
 import medipro.object.overlay.fps.FpsOverlayController;
 import medipro.object.overlay.fps.FpsOverlayModel;
 import medipro.object.overlay.fps.FpsOverlayView;
@@ -64,8 +69,7 @@ public class TestWorld extends World {
             this.addViewAndController(view, controller, 10);
         }
         {
-            MarkerController controller = new MarkerController();
-            this.addControllers(controller);
+            // MarkerController controller = new MarkerController();
             {
                 MarkerModel model = new MarkerModel(this);
                 MarkerView view = new MarkerView(model);
@@ -75,8 +79,8 @@ public class TestWorld extends World {
                 model.scaleX = 3.5;
                 model.scaleY = 1.5;
                 model.color = Color.BLUE;
-                controller.models.add(model);
-                this.addView(view, 20);
+                MarkerController controller = new MarkerController(model);
+                this.addViewAndController(view, controller, 20);
             }
             {
                 MarkerModel model = new MarkerModel(this);
@@ -85,14 +89,14 @@ public class TestWorld extends World {
                 model.y = -50;
                 model.rotation = Math.toRadians(70);
                 model.color = Color.GREEN;
-                controller.models.add(model);
-                this.addView(view, 20);
+                MarkerController controller = new MarkerController(model);
+                this.addViewAndController(view, controller, 20);
             }
             {
                 MarkerModel model = new MarkerModel(this);
                 MarkerView view = new MarkerView(model);
-                controller.models.add(model);
-                this.addView(view, 20);
+                MarkerController controller = new MarkerController(model);
+                this.addViewAndController(view, controller, 20);
             }
         }
         {
@@ -103,16 +107,36 @@ public class TestWorld extends World {
                 logger.warning(e.toString());
             }
             ExampleGridView view = new ExampleGridView(model);
-            ExampleGridController controller = new ExampleGridController();
+            ExampleGridController controller = new ExampleGridController(model);
             // model.x = 58;
             // model.y = -100;
             model.scaleX = 0.1;
             model.scaleY = 0.1;
             // if (model != null)
             //     view.models.add(model);
-            controller.models.add(model);
             this.addViewAndController(view, controller, 0);
 
+        }
+        {
+            TextureModel model = new TextureModel(this,
+                    new String[] { "img/pigeon/pigeon_white_sitting.png", "img/pigeon/pigeon_white_standing.png" });
+            model.scaleX = 0.075;
+            model.scaleY = 0.075;
+            model.y = 10;
+            TextureView view = new TextureView(model);
+            TextureController controller = new TextureController(model);
+            this.addViewAndController(view, controller, 0);
+        }
+        {
+            TextureModel model = new TextureModel(this,
+                    new String[] { "img/pigeon/pigeon_normal_sitting.png", "img/pigeon/pigeon_normal_standing.png" });
+            model.scaleX = 0.075;
+            model.scaleY = 0.075;
+            model.x = -100;
+            model.y = 20;
+            TextureView view = new TextureView(model);
+            TextureController controller = new TextureController(model);
+            this.addViewAndController(view, controller, 0);
         }
         {
             FpsOverlayModel model = new FpsOverlayModel(this);
@@ -132,10 +156,10 @@ public class TestWorld extends World {
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
         }
-        // {
-        //     GameManagerModel model = new GameManagerModel(this);
-        //     GameManagerController controller = new GameManagerController(model);
-        //     this.addControllers(controller);
-        // }
+        {
+            GameManagerModel model = new GameManagerModel(this);
+            GameManagerController controller = new GameManagerController(model);
+            this.addControllers(controller);
+        }
     }
 }

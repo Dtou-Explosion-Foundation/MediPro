@@ -15,49 +15,14 @@
             "name": "Hello",
             "request": "launch",
             "mainClass": "Hello",
-            "projectName": "MediPro_e3918ee"
+            "projectName": "medipro_6040b2d"
         },
         {
             "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
-            "projectName": "MediPro_e3918ee"
-        },
-        {
-            "type": "java",
-            "name": "MoveCharaPanel",
-            "request": "launch",
-            "mainClass": "MoveCharaPanel",
-            "projectName": "MediPro_e3918ee"
-        },
-        {
-            "type": "java",
-            "name": "HelloCustom",
-            "request": "launch",
-            "mainClass": "test.HelloCustom",
-            "projectName": "MediPro_e3918ee"
-        },
-        {
-            "type": "java",
-            "name": "HelloGraphics2D",
-            "request": "launch",
-            "mainClass": "test.HelloGraphics2D",
-            "projectName": "MediPro_e3918ee"
-        },
-        {
-            "type": "java",
-            "name": "HelloPanel",
-            "request": "launch",
-            "mainClass": "test.HelloPanel",
-            "projectName": "MediPro_e3918ee"
-        },
-        {
-            "type": "java",
-            "name": "HelloPanelSimple2d",
-            "request": "launch",
-            "mainClass": "test.HelloPanelSimple2d",
-            "projectName": "MediPro_e3918ee"
+            "projectName": "medipro_6040b2d"
         }
     ]
 }

@@ -13,15 +13,15 @@ public class CameraController extends GameObjectController {
      * 
      * @param models 格納するモデル
      */
-    public CameraController(final GameObjectModel... models) {
-        super(models);
+    public CameraController(final GameObjectModel model) {
+        super(model);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void update(final GameObjectModel model, final double dt) {
+    public void update(double dt) {
 
     }
 

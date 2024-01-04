@@ -15,6 +15,7 @@ import com.jogamp.opengl.GLEventListener;
 
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
+import medipro.object.AnomalyListener;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectView;
@@ -131,7 +132,7 @@ public abstract class World implements GLEventListener {
      */
     public void update(double deltaTime) {
         for (GameObjectController controller : controllers)
-            controller.updateModels(deltaTime);
+            controller.update(deltaTime);
     }
 
     public AffineTransform getCameraTransform() {
@@ -198,5 +199,16 @@ public abstract class World implements GLEventListener {
         return controllers.stream().filter(controller -> type.isInstance(controller)).map(controller -> {
             return type.cast(controller);
         }).collect(Collectors.toList());
+    }
+
+    public List<GameObjectController> getControllers() {
+        return controllers;
+    }
+
+    public List<AnomalyListener> getAnormalyListeners() {
+        return controllers.stream().filter(controller -> AnomalyListener.class.isAssignableFrom(controller.getClass()))
+                .map(controller -> {
+                    return (AnomalyListener) controller;
+                }).collect(Collectors.toList());
     }
 }

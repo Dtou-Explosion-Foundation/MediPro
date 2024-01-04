@@ -13,8 +13,8 @@ public class FollowingCameraController extends CameraController {
      * 
      * @param models 格納するモデル
      */
-    public FollowingCameraController(GameObjectModel... models) {
-        super(models);
+    public FollowingCameraController(GameObjectModel model) {
+        super(model);
     }
 
     /**
@@ -24,7 +24,7 @@ public class FollowingCameraController extends CameraController {
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, double dt) {
+    public void update(double dt) {
         FollowingCameraModel _model = (FollowingCameraModel) model;
         if (_model.target.isPresent()) {
             GameObjectModel _target = _model.target.get();

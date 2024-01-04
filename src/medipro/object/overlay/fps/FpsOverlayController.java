@@ -5,12 +5,12 @@ import medipro.object.base.gameobject.GameObjectModel;
 
 public class FpsOverlayController extends GameObjectController {
 
-    public FpsOverlayController(GameObjectModel... models) {
-        super(models);
+    public FpsOverlayController(GameObjectModel model) {
+        super(model);
     }
 
     @Override
-    public void update(GameObjectModel model, double dt) {
+    public void update(double dt) {
         FpsOverlayModel fpsOverlayModel = (FpsOverlayModel) model;
         fpsOverlayModel.updateFpsHistory((short) (1 / dt));
     }

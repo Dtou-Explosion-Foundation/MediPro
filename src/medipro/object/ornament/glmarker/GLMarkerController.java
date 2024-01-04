@@ -5,12 +5,12 @@ import medipro.object.base.gameobject.GameObjectModel;
 
 public class GLMarkerController extends GameObjectController {
 
-    public GLMarkerController(GameObjectModel... models) {
-        super(models);
+    public GLMarkerController(GameObjectModel model) {
+        super(model);
     }
 
     @Override
-    public void update(GameObjectModel model, double dt) {
+    public void update(double dt) {
     }
 
 }
