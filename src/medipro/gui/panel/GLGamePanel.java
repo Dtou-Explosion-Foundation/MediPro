@@ -67,20 +67,20 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
 
     @Override
     public void update(double deltaTime) {
-        logger.info("---------- GLGamePanel::update -----------");
+        // logger.info("---------- GLGamePanel::update -----------");
         world.update(deltaTime);
-        logger.info("-----------------------------");
+        // logger.info("-----------------------------");
     }
 
     @Override
     public void display(GLAutoDrawable drawable) {
         if (InGameConfig.USE_OPENGL) {
             this.update(this.getDeltaTime());
-            logger.info("---------- GLGamePanel::display ----------");
+            // logger.info("---------- GLGamePanel::display ----------");
             GL4 gl = drawable.getGL().getGL4();
             gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
             world.display(drawable);
-            logger.info("-----------------------------");
+            // logger.info("-----------------------------");
         }
     }
 
