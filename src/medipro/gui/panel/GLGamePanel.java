@@ -43,7 +43,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         logger.info("Init GLGamePanel");
         this.addGLEventListener(this);
         this.frame = frame;
-        world = new TestWorld(this);
+        world = EngineConfig.SKIP_TITLE ? new TestWorld(this) : new TitleMenuWorld(this);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         super();
         logger.info("Init GamePanel");
         this.frame = frame;
-        world = new TestWorld(this);
+        world = EngineConfig.SKIP_TITLE ? new TestWorld(this) : new TitleMenuWorld(this);
     }
 
     @Override
