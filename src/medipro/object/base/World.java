@@ -63,6 +63,8 @@ public abstract class World implements GLEventListener {
         }
         this.panel = panel;
         setupWorld(panel);
+        for (GameObjectController controller : controllers)
+            controller.postSetupWorld();
     }
 
     /**
@@ -132,7 +134,11 @@ public abstract class World implements GLEventListener {
      */
     public void update(double deltaTime) {
         for (GameObjectController controller : controllers)
+            controller.preUpdate(deltaTime);
+        for (GameObjectController controller : controllers)
             controller.update(deltaTime);
+        for (GameObjectController controller : controllers)
+            controller.postUpdate(deltaTime);
     }
 
     public AffineTransform getCameraTransform() {
@@ -217,5 +223,3 @@ public abstract class World implements GLEventListener {
     }
 
 }
-
-    

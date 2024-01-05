@@ -32,4 +32,13 @@ public abstract class GameObjectController {
      * @param dt 前フレームからの経過時間
      */
     public abstract void update(double dt);
+
+    public void preUpdate(double dt) {
+    }
+
+    public void postUpdate(double dt) {
+    }
+
+    public void postSetupWorld() {
+    }
 }
