@@ -41,7 +41,7 @@ public abstract class GridObjectView extends GameObjectView {
      */
     @Override
     public void draw(Graphics2D g) {
-        g.setTransform(model.world.camera.get().getTransformMatrix());
+        g.setTransform(model.world.getCameraTransform());
         GridObjectModel gridModel = (GridObjectModel) model;
         Rectangle2D.Double bounds;
         if (model.world.camera.isPresent()) {
