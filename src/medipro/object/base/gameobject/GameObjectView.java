@@ -227,6 +227,8 @@ public abstract class GameObjectView implements GLEventListener {
         }
     }
 
+    private boolean isAlreadyPrintedNeedUpdateTextureWarning = false;
+
     @Override
     public void display(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
@@ -234,8 +236,15 @@ public abstract class GameObjectView implements GLEventListener {
 
         this.bindBuffers(drawable);
 
-        if (this.needUpdateTexture())
+        if (this.needUpdateTexture()) {
             this.updateTextures(drawable);
+            if (EngineConfig.DEBUG_LEVEL > 1 && !isAlreadyPrintedNeedUpdateTextureWarning) {
+                isAlreadyPrintedNeedUpdateTextureWarning = true;
+                logger.warning(this.getClass().getName()
+                        + "::updateTexture is high impact; consider re-implementing it in OpenGL.");
+            }
+
+        }
         this.updateUniforms(drawable);
 
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
