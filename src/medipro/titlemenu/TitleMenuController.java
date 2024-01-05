@@ -3,9 +3,10 @@ package medipro.titlemenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import medipro.gui.panel.GamePanel;
+import javax.swing.JPanel;
+
+import medipro.gui.panel.IGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
-import medipro.object.base.gameobject.GameObjectModel;
 import medipro.world.TestWorld;
 
 public class TitleMenuController extends GameObjectController implements KeyListener {
@@ -16,33 +17,34 @@ public class TitleMenuController extends GameObjectController implements KeyList
 
     @Override
     public void keyPressed(KeyEvent e) {
-        TitleMenuModel model = (TitleMenuModel) models.get(0);
+        TitleMenuModel titleMenuModel = (TitleMenuModel) model;
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_W:
-                model.prevItem();
+        case KeyEvent.VK_UP:
+        case KeyEvent.VK_W:
+            titleMenuModel.prevItem();
+            break;
+        case KeyEvent.VK_DOWN:
+        case KeyEvent.VK_S:
+            titleMenuModel.nextItem();
+            break;
+        case KeyEvent.VK_ENTER:
+        case KeyEvent.VK_Z:
+            switch (titleMenuModel.getSelectedItem()) {
+            case 0:
+                // model.world.setWorld((World)new TestWorld(model.world.getPanel()));
+                JPanel panel = titleMenuModel.world.getPanel();
+                IGamePanel gamePanel = (IGamePanel) (panel);
+                gamePanel.setWorld(new TestWorld(panel));
+                System.out.println("You selected: " + titleMenuModel.getSelectedItem());
                 break;
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_S:
-                model.nextItem();
+            case 1:
+                System.out.println("You selected: " + titleMenuModel.getSelectedItem());
                 break;
-            case KeyEvent.VK_ENTER:
-            case KeyEvent.VK_Z:
-                switch (model.getSelectedItem()) {
-                    case 0:
-                        // model.world.setWorld((World)new TestWorld(model.world.getPanel()));
-                        GamePanel gamePanel = (GamePanel)(model.world.getPanel());
-                        gamePanel.setWorld(new TestWorld(gamePanel));
-                        System.out.println("You selected: " + model.getSelectedItem());
-                        break;
-                    case 1:
-                        System.out.println("You selected: " + model.getSelectedItem());
-                        break;
-                    case 2:
-                        System.exit(0);
-                        break;
-                }
+            case 2:
+                System.exit(0);
                 break;
+            }
+            break;
         }
     }
 
@@ -55,7 +57,7 @@ public class TitleMenuController extends GameObjectController implements KeyList
     }
 
     @Override
-    public void update(GameObjectModel model, float dt) {
-        
+    public void update(double dt) {
+
     }
 }
