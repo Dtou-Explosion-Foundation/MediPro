@@ -1,5 +1,6 @@
 package medipro.object.manager.gamemanager;
 
+import java.util.Arrays;
 import java.util.List;
 
 import medipro.object.AnomalyListener;
@@ -23,21 +24,10 @@ public class GameManagerController extends GameObjectController {
             return;
         logger.info("GameManager::occurAnormaly");
 
-        List<AnomalyListener> listeners = this.model.world.getAnormalyListeners().stream()
-                .filter(listener -> listener.canAnomalyOccurred()).toList();
+        List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
+                .filter(listener -> listener.canAnomalyOccurred()).toArray(AnomalyListener[]::new));
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
                 (a, b) -> a + b);
-
-        // int occuredListenerIndex = (int) (Math.random() * occuredChanceSum);
-
-        // currentAnomalyListener = listeners.reduce((a, b) -> {
-        //     if (occuredListenerIndex < a.getOccuredChance()) {
-        //         return a;
-        //     } else {
-        //         occuredListenerIndex -= a.getOccuredChance();
-        //         return b;
-        //     }
-        // }).get();
 
         final int[] occuredListenerIndexArray = new int[] { (int) (Math.random() * occuredChanceSum) };
 
@@ -54,13 +44,6 @@ public class GameManagerController extends GameObjectController {
                 * (currentAnomalyListener.maxAnomalyLevel() - currentAnomalyListener.minAnomalyLevel() + 1))
                 + currentAnomalyListener.minAnomalyLevel();
         currentAnomalyListener.onAnomalyOccurred(level);
-        // for (int i = 0; i < listeners.size(); i++) {
-        //     occuredListenerIndex -= listeners.get(i).getOccuredChance();
-        //     if (occuredListenerIndex < 0) {
-        //         currentAnomalyListener = listeners.get(i);
-        //         break;
-        //     }
-        // }
     }
 
     @Override

@@ -211,7 +211,7 @@ public class FpsOverlayView extends GameObjectView {
         GL4 gl = drawable.getGL().getGL4();
         if (newString.equals(inBufferString))
             return;
-        int newVertexBufferFragOffset = Math.ceilDiv(newString.length() * 2, CHARS_PER_FRAGMENT);
+        int newVertexBufferFragOffset = (int) Math.ceil(newString.length() * 2 / CHARS_PER_FRAGMENT);
         if (newVertexBufferFragOffset > vertexBufferFragOffset) {
             logger.info("updateStringBuffers: newVertexBufferFragOffset: " + newVertexBufferFragOffset);
             // バッファーを拡張する
