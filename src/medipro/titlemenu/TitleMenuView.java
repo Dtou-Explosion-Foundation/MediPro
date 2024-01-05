@@ -1,31 +1,41 @@
 package medipro.titlemenu;
 
-import java.awt.Graphics2D;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
 
-import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
-import java.awt.Color;
+public class TitleMenuView extends GameObjectView {
 
-public class TitleMenuView extends GameObjectView{
-
-    public TitleMenuView(TitleMenuModel model){
+    public TitleMenuView(TitleMenuModel model) {
         super(model);
     }
 
     @Override
-    public void draw(GameObjectModel model, Graphics2D g) {
+    public void draw(Graphics2D g) {
         TitleMenuModel titleMenuModel = (TitleMenuModel) model;
         String[] menuItems = titleMenuModel.getMenuItems();
         for (int i = 0; i < menuItems.length; i++) {
-            g.setFont(new Font("SansSerif",Font.BOLD,50));
-            if(i == titleMenuModel.getSelectedItem()) {
+            g.setFont(new Font("SansSerif", Font.BOLD, 50));
+            if (i == titleMenuModel.getSelectedItem()) {
                 g.setColor(Color.RED);
             } else {
-                g.setColor(Color.BLACK);
+                g.setColor(Color.lightGray);
             }
-            g.drawString(menuItems[i], -400, 100 + i*50);
+            g.drawString(menuItems[i], 0, 100 + i * 50);
         }
+    }
+
+    int lastSelectedItem = -1;
+
+    @Override
+    protected boolean needUpdateTexture() {
+        int selectedItem = ((TitleMenuModel) model).getSelectedItem();
+        if (lastSelectedItem != selectedItem) {
+            lastSelectedItem = selectedItem;
+            return true;
+        }
+        return false;
     }
 }

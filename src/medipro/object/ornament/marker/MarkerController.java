@@ -13,8 +13,8 @@ public class MarkerController extends GameObjectController {
      * 
      * @param models 格納するモデル
      */
-    public MarkerController(GameObjectModel... models) {
-        super(models);
+    public MarkerController(GameObjectModel model) {
+        super(model);
     }
 
     /**
@@ -24,7 +24,7 @@ public class MarkerController extends GameObjectController {
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(double dt) {
         MarkerModel markerModel = (MarkerModel) model;
         markerModel.rotation += 1f * dt;
         markerModel.scaleX += 1 * dt;

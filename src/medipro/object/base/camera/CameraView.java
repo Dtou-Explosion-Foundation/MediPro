@@ -1,8 +1,15 @@
 package medipro.object.base.camera;
 
 import java.awt.Graphics2D;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
-import medipro.object.base.gameobject.GameObjectModel;
+import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL4;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.math.Matrix4f;
+
+import medipro.config.InGameConfig;
 import medipro.object.base.gameobject.GameObjectView;
 
 /**
@@ -15,7 +22,7 @@ public class CameraView extends GameObjectView {
      * 
      * @param model 格納するモデル
      */
-    public CameraView(GameObjectModel model) {
+    public CameraView(CameraModel model) {
         super(model);
     }
 
@@ -23,7 +30,89 @@ public class CameraView extends GameObjectView {
      * {@inheritDoc}
      */
     @Override
-    public void draw(GameObjectModel model, Graphics2D g) {
+    public void draw(Graphics2D g) {
+    }
+
+    @Override
+    protected boolean needUpdateTexture() {
+        return false;
+    }
+
+    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
+
+    @Override
+    protected void initNames() {
+        ubo = Buffers.newDirectIntBuffer(1);
+    }
+
+    @Override
+    public void init(GLAutoDrawable drawable) {
+        this.initNames();
+        shaderProgram = 0;
+        this.initBuffers(drawable);
+    }
+
+    @Override
+    protected void initBuffers(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        gl.glUseProgram(shaderProgram);
+
+        CameraModel cameraModel = (CameraModel) model;
+
+        gl.glGenBuffers(1, ubo);
+
+        Matrix4f tempMat = new Matrix4f();
+        FloatBuffer cameraMatBuffer = FloatBuffer.allocate(4 * 4 * 2)
+                .put(tempMat.get(FloatBuffer.allocate(4 * 4)).flip())
+                .put(tempMat.get(FloatBuffer.allocate(4 * 4)).flip()).flip();
+
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBufferData(GL4.GL_UNIFORM_BUFFER, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer,
+                GL4.GL_DYNAMIC_DRAW);
+
+        cameraModel.setUBO(ubo.get(0));
+    }
+
+    @Override
+    public void display(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        gl.glUseProgram(shaderProgram);
+
+        updateUniforms(drawable);
+    }
+
+    @Override
+    protected void updateUniforms(GLAutoDrawable drawable) {
+        // logger.info("CameraView::updateUniforms cameraModelPos: (" + model.x + ", " + model.y + ")");
+        GL4 gl = drawable.getGL().getGL4();
+        CameraModel cameraModel = (CameraModel) model;
+
+        Matrix4f tempMat = new Matrix4f();
+        Matrix4f projMat = new Matrix4f().transpose();
+        Matrix4f viewMat = new Matrix4f() // カメラ中心の座標に変換
+                .scale((float) cameraModel.getScale(), (float) cameraModel.getScale(), 1, tempMat) // カメラのズーム倍率を適用
+                .scale((float) (2.0 / InGameConfig.WINDOW_WIDTH), (float) (2.0 / InGameConfig.WINDOW_HEIGHT), 1,
+                        tempMat) // -1~1をウインドウサイズに変換
+                // .scale(1, -1, 1, tempMat) // 上下反転
+                .translate((float) -cameraModel.x, (float) -cameraModel.y, 0, tempMat);
+        // float[] origin = { 0.0f, 0.0f };
+        // Vec4f origin = new Vec4f(0, 0, 0, 1);
+        // Vec4f viewMatRowX = new Vec4f();
+        // Vec4f viewMatRowY = new Vec4f();
+        // viewMat.getRow(0, viewMatRowX);
+        // viewMat.getRow(1, viewMatRowY);
+        // // float camera = verMatRow.dot(origin);
+        // logger.info("CameraModel::getTransformMatrix cameraModelPos: (" + viewMatRowX.dot(origin) + ", "
+        //         + viewMatRowY.dot(origin) + ")");
+
+        FloatBuffer cameraMatBuffer = FloatBuffer.allocate(4 * 4 * 2)
+                .put(projMat.get(FloatBuffer.allocate(4 * 4)).flip())
+                .put(viewMat.get(FloatBuffer.allocate(4 * 4)).flip()).flip();
+
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBufferSubData(GL4.GL_UNIFORM_BUFFER, 0, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer);
+
+        cameraModel.setUBO(ubo.get(0));
     }
 
 }

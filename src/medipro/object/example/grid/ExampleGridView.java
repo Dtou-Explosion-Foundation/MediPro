@@ -1,7 +1,6 @@
 package medipro.object.example.grid;
 
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -12,6 +11,10 @@ import medipro.object.base.gridobject.GridObjectView;
  * グリッドオブジェクトの例のビュー.
  */
 public class ExampleGridView extends GridObjectView {
+
+    public ExampleGridView(ExampleGridModel model) {
+        super(model);
+    }
 
     /**
      * モデルを元に描画を行う. テスト用の図形と画像を描画する.
@@ -29,11 +32,11 @@ public class ExampleGridView extends GridObjectView {
             g.setColor(Color.RED);
             g.drawImage(gridModel.image.get(), grid.x, grid.y, grid.width, grid.height, null);
             g.drawRect(grid.x, grid.y, grid.width, grid.height);
-            String str = String.format("(%d, %d)", gridX, gridY);
-            char[] chars = str.toCharArray();
-            FontMetrics fm = g.getFontMetrics();
-            g.drawChars(chars, 0, chars.length, grid.x + (grid.height - fm.stringWidth(str)) / 2,
-                    grid.y + grid.height / 2);
+            // String str = String.format("(%d, %d)", gridX, gridY);
+            // char[] chars = str.toCharArray();
+            // FontMetrics fm = g.getFontMetrics();
+            // g.drawChars(chars, 0, chars.length, grid.x + (grid.height - fm.stringWidth(str)) / 2,
+            //         grid.y + grid.height / 2);
         }
     }
 }

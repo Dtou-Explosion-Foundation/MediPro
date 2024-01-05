@@ -4,6 +4,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
+import medipro.config.InGameConfig;
+import medipro.gui.panel.IGamePanel;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
@@ -23,7 +25,32 @@ public class CameraModel extends GameObjectModel {
     /**
      * カメラのズーム倍率.
      */
-    public double scale = 1;
+    private double scale = 1;
+
+    public double getScale() {
+        if (InGameConfig.USE_OPENGL)
+            return scale;
+        else {
+            return scale * getScreenScaleFactor();
+        }
+    }
+
+    public double getRawScale() {
+        return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
+    }
+
+    private double getScreenScaleFactor() {
+        if (this.world.panel instanceof IGamePanel)
+            return ((IGamePanel) this.world.panel).getFrame().getScreenScaleFactor();
+        else
+            return 1;
+    }
+
+    private int ubo = -1;
 
     /**
      * グローバル座標からカメラ座標に変換するアフィン変換行列を取得する. ローカル座標とは違い,カメラの中心を原点とするので注意.
@@ -33,8 +60,9 @@ public class CameraModel extends GameObjectModel {
     @Override
     public AffineTransform getTransformMatrix() {
         AffineTransform transform = new AffineTransform();
-        transform.translate(this.world.panel.getWidth() / 2, this.world.panel.getHeight() / 2);
-        transform.scale(scale, scale);
+        transform.translate(InGameConfig.WINDOW_WIDTH / 2 * getScreenScaleFactor(),
+                InGameConfig.WINDOW_HEIGHT / 2 * getScreenScaleFactor());
+        transform.scale(getScale(), getScale());
         transform.translate(-x, y);
         return transform;
     }
@@ -47,8 +75,8 @@ public class CameraModel extends GameObjectModel {
      */
     public Point2D.Double[] getVisibleArea() throws NoninvertibleTransformException {
         Point2D.Double[] points = new Point2D.Double[4];
-        double width = world.panel.getWidth();
-        double height = world.panel.getHeight();
+        double width = InGameConfig.WINDOW_WIDTH * getScreenScaleFactor();
+        double height = InGameConfig.WINDOW_HEIGHT * getScreenScaleFactor();
         AffineTransform transform = getTransformMatrix().createInverse();
         points[0] = new Point2D.Double(0, 0);
         points[1] = new Point2D.Double(width, 0);
@@ -62,6 +90,14 @@ public class CameraModel extends GameObjectModel {
             transform.transform(points[i], points[i]);
         }
         return points;
+    }
+
+    public int getUBO() {
+        return ubo;
+    }
+
+    public void setUBO(int ubo) {
+        this.ubo = ubo;
     }
 
 }

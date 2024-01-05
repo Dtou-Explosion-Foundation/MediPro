@@ -21,8 +21,8 @@ public class PlayerController extends GameObjectController implements KeyListene
      * 
      * @param models 格納するモデル
      */
-    public PlayerController(GameObjectModel... models) {
-        super(models);
+    public PlayerController(GameObjectModel model) {
+        super(model);
     }
 
     /**
@@ -30,23 +30,29 @@ public class PlayerController extends GameObjectController implements KeyListene
      */
     @Override
     public void keyPressed(KeyEvent e) {
+        PlayerModel playerModel = (PlayerModel) model;
         int k = e.getKeyCode();
         switch (k) {
         case KeyEvent.VK_LEFT:
         case KeyEvent.VK_A:
-            for (GameObjectModel model : models) {
-                ((PlayerModel) model).moveLeft();
-            }
+            playerModel.moveLeft();
             keyStateX = -1;
             break;
         case KeyEvent.VK_RIGHT:
         case KeyEvent.VK_D:
-            for (GameObjectModel model : models) {
-                ((PlayerModel) model).moveRight();
-            }
+            playerModel.moveRight();
             keyStateX = 1;
             break;
+        case KeyEvent.VK_UP:
+        case KeyEvent.VK_W:
+            playerModel.y += 10;
+            break;
+        case KeyEvent.VK_DOWN:
+        case KeyEvent.VK_S:
+            playerModel.y -= 10;
+            break;
         }
+
     }
 
     /**
@@ -69,15 +75,13 @@ public class PlayerController extends GameObjectController implements KeyListene
     }
 
     /**
-     * モデルを次フレームの状態に更新する. keyStateXに応じてmoveLeft()またはmoveRight()を呼び出す.
-     * keyPressed()で既に呼び出されている場合も、再度呼び出されるので注意. その後、{@code updateMovement},
-     * {@code updateAnimation}の順に{@code PlayerModel}を更新する.
+     * モデルを次フレームの状態に更新する. keyStateXに応じてmoveLeft()またはmoveRight()を呼び出す. keyPressed()で既に呼び出されている場合も、再度呼び出されるので注意. その後、{@code updateMovement}, {@code updateAnimation}の順に{@code PlayerModel}を更新する.
      * 
      * @param model 更新対象のモデル
      * @param dt    前フレームからの経過時間
      */
     @Override
-    public void update(GameObjectModel model, float dt) {
+    public void update(double dt) {
         PlayerModel playerModel = (PlayerModel) model;
         switch (keyStateX) {
         case -1:

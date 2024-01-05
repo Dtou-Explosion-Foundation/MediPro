@@ -6,8 +6,19 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.FloatBuffer;
 
 import javax.imageio.ImageIO;
+
+import com.jogamp.common.nio.Buffers;
+import com.jogamp.opengl.GL4;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.math.Matrix4f;
+import com.jogamp.opengl.util.texture.TextureData;
+import com.jogamp.opengl.util.texture.TextureIO;
 
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
@@ -19,16 +30,7 @@ public class PlayerView extends GameObjectView {
     /**
      * アニメーション用のスプライトの配列.
      */
-    Image sprites[] = new Image[4];
-
-    /**
-     * スプライトの幅
-     */
-    final int SPRITE_WIDTH = 64;
-    /**
-     * スプライトの高さ
-     */
-    final int SPRITE_HEIGHT = 64;
+    private Image sprites[];
 
     /**
      * プレイヤービューを生成する.
@@ -37,14 +39,14 @@ public class PlayerView extends GameObjectView {
      */
     public PlayerView(GameObjectModel model) {
         super(model);
+        PlayerModel playerModel = (PlayerModel) model;
+        sprites = new Image[playerModel.imagePaths.length];
         try {
-            sprites[0] = ImageIO.read(new File("img/character/bear0.png"));
-            sprites[1] = ImageIO.read(new File("img/character/bear1.png"));
-            sprites[2] = ImageIO.read(new File("img/character/bear2.png"));
-            sprites[3] = ImageIO.read(new File("img/character/bear1.png"));
+            for (int i = 0; i < playerModel.imagePaths.length; i++) {
+                sprites[i] = ImageIO.read(new File(playerModel.imagePaths[i]));
+            }
         } catch (Exception e) {
-            System.out.println(e);
-            System.exit(0);
+            logger.warning(e.toString());
         }
     }
 
@@ -52,18 +54,119 @@ public class PlayerView extends GameObjectView {
      * {@inheritDoc}
      */
     @Override
-    public void draw(GameObjectModel model, Graphics2D g) {
+    public void draw(Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
-        Image image = sprites[playerModel.spritesIndex];
+        // Image image = sprites[playerModel.spritesIndex];
+        Image image = sprites[playerModel.animations[playerModel.animationIndex]];
         if (playerModel.direction == -1) {
             // 反転してから描画する
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-image.getWidth(null), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            g.drawImage(op.filter((BufferedImage) image, null), (int) (playerModel.x - SPRITE_WIDTH / 2),
-                    (int) (playerModel.y - SPRITE_HEIGHT), null);
+            g.drawImage(op.filter((BufferedImage) image, null), (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(),
+                    null);
         } else {
-            g.drawImage(image, (int) (playerModel.x - SPRITE_WIDTH / 2), (int) (playerModel.y - SPRITE_HEIGHT), null);
+            g.drawImage(image, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
         }
     }
+
+    @Override
+    protected String getShaderPath(String ext) {
+        super.getShaderPath(ext);
+        return "shader/gameobject/GameObject" + "." + ext;
+    }
+
+    @Override
+    protected float getSpriteWidth() {
+        return 64;
+    }
+
+    @Override
+    protected float getSpriteHeight() {
+        return 64;
+    }
+
+    @Override
+    protected boolean needUpdateTexture() {
+        return false;
+    }
+
+    @Override
+    protected void initNames() {
+        super.initNames();
+        textureName = Buffers.newDirectIntBuffer(3);
+    }
+
+    @Override
+    protected void initTextures(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        PlayerModel playerModel = (PlayerModel) model;
+        textureName.clear();
+        gl.glGenTextures(3, textureName);
+        for (int i = 0; i < playerModel.imagePaths.length; i++) {
+            TextureData textureData;
+            try {
+                InputStream textureStream = new FileInputStream(playerModel.imagePaths[i]);
+                textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
+            } catch (IOException e) {
+                logger.warning(e.toString());
+                return;
+            }
+
+            gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(i));
+
+            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+            gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 0);
+
+            gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+                    textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+                    textureData.getBuffer());
+        }
+    }
+
+    @Override
+    protected Matrix4f getModelMatrix() {
+        PlayerModel playerModel = (PlayerModel) model;
+        Matrix4f tempMat = new Matrix4f();
+        Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
+                .translate(0, +getSpriteHeight() / 2, 0, tempMat) // 足
+                .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
+                .scale(playerModel.direction, 1, 1, tempMat)// 左右反転
+                .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
+                .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
+                .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
+        ;
+        // Matri
+        return modelMat;
+    }
+
+    @Override
+    protected void updateUniforms(GLAutoDrawable drawable) {
+        PlayerModel playerModel = (PlayerModel) model;
+        GL4 gl = drawable.getGL().getGL4();
+
+        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
+        if (modelMatUniform != -1) {
+
+            FloatBuffer modelMatBuffer = this.getModelMatrix().transpose().get(FloatBuffer.allocate(4 * 4)).flip();
+            gl.glUniformMatrix4fv(modelMatUniform, 1, true, modelMatBuffer);
+        }
+
+        int sample2dLocation = gl.glGetUniformLocation(shaderProgram, "uTexture");
+        if (sample2dLocation != -1) {
+            gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(playerModel.animations[playerModel.animationIndex]));
+            gl.glBindSampler(sample2dLocation, samplerName.get(0));
+        }
+    }
+
+    @Override
+    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
+
+    }
+
+    @Override
+    public void dispose(GLAutoDrawable drawable) {
+
+    }
+
 }

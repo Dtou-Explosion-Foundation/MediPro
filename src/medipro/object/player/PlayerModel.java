@@ -31,14 +31,14 @@ public class PlayerModel extends GameObjectModel {
      * 移動していない時のスプライトのインデックス.
      */
     int spritesIdleIndex = 1;
+
     /**
      * 現在のスプライトのインデックス.
      */
-    int spritesIndex = 0;
-    /**
-     * スプライトのアニメーションの範囲.
-     */
-    int[] spritesRange = { 0, 3 };
+    int animationIndex = 0;
+    String[] imagePaths = { "img/character/bear0.png", "img/character/bear1.png", "img/character/bear2.png", };
+    int[] animations = { 0, 1, 2, 1 };
+
     /**
      * スプライトのアニメーションの最大切り替え時間. changeSpriteTimerがこの値を超えたらスプライトを切り替える。
      */
@@ -77,8 +77,7 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 次のフレームで右に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング.
-     * {@code direction}と{@code isWalking}を更新する.
+     * 次のフレームで右に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング. {@code direction}と{@code isWalking}を更新する.
      */
     public void moveRight() {
         direction = 1;
@@ -86,8 +85,7 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 次のフレームで左に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング.
-     * {@code direction}と{@code isWalking}を更新する.
+     * 次のフレームで左に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング. {@code direction}と{@code isWalking}を更新する.
      */
     public void moveLeft() {
         direction = -1;
@@ -95,18 +93,16 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 1フレーム分、アニメーションを更新する。
-     * {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える。
-     * 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる。
+     * 1フレーム分、アニメーションを更新する。 {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える。 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる。
      * 
      * @param dt 前フレームからの経過時間
      */
-    public void updateAnimation(float dt) {
+    public void updateAnimation(double dt) {
         // update sprite animation
         changeSpriteTimer += dt;
         if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
-            if (++spritesIndex > spritesRange[1])
-                spritesIndex = spritesRange[0];
+            if (++animationIndex >= animations.length)
+                animationIndex = 0;
             changeSpriteTimer = 0;
         }
     }
@@ -116,17 +112,14 @@ public class PlayerModel extends GameObjectModel {
      * 
      * @param dt 前フレームからの経過時間
      */
-    public void updateMovement(float dt) {
+    public void updateMovement(double dt) {
         // apply movement
         if (isWalking) {
             speedX += accX * direction * dt;
             isWalking = false;
         } else {
-            spritesIndex = spritesIdleIndex;
+            animationIndex = spritesIdleIndex;
         }
-
-        // update position
-        x += speedX * dt;
 
         // apply resistance
         if (speedX > 0) {
@@ -144,5 +137,8 @@ public class PlayerModel extends GameObjectModel {
             speedX = speedLimitX;
         else if (speedX < -speedLimitX)
             speedX = -speedLimitX;
+
+        // update position
+        x += speedX * dt;
     }
 }
