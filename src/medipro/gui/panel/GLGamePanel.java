@@ -8,10 +8,12 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.awt.GLJPanel;
 
+import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
 import medipro.world.TestWorld;
+import medipro.world.TitleMenuWorld;
 
 /**
  * OpenGLで描画されるゲームのパネルを実装するクラス.
@@ -75,6 +77,10 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void display(GLAutoDrawable drawable) {
         if (InGameConfig.USE_OPENGL) {
+            if (needInitialize) {
+                needInitialize = false;
+                world.init(drawable);
+            }
             this.update(this.getDeltaTime());
             // logger.info("---------- GLGamePanel::display ----------");
             GL4 gl = drawable.getGL().getGL4();
@@ -84,10 +90,14 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         }
     }
 
+    private boolean needInitialize = true;
+
     @Override
     public void dispose(GLAutoDrawable drawable) {
-        if (InGameConfig.USE_OPENGL)
+        if (InGameConfig.USE_OPENGL && needInitialize) {
+            needInitialize = false;
             world.dispose(drawable);
+        }
     }
 
     @Override
@@ -106,6 +116,12 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
         if (InGameConfig.USE_OPENGL)
             world.reshape(drawable, x, y, w, h);
+    }
+
+    @Override
+    public void setWorld(World world) {
+        needInitialize = true;
+        this.world = world;
     }
 
 }

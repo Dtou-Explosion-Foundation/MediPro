@@ -7,10 +7,12 @@ import java.util.logging.Logger;
 
 import javax.swing.JPanel;
 
+import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
 import medipro.world.TestWorld;
+import medipro.world.TitleMenuWorld;
 
 /**
  * Graphics2Dで描画されるゲームのパネルを実装するクラス.
@@ -93,5 +95,10 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
             world.draw(g2);
             // logger.info("-----------------------------");
         }
+    }
+
+    @Override
+    public void setWorld(World world) {
+        this.world = world;
     }
 }
