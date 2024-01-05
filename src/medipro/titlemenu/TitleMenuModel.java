@@ -1,14 +1,13 @@
 package medipro.titlemenu;
 
 import medipro.object.base.World;
-
 import medipro.object.base.gameobject.GameObjectModel;
 
-public class TitleMenuModel extends GameObjectModel{
-    private String[] menuItems = {"Start Game", "Options", "Quit"};
+public class TitleMenuModel extends GameObjectModel {
+    private String[] menuItems = { "Start Game", "Options", "Quit" };
     private int selectedItem = 0;
 
-    public TitleMenuModel(World world){
+    public TitleMenuModel(World world) {
         super(world);
         logger.info("Init TitleMenu.");
     }
@@ -25,7 +24,7 @@ public class TitleMenuModel extends GameObjectModel{
         return selectedItem;
     }
 
-    public String[] getMenuItems(){
+    public String[] getMenuItems() {
         return menuItems;
     }
 }
