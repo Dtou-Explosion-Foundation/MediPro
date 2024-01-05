@@ -31,6 +31,9 @@ import medipro.object.overlay.fps.FpsOverlayView;
 import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 import medipro.object.player.PlayerView;
+import medipro.object.stairs.StairsController;
+import medipro.object.stairs.StairsModel;
+import medipro.object.stairs.StairsView;
 
 /**
  * テスト用のワールド
@@ -139,6 +142,21 @@ public class TestWorld extends World {
             TextureView view = new TextureView(model);
             TextureController controller = new TextureController(model);
             this.addViewAndController(view, controller, 0);
+        }
+        {
+            StairsModel model = new StairsModel(this);
+            model.x = -500;
+            model.setLeftUp(true);
+            StairsView view = new StairsView(model);
+            StairsController controller = new StairsController(model);
+            this.addViewAndController(view, controller, 5);
+        }
+        {
+            StairsModel model = new StairsModel(this);
+            model.x = 500;
+            StairsView view = new StairsView(model);
+            StairsController controller = new StairsController(model);
+            this.addViewAndController(view, controller, 5);
         }
         {
             FpsOverlayModel model = new FpsOverlayModel(this);

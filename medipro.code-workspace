@@ -20,7 +20,8 @@
 			"source.organizeImports": "explicit"
 		},
 		"[java]": {
-			"editor.pasteAs.enabled": false
+			"editor.pasteAs.enabled": false,
+			"editor.defaultFormatter": "redhat.java",
 		},
 		// "extensions.ignoreRecommendations": true,
 		"cSpell.words": [

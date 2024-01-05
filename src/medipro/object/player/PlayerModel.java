@@ -1,5 +1,10 @@
 package medipro.object.player;
 
+import java.awt.geom.Point2D;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Function;
+
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
@@ -92,6 +97,12 @@ public class PlayerModel extends GameObjectModel {
         isWalking = true;
     }
 
+    public void update(double dt) {
+        if (!updateAutoMover(dt))
+            updateMovement(dt);
+        updateAnimation(dt);
+    }
+
     /**
      * 1フレーム分、アニメーションを更新する。 {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える。 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる。
      * 
@@ -140,5 +151,68 @@ public class PlayerModel extends GameObjectModel {
 
         // update position
         x += speedX * dt;
+    }
+
+    public boolean updateAutoMover(double dt) {
+        if (autoWalkerQueue.isEmpty()) {
+            return false;
+        }
+        AutoWalker autoWalker = autoWalkerQueue.peek();
+        autoWalker.update(dt);
+        x = autoWalker.getNewX();
+        y = autoWalker.getNewY();
+        speedX = autoWalker.getSpeed();
+        if (autoWalker.isFinished()) {
+            autoWalker.callback.run();
+            autoWalkerQueue.poll();
+        }
+        return true;
+    }
+
+    private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
+
+    public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+            Runnable callback) {
+        autoWalkerQueue.add(new AutoWalker(target, duration, interpolation, callback));
+    }
+
+    private class AutoWalker {
+        private Point2D.Double start;
+        private Point2D.Double target;
+        private double duration;
+        private Function<Double, Double> interpolation;
+        private Runnable callback;
+
+        private double time = 0;
+
+        public AutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+                Runnable callback) {
+            this.start = new Point2D.Double(x, y);
+            this.target = target;
+            this.duration = duration;
+            this.interpolation = interpolation;
+            this.callback = callback;
+        }
+
+        public void update(double dt) {
+            time += dt;
+        }
+
+        public double getNewX() {
+            return interpolation.apply(time / duration) * (target.getX() - start.getX()) + start.getX();
+        }
+
+        public double getNewY() {
+            return interpolation.apply(time / duration) * (target.getY() - start.getY()) + start.getY();
+        }
+
+        public double getSpeed() {
+            return (target.getX() - start.getX()) / duration;
+        }
+
+        public boolean isFinished() {
+            return time > duration;
+        }
+
     }
 }

@@ -15,7 +15,7 @@ public final class InGameConfig {
     /**
      * OpenGLを使用するかどうか.
      */
-    public static final boolean USE_OPENGL = true;
+    public static final boolean USE_OPENGL = false;
     /**
      * 一秒あたりのフレーム数.
      */
