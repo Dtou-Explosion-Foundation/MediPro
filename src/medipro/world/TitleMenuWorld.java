@@ -22,7 +22,5 @@ public class TitleMenuWorld extends World {
             this.addViewAndController(view, controller);
             panel.addKeyListener(controller);
         }
-    }}
-
-    
-    
+    }
+}

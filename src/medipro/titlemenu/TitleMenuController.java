@@ -5,10 +5,8 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
-import medipro.gui.panel.GamePanel;
 import medipro.gui.panel.IGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
-import medipro.object.base.gameobject.GameObjectModel;
 import medipro.world.TestWorld;
 
 public class TitleMenuController extends GameObjectController implements KeyListener {
@@ -61,11 +59,5 @@ public class TitleMenuController extends GameObjectController implements KeyList
     @Override
     public void update(double dt) {
 
-    }}
-
-    
-     
-            
-    
-
-    
+    }
+}
