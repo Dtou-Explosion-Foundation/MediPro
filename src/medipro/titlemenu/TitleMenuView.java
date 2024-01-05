@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
 public class TitleMenuView extends GameObjectView {
@@ -37,5 +38,6 @@ public class TitleMenuView extends GameObjectView {
             return true;
         }
         return false;
-    }
-}
+    }}
+
+    

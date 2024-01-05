@@ -65,6 +65,8 @@ public class TestWorld extends World {
             cameraTarget = model;
             PlayerView view = new PlayerView(model);
             PlayerController controller = new PlayerController(model);
+            if (panel == null)
+                logger.warning("Panel is null");
             panel.addKeyListener(controller);
             this.addViewAndController(view, controller, 10);
         }
