@@ -211,4 +211,9 @@ public abstract class World implements GLEventListener {
                     return (AnomalyListener) controller;
                 }).collect(Collectors.toList());
     }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
 }
