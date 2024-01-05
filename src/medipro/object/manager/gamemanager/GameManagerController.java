@@ -25,7 +25,7 @@ public class GameManagerController extends GameObjectController {
 
         List<AnomalyListener> listeners = this.model.world.getAnormalyListeners().stream()
                 .filter(listener -> listener.canAnomalyOccurred()).toList();
-        int occuredChanceSum = listeners.stream().map(listener -> listener.getOccuredChance()).reduce(0,
+        int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
                 (a, b) -> a + b);
 
         // int occuredListenerIndex = (int) (Math.random() * occuredChanceSum);
@@ -42,10 +42,10 @@ public class GameManagerController extends GameObjectController {
         final int[] occuredListenerIndexArray = new int[] { (int) (Math.random() * occuredChanceSum) };
 
         currentAnomalyListener = listeners.stream().reduce((a, b) -> {
-            if (occuredListenerIndexArray[0] < a.getOccuredChance()) {
+            if (occuredListenerIndexArray[0] < a.getOccurredChance()) {
                 return a;
             } else {
-                occuredListenerIndexArray[0] -= a.getOccuredChance();
+                occuredListenerIndexArray[0] -= a.getOccurredChance();
                 return b;
             }
         }).get();

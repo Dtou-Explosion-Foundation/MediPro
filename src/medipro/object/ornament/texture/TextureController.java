@@ -49,7 +49,7 @@ public class TextureController extends GameObjectController implements AnomalyLi
     }
 
     @Override
-    public int getOccuredChance() {
+    public int getOccurredChance() {
         return 1;
     }
 }

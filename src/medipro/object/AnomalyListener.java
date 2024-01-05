@@ -11,6 +11,6 @@ public interface AnomalyListener {
 
     public int maxAnomalyLevel();
 
-    public int getOccuredChance();
+    public int getOccurredChance();
 
 }
