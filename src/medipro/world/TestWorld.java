@@ -174,6 +174,9 @@ public class TestWorld extends World {
             model.followingSpeed = 0.08;
             // model.originY = (int) (-100 / model.getScale());
             model.originY = 50;
+            model.setMinX(-300);
+            model.setMaxX(300);
+            model.setLockY(true);
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
             // CameraController controller = new FollowingCameraController(model);
