@@ -19,8 +19,12 @@ public class GameManagerModel extends GameObjectModel {
         GameManagerModel.floor = floor;
     }
 
-    public static void incrementFloor() {
+    public void nextFloor() {
         GameManagerModel.floor++;
+    }
+
+    public void prevFloor() {
+        GameManagerModel.floor--;
     }
 
     public AnomalyListener getCurrentAnomalyListener() {

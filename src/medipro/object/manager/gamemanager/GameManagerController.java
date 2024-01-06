@@ -49,4 +49,14 @@ public class GameManagerController extends GameObjectController {
     public void update(double dt) {
         occurAnormaly();
     }
+
+    public void nextFloor() {
+        GameManagerModel gameManagerModel = (GameManagerModel) model;
+        gameManagerModel.nextFloor();
+    }
+
+    public void prevFloor() {
+        GameManagerModel gameManagerModel = (GameManagerModel) model;
+        gameManagerModel.prevFloor();
+    }
 }

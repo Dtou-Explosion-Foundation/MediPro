@@ -162,6 +162,7 @@ public class PlayerModel extends GameObjectModel {
         x = autoWalker.getNewX();
         y = autoWalker.getNewY();
         speedX = autoWalker.getSpeed();
+        direction = autoWalker.getDirection();
         if (autoWalker.isFinished()) {
             autoWalker.callback.run();
             autoWalkerQueue.poll();
@@ -183,6 +184,8 @@ public class PlayerModel extends GameObjectModel {
         private Function<Double, Double> interpolation;
         private Runnable callback;
 
+        private byte direction;
+
         private double time = 0;
 
         public AutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
@@ -192,6 +195,7 @@ public class PlayerModel extends GameObjectModel {
             this.duration = duration;
             this.interpolation = interpolation;
             this.callback = callback;
+            this.direction = target.getX() > start.getX() ? (byte) 1 : (byte) -1;
         }
 
         public void update(double dt) {
@@ -212,6 +216,10 @@ public class PlayerModel extends GameObjectModel {
 
         public boolean isFinished() {
             return time > duration;
+        }
+
+        public byte getDirection() {
+            return direction;
         }
 
     }

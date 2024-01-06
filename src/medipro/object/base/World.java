@@ -169,6 +169,7 @@ public abstract class World implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         for (ArrayList<GameObjectView> views : views) {
             for (GameObjectView view : views) {
+                logger.info("Invoke " + view.getClass().getName() + "::init");
                 view.init(drawable);
             }
         }

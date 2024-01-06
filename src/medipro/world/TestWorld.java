@@ -150,6 +150,7 @@ public class TestWorld extends World {
         {
             StairsModel model = new StairsModel(this);
             model.x = -500;
+            model.y = 40;
             model.setLeftUp(true);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
@@ -158,6 +159,7 @@ public class TestWorld extends World {
         {
             StairsModel model = new StairsModel(this);
             model.x = 500;
+            model.y = 40;
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
             this.addViewAndController(view, controller, 5);
