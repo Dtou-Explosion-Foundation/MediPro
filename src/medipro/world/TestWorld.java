@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import medipro.config.EngineConfig;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
@@ -25,6 +26,9 @@ import medipro.object.ornament.marker.MarkerView;
 import medipro.object.ornament.texture.TextureController;
 import medipro.object.ornament.texture.TextureModel;
 import medipro.object.ornament.texture.TextureView;
+import medipro.object.overlay.blackfilter.BlackFilterController;
+import medipro.object.overlay.blackfilter.BlackFilterModel;
+import medipro.object.overlay.blackfilter.BlackFilterView;
 import medipro.object.overlay.fps.FpsOverlayController;
 import medipro.object.overlay.fps.FpsOverlayModel;
 import medipro.object.overlay.fps.FpsOverlayView;
@@ -175,6 +179,14 @@ public class TestWorld extends World {
             // CameraController controller = new FollowingCameraController(model);
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
+        }
+        {
+            BlackFilterModel model = new BlackFilterModel(this);
+            BlackFilterController controller = new BlackFilterController(model);
+            BlackFilterView view = new BlackFilterView(model);
+            model.setAlpha(1f);
+            controller.blackOut(2f);
+            this.addViewAndController(view, controller, EngineConfig.LAYER_NUM - 1);
         }
         {
             GameManagerModel model = new GameManagerModel(this);
