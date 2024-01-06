@@ -1,15 +1,16 @@
-package medipro.titlemenu;
+package medipro.result;
 
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
-public class TitleMenuModel extends GameObjectModel {
-    private String[] menuItems = { "Start Game", "Options", "Quit" };
+public class ResultModel extends GameObjectModel{
+    private String[] menuItems = { "Retry", "Return to title" };
     private int selectedItem = 0;
 
-    public TitleMenuModel(World world) {
+    public ResultModel(World world) {
         super(world);
-        logger.info("Init TitleMenu.");
+        //selectedItem = 0;
+        logger.info("Init ResultMenu.");
     }
 
     public void nextItem() {
@@ -31,13 +32,5 @@ public class TitleMenuModel extends GameObjectModel {
     public String[] getMenuItems() {
         return menuItems;
     }
-
+   
 }
-
-    
-
-    
-
-    
-
-    
