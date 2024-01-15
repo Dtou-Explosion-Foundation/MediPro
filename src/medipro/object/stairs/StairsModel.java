@@ -8,6 +8,16 @@ public class StairsModel extends GameObjectModel {
     private boolean isLeftUp = false;
     private float width;
 
+    private float triggerRange;
+
+    public float getTriggerRange() {
+        return triggerRange != 0 ? triggerRange : getWidth();
+    }
+
+    public void setTriggerRange(float triggerRange) {
+        this.triggerRange = triggerRange;
+    }
+
     public float getWidth() {
         return width;
     }

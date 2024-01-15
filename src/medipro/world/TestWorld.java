@@ -150,7 +150,8 @@ public class TestWorld extends World {
         {
             StairsModel model = new StairsModel(this);
             model.x = -500;
-            model.y = 40;
+            model.y = 10;
+            model.setTriggerRange(300f);
             model.setLeftUp(true);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
@@ -159,7 +160,8 @@ public class TestWorld extends World {
         {
             StairsModel model = new StairsModel(this);
             model.x = 500;
-            model.y = 40;
+            model.y = 10;
+            model.setTriggerRange(300f);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
             this.addViewAndController(view, controller, 5);
@@ -175,10 +177,11 @@ public class TestWorld extends World {
             model.setScale(2);
             model.followingSpeed = 0.08;
             // model.originY = (int) (-100 / model.getScale());
-            model.originY = 50;
+            // model.originY = 50;
             model.setMinX(-300);
             model.setMaxX(300);
             model.setLockY(true);
+            model.y = 50;
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
             // CameraController controller = new FollowingCameraController(model);
