@@ -1,4 +1,4 @@
-package medipro.object.stage.floor;
+package medipro.object.stage.ceil;
 
 import java.awt.Image;
 import java.io.File;
@@ -10,23 +10,23 @@ import javax.imageio.ImageIO;
 import medipro.object.base.World;
 import medipro.object.base.gridobject.GridObjectModel;
 
-public class FloorModel extends GridObjectModel {
+public class CeilModel extends GridObjectModel {
     Optional<Image> image = Optional.empty();
 
-    public FloorModel(World world, String path) throws IOException {
+    public CeilModel(World world, String path) throws IOException {
         this(world, ImageIO.read(new File(path)));
     }
 
-    public FloorModel(World world, Image image) {
+    public CeilModel(World world, Image image) {
         super(world, image.getWidth(null), image.getHeight(null));
         this.image = Optional.ofNullable(image);
     }
 
-    public FloorModel(World world) throws IOException {
-        this(world, "img/layers/medipro_0005_ゆか.png");
+    public CeilModel(World world) throws IOException {
+        this(world, "img/layers/medipro_0004_てんじょう.png");
     }
 
-    public FloorModel(World world, int width, int height) {
+    public CeilModel(World world, int width, int height) {
         super(world, width, height);
     }
 
