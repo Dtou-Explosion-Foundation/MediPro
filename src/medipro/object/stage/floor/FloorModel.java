@@ -23,7 +23,7 @@ public class FloorModel extends GridObjectModel {
     }
 
     public FloorModel(World world) throws IOException {
-        this(world, "img/layers/medipro_0005_ゆか.png");
+        this(world, "img/layers/medipro_0004_Floor.png");
     }
 
     public FloorModel(World world, int width, int height) {

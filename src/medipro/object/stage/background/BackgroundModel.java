@@ -24,7 +24,7 @@ public class BackgroundModel extends GridObjectModel {
     }
 
     public BackgroundModel(World world) throws IOException {
-        this(world, "img/コンクリ壁_grid.png");
+        this(world, "img/layers/medipro_0004s_0000_Background_Grid.png");
     }
 
     public BackgroundModel(World world, int width, int height) {

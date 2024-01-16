@@ -28,13 +28,13 @@ public class StairsView extends GameObjectView {
         super(model);
         try {
             textures = new BufferedImage[2];
-            textures[0] = ImageIO.read(new File("img/layers/medipro_0001_階段.png"));
+            textures[0] = ImageIO.read(new File("img/layers/medipro_0001_Stairs.png"));
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-textures[0].getWidth(), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             textures[1] = op.filter(textures[0], null);
         } catch (IOException | NullPointerException e) {
-            logger.warning("Failed to load texture: img/layers/medipro_0001_階段.png");
+            logger.warning("Failed to load texture: img/layers/medipro_0001_Stairs.png");
         }
 
         StairsModel stairsModel = (StairsModel) model;

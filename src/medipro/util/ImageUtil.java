@@ -9,12 +9,14 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 public class ImageUtil {
-    protected final Logger logger = Logger.getLogger(this.getClass().getName());
+    protected final static Logger logger = Logger.getLogger(ImageUtil.class.getName());
 
     public static Optional<BufferedImage> loadImages(String path) {
         try {
             return Optional.ofNullable(ImageIO.read(new File(path)));
         } catch (IOException e) {
+            logger.warning("Failed to load image");
+            e.printStackTrace();
             return Optional.empty();
         }
     }

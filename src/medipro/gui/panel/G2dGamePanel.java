@@ -69,7 +69,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
         lastRepaintTime = currentTime;
-        return deltaTime / 1000000000.0;
+        return deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED;
     }
 
     /**

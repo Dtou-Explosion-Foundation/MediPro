@@ -23,7 +23,7 @@ public class CeilModel extends GridObjectModel {
     }
 
     public CeilModel(World world) throws IOException {
-        this(world, "img/layers/medipro_0004_てんじょう.png");
+        this(world, "img/layers/medipro_0003_Ceil.png");
     }
 
     public CeilModel(World world, int width, int height) {

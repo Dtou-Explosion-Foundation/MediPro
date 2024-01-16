@@ -17,7 +17,7 @@ public class VignetteModel extends GameObjectModel {
     public VignetteModel(World world) {
         super(world);
         try {
-            image = Optional.ofNullable(ImageIO.read(new File("img/layers/medipro_0000_ビネット.png")));
+            image = Optional.ofNullable(ImageIO.read(new File("img/layers/medipro_0000_Vignette.png")));
         } catch (IOException e) {
             logger.warning("Failed to load image");
             e.printStackTrace();

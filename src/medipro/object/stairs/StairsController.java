@@ -73,10 +73,8 @@ public class StairsController extends GameObjectController {
         PlayerModel playerModel = (PlayerModel) playerController.model;
         float triggerRange = stairsModel.getTriggerRange() / 2;
         if (playerModel.x > model.x - triggerRange && playerModel.x < model.x + triggerRange) {
-            // if (isPlayerOnStairs || playerModel.isPlayerAutoWalking())
-            if (isPlayerOnStairs)
+            if (isPlayerOnStairs || playerModel.isPlayerAutoWalking())
                 return;
-
             isPlayerOnStairs = true;
 
             AutoWalker endAutoWalker = new AutoWalker(playerModel.x, playerModel.y,
@@ -110,7 +108,9 @@ public class StairsController extends GameObjectController {
                 panel.setWorld(newWorld);
             });
             playerController.pushAutoWalker(endAutoWalker);
-        } else {
+        } else
+
+        {
             isPlayerOnStairs = false;
         }
     }

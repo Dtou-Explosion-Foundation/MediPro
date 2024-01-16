@@ -13,9 +13,6 @@ import medipro.object.camera.SmoothFollowingCameraController;
 import medipro.object.camera.SmoothFollowingCameraModel;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.object.manager.gamemanager.GameManagerModel;
-import medipro.object.overlay.blackfilter.BlackFilterController;
-import medipro.object.overlay.blackfilter.BlackFilterModel;
-import medipro.object.overlay.blackfilter.BlackFilterView;
 import medipro.object.overlay.fps.FpsOverlayController;
 import medipro.object.overlay.fps.FpsOverlayModel;
 import medipro.object.overlay.fps.FpsOverlayView;
@@ -130,7 +127,7 @@ public class PlayWorld extends World {
                 CeilView view = new CeilView(model);
                 this.addViewAndController(view, controller, 1);
             } catch (IOException e) {
-                logger.severe("Failed to load background image");
+                logger.severe("Failed to load ceil image");
                 e.printStackTrace();
             }
         }
@@ -142,7 +139,7 @@ public class PlayWorld extends World {
                 FloorView view = new FloorView(model);
                 this.addViewAndController(view, controller, 1);
             } catch (IOException e) {
-                logger.severe("Failed to load background image");
+                logger.severe("Failed to load floor image");
                 e.printStackTrace();
             }
 
@@ -161,14 +158,14 @@ public class PlayWorld extends World {
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
         }
-        {
-            BlackFilterModel model = new BlackFilterModel(this);
-            BlackFilterController controller = new BlackFilterController(model);
-            BlackFilterView view = new BlackFilterView(model);
-            model.setAlpha(1f);
-            controller.blackOut(2f);
-            this.addViewAndController(view, controller, 100);
-        }
+        // {
+        //     BlackFilterModel model = new BlackFilterModel(this);
+        //     BlackFilterController controller = new BlackFilterController(model);
+        //     BlackFilterView view = new BlackFilterView(model);
+        //     model.setAlpha(1f);
+        //     controller.blackOut(2f);
+        //     this.addViewAndController(view, controller, 100);
+        // }
         {
             GameManagerModel model = new GameManagerModel(this);
             GameManagerController controller = new GameManagerController(model);
