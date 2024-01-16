@@ -11,7 +11,7 @@ import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
-import medipro.world.PlayWorld;
+import medipro.world.TestWorld;
 import medipro.world.TitleMenuWorld;
 
 /**
@@ -43,7 +43,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         super();
         logger.info("Init GamePanel");
         this.frame = frame;
-        world = EngineConfig.SKIP_TITLE ? new PlayWorld(this) : new TitleMenuWorld(this);
+        world = EngineConfig.SKIP_TITLE ? new TestWorld(this) : new TitleMenuWorld(this);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package medipro.object.player;
 
+import java.awt.geom.Point2D;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Function;
 
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -152,7 +154,6 @@ public class PlayerModel extends GameObjectModel {
     }
 
     public boolean updateAutoMover(double dt) {
-        // logger.info("direction: " + direction);
         if (autoWalkerQueue.isEmpty()) {
             return false;
         }
@@ -163,29 +164,63 @@ public class PlayerModel extends GameObjectModel {
         speedX = autoWalker.getSpeed();
         direction = autoWalker.getDirection();
         if (autoWalker.isFinished()) {
+            autoWalker.callback.run();
             autoWalkerQueue.poll();
-            logger.info("updateAutoMover: remove head of queue " + autoWalkerQueue.size());
-            autoWalker.invokeCallback();
         }
         return true;
     }
 
     private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
 
-    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
-    //         Runnable callback) {
-    //     autoWalkerQueue.add(new AutoWalker(target, duration, interpolation, callback));
-    // }
-    public void pushAutoWalker(AutoWalker autoWalker) {
-        autoWalkerQueue.add(autoWalker);
-        logger.info("pushAutoWalker: " + autoWalkerQueue.size());
-        logger.info("New position: " + autoWalker.getNewX() + ", " + autoWalker.getNewY());
-        x = autoWalker.getNewX();
-        y = autoWalker.getNewY();
+    public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+            Runnable callback) {
+        autoWalkerQueue.add(new AutoWalker(target, duration, interpolation, callback));
     }
 
-    public boolean isPlayerAutoWalking() {
-        return !autoWalkerQueue.isEmpty();
-    }
+    private class AutoWalker {
+        private Point2D.Double start;
+        private Point2D.Double target;
+        private double duration;
+        private Function<Double, Double> interpolation;
+        private Runnable callback;
 
+        private byte direction;
+
+        private double time = 0;
+
+        public AutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+                Runnable callback) {
+            this.start = new Point2D.Double(x, y);
+            this.target = target;
+            this.duration = duration;
+            this.interpolation = interpolation;
+            this.callback = callback;
+            this.direction = target.getX() > start.getX() ? (byte) 1 : (byte) -1;
+        }
+
+        public void update(double dt) {
+            time += dt;
+        }
+
+        public double getNewX() {
+            return interpolation.apply(time / duration) * (target.getX() - start.getX()) + start.getX();
+        }
+
+        public double getNewY() {
+            return interpolation.apply(time / duration) * (target.getY() - start.getY()) + start.getY();
+        }
+
+        public double getSpeed() {
+            return (target.getX() - start.getX()) / duration;
+        }
+
+        public boolean isFinished() {
+            return time > duration;
+        }
+
+        public byte getDirection() {
+            return direction;
+        }
+
+    }
 }

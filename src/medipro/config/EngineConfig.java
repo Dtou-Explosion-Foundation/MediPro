@@ -15,6 +15,6 @@ public class EngineConfig {
 
     public static final int DEFAULT_MONITOR = 0;
 
-    public static final boolean SKIP_TITLE = true;
+    public static final boolean SKIP_TITLE = false;
     public static final int DEBUG_LEVEL = 2; // 0: none, 1: info, 2: debug
 }

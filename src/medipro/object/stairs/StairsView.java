@@ -28,13 +28,13 @@ public class StairsView extends GameObjectView {
         super(model);
         try {
             textures = new BufferedImage[2];
-            textures[0] = ImageIO.read(new File("img/stairs2.png"));
+            textures[0] = ImageIO.read(new File("img/stairs.png"));
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-textures[0].getWidth(), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             textures[1] = op.filter(textures[0], null);
         } catch (IOException | NullPointerException e) {
-            logger.warning("Failed to load texture: img/stairs2.png");
+            logger.warning("Failed to load texture: img/stairs.png");
         }
 
         StairsModel stairsModel = (StairsModel) model;
@@ -79,7 +79,7 @@ public class StairsView extends GameObjectView {
         gl.glGenTextures(1, textureName);
         TextureData textureData;
         try {
-            InputStream textureStream = new FileInputStream("img/stairs2.png");
+            InputStream textureStream = new FileInputStream("img/stairs.png");
             BufferedImage bufferedImage = ImageIO.read(textureStream);
             ByteBuffer buffer = convertBufferedImageToByteBuffer(bufferedImage);
 
