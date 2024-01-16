@@ -2,8 +2,6 @@ package medipro.object.player;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Point2D;
-import java.util.function.Function;
 
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -102,9 +100,14 @@ public class PlayerController extends GameObjectController implements KeyListene
         playerModel.update(dt);
     }
 
-    public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
-            Runnable callback) {
+    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+    //         Runnable callback) {
+    //     PlayerModel playerModel = (PlayerModel) model;
+    //     playerModel.pushAutoWalker(target, duration, interpolation, callback);
+    // }
+
+    public void pushAutoWalker(AutoWalker autoWalker) {
         PlayerModel playerModel = (PlayerModel) model;
-        playerModel.pushAutoWalker(target, duration, interpolation, callback);
+        playerModel.pushAutoWalker(autoWalker);
     }
 }
