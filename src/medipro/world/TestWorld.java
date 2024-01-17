@@ -51,7 +51,6 @@ public class TestWorld extends World {
      */
     public TestWorld(JPanel panel) {
         super(panel);
-        logger.info("TestWorld created");
     }
 
     /**

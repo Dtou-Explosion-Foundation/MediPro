@@ -55,7 +55,7 @@ public abstract class World implements GLEventListener {
      * @param panel ワールドが配置されているパネル
      */
     public World(JPanel panel) {
-        logger.info("Init World");
+        logger.info("Init " + this.getClass().getSimpleName());
         this.controllers = new ArrayList<GameObjectController>();
         this.views = new ArrayList<ArrayList<GameObjectView>>();
         for (int i = 0; i < EngineConfig.LAYER_NUM; i++) {
@@ -63,6 +63,8 @@ public abstract class World implements GLEventListener {
         }
         this.panel = panel;
         setupWorld(panel);
+        logger.info(views.stream().mapToInt(ArrayList::size).sum() + " Views and " + controllers.size()
+                + " Controllers are added");
         for (GameObjectController controller : controllers)
             controller.postSetupWorld();
     }
@@ -169,7 +171,6 @@ public abstract class World implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         for (ArrayList<GameObjectView> views : views) {
             for (GameObjectView view : views) {
-                logger.info("Invoke " + view.getClass().getName() + "::init");
                 view.init(drawable);
             }
         }

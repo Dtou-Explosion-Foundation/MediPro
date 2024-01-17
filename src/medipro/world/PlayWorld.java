@@ -45,7 +45,6 @@ public class PlayWorld extends World {
 
     public PlayWorld(JPanel panel) {
         super(panel);
-        logger.info("PlayWorld created");
     }
 
     @Override

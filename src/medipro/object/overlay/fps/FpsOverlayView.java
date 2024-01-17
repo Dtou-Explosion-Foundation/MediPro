@@ -252,9 +252,6 @@ public class FpsOverlayView extends GameObjectView {
             float y1 = (float) rect.getY() / TEXTURE_HEIGHT;
             float y2 = (float) (rect.getY() + rect.getHeight()) / TEXTURE_HEIGHT;
 
-            // logger.info("updateStringBuffers: " + i + ": \"" + newString.charAt(i) + "\": (" + x1 + ", " + y1 + ", "
-            //         + x2 + ", " + y2 + ")");
-
             FloatBuffer uvBuffer = Buffers.newDirectFloatBuffer(8);
             uvBuffer.put(x1);
             uvBuffer.put(y1);
@@ -279,8 +276,6 @@ public class FpsOverlayView extends GameObjectView {
         inBufferString = newString;
     }
 
-    int testCounter = 0;
-
     @Override
     public void display(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
@@ -288,7 +283,6 @@ public class FpsOverlayView extends GameObjectView {
 
         gl.glUseProgram(shaderProgram);
         this.updateStringBuffers(drawable, String.format("FPS: %2d", fpsOverlayModel.getFps()));
-        // this.updateStringBuffers(drawable, String.format("FPS: %2d", testCounter++));
 
         this.bindBuffers(drawable);
 
@@ -298,14 +292,12 @@ public class FpsOverlayView extends GameObjectView {
 
         // gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, 4);
         for (int c = 0; c < vertexBufferFragOffset * CHARS_PER_FRAGMENT; c++) {
-            // logger.info("glDrawArrays: " + c * VERTICES_PER_CHAR * VERTICES_SIZE);
             gl.glDrawArrays(GL4.GL_TRIANGLE_STRIP, c * VERTICES_PER_CHAR, VERTICES_PER_CHAR);
         }
     }
 
     @Override
     protected void updateUniforms(GLAutoDrawable drawable) {
-        // logger.info("FpsOverlayView.updateUniforms");
         GL4 gl = drawable.getGL().getGL4();
         int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");
         if (modelMatUniform != -1) {

@@ -24,11 +24,6 @@ public class StairsController extends GameObjectController {
 
     public StairsController(GameObjectModel model) {
         super(model);
-        StairsModel stairsModel = (StairsModel) model;
-        if (model.x > 0)
-            logger.info("Trigger Range: " + (model.x - stairsModel.getTriggerRange() / 2) + " ~ "
-                    + (model.x + stairsModel.getTriggerRange() / 2));
-
     }
 
     @Override

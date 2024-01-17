@@ -6,7 +6,6 @@ import medipro.object.base.gameobject.GameObjectModel;
 
 public class GameManagerModel extends GameObjectModel {
 
-    // private int stage = 0;
     private AnomalyListener currentAnomalyListener;
 
     private static int floor = 0;
@@ -37,9 +36,6 @@ public class GameManagerModel extends GameObjectModel {
 
     public GameManagerModel(World world) {
         super(world);
-        // logger.info("GameManagerModel created");
-        // logger.info("MarkerController is " +
-        // world.getControllers(MarkerController.class));
-        logger.info("GameManager Floor: " + floor);
+        logger.info("Floor: " + floor);
     }
 }

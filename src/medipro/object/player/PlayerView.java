@@ -59,7 +59,6 @@ public class PlayerView extends GameObjectView {
     @Override
     public void draw(Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
-        // Image image = sprites[playerModel.spritesIndex];
         BufferedImage sprite = sprites[playerModel.animations[playerModel.animationIndex] * 2
                 + (playerModel.direction == -1 ? 1 : 0)];
         g.drawImage(sprite, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
@@ -131,7 +130,6 @@ public class PlayerView extends GameObjectView {
                 .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
                 .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
         ;
-        // Matri
         return modelMat;
     }
 

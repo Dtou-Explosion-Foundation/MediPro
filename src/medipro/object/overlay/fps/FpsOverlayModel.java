@@ -12,7 +12,6 @@ public class FpsOverlayModel extends GameObjectModel {
     Queue<Short> fpsHistory;
     private int fpsSum = 0;
     static final int queueSize = (int) (0.1 * InGameConfig.FPS);
-    // static final int queueSize = 100 * ( InGameConfig.FPS / 60 );
 
     private Color color = Color.WHITE;
 
@@ -33,17 +32,12 @@ public class FpsOverlayModel extends GameObjectModel {
     }
 
     public void updateFpsHistory(short newFps) {
-        // logger.info("newFps: " + newFps);
-        // logger.info(" - fpsSum: " + fpsSum);
         fpsSum -= fpsHistory.poll();
-        // logger.info(" - fpsSum1: " + fpsSum);
         fpsSum += newFps;
-        // logger.info(" - fpsSum2: " + fpsSum);
         fpsHistory.add(newFps);
     }
 
     public int getFps() {
-        // logger.info("fps: " + fpsSum / queueSize);
         return fpsSum / queueSize;
     }
 }

@@ -69,9 +69,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
 
     @Override
     public void update(double deltaTime) {
-        // logger.info("---------- GLGamePanel::update -----------");
         world.update(deltaTime);
-        // logger.info("-----------------------------");
     }
 
     @Override
@@ -80,15 +78,11 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
             this.update(this.getDeltaTime());
             if (needInitialize == true) {
                 needInitialize = false;
-                logger.info("Invoke World::init");
                 world.init(drawable);
             }
-            // logger.info("---------- GLGamePanel::display ----------");
             GL4 gl = drawable.getGL().getGL4();
             gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
-            // logger.info("Invoke World::display - " + needInitialize);
             world.display(drawable);
-            // logger.info("-----------------------------");
         }
     }
 
@@ -102,8 +96,6 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
 
     @Override
     public void init(GLAutoDrawable drawable) {
-        logger.info("GLGamePanel:init");
-
         if (InGameConfig.USE_OPENGL) {
             needInitialize = false;
             GL4 gl = drawable.getGL().getGL4();
@@ -122,7 +114,6 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void setWorld(World world) {
         needInitialize = true;
-        logger.info("GLGamePanel::setWorld" + needInitialize);
         this.world = world;
     }
 

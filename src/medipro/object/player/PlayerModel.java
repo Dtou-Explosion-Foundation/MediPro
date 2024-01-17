@@ -66,17 +66,6 @@ public class PlayerModel extends GameObjectModel {
      */
     public PlayerModel(World world) {
         super(world);
-        logger.info("PlayerModel created");
-    }
-
-    /**
-     * 解放時の処理 ログ出力用
-     * 
-     * @throws Throwable 例外
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        logger.info("PlayerModel destroyed");
     }
 
     /**
@@ -152,7 +141,6 @@ public class PlayerModel extends GameObjectModel {
     }
 
     public boolean updateAutoMover(double dt) {
-        // logger.info("direction: " + direction);
         if (autoWalkerQueue.isEmpty()) {
             return false;
         }
@@ -164,7 +152,6 @@ public class PlayerModel extends GameObjectModel {
         direction = autoWalker.getDirection();
         if (autoWalker.isFinished()) {
             autoWalkerQueue.poll();
-            logger.info("updateAutoMover: remove head of queue " + autoWalkerQueue.size());
             autoWalker.invokeCallback();
         }
         return true;
@@ -172,14 +159,8 @@ public class PlayerModel extends GameObjectModel {
 
     private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
 
-    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
-    //         Runnable callback) {
-    //     autoWalkerQueue.add(new AutoWalker(target, duration, interpolation, callback));
-    // }
     public void pushAutoWalker(AutoWalker autoWalker) {
         autoWalkerQueue.add(autoWalker);
-        logger.info("pushAutoWalker: " + autoWalkerQueue.size());
-        logger.info("New position: " + autoWalker.getNewX() + ", " + autoWalker.getNewY());
         x = autoWalker.getNewX();
         y = autoWalker.getNewY();
     }
@@ -187,5 +168,4 @@ public class PlayerModel extends GameObjectModel {
     public boolean isPlayerAutoWalking() {
         return !autoWalkerQueue.isEmpty();
     }
-
 }

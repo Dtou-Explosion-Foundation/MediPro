@@ -14,8 +14,7 @@
             "type": "java",
             "name": "Main",
             "request": "launch",
-            "mainClass": "Main",
-            "projectName": "MediPro_e3918ee"
+            "mainClass": "medipro.Main",
         }
     ]
 }

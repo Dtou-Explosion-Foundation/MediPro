@@ -28,8 +28,6 @@ public class GameManagerController extends GameObjectController {
             gameManagerModel.getCurrentAnomalyListener().onAnomalyFinished();
             gameManagerModel.setCurrentAnomalyListener(null);
         }
-        logger.info("GameManager::occurAnormaly");
-
         List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
                 .filter(listener -> listener.canAnomalyOccurred()).toArray(AnomalyListener[]::new));
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
