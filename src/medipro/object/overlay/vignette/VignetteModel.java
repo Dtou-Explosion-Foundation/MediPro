@@ -1,14 +1,11 @@
 package medipro.object.overlay.vignette;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
-
-import javax.imageio.ImageIO;
 
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.util.ImageUtil;
 
 public class VignetteModel extends GameObjectModel {
 
@@ -16,12 +13,7 @@ public class VignetteModel extends GameObjectModel {
 
     public VignetteModel(World world) {
         super(world);
-        try {
-            image = Optional.ofNullable(ImageIO.read(new File("img/layers/medipro_0000_Vignette.png")));
-        } catch (IOException e) {
-            logger.warning("Failed to load image");
-            e.printStackTrace();
-        }
+        image = ImageUtil.loadImages("img/layers/medipro_0000_Vignette.png");
     }
 
 }
