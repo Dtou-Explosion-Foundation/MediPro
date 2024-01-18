@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import medipro.gui.panel.IGamePanel;
 
-import medipro.world.TestWorld;
+import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
 import medipro.object.base.gameobject.GameObjectController;
@@ -38,7 +38,7 @@ public class ResultController extends GameObjectController implements KeyListene
             switch (resultModel.getSelectedItem()) {
             case 0:
             resultModel.setSelectedItem(0);
-                gamePanel.setWorld(new TestWorld(panel));
+                gamePanel.setWorld(new PlayWorld(panel));
                 System.out.println("You selected: " + resultModel.getSelectedItem());
                 break;
             case 1:
