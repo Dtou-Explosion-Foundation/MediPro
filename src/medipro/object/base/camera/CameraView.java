@@ -20,7 +20,7 @@ public class CameraView extends GameObjectView {
     /**
      * カメラビューを生成する.
      * 
-     * @param model 格納するモデル
+     * @param model 対象のモデル
      */
     public CameraView(CameraModel model) {
         super(model);
@@ -38,11 +38,8 @@ public class CameraView extends GameObjectView {
         return false;
     }
 
-    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
-
     @Override
     protected void initNames() {
-        ubo = Buffers.newDirectIntBuffer(1);
     }
 
     @Override
@@ -56,6 +53,7 @@ public class CameraView extends GameObjectView {
     protected void initBuffers(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         gl.glUseProgram(shaderProgram);
+        IntBuffer ubo = Buffers.newDirectIntBuffer(1);
 
         CameraModel cameraModel = (CameraModel) model;
 
@@ -85,6 +83,7 @@ public class CameraView extends GameObjectView {
     protected void updateUniforms(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         CameraModel cameraModel = (CameraModel) model;
+        int ubo = cameraModel.getUBO();
 
         Matrix4f tempMat = new Matrix4f();
         Matrix4f projMat = new Matrix4f().transpose();
@@ -99,10 +98,8 @@ public class CameraView extends GameObjectView {
                 .put(projMat.get(FloatBuffer.allocate(4 * 4)).flip())
                 .put(viewMat.get(FloatBuffer.allocate(4 * 4)).flip()).flip();
 
-        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo);
         gl.glBufferSubData(GL4.GL_UNIFORM_BUFFER, 0, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer);
-
-        cameraModel.setUBO(ubo.get(0));
     }
 
 }

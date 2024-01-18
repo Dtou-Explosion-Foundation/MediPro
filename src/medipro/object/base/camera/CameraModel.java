@@ -27,6 +27,11 @@ public class CameraModel extends GameObjectModel {
      */
     private double scale = 1;
 
+    /**
+     * カメラのズーム倍率を取得する.スクリーン倍率を考慮する.
+     * 
+     * @return カメラのズーム倍率
+     */
     public double getScale() {
         if (InGameConfig.USE_OPENGL)
             return scale;
@@ -35,14 +40,29 @@ public class CameraModel extends GameObjectModel {
         }
     }
 
+    /**
+     * カメラのズーム倍率を取得する.スクリーン倍率を考慮しない.
+     * 
+     * @return カメラのズーム倍率
+     */
     public double getRawScale() {
         return scale;
     }
 
+    /**
+     * カメラのズーム倍率を設定する.スクリーン倍率を考慮しない.
+     * 
+     * @param scale カメラのズーム倍率
+     */
     public void setScale(double scale) {
         this.scale = scale;
     }
 
+    /**
+     * スクリーン倍率を取得する.
+     * 
+     * @return スクリーン倍率
+     */
     private double getScreenScaleFactor() {
         if (this.world.panel instanceof IGamePanel)
             return ((IGamePanel) this.world.panel).getFrame().getScreenScaleFactor();
@@ -50,6 +70,9 @@ public class CameraModel extends GameObjectModel {
             return 1;
     }
 
+    /**
+     * カメラの変換行列を保存するUBOの名前.
+     */
     private int ubo = -1;
 
     /**
@@ -92,10 +115,20 @@ public class CameraModel extends GameObjectModel {
         return points;
     }
 
+    /**
+     * カメラの変換行列を保存するUBOの名前を取得する.
+     * 
+     * @return UBOの名前
+     */
     public int getUBO() {
         return ubo;
     }
 
+    /**
+     * カメラの変換行列を保存するUBOの名前を設定する.
+     * 
+     * @param ubo UBOの名前
+     */
     public void setUBO(int ubo) {
         this.ubo = ubo;
     }

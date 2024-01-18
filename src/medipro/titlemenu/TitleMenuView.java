@@ -6,8 +6,16 @@ import java.awt.Graphics2D;
 
 import medipro.object.base.gameobject.GameObjectView;
 
+/**
+ * タイトルメニューのビュー.
+ */
 public class TitleMenuView extends GameObjectView {
 
+    /**
+     * タイトルメニューのビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public TitleMenuView(TitleMenuModel model) {
         super(model);
     }
@@ -27,6 +35,9 @@ public class TitleMenuView extends GameObjectView {
         }
     }
 
+    /**
+     * 最後に選択されたメニュー項目.
+     */
     int lastSelectedItem = -1;
 
     @Override

@@ -34,7 +34,7 @@ public class PlayerView extends GameObjectView {
     /**
      * プレイヤービューを生成する.
      * 
-     * @param model 格納するモデル
+     * @param model 対象のモデル
      */
     public PlayerView(GameObjectModel model) {
         super(model);

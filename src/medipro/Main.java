@@ -30,6 +30,9 @@ import medipro.gui.frame.GameFrame;
  * メインクラス ログの設定とゲームウィンドウの生成を行う。
  */
 public class Main {
+	/**
+	 * ロガー
+	 */
 	protected static final Logger logger = Logger.getLogger("medipro");
 
 	/**

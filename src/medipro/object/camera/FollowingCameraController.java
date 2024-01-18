@@ -11,7 +11,7 @@ public class FollowingCameraController extends CameraController {
     /**
      * カメラコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public FollowingCameraController(GameObjectModel model) {
         super(model);
@@ -33,8 +33,7 @@ public class FollowingCameraController extends CameraController {
     /**
      * モデルを次フレームの状態に更新する. カメラをターゲットの位置と同じ位置にカメラの位置を更新する.
      * 
-     * @param model 更新対象のモデル
-     * @param dt    前フレームからの経過時間
+     * @param dt 前フレームからの経過時間
      */
     @Override
     public void update(double dt) {
@@ -49,6 +48,9 @@ public class FollowingCameraController extends CameraController {
         }
     }
 
+    /**
+     * カメラのY座標をターゲットのY座標に強制的に更新する.LockXを考慮しない.
+     */
     public void forceFollowX() {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
         if (followingCameraModel.target.isPresent()) {
@@ -58,6 +60,9 @@ public class FollowingCameraController extends CameraController {
         }
     }
 
+    /**
+     * カメラのY座標をターゲットのY座標に強制的に更新する.LockYを考慮しない.
+     */
     public void forceFollowY() {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
         if (followingCameraModel.target.isPresent()) {
@@ -67,6 +72,9 @@ public class FollowingCameraController extends CameraController {
         }
     }
 
+    /**
+     * カメラの座標をターゲットの座標に強制的に更新する.LockX,LockYを考慮しない.
+     */
     public void forceFollow() {
         forceFollowX();
         forceFollowY();

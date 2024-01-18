@@ -9,8 +9,16 @@ import medipro.gui.panel.IGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.world.TestWorld;
 
+/**
+ * タイトルメニューのコントローラ.
+ */
 public class TitleMenuController extends GameObjectController implements KeyListener {
 
+    /**
+     * タイトルメニューのコントローラを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public TitleMenuController(TitleMenuModel model) {
         super(model);
     }

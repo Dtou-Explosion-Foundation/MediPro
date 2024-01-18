@@ -21,9 +21,20 @@ import com.jogamp.opengl.util.texture.TextureData;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
+/**
+ * テクスチャを主としたオブジェクトのビュー.
+ */
 public class TextureView extends GameObjectView {
+    /**
+     * テクスチャ
+     */
     private Image[] textures = null;
 
+    /**
+     * TextureViewを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public TextureView(GameObjectModel model) {
         super(model);
         TextureModel textureModel = (TextureModel) model;

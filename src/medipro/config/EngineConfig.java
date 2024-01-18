@@ -13,8 +13,17 @@ public class EngineConfig {
      */
     public static final byte DEFAULT_LAYER = 63;
 
+    /**
+     * デフォルトのモニター.
+     */
     public static final int DEFAULT_MONITOR = 0;
 
+    /**
+     * タイトルをスキップするかどうか.
+     */
     public static final boolean SKIP_TITLE = true;
+    /**
+     * デバッグレベル.
+     */
     public static final int DEBUG_LEVEL = 2; // 0: none, 1: info, 2: debug
 }

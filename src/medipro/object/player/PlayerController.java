@@ -19,14 +19,16 @@ public class PlayerController extends GameObjectController implements KeyListene
     /**
      * プレイヤーのコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public PlayerController(GameObjectModel model) {
         super(model);
     }
 
     /**
-     * キーが押された時の処理. keyStateXを設定する.格納するモデルに対して、moveLeft()またはmoveRight()を呼び出す.
+     * キーが押された時の処理. keyStateXを設定する.対象のモデルに対して、moveLeft()またはmoveRight()を呼び出す.
+     * 
+     * @param e キーイベント
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -77,8 +79,7 @@ public class PlayerController extends GameObjectController implements KeyListene
     /**
      * モデルを次フレームの状態に更新する. keyStateXに応じてmoveLeft()またはmoveRight()を呼び出す. keyPressed()で既に呼び出されている場合も、再度呼び出されるので注意. その後、{@code updateMovement}, {@code updateAnimation}の順に{@code PlayerModel}を更新する.
      * 
-     * @param model 更新対象のモデル
-     * @param dt    前フレームからの経過時間
+     * @param dt 前フレームからの経過時間
      */
     @Override
     public void update(double dt) {
@@ -98,6 +99,11 @@ public class PlayerController extends GameObjectController implements KeyListene
         playerModel.update(dt);
     }
 
+    /**
+     * 自動移動処理をキューに追加する.
+     * 
+     * @param autoWalker 自動移動処理
+     */
     public void pushAutoWalker(AutoWalker autoWalker) {
         PlayerModel playerModel = (PlayerModel) model;
         playerModel.pushAutoWalker(autoWalker);

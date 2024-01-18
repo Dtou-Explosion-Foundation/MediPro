@@ -143,6 +143,11 @@ public abstract class World implements GLEventListener {
             controller.postUpdate(deltaTime);
     }
 
+    /**
+     * カメラの変換行列を取得する.
+     * 
+     * @return カメラの変換行列
+     */
     public AffineTransform getCameraTransform() {
         if (camera.isPresent()) {
             CameraModel _camera = camera.get();
@@ -203,16 +208,33 @@ public abstract class World implements GLEventListener {
         }
     }
 
+    /**
+     * 指定したクラスのコントローラーを全て取得する.
+     * 
+     * @param <T>  コントローラーの型
+     * @param type コントローラーの型
+     * @return コントローラー
+     */
     public <T extends GameObjectController> List<T> getControllers(Class<T> type) {
         return controllers.stream().filter(controller -> type.isInstance(controller)).map(controller -> {
             return type.cast(controller);
         }).collect(Collectors.toList());
     }
 
+    /**
+     * 格納しているコントローラーを全て取得する.
+     * 
+     * @return コントローラー
+     */
     public List<GameObjectController> getControllers() {
         return controllers;
     }
 
+    /**
+     * 異変のリスナーを全て取得する.
+     * 
+     * @return 異変のリスナー
+     */
     public List<AnomalyListener> getAnormalyListeners() {
         return controllers.stream().filter(controller -> AnomalyListener.class.isAssignableFrom(controller.getClass()))
                 .map(controller -> {
@@ -220,6 +242,11 @@ public abstract class World implements GLEventListener {
                 }).collect(Collectors.toList());
     }
 
+    /**
+     * ワールドが配置されているパネルを取得する.
+     * 
+     * @return パネル
+     */
     public JPanel getPanel() {
         return panel;
     }

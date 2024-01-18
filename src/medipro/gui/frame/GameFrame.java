@@ -34,6 +34,9 @@ public class GameFrame extends JFrame implements ComponentListener {
      */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
+    /**
+     * 現在のモニター.
+     */
     private GraphicsDevice currentGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getScreenDevices()[EngineConfig.DEFAULT_MONITOR];
 
@@ -92,10 +95,20 @@ public class GameFrame extends JFrame implements ComponentListener {
         }
     }
 
+    /**
+     * 現在のモニターを取得する.
+     * 
+     * @return 現在のモニター
+     */
     public GraphicsDevice getCurrentGraphicsDevice() {
         return currentGraphicsDevice;
     }
 
+    /**
+     * 現在のモニターのスケールファクターを取得する.
+     * 
+     * @return スケールファクター
+     */
     public double getScreenScaleFactor() {
         return currentGraphicsDevice.getDefaultConfiguration().getDefaultTransform().getScaleX();
     }

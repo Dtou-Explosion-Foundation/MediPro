@@ -14,14 +14,33 @@ import medipro.object.player.AutoWalker;
 import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 
+/**
+ * 階段のコントローラ.
+ */
 public class StairsController extends GameObjectController {
-
+    /**
+     * プレイヤーのコントローラー
+     */
     private PlayerController playerController;
+    /**
+     * ブラックフィルターのコントローラー
+     */
     private BlackFilterController blackFilterController;
+    /**
+     * ゲームマネージャーのコントローラー
+     */
     private GameManagerController gameManagerController;
 
+    /**
+     * 生成直後にプレイヤーを階段の上に移動させるためのオートウォーカー
+     */
     private static AutoWalker startAutoWalker;
 
+    /**
+     * 階段のコントローラーを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public StairsController(GameObjectModel model) {
         super(model);
     }
@@ -56,7 +75,13 @@ public class StairsController extends GameObjectController {
 
     }
 
+    /**
+     * プレイヤーが階段の上にいるかどうか.階段に入った判定が連続で行われないようにするためのフラグ.
+     */
     private boolean isPlayerOnStairs = true;
+    /**
+     * 階段に入ったときに表示するブラックフィルターの明転時間.
+     */
     private static float startBlackFilterDuration = 0;
 
     @Override

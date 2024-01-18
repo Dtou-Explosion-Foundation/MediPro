@@ -12,9 +12,36 @@ import medipro.object.base.gridobject.GridObjectModel;
 public class ExampleGridModel extends GridObjectModel {
 
     /**
-     * グリッド内部に表示する画像.
+     * グリッド内部に表示するテクスチャ.
      */
-    Optional<Image> image = Optional.empty();
+    private Optional<Image> texture = Optional.empty();
+
+    /**
+     * グリッド内部に表示するテクスチャを取得する.
+     * 
+     * @return グリッド内部に表示するテクスチャ.
+     */
+    public Optional<Image> getTexture() {
+        return texture;
+    }
+
+    /**
+     * グリッド内部に表示するテクスチャを設定する.
+     * 
+     * @param texture グリッド内部に表示するテクスチャ.
+     */
+    public void setTexture(Optional<Image> texture) {
+        this.texture = texture;
+    }
+
+    /**
+     * グリッド内部に表示するテクスチャを設定する.
+     * 
+     * @param texture グリッド内部に表示するテクスチャ.
+     */
+    public void setTexture(Image texture) {
+        this.texture = Optional.ofNullable(texture);
+    }
 
     /**
      * グリッドオブジェクトのモデルを生成する.
@@ -30,12 +57,12 @@ public class ExampleGridModel extends GridObjectModel {
     /**
      * グリッドオブジェクトのモデルを生成する.
      * 
-     * @param world オブジェクトが存在するワールド.
-     * @param image グリッド内部に表示する画像.
+     * @param world   オブジェクトが存在するワールド.
+     * @param texture グリッド内部に表示する画像.
      */
-    public ExampleGridModel(World world, Image image) {
-        super(world, image.getWidth(null), image.getHeight(null));
-        this.image = Optional.ofNullable(image);
+    public ExampleGridModel(World world, Image texture) {
+        super(world, texture.getWidth(null), texture.getHeight(null));
+        setTexture(texture);
     }
 
 }

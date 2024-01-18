@@ -8,9 +8,21 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+/**
+ * 画像を扱うユーティリティクラス.
+ */
 public class ImageUtil {
+    /**
+     * ロガー.
+     */
     protected final static Logger logger = Logger.getLogger(ImageUtil.class.getName());
 
+    /**
+     * 画像を読み込む.
+     * 
+     * @param path 画像のパス
+     * @return 画像
+     */
     public static Optional<BufferedImage> loadImages(String path) {
         try {
             return Optional.ofNullable(ImageIO.read(new File(path)));

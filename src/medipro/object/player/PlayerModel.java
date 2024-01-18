@@ -39,7 +39,13 @@ public class PlayerModel extends GameObjectModel {
      * 現在のスプライトのインデックス.
      */
     int animationIndex = 0;
+    /**
+     * スプライトのパス.
+     */
     String[] imagePaths = { "img/character/bear0.png", "img/character/bear1.png", "img/character/bear2.png", };
+    /**
+     * スプライトのアニメーション.
+     */
     int[] animations = { 0, 1, 2, 1 };
 
     /**
@@ -84,6 +90,11 @@ public class PlayerModel extends GameObjectModel {
         isWalking = true;
     }
 
+    /**
+     * 1フレーム分、モデルを更新する。
+     * 
+     * @param dt 前フレームからの経過時間
+     */
     public void update(double dt) {
         if (!updateAutoMover(dt))
             updateMovement(dt);
@@ -140,6 +151,12 @@ public class PlayerModel extends GameObjectModel {
         x += speedX * dt;
     }
 
+    /**
+     * 自動移動処理を行う
+     * 
+     * @param dt 前フレームからの経過時間
+     * @return 自動移動処理が行われたかどうか
+     */
     public boolean updateAutoMover(double dt) {
         if (autoWalkerQueue.isEmpty()) {
             return false;
@@ -157,14 +174,27 @@ public class PlayerModel extends GameObjectModel {
         return true;
     }
 
+    /**
+     * 自動移動処理のキュー
+     */
     private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
 
+    /**
+     * 自動移動処理を追加する
+     * 
+     * @param autoWalker 自動移動処理
+     */
     public void pushAutoWalker(AutoWalker autoWalker) {
         autoWalkerQueue.add(autoWalker);
         x = autoWalker.getNewX();
         y = autoWalker.getNewY();
     }
 
+    /**
+     * 自動移動処理が行われているか
+     * 
+     * @return 自動移動処理が行われているか
+     */
     public boolean isPlayerAutoWalking() {
         return !autoWalkerQueue.isEmpty();
     }

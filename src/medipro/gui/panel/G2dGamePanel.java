@@ -61,8 +61,16 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         return frame;
     }
 
+    /**
+     * 前回のアップデートの時間を取得する.
+     */
     private long lastRepaintTime = -1;
 
+    /**
+     * 前回のアップデートからの経過時間を取得する.
+     * 
+     * @return 前回の描画からの経過時間
+     */
     private double getDeltaTime() {
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;

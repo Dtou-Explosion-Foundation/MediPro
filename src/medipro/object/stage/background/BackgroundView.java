@@ -7,8 +7,16 @@ import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gridobject.GridObjectModel;
 import medipro.object.base.gridobject.GridObjectView;
 
+/**
+ * 背景のビュー.
+ */
 public class BackgroundView extends GridObjectView {
 
+    /**
+     * 背景のビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public BackgroundView(GridObjectModel model) {
         super(model);
     }

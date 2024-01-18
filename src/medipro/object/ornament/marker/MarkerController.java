@@ -11,7 +11,7 @@ public class MarkerController extends GameObjectController {
     /**
      * マーカーコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public MarkerController(GameObjectModel model) {
         super(model);
@@ -20,8 +20,7 @@ public class MarkerController extends GameObjectController {
     /**
      * モデルを次フレームの状態に更新する. 一秒に1radiusだけ回転させる. また一秒に1scaleXだけ拡大させ、5を超えたら0に戻す.
      * 
-     * @param model 更新対象のモデル
-     * @param dt    前フレームからの経過時間
+     * @param dt 前フレームからの経過時間
      */
     @Override
     public void update(double dt) {

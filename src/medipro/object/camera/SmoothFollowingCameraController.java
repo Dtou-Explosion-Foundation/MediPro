@@ -12,7 +12,7 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
     /**
      * カメラコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public SmoothFollowingCameraController(GameObjectModel model) {
         super(model);
@@ -21,8 +21,7 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
     /**
      * モデルを次フレームの状態に更新する. カメラをターゲットの位置に近づけるようにカメラの位置を更新する. カメラ座標に変換した上で比較するので、ズームや回転に対応している.
      * 
-     * @param model 更新対象のモデル
-     * @param dt    前フレームからの経過時間
+     * @param dt 前フレームからの経過時間
      */
     @Override
     public void update(double dt) {

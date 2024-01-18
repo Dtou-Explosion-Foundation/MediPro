@@ -7,11 +7,14 @@ import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 
+/**
+ * ゲームマネージャのコントローラ.
+ */
 public class GameManagerController extends GameObjectController {
     /**
-     * ゲームオブジェクトコントローラを生成する.
+     * ゲームマネージャのコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public GameManagerController(GameObjectModel model) {
         super(model);
@@ -22,6 +25,9 @@ public class GameManagerController extends GameObjectController {
         occurAnormaly();
     }
 
+    /**
+     * 異変を発生させる.
+     */
     private void occurAnormaly() {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (gameManagerModel.getCurrentAnomalyListener() != null) {
@@ -58,6 +64,9 @@ public class GameManagerController extends GameObjectController {
         // occurAnormaly();
     }
 
+    /**
+     * 次の階に移動する.
+     */
     public void nextFloor() {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         gameManagerModel.nextFloor();
@@ -65,6 +74,9 @@ public class GameManagerController extends GameObjectController {
 
     }
 
+    /**
+     * 前の階に移動する.
+     */
     public void prevFloor() {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         gameManagerModel.prevFloor();

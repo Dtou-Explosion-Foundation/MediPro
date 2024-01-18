@@ -20,25 +20,38 @@ public abstract class GameObjectController {
     /**
      * ゲームオブジェクトコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public GameObjectController(GameObjectModel model) {
         this.model = model;
     }
 
     /**
-     * 格納しているモデルに対してそれぞれupdate()を呼び出す.
+     * 毎フレーム呼ばれる.
      * 
      * @param dt 前フレームからの経過時間
      */
     public abstract void update(double dt);
 
+    /**
+     * update()の前に呼ばれる.
+     *
+     * @param dt 前フレームからの経過時間
+     */
     public void preUpdate(double dt) {
     }
 
+    /**
+     * update()の後に呼ばれる.
+     * 
+     * @param dt 前フレームからの経過時間
+     */
     public void postUpdate(double dt) {
     }
 
+    /**
+     * setupWorld()が実行された後に呼ばれる.
+     */
     public void postSetupWorld() {
     }
 }

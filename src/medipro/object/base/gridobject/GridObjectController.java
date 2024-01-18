@@ -8,6 +8,11 @@ import medipro.object.base.gameobject.GameObjectModel;
  */
 public abstract class GridObjectController extends GameObjectController {
 
+    /**
+     * グリッドオブジェクトのコントローラを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public GridObjectController(GameObjectModel model) {
         super(model);
     }

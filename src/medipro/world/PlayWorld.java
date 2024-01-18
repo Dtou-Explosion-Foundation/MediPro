@@ -41,8 +41,16 @@ import medipro.object.stairs.StairsController;
 import medipro.object.stairs.StairsModel;
 import medipro.object.stairs.StairsView;
 
+/**
+ * プレイワールド.
+ */
 public class PlayWorld extends World {
 
+    /**
+     * プレイワールドを生成する.
+     * 
+     * @param panel ワールドを表示するパネル
+     */
     public PlayWorld(JPanel panel) {
         super(panel);
     }

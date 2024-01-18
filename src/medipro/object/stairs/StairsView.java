@@ -20,10 +20,21 @@ import com.jogamp.opengl.util.texture.TextureData;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
+/**
+ * 階段のビュー.
+ */
 public class StairsView extends GameObjectView {
 
+    /**
+     * 階段のテクスチャ.
+     */
     private BufferedImage[] textures = null;
 
+    /**
+     * 階段のビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public StairsView(GameObjectModel model) {
         super(model);
         try {

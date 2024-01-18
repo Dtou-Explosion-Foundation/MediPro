@@ -22,32 +22,83 @@ import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
 
+/**
+ * FPSを表示するオーバーレイのビュー.
+ */
 public class FpsOverlayView extends GameObjectView {
 
+    /**
+     * FpsOverlayViewを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public FpsOverlayView(GameObjectModel model) {
         super(model);
 
     }
 
+    /**
+     * OpenGLで扱うテクスチャの幅.
+     */
     private static final int TEXTURE_WIDTH = 512;
+    /**
+     * OpenGLで扱うテクスチャの高さ.
+     */
     private static final int TEXTURE_HEIGHT = 48;
 
+    /**
+     * 一度に生成する頂点情報の文字数.
+     */
     private static final int CHARS_PER_FRAGMENT = 2 * 4;
+    /**
+     * 一文字あたりの頂点数.
+     */
     private static final int VERTICES_PER_CHAR = 4;
     // private static final int VERTICES_SIZE = Float.BYTES * 2;
 
+    /**
+     * 何フラグメント分の頂点情報を保持しているか.
+     */
     private int vertexBufferFragOffset = 0;
+    /**
+     * 次に文字を書き込むキャッシュのX座標.
+     */
     private int nextCachePositionX = 0;
 
+    /**
+     * 現在表示されている文字列.
+     */
     private String inBufferString = "";
 
+    /**
+     * キャッシュされた文字の情報.
+     */
     private HashMap<Character, CachedCharInfo> charCache = new HashMap<>();
+
+    /**
+     * フォント.
+     */
     private Font font = new Font("Arial", Font.BOLD, 12);
 
+    /**
+     * キャッシュされた文字の情報を格納するクラス.
+     */
     private class CachedCharInfo {
+        /**
+         * キャッシュされた文字の範囲.
+         */
         public Rectangle boundsInCache;
+        /**
+         * キャッシュされた文字の表示上の幅.
+         */
         public float widthInFrame;
 
+        /**
+         * CachedCharInfoのコンストラクタ.
+         * 
+         * @param boundsInCache キャッシュされた文字の範囲
+         * @param widthInFrame  キャッシュされた文字の表示上の幅
+         */
         public CachedCharInfo(Rectangle boundsInCache, float widthInFrame) {
             this.boundsInCache = boundsInCache;
             this.widthInFrame = widthInFrame;
@@ -76,6 +127,13 @@ public class FpsOverlayView extends GameObjectView {
         return false;
     }
 
+    /**
+     * キャッシュされた文字の情報を取得する.キャッシュになければ追加する.
+     * 
+     * @param drawable 描画対象
+     * @param c        文字
+     * @return キャッシュされた文字の情報
+     */
     private CachedCharInfo getCharCache(GLAutoDrawable drawable, char c) {
         if (charCache.containsKey(c))
             return charCache.get(c);
@@ -83,6 +141,13 @@ public class FpsOverlayView extends GameObjectView {
             return addCharCache(drawable, c);
     }
 
+    /**
+     * キャッシュに文字の情報を追加する.
+     * 
+     * @param drawable 描画対象
+     * @param c        文字
+     * @return キャッシュされた文字の情報
+     */
     private CachedCharInfo addCharCache(GLAutoDrawable drawable, char c) {
         GL4 gl = drawable.getGL().getGL4();
         FpsOverlayModel fpsOverlayModel = (FpsOverlayModel) model;
@@ -182,6 +247,12 @@ public class FpsOverlayView extends GameObjectView {
                 textureData.getBuffer());
     }
 
+    /**
+     * Vertexバッファのデータを生成する.
+     * 
+     * @param drawable 描画対象
+     * @return Vertexバッファのデータ
+     */
     private FloatBuffer[] genBufferData(GLAutoDrawable drawable) {
         FloatBuffer vertexBuffer = Buffers
                 .newDirectFloatBuffer(CHARS_PER_FRAGMENT * VERTICES_PER_CHAR * 2 * vertexBufferFragOffset);
@@ -207,6 +278,12 @@ public class FpsOverlayView extends GameObjectView {
         }
     }
 
+    /**
+     * 頂点バッファーを更新する.
+     * 
+     * @param drawable  描画対象
+     * @param newString 新しい文字列
+     */
     protected void updateStringBuffers(GLAutoDrawable drawable, String newString) {
         GL4 gl = drawable.getGL().getGL4();
         if (newString.equals(inBufferString))
