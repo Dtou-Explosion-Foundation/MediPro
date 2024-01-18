@@ -40,10 +40,12 @@ public class ResultController extends GameObjectController implements KeyListene
             resultModel.setSelectedItem(0);
                 gamePanel.setWorld(new PlayWorld(panel));
                 System.out.println("You selected: " + resultModel.getSelectedItem());
+                panel.removeKeyListener(this);
                 break;
             case 1:
                 gamePanel.setWorld(new TitleMenuWorld(panel));
                 System.out.println("You selected: " + resultModel.getSelectedItem());
+                panel.removeKeyListener(this);
                 break;
             }
             break;

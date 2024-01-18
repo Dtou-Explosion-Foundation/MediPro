@@ -39,11 +39,13 @@ public class TitleMenuController extends GameObjectController implements KeyList
                 titleMenuModel.setSelectedItem(0);
                 gamePanel.setWorld(new PlayWorld(panel));
                 System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                panel.removeKeyListener(this);
                 break;
             case 1:
                 titleMenuModel.setSelectedItem(0);
                 gamePanel.setWorld(new ResultWorld(panel));
                 System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                panel.removeKeyListener(this);
                 break;
             case 2:
                 System.out.println("You selected: " + titleMenuModel.getSelectedItem());
