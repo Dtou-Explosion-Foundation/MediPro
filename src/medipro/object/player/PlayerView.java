@@ -1,7 +1,6 @@
 package medipro.object.player;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -30,7 +29,7 @@ public class PlayerView extends GameObjectView {
     /**
      * アニメーション用のスプライトの配列.
      */
-    private Image sprites[];
+    private BufferedImage sprites[];
 
     /**
      * プレイヤービューを生成する.
@@ -40,10 +39,14 @@ public class PlayerView extends GameObjectView {
     public PlayerView(GameObjectModel model) {
         super(model);
         PlayerModel playerModel = (PlayerModel) model;
-        sprites = new Image[playerModel.imagePaths.length];
+        sprites = new BufferedImage[playerModel.imagePaths.length * 2];
         try {
             for (int i = 0; i < playerModel.imagePaths.length; i++) {
-                sprites[i] = ImageIO.read(new File(playerModel.imagePaths[i]));
+                sprites[i * 2] = ImageIO.read(new File(playerModel.imagePaths[i]));
+                AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+                tx.translate(-sprites[i * 2].getWidth(null), 0);
+                AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+                sprites[i * 2 + 1] = op.filter(sprites[i * 2], null);
             }
         } catch (Exception e) {
             logger.warning(e.toString());
@@ -57,17 +60,9 @@ public class PlayerView extends GameObjectView {
     public void draw(Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
         // Image image = sprites[playerModel.spritesIndex];
-        Image image = sprites[playerModel.animations[playerModel.animationIndex]];
-        if (playerModel.direction == -1) {
-            // 反転してから描画する
-            AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
-            tx.translate(-image.getWidth(null), 0);
-            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-            g.drawImage(op.filter((BufferedImage) image, null), (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(),
-                    null);
-        } else {
-            g.drawImage(image, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
-        }
+        BufferedImage sprite = sprites[playerModel.animations[playerModel.animationIndex] * 2
+                + (playerModel.direction == -1 ? 1 : 0)];
+        g.drawImage(sprite, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
     }
 
     @Override

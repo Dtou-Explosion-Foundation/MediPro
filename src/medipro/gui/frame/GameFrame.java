@@ -105,7 +105,7 @@ public class GameFrame extends JFrame implements ComponentListener {
                         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
                         lastRepaintTime = currentTime;
                         // logger.info("---------- update -----------");
-                        ((IGamePanel) panel).update(deltaTime / 1000000000.0);
+                        ((IGamePanel) panel).update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED);
 
                     }
                     // logger.info("---------- repaint ----------");

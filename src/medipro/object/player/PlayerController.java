@@ -95,7 +95,19 @@ public class PlayerController extends GameObjectController implements KeyListene
         default:
             break;
         }
-        playerModel.updateMovement(dt);
-        playerModel.updateAnimation(dt);
+        // playerModel.updateMovement(dt);
+        // playerModel.updateAnimation(dt);
+        playerModel.update(dt);
+    }
+
+    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+    //         Runnable callback) {
+    //     PlayerModel playerModel = (PlayerModel) model;
+    //     playerModel.pushAutoWalker(target, duration, interpolation, callback);
+    // }
+
+    public void pushAutoWalker(AutoWalker autoWalker) {
+        PlayerModel playerModel = (PlayerModel) model;
+        playerModel.pushAutoWalker(autoWalker);
     }
 }

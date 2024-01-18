@@ -11,7 +11,7 @@ import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
-import medipro.world.TestWorld;
+import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
 /**
@@ -43,7 +43,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         super();
         logger.info("Init GamePanel");
         this.frame = frame;
-        world = EngineConfig.SKIP_TITLE ? new TestWorld(this) : new TitleMenuWorld(this);
+        world = EngineConfig.SKIP_TITLE ? new PlayWorld(this) : new TitleMenuWorld(this);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
         lastRepaintTime = currentTime;
-        return deltaTime / 1000000000.0;
+        return deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED;
     }
 
     /**

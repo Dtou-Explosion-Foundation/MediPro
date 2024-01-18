@@ -2,13 +2,12 @@ package medipro.object.camera;
 
 import java.awt.geom.Point2D;
 
-import medipro.object.base.camera.CameraController;
 import medipro.object.base.gameobject.GameObjectModel;
 
 /**
  * ターゲットをスムーズに追跡するカメラのコントローラー.
  */
-public class SmoothFollowingCameraController extends CameraController {
+public class SmoothFollowingCameraController extends FollowingCameraController {
 
     /**
      * カメラコントローラを生成する.
@@ -28,36 +27,18 @@ public class SmoothFollowingCameraController extends CameraController {
     @Override
     public void update(double dt) {
         // TODO:dtを使ってFPSに依存しないようにする
-        // TODO:逆行列を使わないようにする
         SmoothFollowingCameraModel _model = (SmoothFollowingCameraModel) model;
         if (_model.target.isPresent()) {
             GameObjectModel _target = _model.target.get();
-            // AffineTransform transform = _model.getTransformMatrix();
-            // AffineTransform invertTransform;
-            // try {
-            //     invertTransform = transform.createInverse();
-            // } catch (NoninvertibleTransformException e) {
-            //     logger.warning("NoninvertibleTransformException");
-            //     invertTransform = new AffineTransform();
-            // }
-
-            // Point2D.Double targetPos = new Point2D.Double();
-            // transform.transform(new Point2D.Double(_target.x, _target.y), targetPos);
-
-            // Point2D.Double cameraPos = new Point2D.Double();
-            // transform.transform(new Point2D.Double(_model.x, _model.y), cameraPos);
-
-            // Point2D.Double newCameraPos = new Point2D.Double(
-            //         (targetPos.x - cameraPos.x) * _model.followingSpeed + cameraPos.x,
-            //         (targetPos.y - cameraPos.y) * _model.followingSpeed + cameraPos.y);
-            // invertTransform.transform(newCameraPos, newCameraPos);
-
             Point2D.Double newCameraPos = new Point2D.Double(
                     _target.x * _model.followingSpeed + (_model.x - _model.originX) * (1 - _model.followingSpeed),
                     _target.y * _model.followingSpeed + (_model.y - _model.originY) * (1 - _model.followingSpeed));
 
-            _model.x = newCameraPos.x + _model.originX;
-            _model.y = newCameraPos.y + _model.originY;
+            if (!_model.isLockX())
+                _model.x = newCameraPos.x + _model.originX;
+            if (!_model.isLockY())
+                _model.y = newCameraPos.y + _model.originY;
+            _model.clampPosition();
         }
     }
 }
