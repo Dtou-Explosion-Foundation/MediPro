@@ -79,8 +79,9 @@ public class StairsController extends GameObjectController {
      * プレイヤーが階段の上にいるかどうか.階段に入った判定が連続で行われないようにするためのフラグ.
      */
     private boolean isPlayerOnStairs = true;
+
     /**
-     * 階段に入ったときに表示するブラックフィルターの明転時間.
+     * 階段を出るときに表示するブラックフィルターの明転時間.
      */
     private static float startBlackFilterDuration = 0;
 
@@ -128,9 +129,7 @@ public class StairsController extends GameObjectController {
                 panel.setWorld(newWorld);
             });
             playerController.pushAutoWalker(endAutoWalker);
-        } else
-
-        {
+        } else {
             isPlayerOnStairs = false;
         }
     }
