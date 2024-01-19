@@ -7,6 +7,10 @@
         "redhat.java",
         "usernamehw.errorlens",
         "vscjava.vscode-java-debug",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "github.remotehub",
+        "streetsidesoftware.code-spell-checker",
+        "mhutchie.git-graph"
     ]
 }
