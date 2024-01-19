@@ -77,4 +77,32 @@ public class GameManagerModel extends GameObjectModel {
         super(world);
         logger.info("Floor: " + floor);
     }
+
+    public enum FloorChangingState {
+        LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN
+    }
+
+    /**
+     * 前回のフロア移動の状態.
+     */
+    private static FloorChangingState floorChangingState = FloorChangingState.LEFT_UP;
+
+    /**
+     * 前回のフロア移動の状態を取得する.
+     * 
+     * @return 前回のフロア移動の状態
+     */
+    public static FloorChangingState getFloorChangingState() {
+        return floorChangingState;
+    }
+
+    /**
+     * 前回のフロア移動の状態を設定する.
+     * 
+     * @param floorChangingState 前回のフロア移動の状態
+     */
+    public static void setFloorChangingState(FloorChangingState floorChangingState) {
+        GameManagerModel.floorChangingState = floorChangingState;
+    }
+
 }
