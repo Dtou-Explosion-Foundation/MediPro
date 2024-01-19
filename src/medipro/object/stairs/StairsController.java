@@ -69,8 +69,6 @@ public class StairsController extends GameObjectController {
         PlayerModel playerModel = (PlayerModel) playerController.model;
         if (stairsModel.isRightUp() != GameManagerModel.getFloorChangingState().isRight())
             return;
-        logger.fine("StartAutoWalker: isRightUp:" + stairsModel.isRightUp() + "  FloorChangingState:"
-                + GameManagerModel.getFloorChangingState());
         startAutoWalker = new AutoWalker(model.x + stairsModel.getWidth() / 2 * (stairsModel.isRightUp() ? 1 : -1),
                 model.y - stairsModel.getHeight() / 2
                         * (GameManagerModel.getFloorChangingState().isUpWhenOn(stairsModel.isRightUp()) ? 1 : -1),
@@ -119,8 +117,6 @@ public class StairsController extends GameObjectController {
 
         // 階段に入った時の処理
         // 現在の位置から、階段の端までのオートウォーカーを生成する.
-        logger.fine("EndAutoWalker: isRightUp:" + stairsModel.isRightUp() + "  FloorChangingState:"
-                + GameManagerModel.getFloorChangingState());
         AutoWalker endAutoWalker = new AutoWalker(playerModel.x, playerModel.y,
                 model.x + stairsModel.getWidth() / 2 * (stairsModel.isRightUp() ? 1 : -1),
                 model.y + stairsModel.getHeight() / 2
