@@ -72,6 +72,7 @@ public class Main {
 			Handler rootFileHandler = new FileHandler(logFolder.toString() + "/"
 					+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
 			rootFileHandler.setFormatter(formatter);
+			rootFileHandler.setLevel(Level.ALL);
 			root.addHandler(rootFileHandler);
 		} catch (SecurityException | IOException e) {
 			System.err.println("Error on creating log file");
@@ -80,7 +81,9 @@ public class Main {
 		// コンソールへの出力を設定
 		Handler rootConsoleHandler = new ConsoleHandler();
 		rootConsoleHandler.setFormatter(new LogFormatter());
+		rootConsoleHandler.setLevel(Level.FINEST);
 		root.addHandler(rootConsoleHandler);
+		root.setLevel(Level.ALL);
 
 	}
 }
