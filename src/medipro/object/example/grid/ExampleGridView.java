@@ -1,6 +1,7 @@
 package medipro.object.example.grid;
 
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -37,11 +38,11 @@ public class ExampleGridView extends GridObjectView {
             g.drawImage(gridModel.getTexture().get(), grid.x, grid.y, grid.width, grid.height, null);
             g.setColor(Color.RED);
             g.drawRect(grid.x, grid.y, grid.width, grid.height);
-            // String str = String.format("(%d, %d)", gridX, gridY);
-            // char[] chars = str.toCharArray();
-            // FontMetrics fm = g.getFontMetrics();
-            // g.drawChars(chars, 0, chars.length, grid.x + (grid.height - fm.stringWidth(str)) / 2,
-            //         grid.y + grid.height / 2);
+            String str = String.format("(%d, %d)", gridX, gridY);
+            char[] chars = str.toCharArray();
+            FontMetrics fm = g.getFontMetrics();
+            g.drawChars(chars, 0, chars.length, grid.x + (grid.height - fm.stringWidth(str)) / 2,
+                    grid.y + grid.height / 2);
         }
     }
 }

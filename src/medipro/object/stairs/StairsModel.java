@@ -2,6 +2,8 @@ package medipro.object.stairs;
 
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.manager.gamemanager.GameManagerController;
+import medipro.object.manager.gamemanager.GameManagerModel;
 
 /**
  * 階段のモデル.
@@ -103,6 +105,14 @@ public class StairsModel extends GameObjectModel {
      */
     public StairsModel(World world) {
         super(world);
+    }
+
+    public boolean canGoPrevFloor() {
+        return GameManagerController.canGoPrevFloor() || isGoingUp();
+    }
+
+    public boolean isGoingUp() {
+        return GameManagerModel.getFloorChangingState().reverseY().isUpWhenOn(this.isRight());
     }
 
 }

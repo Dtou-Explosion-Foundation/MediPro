@@ -25,7 +25,8 @@ public class FollowingCameraController extends CameraController {
             if (!followingCameraModel.isLockX())
                 followingCameraModel.x = _target.x + followingCameraModel.originX;
             if (!followingCameraModel.isLockY())
-                followingCameraModel.y = _target.y + followingCameraModel.originY;
+                followingCameraModel.y = _target.y * followingCameraModel.getFollowingRateY()
+                        + followingCameraModel.originY;
         }
         followingCameraModel.clampPosition();
     }

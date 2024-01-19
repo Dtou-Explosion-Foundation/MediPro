@@ -32,7 +32,7 @@ public class FloorView extends GridObjectView {
         FloorModel floorModel = (FloorModel) model;
         if (gridY == 0 && floorModel.getTexture().isPresent()) {
             g.drawImage(floorModel.getTexture().get(), grid.x, grid.y, grid.width, grid.height, null);
-        } else if (gridY < 0) {
+        } else if (gridY > 0) {
             g.setColor(color);
             g.fillRect(grid.x, grid.y, grid.width, grid.height);
         }

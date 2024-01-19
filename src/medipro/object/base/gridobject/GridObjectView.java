@@ -69,15 +69,15 @@ public abstract class GridObjectView extends GameObjectView {
         int originY = (int) (bounds.y / gridHeight) * gridHeight + (int) (model.y % gridHeight) - gridHeight / 2;
 
         // グリッドの原点の通し番号を計算
-        int originGridX = (int) ((originX - model.x) / gridWidth);
-        int originGridY = (int) ((originY - model.y) / gridHeight);
+        int originGridX = (int) Math.ceil((originX - model.x) / gridWidth);
+        int originGridY = (int) Math.ceil((originY - model.y) / gridHeight);
 
         for (int ix = -2; ix < bounds.width / gridWidth + 2; ix++) {
             for (int iy = -2; iy < bounds.height / gridHeight + 2; iy++) {
                 AffineTransform transform = g.getTransform();
                 g.translate(originX + ix * gridWidth, originY + iy * gridHeight);
                 this.drawGrid(gridModel, g, new Rectangle(0, 0, gridWidth, gridHeight), originGridX + ix,
-                        -(originGridY + iy));
+                        originGridY + iy);
                 g.setTransform(transform);
             }
         }

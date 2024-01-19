@@ -70,7 +70,8 @@ public class StairsController extends GameObjectController {
         if (stairsModel.isRight() != GameManagerModel.getFloorChangingState().isRight())
             return;
         startAutoWalker = new AutoWalker(model.x + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
-                model.y - stairsModel.getHeight() / 2 * (!isGoingUp() ? 1 : -1),
+                model.y - stairsModel.getHeight() / 2
+                        * (!stairsModel.canGoPrevFloor() ? 0 : (!stairsModel.isGoingUp() ? 1 : -1)),
                 model.x + stairsModel.getTriggerRange() / 2 * 1.2 * (stairsModel.isRight() ? -1 : 1), playerModel.y);
 
         startBlackFilterDuration = (float) startAutoWalker.setSpeed(playerModel.speedLimitX);
@@ -115,28 +116,19 @@ public class StairsController extends GameObjectController {
         isPlayerOnStairs = true;
 
         // 階段に入った時の処理
-        if (gameManagerController != null && !canGoPrevFloor())
+        if (gameManagerController != null && !stairsModel.canGoPrevFloor())
             return;
 
         // 現在の位置から、階段の端までのオートウォーカーを生成する.
         AutoWalker endAutoWalker = new AutoWalker(playerModel.x, playerModel.y,
                 model.x + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
-                model.y + stairsModel.getHeight() / 2 * (isGoingUp() ? 1 : -1));
+                model.y + stairsModel.getHeight() / 2 * (stairsModel.isGoingUp() ? 1 : -1));
         double endDuration = endAutoWalker.setSpeed(playerModel.speedLimitX);
         if (blackFilterController != null)
             blackFilterController.blackIn((float) endDuration);
         endAutoWalker.setCallback(() -> goNextFloor());
         playerController.pushAutoWalker(endAutoWalker);
 
-    }
-
-    public boolean canGoPrevFloor() {
-        return gameManagerController.canGoPrevFloor() || isGoingUp();
-    }
-
-    public boolean isGoingUp() {
-        StairsModel stairsModel = (StairsModel) model;
-        return GameManagerModel.getFloorChangingState().reverseY().isUpWhenOn(stairsModel.isRight());
     }
 
     /**

@@ -33,7 +33,7 @@ public class CeilView extends GridObjectView {
         CeilModel floorModel = (CeilModel) model;
         if (gridY == 0 && floorModel.getTexutre().isPresent()) {
             g.drawImage(floorModel.getTexutre().get(), grid.x, grid.y, grid.width, grid.height, null);
-        } else if (gridY > 0) {
+        } else if (gridY < 0) {
             g.setColor(color);
             g.fillRect(grid.x, grid.y, grid.width, grid.height);
         }

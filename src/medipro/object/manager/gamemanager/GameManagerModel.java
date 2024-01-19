@@ -75,11 +75,11 @@ public class GameManagerModel extends GameObjectModel {
         return isPause;
     }
 
-    public static void setPause(int isPause){
+    public static void setPause(int isPause) {
         GameManagerModel.isPause = isPause;
     }
 
-   /**
+    /**
      * 現在発生している異変のリスナーを取得する.
      * 
      * @return 現在発生している異変のリスナー
@@ -177,7 +177,7 @@ public class GameManagerModel extends GameObjectModel {
     /**
      * 前の階に移動できるかどうか.
      */
-    public boolean canGoPrevFloor() {
+    public static boolean canGoPrevFloor() {
         return floor > 0;
     }
 }

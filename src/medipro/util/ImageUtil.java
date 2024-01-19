@@ -1,5 +1,7 @@
 package medipro.util;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,5 +33,18 @@ public class ImageUtil {
             e.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    /**
+     * 画像を読み込む.
+     * 
+     * @param path 画像のパス
+     * @return 画像
+     */
+    public static BufferedImage invertX(BufferedImage image) {
+        AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+        tx.translate(-image.getWidth(), 0);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        return op.filter(image, null);
     }
 }

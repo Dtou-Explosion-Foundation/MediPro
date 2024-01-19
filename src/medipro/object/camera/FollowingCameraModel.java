@@ -52,6 +52,19 @@ public class FollowingCameraModel extends CameraModel {
     private double maxY = Double.POSITIVE_INFINITY;
 
     /**
+     * カメラのY座標の追跡割合.
+     */
+    private double followingRateY = 1.0;
+
+    public double getFollowingRateY() {
+        return followingRateY;
+    }
+
+    public void setFollowingRateY(double followingRateY) {
+        this.followingRateY = followingRateY;
+    }
+
+    /**
      * カメラモデルを生成する.
      * 
      * @param world  モデルが存在するワールド

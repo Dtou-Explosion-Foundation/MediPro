@@ -86,8 +86,7 @@ public class GameManagerController extends GameObjectController {
     /**
      * 前の階に移動できるかどうか.
      */
-    public boolean canGoPrevFloor() {
-        GameManagerModel gameManagerModel = (GameManagerModel) model;
-        return gameManagerModel.canGoPrevFloor();
+    public static boolean canGoPrevFloor() {
+        return GameManagerModel.canGoPrevFloor();
     }
 }

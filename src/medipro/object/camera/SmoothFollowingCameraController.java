@@ -36,7 +36,7 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
             if (!_model.isLockX())
                 _model.x = newCameraPos.x + _model.originX;
             if (!_model.isLockY())
-                _model.y = newCameraPos.y + _model.originY;
+                _model.y = newCameraPos.y * _model.getFollowingRateY() + _model.originY;
             _model.clampPosition();
         }
     }

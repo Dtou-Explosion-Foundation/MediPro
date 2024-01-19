@@ -19,6 +19,7 @@ import com.jogamp.opengl.util.texture.TextureData;
 
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
+import medipro.util.ImageUtil;
 
 /**
  * 階段のビュー.
@@ -29,6 +30,11 @@ public class StairsView extends GameObjectView {
      * 階段のテクスチャ.
      */
     private BufferedImage[] textures = null;
+
+    /**
+     * 矢印のテクスチャ.
+     */
+    private BufferedImage[] arrow_textures = null;
 
     /**
      * 階段のビューを生成する.
@@ -46,6 +52,18 @@ public class StairsView extends GameObjectView {
             textures[1] = op.filter(textures[0], null);
         } catch (IOException | NullPointerException e) {
             logger.warning("Failed to load texture: img/layers/medipro_0001_Stairs.png");
+        }
+
+        try {
+            arrow_textures = new BufferedImage[5];
+            arrow_textures[0] = ImageIO.read(new File("img/arrow/Arrow_RightUp.png"));
+            arrow_textures[1] = ImageIO.read(new File("img/arrow/Arrow_RightDown.png"));
+            arrow_textures[2] = ImageUtil.invertX(arrow_textures[0]);
+            arrow_textures[3] = ImageUtil.invertX(arrow_textures[1]);
+            arrow_textures[4] = ImageIO.read(new File("img/arrow/Arrow_Right.png"));
+
+        } catch (IOException | NullPointerException e) {
+            logger.warning("Failed to load texture: img/arrow/Arrow_XXX.png");
         }
 
         StairsModel stairsModel = (StairsModel) model;
@@ -67,8 +85,13 @@ public class StairsView extends GameObjectView {
     protected void draw(Graphics2D g) {
         StairsModel stairsModel = (StairsModel) model;
         if (textures != null) {
-            g.drawImage(textures[stairsModel.isRight() ? 0 : 1], (int) (-getSpriteWidth() / 2),
-                    (int) (-getSpriteHeight() / 2), null);
+            int arrow_index = 4;
+            if (stairsModel.canGoPrevFloor()) {
+                g.drawImage(textures[stairsModel.isRight() ? 0 : 1], (int) (-getSpriteWidth() / 2),
+                        (int) (-getSpriteHeight() / 2), null);
+                arrow_index = (stairsModel.isGoingUp() ? 0 : 1) + (stairsModel.isRight() ? 0 : 2);
+            }
+            g.drawImage(arrow_textures[arrow_index], stairsModel.isRight() ? 10 : -35, 5, null);
         }
     }
 
