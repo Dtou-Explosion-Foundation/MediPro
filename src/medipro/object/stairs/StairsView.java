@@ -67,7 +67,7 @@ public class StairsView extends GameObjectView {
     protected void draw(Graphics2D g) {
         StairsModel stairsModel = (StairsModel) model;
         if (textures != null) {
-            g.drawImage(textures[stairsModel.isLeftUp() ? 1 : 0], (int) (-getSpriteWidth() / 2),
+            g.drawImage(textures[stairsModel.isRightUp() ? 0 : 1], (int) (-getSpriteWidth() / 2),
                     (int) (-getSpriteHeight() / 2), null);
         }
     }
@@ -119,7 +119,7 @@ public class StairsView extends GameObjectView {
                 .translate((float) model.x, (float) model.y, 0, tempMat) // 座標
                 .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
                 .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
-                .scale(stairsModel.isLeftUp() ? -1 : 1, 1, 1, tempMat) // 左右反転
+                .scale(stairsModel.isRightUp() ? 1 : -1, 1, 1, tempMat) // 左右反転
                 .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
         ;
         return modelMat;

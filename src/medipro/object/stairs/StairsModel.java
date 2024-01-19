@@ -78,22 +78,22 @@ public class StairsModel extends GameObjectModel {
     }
 
     /**
-     * 階段が左上に上れるかどうかを取得する.
+     * 階段が右上に上れるかどうかを取得する.
      * 
-     * @return 階段が左上に上れるかどうか
+     * @return 階段が右上に上れるかどうか
      */
-    public boolean isLeftUp() {
-        return this.x < 0;
+    public boolean isRightUp() {
+        return this.x > 0;
     }
 
     /**
-     * 階段が左上に上れるかどうかを設定する.
+     * 階段が右上に上れるかどうかを設定する.
      * 
-     * @param isLeftUp 階段が左上に上れるかどうか
+     * @param isRightUp 階段が右上に上れるかどうか
      * @deprecated 階段の向きはx座標で判断するようになったため、このメソッドは廃止されました。
      */
-    public void setLeftUp(boolean isLeftUp) {
-        // this.isLeftUp = isLeftUp;
+    public void setRightUp(boolean isRightUp) {
+        // this.isRightUp = isRightUp;
     }
 
     /**
