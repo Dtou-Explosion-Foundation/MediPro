@@ -9,11 +9,6 @@ import medipro.object.base.gameobject.GameObjectModel;
 public class StairsModel extends GameObjectModel {
 
     /**
-     * 階段が左上に上れるかどうか.
-     */
-    private boolean isLeftUp = false;
-
-    /**
      * 階段の幅.
      */
     private float width;
@@ -88,16 +83,17 @@ public class StairsModel extends GameObjectModel {
      * @return 階段が左上に上れるかどうか
      */
     public boolean isLeftUp() {
-        return isLeftUp;
+        return this.x < 0;
     }
 
     /**
      * 階段が左上に上れるかどうかを設定する.
      * 
      * @param isLeftUp 階段が左上に上れるかどうか
+     * @deprecated 階段の向きはx座標で判断するようになったため、このメソッドは廃止されました。
      */
     public void setLeftUp(boolean isLeftUp) {
-        this.isLeftUp = isLeftUp;
+        // this.isLeftUp = isLeftUp;
     }
 
     /**

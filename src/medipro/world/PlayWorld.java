@@ -97,7 +97,6 @@ public class PlayWorld extends World {
             model.x = -500;
             model.y = -65;
             model.setTriggerRange(100f);
-            model.setLeftUp(true);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
             this.addViewAndController(view, controller, 20);
