@@ -23,5 +23,5 @@ public final class InGameConfig {
     /**
      * ゲームの速度.
      */
-    public static final double GAME_SPEED = 1.0;
+    public static final double GAME_SPEED = 3.0;
 }

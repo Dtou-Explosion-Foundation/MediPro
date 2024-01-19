@@ -25,7 +25,7 @@ public class TextureController extends GameObjectController implements AnomalyLi
     /**
      * 異変が発生しているかどうか.
      */
-    private boolean anomalyOccurred;
+    private static boolean anomalyOccurred = false;
 
     @Override
     public boolean canAnomalyOccurred() {
@@ -40,7 +40,6 @@ public class TextureController extends GameObjectController implements AnomalyLi
 
     @Override
     public void onAnomalyFinished() {
-        anomalyOccurred = false;
         ((TextureModel) model).setTextureIndex(0);
     }
 

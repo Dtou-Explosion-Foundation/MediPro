@@ -82,4 +82,12 @@ public class GameManagerController extends GameObjectController {
         gameManagerModel.prevFloor(isRight);
         occurAnormaly();
     }
+
+    /**
+     * 前の階に移動できるかどうか.
+     */
+    public boolean canGoPrevFloor() {
+        GameManagerModel gameManagerModel = (GameManagerModel) model;
+        return gameManagerModel.canGoPrevFloor();
+    }
 }

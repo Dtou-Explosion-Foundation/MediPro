@@ -160,7 +160,7 @@ public class PlayWorld extends World {
             model.followingSpeed = 0.08;
             model.setMinX(-300);
             model.setMaxX(300);
-            model.setLockY(true);
+            // model.setLockY(true);
             model.y = 50;
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);

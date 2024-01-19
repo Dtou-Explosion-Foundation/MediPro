@@ -53,7 +53,7 @@ public class GameManagerModel extends GameObjectModel {
      */
     public void prevFloor(boolean isRight) {
         GameManagerModel.floor--;
-        setFloorChangingState(FloorChangingState.from(isRight, true));
+        setFloorChangingState(FloorChangingState.from(isRight, false));
         regenerateWorld();
     }
 
@@ -165,4 +165,10 @@ public class GameManagerModel extends GameObjectModel {
         GameManagerModel.floorChangingState = floorChangingState;
     }
 
+    /**
+     * 前の階に移動できるかどうか.
+     */
+    public boolean canGoPrevFloor() {
+        return floor > 0;
+    }
 }
