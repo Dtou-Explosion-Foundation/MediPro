@@ -29,8 +29,8 @@ public class ExampleGridView extends GridObjectView {
     public void drawGrid(GameObjectModel model, Graphics2D g, Rectangle grid, int gridX, int gridY) {
         ExampleGridModel gridModel = (ExampleGridModel) model;
         if (gridModel.image.isPresent()) {
-            g.setColor(Color.RED);
             g.drawImage(gridModel.image.get(), grid.x, grid.y, grid.width, grid.height, null);
+            g.setColor(Color.RED);
             g.drawRect(grid.x, grid.y, grid.width, grid.height);
             // String str = String.format("(%d, %d)", gridX, gridY);
             // char[] chars = str.toCharArray();

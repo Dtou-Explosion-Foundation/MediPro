@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import medipro.config.EngineConfig;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
@@ -25,12 +26,18 @@ import medipro.object.ornament.marker.MarkerView;
 import medipro.object.ornament.texture.TextureController;
 import medipro.object.ornament.texture.TextureModel;
 import medipro.object.ornament.texture.TextureView;
+import medipro.object.overlay.blackfilter.BlackFilterController;
+import medipro.object.overlay.blackfilter.BlackFilterModel;
+import medipro.object.overlay.blackfilter.BlackFilterView;
 import medipro.object.overlay.fps.FpsOverlayController;
 import medipro.object.overlay.fps.FpsOverlayModel;
 import medipro.object.overlay.fps.FpsOverlayView;
 import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 import medipro.object.player.PlayerView;
+import medipro.object.stairs.StairsController;
+import medipro.object.stairs.StairsModel;
+import medipro.object.stairs.StairsView;
 
 /**
  * テスト用のワールド
@@ -141,6 +148,25 @@ public class TestWorld extends World {
             this.addViewAndController(view, controller, 0);
         }
         {
+            StairsModel model = new StairsModel(this);
+            model.x = -500;
+            model.y = 10;
+            model.setTriggerRange(300f);
+            model.setLeftUp(true);
+            StairsView view = new StairsView(model);
+            StairsController controller = new StairsController(model);
+            this.addViewAndController(view, controller, 5);
+        }
+        {
+            StairsModel model = new StairsModel(this);
+            model.x = 500;
+            model.y = 10;
+            model.setTriggerRange(300f);
+            StairsView view = new StairsView(model);
+            StairsController controller = new StairsController(model);
+            this.addViewAndController(view, controller, 5);
+        }
+        {
             FpsOverlayModel model = new FpsOverlayModel(this);
             FpsOverlayView view = new FpsOverlayView(model);
             FpsOverlayController controller = new FpsOverlayController(model);
@@ -151,12 +177,24 @@ public class TestWorld extends World {
             model.setScale(2);
             model.followingSpeed = 0.08;
             // model.originY = (int) (-100 / model.getScale());
-            model.originY = 50;
+            // model.originY = 50;
+            model.setMinX(-300);
+            model.setMaxX(300);
+            model.setLockY(true);
+            model.y = 50;
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
             // CameraController controller = new FollowingCameraController(model);
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
+        }
+        {
+            BlackFilterModel model = new BlackFilterModel(this);
+            BlackFilterController controller = new BlackFilterController(model);
+            BlackFilterView view = new BlackFilterView(model);
+            model.setAlpha(1f);
+            controller.blackOut(2f);
+            this.addViewAndController(view, controller, EngineConfig.LAYER_NUM - 1);
         }
         {
             GameManagerModel model = new GameManagerModel(this);

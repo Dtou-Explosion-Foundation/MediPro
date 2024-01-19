@@ -24,6 +24,10 @@ public class TitleMenuModel extends GameObjectModel {
         return selectedItem;
     }
 
+    public void setSelectedItem(int n){
+        selectedItem = n;
+    }
+
     public String[] getMenuItems() {
         return menuItems;
     }

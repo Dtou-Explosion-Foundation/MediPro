@@ -279,26 +279,13 @@ public abstract class GameObjectView implements GLEventListener {
 
         int cameraTransformLocation = gl.glGetUniformBlockIndex(shaderProgram, "CameraTransform");
         if (cameraTransformLocation != -1) {
-            // TODO: bindingPointはinitBuffersで決めるべき?
-            // int cameraTransformBindingPoint = nextBindingPoint++; // 衝突してはいけない
             int cameraUbo = this.model.world.camera.isPresent() ? this.model.world.camera.get().getUBO() : -1;
             gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, cameraUbo);
-            // gl.glUniformBlockBinding(program, cameraTransformLocation, cameraTransformBindingPoint);
             gl.glBindBufferBase(GL4.GL_UNIFORM_BUFFER, cameraTransformBindingPoint, cameraUbo);
         }
     }
 
-    protected void updateTextures(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        AffineTransform cameraTransform = this.model.world.getCameraTransform();
-
-        BufferedImage bufferedImage = new BufferedImage(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT,
-                BufferedImage.TYPE_INT_ARGB);
-        {
-            Graphics2D g = bufferedImage.createGraphics();
-            draw(g, cameraTransform);
-            g.dispose();
-        }
+    protected ByteBuffer convertBufferedImageToByteBuffer(BufferedImage bufferedImage) {
         int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0,
                 bufferedImage.getWidth());
@@ -316,7 +303,40 @@ public abstract class GameObjectView implements GLEventListener {
         }
 
         buffer.flip();
+        return buffer;
+    }
 
+    protected void updateTextures(GLAutoDrawable drawable) {
+        GL4 gl = drawable.getGL().getGL4();
+        AffineTransform cameraTransform = this.model.world.getCameraTransform();
+
+        BufferedImage bufferedImage = new BufferedImage(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT,
+                BufferedImage.TYPE_INT_ARGB);
+        {
+            Graphics2D g = bufferedImage.createGraphics();
+            draw(g, cameraTransform);
+            g.dispose();
+        }
+        ByteBuffer buffer = convertBufferedImageToByteBuffer(bufferedImage);
+        // int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
+        // bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0,
+        //         bufferedImage.getWidth());
+        // ByteBuffer buffer = ByteBuffer.allocateDirect(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
+
+        // for (int h = bufferedImage.getHeight() - 1; h >= 0; h--) {
+        //     for (int w = 0; w < bufferedImage.getWidth(); w++) {
+        //         int pixel = pixels[h * bufferedImage.getWidth() + w];
+
+        //         buffer.put((byte) ((pixel >> 16) & 0xFF));
+        //         buffer.put((byte) ((pixel >> 8) & 0xFF));
+        //         buffer.put((byte) (pixel & 0xFF));
+        //         buffer.put((byte) ((pixel >> 24) & 0xFF));
+        //     }
+        // }
+
+        // buffer.flip();
+
+        // logger.info("Updating texture (class: " + this.getClass().getName() + ")");
         gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
         gl.glTexSubImage2D(GL4.GL_TEXTURE_2D, 0, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), GL4.GL_RGBA,
                 GL4.GL_UNSIGNED_BYTE, buffer);

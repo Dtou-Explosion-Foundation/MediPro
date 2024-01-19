@@ -1,5 +1,8 @@
 package medipro.object.player;
 
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
@@ -92,6 +95,12 @@ public class PlayerModel extends GameObjectModel {
         isWalking = true;
     }
 
+    public void update(double dt) {
+        if (!updateAutoMover(dt))
+            updateMovement(dt);
+        updateAnimation(dt);
+    }
+
     /**
      * 1フレーム分、アニメーションを更新する。 {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える。 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる。
      * 
@@ -141,4 +150,42 @@ public class PlayerModel extends GameObjectModel {
         // update position
         x += speedX * dt;
     }
+
+    public boolean updateAutoMover(double dt) {
+        // logger.info("direction: " + direction);
+        if (autoWalkerQueue.isEmpty()) {
+            return false;
+        }
+        AutoWalker autoWalker = autoWalkerQueue.peek();
+        autoWalker.update(dt);
+        x = autoWalker.getNewX();
+        y = autoWalker.getNewY();
+        speedX = autoWalker.getSpeed();
+        direction = autoWalker.getDirection();
+        if (autoWalker.isFinished()) {
+            autoWalkerQueue.poll();
+            logger.info("updateAutoMover: remove head of queue " + autoWalkerQueue.size());
+            autoWalker.invokeCallback();
+        }
+        return true;
+    }
+
+    private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
+
+    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+    //         Runnable callback) {
+    //     autoWalkerQueue.add(new AutoWalker(target, duration, interpolation, callback));
+    // }
+    public void pushAutoWalker(AutoWalker autoWalker) {
+        autoWalkerQueue.add(autoWalker);
+        logger.info("pushAutoWalker: " + autoWalkerQueue.size());
+        logger.info("New position: " + autoWalker.getNewX() + ", " + autoWalker.getNewY());
+        x = autoWalker.getNewX();
+        y = autoWalker.getNewY();
+    }
+
+    public boolean isPlayerAutoWalking() {
+        return !autoWalkerQueue.isEmpty();
+    }
+
 }

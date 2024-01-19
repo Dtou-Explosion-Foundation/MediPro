@@ -12,7 +12,8 @@ import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
-import medipro.world.TestWorld;
+import medipro.object.manager.gamemanager.GameManagerModel;
+import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
 /**
@@ -45,7 +46,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         logger.info("Init GLGamePanel");
         this.addGLEventListener(this);
         this.frame = frame;
-        world = EngineConfig.SKIP_TITLE ? new TestWorld(this) : new TitleMenuWorld(this);
+        world = EngineConfig.SKIP_TITLE ? new PlayWorld(this) : new TitleMenuWorld(this);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
         lastRepaintTime = currentTime;
-        return deltaTime / 1000000000.0;
+        return deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause();
     }
 
     @Override
@@ -77,14 +78,16 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void display(GLAutoDrawable drawable) {
         if (InGameConfig.USE_OPENGL) {
-            if (needInitialize) {
+            this.update(this.getDeltaTime());
+            if (needInitialize == true) {
                 needInitialize = false;
+                logger.info("Invoke World::init");
                 world.init(drawable);
             }
-            this.update(this.getDeltaTime());
             // logger.info("---------- GLGamePanel::display ----------");
             GL4 gl = drawable.getGL().getGL4();
             gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+            // logger.info("Invoke World::display - " + needInitialize);
             world.display(drawable);
             // logger.info("-----------------------------");
         }
@@ -94,10 +97,8 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
 
     @Override
     public void dispose(GLAutoDrawable drawable) {
-        if (InGameConfig.USE_OPENGL && needInitialize) {
-            needInitialize = false;
+        if (InGameConfig.USE_OPENGL)
             world.dispose(drawable);
-        }
     }
 
     @Override
@@ -105,6 +106,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         logger.info("GLGamePanel:init");
 
         if (InGameConfig.USE_OPENGL) {
+            needInitialize = false;
             GL4 gl = drawable.getGL().getGL4();
             gl.glEnable(GL4.GL_BLEND);
             gl.glBlendFunc(GL4.GL_SRC_ALPHA, GL4.GL_ONE_MINUS_SRC_ALPHA);
@@ -121,6 +123,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void setWorld(World world) {
         needInitialize = true;
+        logger.info("GLGamePanel::setWorld" + needInitialize);
         this.world = world;
     }
 

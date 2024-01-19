@@ -2,10 +2,12 @@ package medipro.object.ornament.texture;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import javax.imageio.ImageIO;
@@ -15,7 +17,6 @@ import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.math.Matrix4f;
 import com.jogamp.opengl.util.texture.TextureData;
-import com.jogamp.opengl.util.texture.TextureIO;
 
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
@@ -89,7 +90,12 @@ public class TextureView extends GameObjectView {
             TextureData textureData;
             try {
                 InputStream textureStream = new FileInputStream(texturePaths[i]);
-                textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
+                BufferedImage bufferedImage = ImageIO.read(textureStream);
+                ByteBuffer buffer = convertBufferedImageToByteBuffer(bufferedImage);
+
+                textureData = new TextureData(gl.getGLProfile(), GL4.GL_RGBA, bufferedImage.getWidth(),
+                        bufferedImage.getHeight(), 0, GL4.GL_RGBA, GL4.GL_UNSIGNED_BYTE, false, false, false, buffer,
+                        null);
             } catch (IOException e) {
                 logger.warning(e.toString());
                 return;

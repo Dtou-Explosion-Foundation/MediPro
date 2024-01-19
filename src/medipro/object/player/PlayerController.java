@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.manager.gamemanager.GameManagerModel;
 
 /**
  * プレイヤーのコントローラ.
@@ -51,6 +52,9 @@ public class PlayerController extends GameObjectController implements KeyListene
         case KeyEvent.VK_S:
             playerModel.y -= 10;
             break;
+        case KeyEvent.VK_ESCAPE:
+            GameManagerModel.setPause(0);
+            break;
         }
 
     }
@@ -95,7 +99,19 @@ public class PlayerController extends GameObjectController implements KeyListene
         default:
             break;
         }
-        playerModel.updateMovement(dt);
-        playerModel.updateAnimation(dt);
+        // playerModel.updateMovement(dt);
+        // playerModel.updateAnimation(dt);
+        playerModel.update(dt);
+    }
+
+    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
+    //         Runnable callback) {
+    //     PlayerModel playerModel = (PlayerModel) model;
+    //     playerModel.pushAutoWalker(target, duration, interpolation, callback);
+    // }
+
+    public void pushAutoWalker(AutoWalker autoWalker) {
+        PlayerModel playerModel = (PlayerModel) model;
+        playerModel.pushAutoWalker(autoWalker);
     }
 }
