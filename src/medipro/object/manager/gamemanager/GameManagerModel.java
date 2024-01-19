@@ -11,6 +11,8 @@ public class GameManagerModel extends GameObjectModel {
 
     private static int floor = 0;
 
+    private static int isPause = 1;
+
     public static int getFloor() {
         return floor;
     }
@@ -25,6 +27,14 @@ public class GameManagerModel extends GameObjectModel {
 
     public void prevFloor() {
         GameManagerModel.floor--;
+    }
+
+    public static int getPause() {
+        return isPause;
+    }
+
+    public static void setPause(int isPause){
+        GameManagerModel.isPause = isPause;
     }
 
     public AnomalyListener getCurrentAnomalyListener() {

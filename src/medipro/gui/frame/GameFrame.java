@@ -24,6 +24,7 @@ import medipro.config.InGameConfig;
 import medipro.gui.panel.G2dGamePanel;
 import medipro.gui.panel.GLGamePanel;
 import medipro.gui.panel.IGamePanel;
+import medipro.object.manager.gamemanager.GameManagerModel;
 
 /**
  * ゲームのウインドウを実装するクラス.
@@ -105,7 +106,7 @@ public class GameFrame extends JFrame implements ComponentListener {
                         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
                         lastRepaintTime = currentTime;
                         // logger.info("---------- update -----------");
-                        ((IGamePanel) panel).update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED);
+                        ((IGamePanel) panel).update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
 
                     }
                     // logger.info("---------- repaint ----------");

@@ -37,12 +37,13 @@ public class ResultController extends GameObjectController implements KeyListene
         case KeyEvent.VK_Z:
             switch (resultModel.getSelectedItem()) {
             case 0:
-            resultModel.setSelectedItem(0);
+                resultModel.setSelectedItem(0);
                 gamePanel.setWorld(new PlayWorld(panel));
                 System.out.println("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
             case 1:
+                resultModel.setSelectedItem(0);
                 gamePanel.setWorld(new TitleMenuWorld(panel));
                 System.out.println("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
