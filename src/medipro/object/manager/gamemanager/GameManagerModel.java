@@ -42,20 +42,18 @@ public class GameManagerModel extends GameObjectModel {
     /**
      * 次の階層に進む.
      */
-    public void nextFloor() {
+    public void nextFloor(boolean isRight) {
         GameManagerModel.floor++;
-        FloorChangingState currentState = getFloorChangingState();
-        setFloorChangingState(FloorChangingState.from(currentState.isRight() ^ !currentState.isUp(), true));
+        setFloorChangingState(FloorChangingState.from(isRight, true));
         regenerateWorld();
     }
 
     /**
      * 前の階層に戻る.
      */
-    public void prevFloor() {
+    public void prevFloor(boolean isRight) {
         GameManagerModel.floor--;
-        FloorChangingState currentState = getFloorChangingState();
-        setFloorChangingState(FloorChangingState.from(currentState.isRight() ^ currentState.isUp(), false));
+        setFloorChangingState(FloorChangingState.from(isRight, true));
         regenerateWorld();
     }
 
@@ -147,7 +145,7 @@ public class GameManagerModel extends GameObjectModel {
     /**
      * 前回のフロア移動の状態.
      */
-    private static FloorChangingState floorChangingState = FloorChangingState.LEFT_DOWN;
+    private static FloorChangingState floorChangingState = FloorChangingState.LEFT_UP;
 
     /**
      * 前回のフロア移動の状態を取得する.

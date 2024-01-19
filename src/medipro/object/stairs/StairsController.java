@@ -124,7 +124,8 @@ public class StairsController extends GameObjectController {
         AutoWalker endAutoWalker = new AutoWalker(playerModel.x, playerModel.y,
                 model.x + stairsModel.getWidth() / 2 * (stairsModel.isRightUp() ? 1 : -1),
                 model.y + stairsModel.getHeight() / 2
-                        * (GameManagerModel.getFloorChangingState().isUpWhenOn(stairsModel.isRightUp()) ? 1 : -1));
+                        * (GameManagerModel.getFloorChangingState().reverseY().isUpWhenOn(stairsModel.isRightUp()) ? 1
+                                : -1));
         double endDuration = endAutoWalker.setSpeed(playerModel.speedLimitX);
         if (blackFilterController != null)
             blackFilterController.blackIn((float) endDuration);
@@ -141,8 +142,8 @@ public class StairsController extends GameObjectController {
             return;
         StairsModel stairsModel = (StairsModel) model;
         if (GameManagerModel.getFloorChangingState().reverseY().isUpWhenOn(stairsModel.isRightUp()))
-            gameManagerController.nextFloor();
+            gameManagerController.nextFloor(stairsModel.isRightUp());
         else
-            gameManagerController.prevFloor();
+            gameManagerController.prevFloor(stairsModel.isRightUp());
     }
 }

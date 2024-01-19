@@ -67,9 +67,9 @@ public class GameManagerController extends GameObjectController {
     /**
      * 次の階に移動する.
      */
-    public void nextFloor() {
+    public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.nextFloor();
+        gameManagerModel.nextFloor(isRight);
         occurAnormaly();
 
     }
@@ -77,9 +77,9 @@ public class GameManagerController extends GameObjectController {
     /**
      * 前の階に移動する.
      */
-    public void prevFloor() {
+    public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.prevFloor();
+        gameManagerModel.prevFloor(isRight);
         occurAnormaly();
     }
 }
