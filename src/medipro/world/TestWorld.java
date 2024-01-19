@@ -151,7 +151,6 @@ public class TestWorld extends World {
             model.x = -500;
             model.y = 10;
             model.setTriggerRange(300f);
-            model.setLeftUp(true);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
             this.addViewAndController(view, controller, 5);

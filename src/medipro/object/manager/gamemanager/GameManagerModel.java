@@ -1,5 +1,8 @@
 package medipro.object.manager.gamemanager;
 
+import javax.swing.JPanel;
+
+import medipro.gui.panel.IGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -41,6 +44,9 @@ public class GameManagerModel extends GameObjectModel {
      */
     public void nextFloor() {
         GameManagerModel.floor++;
+        FloorChangingState currentState = getFloorChangingState();
+        setFloorChangingState(FloorChangingState.from(currentState.isRight() ^ !currentState.isUp(), true));
+        regenerateWorld();
     }
 
     /**
@@ -48,6 +54,22 @@ public class GameManagerModel extends GameObjectModel {
      */
     public void prevFloor() {
         GameManagerModel.floor--;
+        FloorChangingState currentState = getFloorChangingState();
+        setFloorChangingState(FloorChangingState.from(currentState.isRight() ^ currentState.isUp(), false));
+        regenerateWorld();
+    }
+
+    private void regenerateWorld() {
+        World newWorld;
+        try {
+            newWorld = this.world.getClass().getDeclaredConstructor(JPanel.class).newInstance(this.world.getPanel());
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            e.printStackTrace();
+            return;
+        }
+        IGamePanel panel = (IGamePanel) this.world.getPanel();
+        panel.setWorld(newWorld);
     }
 
     /**
@@ -79,13 +101,53 @@ public class GameManagerModel extends GameObjectModel {
     }
 
     public enum FloorChangingState {
-        LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN
+        LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN;
+
+        public boolean isUpWhenOnLeft() {
+            return this == LEFT_UP || this == RIGHT_DOWN;
+        }
+
+        public boolean isUpWhenOnRight() {
+            return this == RIGHT_UP || this == LEFT_DOWN;
+        }
+
+        public boolean isUpWhenOn(boolean onRight) {
+            return onRight ? isUpWhenOnRight() : isUpWhenOnLeft();
+        }
+
+        public boolean isUp() {
+            return this == LEFT_UP || this == RIGHT_UP;
+        }
+
+        public boolean isRight() {
+            return this == RIGHT_DOWN || this == RIGHT_UP;
+        }
+
+        public FloorChangingState reverseY() {
+            return from(isRight(), !isUp());
+        }
+
+        public static FloorChangingState from(boolean isRight, boolean isUp) {
+            if (isRight) {
+                if (isUp)
+                    return FloorChangingState.RIGHT_UP;
+                else
+                    return FloorChangingState.RIGHT_DOWN;
+            } else {
+                if (isUp)
+                    return FloorChangingState.LEFT_UP;
+                else
+                    return FloorChangingState.LEFT_DOWN;
+            }
+
+        }
+
     }
 
     /**
      * 前回のフロア移動の状態.
      */
-    private static FloorChangingState floorChangingState = FloorChangingState.LEFT_UP;
+    private static FloorChangingState floorChangingState = FloorChangingState.LEFT_DOWN;
 
     /**
      * 前回のフロア移動の状態を取得する.
