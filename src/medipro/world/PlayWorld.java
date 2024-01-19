@@ -22,6 +22,9 @@ import medipro.object.overlay.fps.FpsOverlayView;
 import medipro.object.overlay.vignette.VignetteController;
 import medipro.object.overlay.vignette.VignetteModel;
 import medipro.object.overlay.vignette.VignetteView;
+import medipro.object.pause.PauseController;
+import medipro.object.pause.PauseModel;
+import medipro.object.pause.PauseView;
 import medipro.object.player.PlayerController;
 import medipro.object.player.PlayerModel;
 import medipro.object.player.PlayerView;
@@ -70,6 +73,13 @@ public class PlayWorld extends World {
         // 10X: Overlay
         // 11X: GUI
         GameObjectModel cameraTarget = null;
+        {
+            PauseModel model = new PauseModel(this);
+            PauseView view = new PauseView(model);
+            PauseController controller = new PauseController(model);
+            panel.addKeyListener(controller);
+            this.addViewAndController(view, controller, 111);
+        }
         {
             PlayerModel model = new PlayerModel(this);
             cameraTarget = model;

@@ -11,6 +11,7 @@ import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 import medipro.object.base.World;
+import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
@@ -75,7 +76,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
         lastRepaintTime = currentTime;
-        return deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED;
+        return deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause();
     }
 
     /**

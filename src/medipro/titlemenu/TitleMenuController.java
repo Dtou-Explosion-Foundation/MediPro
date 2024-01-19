@@ -7,7 +7,8 @@ import javax.swing.JPanel;
 
 import medipro.gui.panel.IGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
-import medipro.world.TestWorld;
+import medipro.world.PlayWorld;
+import medipro.world.ResultWorld; // 仮でOptionコマンドでリザルト画面が出るようにしています。
 
 /**
  * タイトルメニューのコントローラ.
@@ -26,6 +27,9 @@ public class TitleMenuController extends GameObjectController implements KeyList
     @Override
     public void keyPressed(KeyEvent e) {
         TitleMenuModel titleMenuModel = (TitleMenuModel) model;
+        JPanel panel = titleMenuModel.world.getPanel();
+        IGamePanel gamePanel = (IGamePanel) (panel);
+
         switch (e.getKeyCode()) {
         case KeyEvent.VK_UP:
         case KeyEvent.VK_W:
@@ -40,15 +44,19 @@ public class TitleMenuController extends GameObjectController implements KeyList
             switch (titleMenuModel.getSelectedItem()) {
             case 0:
                 // model.world.setWorld((World)new TestWorld(model.world.getPanel()));
-                JPanel panel = titleMenuModel.world.getPanel();
-                IGamePanel gamePanel = (IGamePanel) (panel);
-                gamePanel.setWorld(new TestWorld(panel));
+                titleMenuModel.setSelectedItem(0);
+                gamePanel.setWorld(new PlayWorld(panel));
                 System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                panel.removeKeyListener(this);
                 break;
             case 1:
+                titleMenuModel.setSelectedItem(0);
+                gamePanel.setWorld(new ResultWorld(panel));
                 System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                panel.removeKeyListener(this);
                 break;
             case 2:
+                System.out.println("You selected: " + titleMenuModel.getSelectedItem());
                 System.exit(0);
                 break;
             }

@@ -20,6 +20,7 @@ public class GameManagerModel extends GameObjectModel {
      * 現在の階層.
      */
     private static int floor = 0;
+    private static int isPause = 1;
 
     /**
      * 現在の階層を取得する.
@@ -70,7 +71,15 @@ public class GameManagerModel extends GameObjectModel {
         panel.setWorld(newWorld);
     }
 
-    /**
+    public static int getPause() {
+        return isPause;
+    }
+
+    public static void setPause(int isPause){
+        GameManagerModel.isPause = isPause;
+    }
+
+   /**
      * 現在発生している異変のリスナーを取得する.
      * 
      * @return 現在発生している異変のリスナー
