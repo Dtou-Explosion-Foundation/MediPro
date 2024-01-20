@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import medipro.gui.panel.IGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
+import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.world.PlayWorld;
 import medipro.world.ResultWorld; // 仮でOptionコマンドでリザルト画面が出るようにしています。
 
@@ -37,18 +38,19 @@ public class TitleMenuController extends GameObjectController implements KeyList
             case 0:
                 // model.world.setWorld((World)new TestWorld(model.world.getPanel()));
                 titleMenuModel.setSelectedItem(0);
+                GameManagerModel.setFloor(0);
                 gamePanel.setWorld(new PlayWorld(panel));
-                System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                logger.info("You selected: " + titleMenuModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
             case 1:
                 titleMenuModel.setSelectedItem(0);
                 gamePanel.setWorld(new ResultWorld(panel));
-                System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                logger.info("You selected: " + titleMenuModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
             case 2:
-                System.out.println("You selected: " + titleMenuModel.getSelectedItem());
+                logger.info("You selected: " + titleMenuModel.getSelectedItem());
                 System.exit(0);
                 break;
             }

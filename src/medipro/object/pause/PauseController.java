@@ -40,6 +40,7 @@ public class PauseController extends GameObjectController implements KeyListener
                     break;
                 case 1:
                     pauseModel.setSelectedItem(0);
+                    GameManagerModel.setFloor(0);
                     gamePanel.setWorld(new PlayWorld(panel));
                     GameManagerModel.setPause(1);
                     logger.info("You selected: " + pauseModel.getSelectedItem());
