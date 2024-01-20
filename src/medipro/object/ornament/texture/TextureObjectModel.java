@@ -6,7 +6,7 @@ import medipro.object.base.gameobject.GameObjectModel;
 /**
  * テクスチャのモデル.
  */
-public class TextureModel extends GameObjectModel {
+public class TextureObjectModel extends GameObjectModel {
 
     /**
      * テクスチャのパス.
@@ -24,7 +24,7 @@ public class TextureModel extends GameObjectModel {
      * @param texturePaths テクスチャのパス
      * @param textureIndex 現在のテクスチャのインデックス
      */
-    public TextureModel(World world, String[] texturePaths, int textureIndex) {
+    public TextureObjectModel(World world, String[] texturePaths, int textureIndex) {
         super(world);
         this.texturePaths = texturePaths;
         this.textureIndex = textureIndex;
@@ -36,7 +36,7 @@ public class TextureModel extends GameObjectModel {
      * @param world        オブジェクトが存在するワールド.
      * @param texturePaths テクスチャのパス
      */
-    public TextureModel(World world, String[] texturePaths) {
+    public TextureObjectModel(World world, String[] texturePaths) {
         this(world, texturePaths, 0);
     }
 
@@ -45,7 +45,7 @@ public class TextureModel extends GameObjectModel {
      * 
      * @param world オブジェクトが存在するワールド.
      */
-    public TextureModel(World world) {
+    public TextureObjectModel(World world) {
         this(world, null, 0);
     }
 

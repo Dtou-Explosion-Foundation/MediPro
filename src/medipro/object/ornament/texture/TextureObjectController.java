@@ -7,13 +7,13 @@ import medipro.object.base.gameobject.GameObjectModel;
 /**
  * テクスチャのコントローラ.
  */
-public class TextureController extends GameObjectController implements AnomalyListener {
+public class TextureObjectController extends GameObjectController implements AnomalyListener {
     /**
      * テクスチャのコントローラを生成する.
      * 
      * @param model 対象のモデル
      */
-    public TextureController(GameObjectModel model) {
+    public TextureObjectController(GameObjectModel model) {
         super(model);
     }
 
@@ -35,12 +35,12 @@ public class TextureController extends GameObjectController implements AnomalyLi
     @Override
     public void onAnomalyOccurred(int level) {
         anomalyOccurred = true;
-        ((TextureModel) model).setTextureIndex(level);
+        ((TextureObjectModel) model).setTextureIndex(level);
     }
 
     @Override
     public void onAnomalyFinished() {
-        ((TextureModel) model).setTextureIndex(0);
+        ((TextureObjectModel) model).setTextureIndex(0);
     }
 
     @Override
