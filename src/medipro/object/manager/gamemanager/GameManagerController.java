@@ -3,9 +3,14 @@ package medipro.object.manager.gamemanager;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JPanel;
+
+import medipro.config.InGameConfig;
+import medipro.gui.panel.IGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.ResultWorld;
 
 /**
  * ゲームマネージャのコントローラ.
@@ -34,6 +39,9 @@ public class GameManagerController extends GameObjectController {
             gameManagerModel.getCurrentAnomalyListener().onAnomalyFinished();
             gameManagerModel.setCurrentAnomalyListener(null);
         }
+        if (Math.random() > InGameConfig.CHANCE_OF_ANOMALY)
+            return;
+
         List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
                 .filter(listener -> listener.canAnomalyOccurred()).toArray(AnomalyListener[]::new));
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
@@ -69,9 +77,13 @@ public class GameManagerController extends GameObjectController {
      */
     public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
+        logger.info("nextFloor anomaly check: " + gameManagerModel.getCurrentAnomalyListener());
+        if (gameManagerModel.getCurrentAnomalyListener() != null) {
+            JPanel gamePanel = this.model.world.getPanel();
+            ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+        }
         gameManagerModel.nextFloor(isRight);
-        occurAnormaly();
-
+        // occurAnormaly();
     }
 
     /**
@@ -80,7 +92,7 @@ public class GameManagerController extends GameObjectController {
     public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         gameManagerModel.prevFloor(isRight);
-        occurAnormaly();
+        // occurAnormaly();
     }
 
     /**
