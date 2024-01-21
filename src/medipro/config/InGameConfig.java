@@ -25,5 +25,5 @@ public final class InGameConfig {
      */
     public static final double GAME_SPEED = 1.0;
 
-    public static final double CHANCE_OF_ANOMALY = 0.7;
+    public static final double CHANCE_OF_ANOMALY = 0.5;
 }
