@@ -39,6 +39,8 @@ public class GameManagerController extends GameObjectController {
             gameManagerModel.getCurrentAnomalyListener().onAnomalyFinished();
             gameManagerModel.setCurrentAnomalyListener(null);
         }
+        if (GameManagerModel.getFloor() == 0)
+            return;
         if (Math.random() > InGameConfig.CHANCE_OF_ANOMALY)
             return;
 
