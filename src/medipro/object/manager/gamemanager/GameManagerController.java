@@ -84,13 +84,13 @@ public class GameManagerController extends GameObjectController {
      */
     public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        logger.info("nextFloor anomaly check: " + gameManagerModel.getCurrentAnomalyListener());
-        if (gameManagerModel.getCurrentAnomalyListener() != null) {
+        if (gameManagerModel.isAnomalyListenerOccured()) {
             JPanel gamePanel = this.model.world.getPanel();
             ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
         } else {
             gameManagerModel.nextFloor(isRight);
         }
+        // ワールドを再生成するため必要ない
         // occurAnormaly();
     }
 
@@ -99,7 +99,13 @@ public class GameManagerController extends GameObjectController {
      */
     public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.prevFloor(isRight);
+        if (!gameManagerModel.isAnomalyListenerOccured()) {
+            JPanel gamePanel = this.model.world.getPanel();
+            ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+        } else {
+            gameManagerModel.prevFloor(isRight);
+        }
+        // ワールドを再生成するため必要ない
         // occurAnormaly();
     }
 
