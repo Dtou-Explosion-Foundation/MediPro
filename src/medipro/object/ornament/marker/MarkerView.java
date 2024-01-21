@@ -12,6 +12,11 @@ import medipro.object.base.gameobject.GameObjectView;
  */
 public class MarkerView extends GameObjectView {
 
+    /**
+     * マーカーのビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public MarkerView(MarkerModel model) {
         super(model);
     }

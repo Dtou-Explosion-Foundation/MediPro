@@ -35,6 +35,9 @@ public class GameFrame extends JFrame implements ComponentListener {
      */
     protected final Logger logger = Logger.getLogger(this.getClass().getName());
 
+    /**
+     * 現在のモニター.
+     */
     private GraphicsDevice currentGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getScreenDevices()[EngineConfig.DEFAULT_MONITOR];
 
@@ -63,37 +66,16 @@ public class GameFrame extends JFrame implements ComponentListener {
         this.add(panel);
         this.pack();
 
-        // if ()
         this.setLocation(
                 GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[EngineConfig.DEFAULT_MONITOR]
                         .getDefaultConfiguration().getBounds().getLocation());
-        // else
-        //     this.setLocationRelativeTo(null);
+        logger.info("Current monitor: " + currentGraphicsDevice.getIDstring() + "(x" + getScreenScaleFactor() + ")");
 
         this.addComponentListener(this);
 
-        logger.log(Level.FINE, "frame size: " + this.getSize());
-        logger.log(Level.FINE, "panel size: " + panel.getSize());
+        logger.log(Level.FINE, "Frame size: " + this.getSize());
+        logger.log(Level.FINE, "Panel size: " + panel.getSize());
 
-        // {
-        //     Duration deltaTime = Duration.ZERO;
-        //     Instant prevTime = Instant.now();
-        //     while (true) {
-
-        //         Instant currentTime = Instant.now();
-        //         deltaTime = Duration.between(prevTime, currentTime);
-        //         double deltaDouble = deltaTime.toNanos() / 1000000000.0;
-        //         if (1 / deltaDouble > InGameConfig.FPS) {
-        //             prevTime = currentTime;
-        //             panel.repaint();
-        //             if (panel instanceof IGamePanel)
-        //                 ((IGamePanel) panel).update(deltaDouble);
-        //         }
-        //     }
-        // }
-        // if (isIdle == false) {
-        //     logger.warning("Game is running slow");
-        // }
         {
             Timer timer = new Timer(1000 / InGameConfig.FPS, new ActionListener() {
                 long lastRepaintTime = -1;
@@ -105,59 +87,35 @@ public class GameFrame extends JFrame implements ComponentListener {
                         long currentTime = System.nanoTime();
                         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
                         lastRepaintTime = currentTime;
-                        // logger.info("---------- update -----------");
                         ((IGamePanel) panel).update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
-
                     }
-                    // logger.info("---------- repaint ----------");
-
                     repaint();
-                    // logger.info("-----------------------------");
                 }
             });
             timer.start();
         }
-
-        // Timer timer = new Timer();
-        // TimerTask task = new TimerTask() {
-        //     Boolean isIdle = true;
-        //     Duration deltaTime = Duration.ZERO;
-        //     Instant prevTime = Instant.now();
-
-        //     double getDeltaTime() {
-        //         Instant currentTime = Instant.now();
-        //         deltaTime = Duration.between(prevTime, currentTime);
-        //         prevTime = currentTime;
-        //         return deltaTime.toNanos() / 1000000000.0;
-        //     }
-
-        //     @Override
-        //     public void run() {
-        //         if (isIdle) {
-        //             isIdle = false;
-        //             panel.repaint();
-        //             if (panel instanceof IGamePanel)
-        //                 ((IGamePanel) panel).update(getDeltaTime());
-        //             isIdle = true;
-        //         } else {
-        //             logger.warning("Game is running slow");
-        //         }
-        //     }
-        // };
-        // timer.scheduleAtFixedRate(task, 0, (long) (1000.0 / InGameConfig.FPS));
     }
 
+    /**
+     * 現在のモニターを取得する.
+     * 
+     * @return 現在のモニター
+     */
     public GraphicsDevice getCurrentGraphicsDevice() {
         return currentGraphicsDevice;
     }
 
+    /**
+     * 現在のモニターのスケールファクターを取得する.
+     * 
+     * @return スケールファクター
+     */
     public double getScreenScaleFactor() {
         return currentGraphicsDevice.getDefaultConfiguration().getDefaultTransform().getScaleX();
     }
 
     @Override
     public void componentResized(ComponentEvent e) {
-
     }
 
     @Override
@@ -169,8 +127,9 @@ public class GameFrame extends JFrame implements ComponentListener {
             GraphicsConfiguration config = device.getDefaultConfiguration();
             Rectangle bounds = config.getBounds();
 
-            if (bounds.contains(this.getLocation())) {
+            if (bounds.contains(this.getLocation()) && currentGraphicsDevice != device) {
                 currentGraphicsDevice = device;
+                logger.info("Current monitor: " + device.getIDstring() + "(x" + getScreenScaleFactor() + ")");
                 break;
             }
         }

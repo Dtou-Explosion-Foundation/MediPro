@@ -55,7 +55,7 @@ public abstract class World implements GLEventListener {
      * @param panel ワールドが配置されているパネル
      */
     public World(JPanel panel) {
-        logger.info("Init World");
+        logger.info("Init " + this.getClass().getSimpleName());
         this.controllers = new ArrayList<GameObjectController>();
         this.views = new ArrayList<ArrayList<GameObjectView>>();
         for (int i = 0; i < EngineConfig.LAYER_NUM; i++) {
@@ -63,6 +63,8 @@ public abstract class World implements GLEventListener {
         }
         this.panel = panel;
         setupWorld(panel);
+        logger.info(views.stream().mapToInt(ArrayList::size).sum() + " Views and " + controllers.size()
+                + " Controllers are added");
         for (GameObjectController controller : controllers)
             controller.postSetupWorld();
     }
@@ -141,6 +143,11 @@ public abstract class World implements GLEventListener {
             controller.postUpdate(deltaTime);
     }
 
+    /**
+     * カメラの変換行列を取得する.
+     * 
+     * @return カメラの変換行列
+     */
     public AffineTransform getCameraTransform() {
         if (camera.isPresent()) {
             CameraModel _camera = camera.get();
@@ -169,7 +176,6 @@ public abstract class World implements GLEventListener {
     public void init(GLAutoDrawable drawable) {
         for (ArrayList<GameObjectView> views : views) {
             for (GameObjectView view : views) {
-                logger.info("Invoke " + view.getClass().getName() + "::init");
                 view.init(drawable);
             }
         }
@@ -202,16 +208,33 @@ public abstract class World implements GLEventListener {
         }
     }
 
+    /**
+     * 指定したクラスのコントローラーを全て取得する.
+     * 
+     * @param <T>  コントローラーの型
+     * @param type コントローラーの型
+     * @return コントローラー
+     */
     public <T extends GameObjectController> List<T> getControllers(Class<T> type) {
         return controllers.stream().filter(controller -> type.isInstance(controller)).map(controller -> {
             return type.cast(controller);
         }).collect(Collectors.toList());
     }
 
+    /**
+     * 格納しているコントローラーを全て取得する.
+     * 
+     * @return コントローラー
+     */
     public List<GameObjectController> getControllers() {
         return controllers;
     }
 
+    /**
+     * 異変のリスナーを全て取得する.
+     * 
+     * @return 異変のリスナー
+     */
     public List<AnomalyListener> getAnormalyListeners() {
         return controllers.stream().filter(controller -> AnomalyListener.class.isAssignableFrom(controller.getClass()))
                 .map(controller -> {
@@ -219,6 +242,11 @@ public abstract class World implements GLEventListener {
                 }).collect(Collectors.toList());
     }
 
+    /**
+     * ワールドが配置されているパネルを取得する.
+     * 
+     * @return パネル
+     */
     public JPanel getPanel() {
         return panel;
     }
