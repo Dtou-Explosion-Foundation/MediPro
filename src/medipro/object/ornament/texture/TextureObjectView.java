@@ -24,7 +24,7 @@ import medipro.object.base.gameobject.GameObjectView;
 /**
  * テクスチャを主としたオブジェクトのビュー.
  */
-public class TextureView extends GameObjectView {
+public class TextureObjectView extends GameObjectView {
     /**
      * テクスチャ
      */
@@ -35,9 +35,9 @@ public class TextureView extends GameObjectView {
      * 
      * @param model 対象のモデル
      */
-    public TextureView(GameObjectModel model) {
+    public TextureObjectView(GameObjectModel model) {
         super(model);
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         String[] texturePaths = textureModel.getTexturePaths();
         if (texturePaths != null) {
             textures = new Image[texturePaths.length];
@@ -53,7 +53,7 @@ public class TextureView extends GameObjectView {
 
     @Override
     protected void draw(Graphics2D g) {
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         int textureIndex = textureModel.getTextureIndex();
         if (textures != null && textureIndex >= 0 && textureIndex < textures.length) {
             g.drawImage(textures[textureIndex], 0, 0, null);
@@ -68,13 +68,13 @@ public class TextureView extends GameObjectView {
 
     @Override
     protected float getSpriteWidth() {
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         return textures[textureModel.getTextureIndex()].getWidth(null);
     }
 
     @Override
     protected float getSpriteHeight() {
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         return textures[textureModel.getTextureIndex()].getHeight(null);
     }
 
@@ -86,14 +86,14 @@ public class TextureView extends GameObjectView {
     @Override
     protected void initNames() {
         super.initNames();
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         textureName = Buffers.newDirectIntBuffer(textureModel.getTexturePaths().length);
     }
 
     @Override
     protected void initTextures(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         String[] texturePaths = textureModel.getTexturePaths();
         textureName.clear();
         gl.glGenTextures(texturePaths.length, textureName);
@@ -137,7 +137,7 @@ public class TextureView extends GameObjectView {
 
     @Override
     protected void updateUniforms(GLAutoDrawable drawable) {
-        TextureModel textureModel = (TextureModel) model;
+        TextureObjectModel textureModel = (TextureObjectModel) model;
         GL4 gl = drawable.getGL().getGL4();
 
         int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "modelMat");

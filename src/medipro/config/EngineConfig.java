@@ -21,7 +21,7 @@ public class EngineConfig {
     /**
      * タイトルをスキップするかどうか.
      */
-    public static final boolean SKIP_TITLE = true;
+    public static final boolean SKIP_TITLE = false;
     /**
      * デバッグレベル.
      */

@@ -89,6 +89,15 @@ public class GameManagerModel extends GameObjectModel {
     }
 
     /**
+     * 現在発生している異変のリスナーを取得する.
+     * 
+     * @return 現在発生している異変のリスナー
+     */
+    public boolean isAnomalyListenerOccured() {
+        return currentAnomalyListener != null;
+    }
+
+    /**
      * 現在発生している異変のリスナーを設定する.
      * 
      * @param currentAnomalyListener 現在発生している異変のリスナー

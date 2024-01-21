@@ -27,10 +27,14 @@ public class WallView extends GameObjectView {
         WallModel model = (WallModel) this.model;
         if (model.image_white.isPresent()) {
             BufferedImage image = model.image_white.get();
+            g.drawImage(image, -image.getWidth() / 2, -image.getHeight() / 2, null);
+        }
+        if (model.image_black.isPresent()) {
+            BufferedImage image = model.image_black.get();
             double diff = 0;
             if (model.world.camera.isPresent()) {
                 CameraModel camera = model.world.camera.get();
-                diff = (camera.x - model.x) * camera.getScale() * 0.02;
+                diff = (camera.x - model.x) * camera.getScale() * -0.02;
 
             }
             AffineTransform transform = g.getTransform();
@@ -39,11 +43,6 @@ public class WallView extends GameObjectView {
             g.setTransform(transform);
 
         }
-        if (model.image_black.isPresent()) {
-            BufferedImage image = model.image_black.get();
-            g.drawImage(image, -image.getWidth() / 2, -image.getHeight() / 2, null);
-        }
-
     }
 
 }

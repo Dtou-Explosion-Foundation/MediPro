@@ -1,5 +1,7 @@
 package medipro.object.overlay.blackfilter;
 
+import java.awt.Color;
+
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
@@ -90,5 +92,26 @@ public class BlackFilterModel extends GameObjectModel {
     public boolean addAlpha(double alpha) {
         this.alpha += alpha;
         return clampAlpha();
+    }
+
+    public enum BlackFilterColor {
+        BLACK, RED
+    }
+
+    public BlackFilterColor color = BlackFilterColor.BLACK;
+
+    public void setColor(BlackFilterColor color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        switch (color) {
+        case BLACK:
+            return new Color(0f, 0f, 0f, alpha);
+        case RED:
+            return new Color(1f, 0f, 0f, alpha);
+        default:
+            return new Color(0f, 0f, 0f, alpha);
+        }
     }
 }

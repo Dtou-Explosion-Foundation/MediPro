@@ -23,9 +23,9 @@ import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.object.ornament.marker.MarkerController;
 import medipro.object.ornament.marker.MarkerModel;
 import medipro.object.ornament.marker.MarkerView;
-import medipro.object.ornament.texture.TextureController;
-import medipro.object.ornament.texture.TextureModel;
-import medipro.object.ornament.texture.TextureView;
+import medipro.object.ornament.texture.TextureObjectController;
+import medipro.object.ornament.texture.TextureObjectModel;
+import medipro.object.ornament.texture.TextureObjectView;
 import medipro.object.overlay.blackfilter.BlackFilterController;
 import medipro.object.overlay.blackfilter.BlackFilterModel;
 import medipro.object.overlay.blackfilter.BlackFilterView;
@@ -120,24 +120,24 @@ public class TestWorld extends World {
             this.addViewAndController(view, controller, 1);
         }
         {
-            TextureModel model = new TextureModel(this,
+            TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/pigeon/pigeon_white_sitting.png", "img/pigeon/pigeon_white_standing.png" });
             model.scaleX = 0.075;
             model.scaleY = 0.075;
             model.y = 10;
-            TextureView view = new TextureView(model);
-            TextureController controller = new TextureController(model);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 0);
         }
         {
-            TextureModel model = new TextureModel(this,
+            TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/pigeon/pigeon_normal_sitting.png", "img/pigeon/pigeon_normal_standing.png" });
             model.scaleX = 0.075;
             model.scaleY = 0.075;
             model.x = -100;
             model.y = 20;
-            TextureView view = new TextureView(model);
-            TextureController controller = new TextureController(model);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 0);
         }
         {

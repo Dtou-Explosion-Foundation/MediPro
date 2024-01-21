@@ -3,9 +3,14 @@ package medipro.object.manager.gamemanager;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JPanel;
+
+import medipro.config.InGameConfig;
+import medipro.gui.panel.IGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.ResultWorld;
 
 /**
  * ゲームマネージャのコントローラ.
@@ -34,10 +39,20 @@ public class GameManagerController extends GameObjectController {
             gameManagerModel.getCurrentAnomalyListener().onAnomalyFinished();
             gameManagerModel.setCurrentAnomalyListener(null);
         }
+        if (GameManagerModel.getFloor() == 0)
+            return;
+        if (Math.random() > InGameConfig.CHANCE_OF_ANOMALY)
+            return;
+
         List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
                 .filter(listener -> listener.canAnomalyOccurred()).toArray(AnomalyListener[]::new));
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
                 (a, b) -> a + b);
+
+        if (occuredChanceSum == 0) {
+            logger.warning("Not found enabled anomaly listener.");
+            return;
+        }
 
         final int[] occuredListenerIndexArray = new int[] { (int) (Math.random() * occuredChanceSum) };
 
@@ -69,9 +84,14 @@ public class GameManagerController extends GameObjectController {
      */
     public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.nextFloor(isRight);
-        occurAnormaly();
-
+        if (gameManagerModel.isAnomalyListenerOccured()) {
+            JPanel gamePanel = this.model.world.getPanel();
+            ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+        } else {
+            gameManagerModel.nextFloor(isRight);
+        }
+        // ワールドを再生成するため必要ない
+        // occurAnormaly();
     }
 
     /**
@@ -79,8 +99,14 @@ public class GameManagerController extends GameObjectController {
      */
     public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.prevFloor(isRight);
-        occurAnormaly();
+        if (!gameManagerModel.isAnomalyListenerOccured()) {
+            JPanel gamePanel = this.model.world.getPanel();
+            ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+        } else {
+            gameManagerModel.prevFloor(isRight);
+        }
+        // ワールドを再生成するため必要ない
+        // occurAnormaly();
     }
 
     /**

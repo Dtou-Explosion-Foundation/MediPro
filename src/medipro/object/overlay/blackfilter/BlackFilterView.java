@@ -1,6 +1,5 @@
 package medipro.object.overlay.blackfilter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
@@ -28,7 +27,7 @@ public class BlackFilterView extends GameObjectView {
     @Override
     protected void draw(Graphics2D g) {
         g.setTransform(new AffineTransform());
-        g.setColor(new Color(0f, 0f, 0f, (float) ((BlackFilterModel) model).getAlpha()));
+        g.setColor(((BlackFilterModel) model).getColor());
         g.fillRect(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
     }
 

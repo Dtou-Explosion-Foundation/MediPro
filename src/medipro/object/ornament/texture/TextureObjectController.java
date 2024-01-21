@@ -7,13 +7,13 @@ import medipro.object.base.gameobject.GameObjectModel;
 /**
  * テクスチャのコントローラ.
  */
-public class TextureController extends GameObjectController implements AnomalyListener {
+public class TextureObjectController extends GameObjectController implements AnomalyListener {
     /**
      * テクスチャのコントローラを生成する.
      * 
      * @param model 対象のモデル
      */
-    public TextureController(GameObjectModel model) {
+    public TextureObjectController(GameObjectModel model) {
         super(model);
     }
 
@@ -29,32 +29,34 @@ public class TextureController extends GameObjectController implements AnomalyLi
 
     @Override
     public boolean canAnomalyOccurred() {
-        return !anomalyOccurred;
+        // return !anomalyOccurred;
+        // TODO: 異変の量が少ないので再度発生を一時的に許可している
+        return true;
     }
 
     @Override
     public void onAnomalyOccurred(int level) {
         anomalyOccurred = true;
-        ((TextureModel) model).setTextureIndex(level);
+        ((TextureObjectModel) model).setTextureIndex(level);
     }
 
     @Override
     public void onAnomalyFinished() {
-        ((TextureModel) model).setTextureIndex(0);
+        ((TextureObjectModel) model).setTextureIndex(0);
     }
 
     @Override
     public int minAnomalyLevel() {
-        return 0;
+        return 1;
     }
 
     @Override
     public int maxAnomalyLevel() {
-        return 1;
+        return ((TextureObjectModel) model).getTexturePaths().length - 1;
     }
 
     @Override
     public int getOccurredChance() {
-        return 1;
+        return ((TextureObjectModel) model).getOccurredChance();
     }
 }
