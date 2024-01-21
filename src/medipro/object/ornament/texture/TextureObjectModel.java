@@ -17,6 +17,16 @@ public class TextureObjectModel extends GameObjectModel {
      */
     private int textureIndex = 0;
 
+    private int occurredChance = 1;
+
+    public int getOccurredChance() {
+        return occurredChance;
+    }
+
+    public void setOccurredChance(int occurredChance) {
+        this.occurredChance = occurredChance;
+    }
+
     /**
      * テクスチャのモデルを生成する.
      * 

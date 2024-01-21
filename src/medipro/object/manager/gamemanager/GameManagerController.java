@@ -47,6 +47,11 @@ public class GameManagerController extends GameObjectController {
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
                 (a, b) -> a + b);
 
+        if (occuredChanceSum == 0) {
+            logger.warning("Not found enabled anomaly listener.");
+            return;
+        }
+
         final int[] occuredListenerIndexArray = new int[] { (int) (Math.random() * occuredChanceSum) };
 
         AnomalyListener currentAnomalyListener = listeners.stream().reduce((a, b) -> {
@@ -81,8 +86,9 @@ public class GameManagerController extends GameObjectController {
         if (gameManagerModel.getCurrentAnomalyListener() != null) {
             JPanel gamePanel = this.model.world.getPanel();
             ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+        } else {
+            gameManagerModel.nextFloor(isRight);
         }
-        gameManagerModel.nextFloor(isRight);
         // occurAnormaly();
     }
 

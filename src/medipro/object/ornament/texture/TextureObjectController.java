@@ -29,7 +29,9 @@ public class TextureObjectController extends GameObjectController implements Ano
 
     @Override
     public boolean canAnomalyOccurred() {
-        return !anomalyOccurred;
+        // return !anomalyOccurred;
+        // TODO: 異変の量が少ないので再度発生を一時的に許可している
+        return true;
     }
 
     @Override
@@ -50,11 +52,11 @@ public class TextureObjectController extends GameObjectController implements Ano
 
     @Override
     public int maxAnomalyLevel() {
-        return 1;
+        return ((TextureObjectModel) model).getTexturePaths().length - 1;
     }
 
     @Override
     public int getOccurredChance() {
-        return 1;
+        return ((TextureObjectModel) model).getOccurredChance();
     }
 }

@@ -12,6 +12,9 @@ import medipro.object.camera.SmoothFollowingCameraController;
 import medipro.object.camera.SmoothFollowingCameraModel;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.object.manager.gamemanager.GameManagerModel;
+import medipro.object.ornament.texture.TextureObjectController;
+import medipro.object.ornament.texture.TextureObjectModel;
+import medipro.object.ornament.texture.TextureObjectView;
 import medipro.object.overlay.blackfilter.BlackFilterController;
 import medipro.object.overlay.blackfilter.BlackFilterModel;
 import medipro.object.overlay.blackfilter.BlackFilterView;
@@ -162,7 +165,19 @@ public class PlayWorld extends World {
             }
 
         }
-
+        {
+            TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png",
+                    "img/ornament/door-human-15.png", "img/ornament/door-open-demo-15.png" });
+            // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
+            model.scaleX = 0.09;
+            model.scaleY = 0.09;
+            model.x = -300;
+            model.y = 2;
+            // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+        }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
             model.setScale(2);
