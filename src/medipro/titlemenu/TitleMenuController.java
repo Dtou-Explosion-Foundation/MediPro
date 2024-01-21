@@ -11,8 +11,16 @@ import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.world.PlayWorld;
 import medipro.world.ResultWorld; // 仮でOptionコマンドでリザルト画面が出るようにしています。
 
+/**
+ * タイトルメニューのコントローラ.
+ */
 public class TitleMenuController extends GameObjectController implements KeyListener {
 
+    /**
+     * タイトルメニューのコントローラを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public TitleMenuController(TitleMenuModel model) {
         super(model);
     }

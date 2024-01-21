@@ -11,7 +11,7 @@ public class CameraController extends GameObjectController {
     /**
      * カメラコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public CameraController(final GameObjectModel model) {
         super(model);

@@ -7,11 +7,14 @@ import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 
+/**
+ * ゲームマネージャのコントローラ.
+ */
 public class GameManagerController extends GameObjectController {
     /**
-     * ゲームオブジェクトコントローラを生成する.
+     * ゲームマネージャのコントローラを生成する.
      * 
-     * @param models 格納するモデル
+     * @param model 対象のモデル
      */
     public GameManagerController(GameObjectModel model) {
         super(model);
@@ -22,14 +25,15 @@ public class GameManagerController extends GameObjectController {
         occurAnormaly();
     }
 
+    /**
+     * 異変を発生させる.
+     */
     private void occurAnormaly() {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (gameManagerModel.getCurrentAnomalyListener() != null) {
             gameManagerModel.getCurrentAnomalyListener().onAnomalyFinished();
             gameManagerModel.setCurrentAnomalyListener(null);
         }
-        logger.info("GameManager::occurAnormaly");
-
         List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
                 .filter(listener -> listener.canAnomalyOccurred()).toArray(AnomalyListener[]::new));
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
@@ -60,16 +64,29 @@ public class GameManagerController extends GameObjectController {
         // occurAnormaly();
     }
 
-    public void nextFloor() {
+    /**
+     * 次の階に移動する.
+     */
+    public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.nextFloor();
+        gameManagerModel.nextFloor(isRight);
         occurAnormaly();
 
     }
 
-    public void prevFloor() {
+    /**
+     * 前の階に移動する.
+     */
+    public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
-        gameManagerModel.prevFloor();
+        gameManagerModel.prevFloor(isRight);
         occurAnormaly();
+    }
+
+    /**
+     * 前の階に移動できるかどうか.
+     */
+    public static boolean canGoPrevFloor() {
+        return GameManagerModel.canGoPrevFloor();
     }
 }

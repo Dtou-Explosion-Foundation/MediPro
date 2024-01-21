@@ -39,7 +39,13 @@ public class PlayerModel extends GameObjectModel {
      * 現在のスプライトのインデックス.
      */
     int animationIndex = 0;
+    /**
+     * スプライトのパス.
+     */
     String[] imagePaths = { "img/character/bear0.png", "img/character/bear1.png", "img/character/bear2.png", };
+    /**
+     * スプライトのアニメーション.
+     */
     int[] animations = { 0, 1, 2, 1 };
 
     /**
@@ -66,17 +72,6 @@ public class PlayerModel extends GameObjectModel {
      */
     public PlayerModel(World world) {
         super(world);
-        logger.info("PlayerModel created");
-    }
-
-    /**
-     * 解放時の処理 ログ出力用
-     * 
-     * @throws Throwable 例外
-     */
-    @Override
-    protected void finalize() throws Throwable {
-        logger.info("PlayerModel destroyed");
     }
 
     /**
@@ -95,6 +90,11 @@ public class PlayerModel extends GameObjectModel {
         isWalking = true;
     }
 
+    /**
+     * 1フレーム分、モデルを更新する。
+     * 
+     * @param dt 前フレームからの経過時間
+     */
     public void update(double dt) {
         if (!updateAutoMover(dt))
             updateMovement(dt);
@@ -151,8 +151,13 @@ public class PlayerModel extends GameObjectModel {
         x += speedX * dt;
     }
 
+    /**
+     * 自動移動処理を行う
+     * 
+     * @param dt 前フレームからの経過時間
+     * @return 自動移動処理が行われたかどうか
+     */
     public boolean updateAutoMover(double dt) {
-        // logger.info("direction: " + direction);
         if (autoWalkerQueue.isEmpty()) {
             return false;
         }
@@ -164,28 +169,33 @@ public class PlayerModel extends GameObjectModel {
         direction = autoWalker.getDirection();
         if (autoWalker.isFinished()) {
             autoWalkerQueue.poll();
-            logger.info("updateAutoMover: remove head of queue " + autoWalkerQueue.size());
             autoWalker.invokeCallback();
         }
         return true;
     }
 
+    /**
+     * 自動移動処理のキュー
+     */
     private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
 
-    // public void pushAutoWalker(Point2D.Double target, double duration, Function<Double, Double> interpolation,
-    //         Runnable callback) {
-    //     autoWalkerQueue.add(new AutoWalker(target, duration, interpolation, callback));
-    // }
+    /**
+     * 自動移動処理を追加する
+     * 
+     * @param autoWalker 自動移動処理
+     */
     public void pushAutoWalker(AutoWalker autoWalker) {
         autoWalkerQueue.add(autoWalker);
-        logger.info("pushAutoWalker: " + autoWalkerQueue.size());
-        logger.info("New position: " + autoWalker.getNewX() + ", " + autoWalker.getNewY());
         x = autoWalker.getNewX();
         y = autoWalker.getNewY();
     }
 
+    /**
+     * 自動移動処理が行われているか
+     * 
+     * @return 自動移動処理が行われているか
+     */
     public boolean isPlayerAutoWalking() {
         return !autoWalkerQueue.isEmpty();
     }
-
 }

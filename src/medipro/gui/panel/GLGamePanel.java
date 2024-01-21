@@ -39,7 +39,8 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     /**
      * ゲームのパネルを生成する.
      * 
-     * @param frame パネルが配置されたゲームのウインドウ
+     * @param frame        パネルが配置されたゲームのウインドウ
+     * @param capabilities OpenGLの設定
      */
     public GLGamePanel(GameFrame frame, GLCapabilities capabilities) {
         super(capabilities);
@@ -59,8 +60,16 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
         return false;
     }
 
+    /**
+     * 前回のアップデートの時間を取得する.
+     */
     private long lastRepaintTime = -1;
 
+    /**
+     * 前回のアップデートからの経過時間を取得する.
+     * 
+     * @return 経過時間
+     */
     private double getDeltaTime() {
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
@@ -70,9 +79,7 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
 
     @Override
     public void update(double deltaTime) {
-        // logger.info("---------- GLGamePanel::update -----------");
         world.update(deltaTime);
-        // logger.info("-----------------------------");
     }
 
     @Override
@@ -81,18 +88,17 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
             this.update(this.getDeltaTime());
             if (needInitialize == true) {
                 needInitialize = false;
-                logger.info("Invoke World::init");
                 world.init(drawable);
             }
-            // logger.info("---------- GLGamePanel::display ----------");
             GL4 gl = drawable.getGL().getGL4();
             gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
-            // logger.info("Invoke World::display - " + needInitialize);
             world.display(drawable);
-            // logger.info("-----------------------------");
         }
     }
 
+    /**
+     * 初期化が必要かどうか.ワールドの入れ替え時、{@code init(GLAutoDrawable)}が実行されないため使用.
+     */
     private boolean needInitialize = true;
 
     @Override
@@ -103,8 +109,6 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
 
     @Override
     public void init(GLAutoDrawable drawable) {
-        logger.info("GLGamePanel:init");
-
         if (InGameConfig.USE_OPENGL) {
             needInitialize = false;
             GL4 gl = drawable.getGL().getGL4();
@@ -123,7 +127,6 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void setWorld(World world) {
         needInitialize = true;
-        logger.info("GLGamePanel::setWorld" + needInitialize);
         this.world = world;
     }
 

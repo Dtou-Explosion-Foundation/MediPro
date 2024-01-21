@@ -20,7 +20,7 @@ public class CameraView extends GameObjectView {
     /**
      * カメラビューを生成する.
      * 
-     * @param model 格納するモデル
+     * @param model 対象のモデル
      */
     public CameraView(CameraModel model) {
         super(model);
@@ -38,11 +38,8 @@ public class CameraView extends GameObjectView {
         return false;
     }
 
-    IntBuffer ubo = Buffers.newDirectIntBuffer(1);
-
     @Override
     protected void initNames() {
-        ubo = Buffers.newDirectIntBuffer(1);
     }
 
     @Override
@@ -56,6 +53,7 @@ public class CameraView extends GameObjectView {
     protected void initBuffers(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         gl.glUseProgram(shaderProgram);
+        IntBuffer ubo = Buffers.newDirectIntBuffer(1);
 
         CameraModel cameraModel = (CameraModel) model;
 
@@ -83,9 +81,9 @@ public class CameraView extends GameObjectView {
 
     @Override
     protected void updateUniforms(GLAutoDrawable drawable) {
-        // logger.info("CameraView::updateUniforms cameraModelPos: (" + model.x + ", " + model.y + ")");
         GL4 gl = drawable.getGL().getGL4();
         CameraModel cameraModel = (CameraModel) model;
+        int ubo = cameraModel.getUBO();
 
         Matrix4f tempMat = new Matrix4f();
         Matrix4f projMat = new Matrix4f().transpose();
@@ -95,24 +93,13 @@ public class CameraView extends GameObjectView {
                         tempMat) // -1~1をウインドウサイズに変換
                 // .scale(1, -1, 1, tempMat) // 上下反転
                 .translate((float) -cameraModel.x, (float) -cameraModel.y, 0, tempMat);
-        // float[] origin = { 0.0f, 0.0f };
-        // Vec4f origin = new Vec4f(0, 0, 0, 1);
-        // Vec4f viewMatRowX = new Vec4f();
-        // Vec4f viewMatRowY = new Vec4f();
-        // viewMat.getRow(0, viewMatRowX);
-        // viewMat.getRow(1, viewMatRowY);
-        // // float camera = verMatRow.dot(origin);
-        // logger.info("CameraModel::getTransformMatrix cameraModelPos: (" + viewMatRowX.dot(origin) + ", "
-        //         + viewMatRowY.dot(origin) + ")");
 
         FloatBuffer cameraMatBuffer = FloatBuffer.allocate(4 * 4 * 2)
                 .put(projMat.get(FloatBuffer.allocate(4 * 4)).flip())
                 .put(viewMat.get(FloatBuffer.allocate(4 * 4)).flip()).flip();
 
-        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo.get(0));
+        gl.glBindBuffer(GL4.GL_UNIFORM_BUFFER, ubo);
         gl.glBufferSubData(GL4.GL_UNIFORM_BUFFER, 0, Float.BYTES * cameraMatBuffer.limit(), cameraMatBuffer);
-
-        cameraModel.setUBO(ubo.get(0));
     }
 
 }

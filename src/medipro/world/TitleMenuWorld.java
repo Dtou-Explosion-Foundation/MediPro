@@ -7,7 +7,15 @@ import medipro.titlemenu.TitleMenuController;
 import medipro.titlemenu.TitleMenuModel;
 import medipro.titlemenu.TitleMenuView;
 
+/**
+ * タイトルメニューのワールド.
+ */
 public class TitleMenuWorld extends World {
+    /**
+     * タイトルメニューのワールドを生成する.
+     * 
+     * @param panel ワールドを表示するパネル
+     */
     public TitleMenuWorld(JPanel panel) {
         super(panel);
     }

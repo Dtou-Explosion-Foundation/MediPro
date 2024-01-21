@@ -42,7 +42,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
      */
     public G2dGamePanel(GameFrame frame) {
         super();
-        logger.info("Init GamePanel");
+        logger.info("Init G2dGamePanel");
         this.frame = frame;
         world = EngineConfig.SKIP_TITLE ? new PlayWorld(this) : new TitleMenuWorld(this);
     }
@@ -54,9 +54,7 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
 
     @Override
     public void update(double deltaTime) {
-        // logger.info("---------- G2dGamePanel::update -----------");
         world.update(deltaTime);
-        // logger.info("-----------------------------");
     }
 
     @Override
@@ -64,8 +62,16 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         return frame;
     }
 
+    /**
+     * 前回のアップデートの時間を取得する.
+     */
     private long lastRepaintTime = -1;
 
+    /**
+     * 前回のアップデートからの経過時間を取得する.
+     * 
+     * @return 前回の描画からの経過時間
+     */
     private double getDeltaTime() {
         long currentTime = System.nanoTime();
         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
@@ -81,7 +87,6 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         super.paintComponent(g);
         this.update(this.getDeltaTime());
         if (!InGameConfig.USE_OPENGL) {
-            // logger.info("---------- G2dGamePanel::paintComponent -----------");
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
@@ -94,7 +99,6 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
 
             // world.updateAndDraw(g2, this.getDeltaTime());
             world.draw(g2);
-            // logger.info("-----------------------------");
         }
     }
 

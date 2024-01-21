@@ -51,7 +51,6 @@ public class TestWorld extends World {
      */
     public TestWorld(JPanel panel) {
         super(panel);
-        logger.info("TestWorld created");
     }
 
     /**
@@ -111,20 +110,14 @@ public class TestWorld extends World {
         {
             ExampleGridModel model = null;
             try {
-                model = new ExampleGridModel(this, ImageIO.read(new File("img/background/Brickwall3_Texture.png")));
+                model = new ExampleGridModel(this, ImageIO.read(new File("img/layers/medipro_0003_Ceil.png")));
+                model.y = -200;
             } catch (IOException e) {
                 logger.warning(e.toString());
             }
             ExampleGridView view = new ExampleGridView(model);
             ExampleGridController controller = new ExampleGridController(model);
-            // model.x = 58;
-            // model.y = -100;
-            model.scaleX = 0.1;
-            model.scaleY = 0.1;
-            // if (model != null)
-            //     view.models.add(model);
-            this.addViewAndController(view, controller, 0);
-
+            this.addViewAndController(view, controller, 1);
         }
         {
             TextureModel model = new TextureModel(this,
@@ -152,7 +145,6 @@ public class TestWorld extends World {
             model.x = -500;
             model.y = 10;
             model.setTriggerRange(300f);
-            model.setLeftUp(true);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
             this.addViewAndController(view, controller, 5);
@@ -180,8 +172,10 @@ public class TestWorld extends World {
             // model.originY = 50;
             model.setMinX(-300);
             model.setMaxX(300);
-            model.setLockY(true);
-            model.y = 50;
+            // model.setLockY(true);
+            // model.y = 50;
+            // model.originX = 1000;
+            model.originY = 100;
             CameraView view = new CameraView(model);
             CameraController controller = new SmoothFollowingCameraController(model);
             // CameraController controller = new FollowingCameraController(model);

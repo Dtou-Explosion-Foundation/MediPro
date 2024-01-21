@@ -25,7 +25,6 @@ public class GLWorld extends World {
      */
     public GLWorld(JPanel panel) {
         super(panel);
-        logger.info("GLWorld created");
     }
 
     /**

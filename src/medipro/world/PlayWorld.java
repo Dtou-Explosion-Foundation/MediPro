@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import medipro.object.base.World;
-import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.camera.SmoothFollowingCameraController;
@@ -44,11 +43,18 @@ import medipro.object.stairs.StairsController;
 import medipro.object.stairs.StairsModel;
 import medipro.object.stairs.StairsView;
 
+/**
+ * プレイワールド.
+ */
 public class PlayWorld extends World {
 
+    /**
+     * プレイワールドを生成する.
+     * 
+     * @param panel ワールドを表示するパネル
+     */
     public PlayWorld(JPanel panel) {
         super(panel);
-        logger.info("PlayWorld created");
     }
 
     @Override
@@ -100,7 +106,6 @@ public class PlayWorld extends World {
             model.x = -500;
             model.y = -65;
             model.setTriggerRange(100f);
-            model.setLeftUp(true);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
             this.addViewAndController(view, controller, 20);
@@ -135,7 +140,7 @@ public class PlayWorld extends World {
         {
             try {
                 CeilModel model = new CeilModel(this);
-                model.y = -200;
+                model.y = -160;
                 CeilController controller = new CeilController(model);
                 CeilView view = new CeilView(model);
                 this.addViewAndController(view, controller, 1);
@@ -164,10 +169,13 @@ public class PlayWorld extends World {
             model.followingSpeed = 0.08;
             model.setMinX(-300);
             model.setMaxX(300);
-            model.setLockY(true);
-            model.y = 50;
+            // model.setLockY(true);
+            // model.y = 50;
+            model.originY = 70;
+            model.setFollowingRateY(0.85);
             CameraView view = new CameraView(model);
-            CameraController controller = new SmoothFollowingCameraController(model);
+            SmoothFollowingCameraController controller = new SmoothFollowingCameraController(model);
+            controller.forceFollow();
             this.addViewAndController(view, controller);
             camera = Optional.of(model);
         }
