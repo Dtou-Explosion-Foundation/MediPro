@@ -47,7 +47,7 @@ public class TextureObjectController extends GameObjectController implements Ano
 
     @Override
     public int minAnomalyLevel() {
-        return 0;
+        return 1;
     }
 
     @Override
