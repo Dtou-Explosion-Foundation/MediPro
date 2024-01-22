@@ -18,6 +18,8 @@ import medipro.object.ornament.texture.TextureObjectView;
 import medipro.object.overlay.blackfilter.BlackFilterController;
 import medipro.object.overlay.blackfilter.BlackFilterModel;
 import medipro.object.overlay.blackfilter.BlackFilterView;
+import medipro.object.overlay.floor.FloorOverlayModel;
+import medipro.object.overlay.floor.FloorOverlayView;
 import medipro.object.overlay.fps.FpsOverlayController;
 import medipro.object.overlay.fps.FpsOverlayModel;
 import medipro.object.overlay.fps.FpsOverlayView;
@@ -80,7 +82,7 @@ public class PlayWorld extends World {
             PauseView view = new PauseView(model);
             PauseController controller = new PauseController(model);
             panel.addKeyListener(controller);
-            this.addViewAndController(view, controller, 111);
+            this.addViewAndController(view, controller, 112);
         }
         {
             PlayerModel model = new PlayerModel(this);
@@ -91,6 +93,11 @@ public class PlayWorld extends World {
             PlayerController controller = new PlayerController(model);
             panel.addKeyListener(controller);
             this.addViewAndController(view, controller, 50);
+        }
+        {
+            FloorOverlayModel model = new FloorOverlayModel(this);
+            FloorOverlayView view = new FloorOverlayView(model);
+            this.addView(view, 101);
         }
         {
             FpsOverlayModel model = new FpsOverlayModel(this);

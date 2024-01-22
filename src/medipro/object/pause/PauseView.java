@@ -18,13 +18,8 @@ public class PauseView extends GameObjectView{
         PauseModel pauseModel = (PauseModel) model;
         g.setTransform(new AffineTransform());
         String [] menuItems = pauseModel.getMenuItems();
-        int floor = GameManagerModel.getFloor();
         if(GameManagerModel.getPause()==0){
-            g.setFont(new Font("SansSerif", Font.BOLD, 75));
-            g.setColor(Color.WHITE);
-            g.drawString(String.valueOf(floor)+"層", 800, 175);
             g.setFont(new Font("SansSerif", Font.BOLD, 50));
-            g.drawString("現在", 700, 100);
             for (int i = 0; i < menuItems.length; i++) {
                 if (i == pauseModel.getSelectedItem()) {
                     g.setColor(Color.RED);
