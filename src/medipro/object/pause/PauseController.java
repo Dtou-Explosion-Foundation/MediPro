@@ -31,12 +31,15 @@ public class PauseController extends GameObjectController implements KeyListener
             case KeyEvent.VK_S:
                 pauseModel.nextItem();
                 break;
+            case KeyEvent.VK_ESCAPE:
+                pauseModel.setSelectedItem(0);
+                break;
             case KeyEvent.VK_ENTER:
             case KeyEvent.VK_Z:
                 switch(pauseModel.getSelectedItem()){
                 case 0:
                     GameManagerModel.setPause(1);
-                    logger.info("You selected: " + pauseModel.getSelectedItem());
+                    logger.info("Unpause");
                     break;
                 case 1:
                     pauseModel.setSelectedItem(0);
