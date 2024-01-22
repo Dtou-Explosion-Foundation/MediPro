@@ -2,6 +2,7 @@ package medipro.object.manager.gamemanager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -30,10 +31,13 @@ public class GameManagerController extends GameObjectController {
         occurAnormaly();
     }
 
+    private static Random random = new Random();
+
     /**
      * 異変を発生させる.
      */
     private void occurAnormaly() {
+        logger.info("occurAnormaly");
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (gameManagerModel.getCurrentAnomalyListener() != null) {
             gameManagerModel.getCurrentAnomalyListener().onAnomalyFinished();
@@ -41,7 +45,8 @@ public class GameManagerController extends GameObjectController {
         }
         if (GameManagerModel.getFloor() == 0)
             return;
-        if (Math.random() > InGameConfig.CHANCE_OF_ANOMALY)
+
+        if (random.nextDouble() > InGameConfig.CHANCE_OF_ANOMALY)
             return;
 
         List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
@@ -49,13 +54,12 @@ public class GameManagerController extends GameObjectController {
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
                 (a, b) -> a + b);
 
-        if (occuredChanceSum == 0) {
+        if (occuredChanceSum <= 0) {
             logger.warning("Not found enabled anomaly listener.");
             return;
         }
 
-        final int[] occuredListenerIndexArray = new int[] { (int) (Math.random() * occuredChanceSum) };
-
+        final int[] occuredListenerIndexArray = new int[] { random.nextInt(occuredChanceSum) };
         AnomalyListener currentAnomalyListener = listeners.stream().reduce((a, b) -> {
             if (occuredListenerIndexArray[0] < a.getOccurredChance()) {
                 return a;
@@ -67,8 +71,8 @@ public class GameManagerController extends GameObjectController {
 
         if (currentAnomalyListener != null) {
             gameManagerModel.setCurrentAnomalyListener(currentAnomalyListener);
-            int level = (int) (Math.random()
-                    * (currentAnomalyListener.maxAnomalyLevel() - currentAnomalyListener.minAnomalyLevel() + 1))
+            int level = random
+                    .nextInt(currentAnomalyListener.maxAnomalyLevel() - currentAnomalyListener.minAnomalyLevel() + 1)
                     + currentAnomalyListener.minAnomalyLevel();
             currentAnomalyListener.onAnomalyOccurred(level);
         }
