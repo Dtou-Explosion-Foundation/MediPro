@@ -174,13 +174,30 @@ public class PlayWorld extends World {
 
         }
         {
-            TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png",
-                    "img/ornament/door-human-15.png", "img/ornament/door-open-demo-15.png" });
+            TextureObjectModel model = new TextureObjectModel(this,
+                    new String[] { "img/ornament/door-nomal-15.png", "img/ornament/door-human-15.png",
+                            "img/ornament/door-open-demo-15.png", "img/ornament/extinction.png" });
             // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
             model.scaleX = 0.09;
             model.scaleY = 0.09;
             model.x = -300;
             model.y = 2;
+            // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
+                    new String[] { "img/ornament/clock-nomal.png", "img/ornament/clock-breaking.png",
+                            "img/ornament/clock-toocircles.png", "img/ornament/clock-toohands.png",
+                            "img/ornament/clock-human.png", "img/ornament/extinction.png" });
+            // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
+            model.scaleX = 1;
+            model.scaleY = 1;
+            model.x = -100;
+            model.y = 100;
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);

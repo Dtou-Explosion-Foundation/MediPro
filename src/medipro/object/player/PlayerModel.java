@@ -42,7 +42,7 @@ public class PlayerModel extends GameObjectModel {
     /**
      * スプライトのパス.
      */
-    String[] imagePaths = { "img/character/bear0.png", "img/character/bear1.png", "img/character/bear2.png", };
+    String[] imagePaths = { "img/character/charanomal0.png", "img/character/charanomal1.png", "img/character/charanomal2.png", };
     /**
      * スプライトのアニメーション.
      */
