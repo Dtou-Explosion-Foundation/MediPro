@@ -11,6 +11,7 @@ import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
 import medipro.object.base.gameobject.GameObjectController;
+import medipro.object.manager.gamemanager.GameManagerModel;
 
 public class ResultController extends GameObjectController implements KeyListener{
 
@@ -39,13 +40,14 @@ public class ResultController extends GameObjectController implements KeyListene
             case 0:
                 resultModel.setSelectedItem(0);
                 gamePanel.setWorld(new PlayWorld(panel));
-                System.out.println("You selected: " + resultModel.getSelectedItem());
+                GameManagerModel.setFloor(0);
+                logger.info("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
             case 1:
                 resultModel.setSelectedItem(0);
                 gamePanel.setWorld(new TitleMenuWorld(panel));
-                System.out.println("You selected: " + resultModel.getSelectedItem());
+                logger.info("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
             }
