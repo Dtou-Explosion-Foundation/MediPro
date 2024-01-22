@@ -31,7 +31,7 @@ public class TitleMenuView extends GameObjectView {
             } else {
                 g.setColor(Color.lightGray);
             }
-            g.drawString(menuItems[i], 0, 100 + i * 50);
+            g.drawString(menuItems[i], 0, 100 + i * 100);
         }
     }
 
