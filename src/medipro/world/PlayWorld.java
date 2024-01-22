@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import medipro.anomaly.TextureChangeAnomaly;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -184,6 +185,7 @@ public class PlayWorld extends World {
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureChangeAnomaly(model));
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);

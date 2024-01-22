@@ -91,7 +91,7 @@ public class TextureObjectModel extends GameObjectModel {
      * 
      * @param textureIndex テクスチャのインデックス
      */
-    protected void setTextureIndex(int textureIndex) {
+    public void setTextureIndex(int textureIndex) {
         this.textureIndex = Math.max(0, Math.min(texturePaths.length - 1, textureIndex));
     }
 
