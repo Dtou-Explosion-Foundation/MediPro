@@ -195,6 +195,7 @@ public class PlayWorld extends World {
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureChangeAnomaly(model));
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
