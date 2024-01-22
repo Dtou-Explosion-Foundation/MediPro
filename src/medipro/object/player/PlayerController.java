@@ -55,8 +55,13 @@ public class PlayerController extends GameObjectController implements KeyListene
             playerModel.y -= 10;
             break;
         case KeyEvent.VK_ESCAPE:
-            GameManagerModel.setPause(0);
-            break;
+            if(GameManagerModel.getPause()==1){
+                GameManagerModel.setPause(0);
+                break;
+            }else{
+                GameManagerModel.setPause(1);
+                break;
+            }
         }
 
     }
