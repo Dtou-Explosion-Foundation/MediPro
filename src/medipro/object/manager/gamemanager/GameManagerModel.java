@@ -53,7 +53,7 @@ public class GameManagerModel extends GameObjectModel {
      * 前の階層に戻る.
      */
     public void prevFloor(boolean isRight) {
-        GameManagerModel.floor--;
+        GameManagerModel.floor++;
         setFloorChangingState(FloorChangingState.from(isRight, false));
         regenerateWorld();
     }
