@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import medipro.anomaly.CameraAnomaly;
 import medipro.anomaly.PlayerMovementAnomaly;
 import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
@@ -235,6 +236,11 @@ public class PlayWorld extends World {
             SmoothFollowingCameraController controller = new SmoothFollowingCameraController(model);
             controller.forceFollow();
             this.addViewAndController(view, controller);
+            {
+                CameraAnomaly cameraAnomaly = new CameraAnomaly(model);
+                cameraAnomaly.setOccurredChance(1);
+                this.addControllers(cameraAnomaly);
+            }
             camera = Optional.of(model);
         }
         {
