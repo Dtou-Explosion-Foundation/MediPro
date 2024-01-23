@@ -175,8 +175,8 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
-                    new String[] { "img/ornament/door/door-nomal-15.png", "img/ornament/door/door-human-15.png",
-                            "img/ornament/door/door-open-demo-15.png", "img/ornament/extinction.png" });
+                    new String[] { "img/ornament/door/door-nomal.png", "img/ornament/door/door-human.png",
+                            "img/ornament/door/door-open.png", "img/ornament/extinction.png" });
             // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
             model.scaleX = 0.11;
             model.scaleY = 0.11;
@@ -220,7 +220,9 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
-                    new String[] { "img/ornament/table/table-edge-nomal.png" });
+                    new String[] { "img/ornament/table/table-edge1-nomal.png", "img/ornament/table/table-edge1-big.png",
+                            "img/ornament/table/table-edge1-fire.png",
+                            "img/ornament/table/table-edge1-increase_leg.png" });
             model.scaleX = 2.2;
             model.scaleY = 2.2;
             model.x = 103;
@@ -232,8 +234,8 @@ public class PlayWorld extends World {
             this.addControllers(new TextureChangeAnomaly(model));
         }
         {
-            TextureObjectModel model = new TextureObjectModel(this,
-                    new String[] { "img/ornament/table/table-mid-nomal.png" });
+            TextureObjectModel model = new TextureObjectModel(this, new String[] {
+                    "img/ornament/table/table-mid-nomal.png", "img/ornament/table/table-mid-blood.png" });
             model.scaleX = 2.2;
             model.scaleY = 2.2;
             model.x = 210;
@@ -246,7 +248,9 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
-                    new String[] { "img/ornament/table/table-edge-nomal.png" });
+                    new String[] { "img/ornament/table/table-edge2-nomal.png",
+                            "img/ornament/table/table-edge2-increase_chare.png",
+                            "img/ornament/table/table-edge2-locate_switch.png" });
             model.scaleX = 2.2;
             model.scaleY = 2.2;
             model.x = 258;
