@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import medipro.anomaly.PlayerMovementAnomaly;
 import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
 import medipro.object.base.World;
@@ -97,6 +98,11 @@ public class PlayWorld extends World {
             PlayerController controller = new PlayerController(model);
             panel.addKeyListener(controller);
             this.addViewAndController(view, controller, 50);
+            {
+                PlayerMovementAnomaly playerMovementAnomaly = new PlayerMovementAnomaly(model);
+                // playerMovementAnomaly.setOccurredChance(1);
+                this.addControllers(playerMovementAnomaly);
+            }
         }
         {
             FloorOverlayModel model = new FloorOverlayModel(this);
