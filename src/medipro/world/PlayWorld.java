@@ -1,10 +1,13 @@
 package medipro.world;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
@@ -203,6 +206,12 @@ public class PlayWorld extends World {
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
             this.addControllers(new TextureChangeAnomaly(model));
+            {
+                ScaleChangeAnomaly scaleChangeAnomaly = new ScaleChangeAnomaly(model);
+                // scaleChangeAnomaly.setOccurredChance(1);
+                scaleChangeAnomaly.setScaleList(new ArrayList<Double>(List.of(0.6, 1.5, 2.0)));
+                this.addControllers(scaleChangeAnomaly);
+            }
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
