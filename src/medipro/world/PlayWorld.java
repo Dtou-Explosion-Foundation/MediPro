@@ -83,7 +83,7 @@ public class PlayWorld extends World {
             PauseView view = new PauseView(model);
             PauseController controller = new PauseController(model);
             panel.addKeyListener(controller);
-            this.addViewAndController(view, controller, 112);
+            this.addViewAndController(view, controller, 110);
         }
         {
             PlayerModel model = new PlayerModel(this);
@@ -183,6 +183,18 @@ public class PlayWorld extends World {
             model.x = -300;
             model.y = 2;
             // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
+                new String[] { "img/ornament/whitebord-nomal.png", "img/ornament/whitebord-table.png", "img/ornament/whitebord-redroom.png"});
+            model.scaleX = 0.5;
+            model.scaleY = 0.5;
+            model.x = 200;
+            model.y = 75;
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
