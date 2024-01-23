@@ -34,4 +34,12 @@ public interface IGamePanel {
      * @param world ワールド
      */
     public void setWorld(World world);
+
+    /**
+     * パネルにワールドを設定する.
+     * 
+     * @param world           ワールド
+     * @param disposeOldWorld 古いワールドを破棄するかどうか
+     */
+    public void setWorld(World world, boolean disposeOldWorld);
 }

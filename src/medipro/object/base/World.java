@@ -69,6 +69,12 @@ public abstract class World implements GLEventListener {
             controller.postSetupWorld();
     }
 
+    public void dispose() {
+        logger.info("Dispose " + this.getClass().getSimpleName());
+        for (GameObjectController controller : controllers)
+            controller.dispose();
+    }
+
     /**
      * コントローラーを追加する。（複数可）
      * 
