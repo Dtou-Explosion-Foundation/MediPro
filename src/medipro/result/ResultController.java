@@ -24,7 +24,7 @@ public class ResultController extends GameObjectController implements KeyListene
         ResultModel resultModel = (ResultModel) model;
         JPanel panel = resultModel.world.getPanel();
         IGamePanel gamePanel = (IGamePanel) (panel);
-
+        KeyListener[] allKeyListeners = panel.getKeyListeners();
         switch (e.getKeyCode()) {
         case KeyEvent.VK_LEFT:
         case KeyEvent.VK_A:
@@ -39,6 +39,9 @@ public class ResultController extends GameObjectController implements KeyListene
             switch (resultModel.getSelectedItem()) {
             case 0:
                 resultModel.setSelectedItem(0);
+                for (KeyListener keyListener : allKeyListeners) {
+                    panel.removeKeyListener(keyListener);
+                }
                 gamePanel.setWorld(new PlayWorld(panel));
                 GameManagerModel.setFloor(0);
                 logger.info("You selected: " + resultModel.getSelectedItem());
@@ -46,6 +49,9 @@ public class ResultController extends GameObjectController implements KeyListene
                 break;
             case 1:
                 resultModel.setSelectedItem(0);
+                for (KeyListener keyListener : allKeyListeners) {
+                    panel.removeKeyListener(keyListener);
+                }
                 gamePanel.setWorld(new TitleMenuWorld(panel));
                 logger.info("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
