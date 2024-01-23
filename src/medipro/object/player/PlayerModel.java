@@ -42,7 +42,8 @@ public class PlayerModel extends GameObjectModel {
     /**
      * スプライトのパス.
      */
-    String[] imagePaths = { "img/character/charanomal0.png", "img/character/charanomal1.png", "img/character/charanomal2.png", };
+    String[] imagePaths = { "img/character/charanomal0.png", "img/character/charanomal1.png",
+            "img/character/charanomal2.png", };
     /**
      * スプライトのアニメーション.
      */
@@ -108,6 +109,11 @@ public class PlayerModel extends GameObjectModel {
      */
     public void updateAnimation(double dt) {
         // update sprite animation
+        if (this.speedX == 0) {
+            animationIndex = spritesIdleIndex;
+            return;
+        }
+
         changeSpriteTimer += dt;
         if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
             if (++animationIndex >= animations.length)
@@ -126,8 +132,6 @@ public class PlayerModel extends GameObjectModel {
         if (isWalking) {
             speedX += accX * direction * dt;
             isWalking = false;
-        } else {
-            animationIndex = spritesIdleIndex;
         }
 
         // apply resistance
