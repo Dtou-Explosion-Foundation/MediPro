@@ -83,7 +83,7 @@ public class PlayWorld extends World {
             PauseView view = new PauseView(model);
             PauseController controller = new PauseController(model);
             panel.addKeyListener(controller);
-            this.addViewAndController(view, controller, 112);
+            this.addViewAndController(view, controller, 110);
         }
         {
             PlayerModel model = new PlayerModel(this);
@@ -175,8 +175,10 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
+
                     new String[] { "img/ornament/door/door-nomal.png", "img/ornament/door/door-human.png",
                             "img/ornament/door/door-open.png", "img/ornament/extinction.png" });
+
             // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
             model.scaleX = 0.11;
             model.scaleY = 0.11;
@@ -190,9 +192,24 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
+
+                new String[] { "img/ornament/whitebord/whitebord-nomal.png", "img/ornament/whitebord/whitebord-table.png", 
+                    "img/ornament/whitebord/whitebord-redroom.png", "img/ornament/extinction.png"});
+            model.scaleX = 0.5;
+            model.scaleY = 0.5;
+            model.x = 200;
+            model.y = 75;
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/clock/clock-nomal.png", "img/ornament/clock/clock-breaking.png",
                             "img/ornament/clock/clock-toocircles.png", "img/ornament/clock/clock-toohands.png",
                             "img/ornament/clock/clock-human.png", "img/ornament/extinction.png" });
+ 
             model.scaleX = 1;
             model.scaleY = 1;
             model.x = -100;
