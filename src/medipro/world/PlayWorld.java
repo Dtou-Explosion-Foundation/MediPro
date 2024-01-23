@@ -1,10 +1,15 @@
 package medipro.world;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.swing.JPanel;
 
+import medipro.anomaly.CameraAnomaly;
+import medipro.anomaly.PlayerMovementAnomaly;
+import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
@@ -94,6 +99,11 @@ public class PlayWorld extends World {
             PlayerController controller = new PlayerController(model);
             panel.addKeyListener(controller);
             this.addViewAndController(view, controller, 50);
+            {
+                PlayerMovementAnomaly playerMovementAnomaly = new PlayerMovementAnomaly(model);
+                // playerMovementAnomaly.setOccurredChance(1);
+                this.addControllers(playerMovementAnomaly);
+            }
         }
         {
             FloorOverlayModel model = new FloorOverlayModel(this);
@@ -219,6 +229,12 @@ public class PlayWorld extends World {
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
             this.addControllers(new TextureChangeAnomaly(model));
+            {
+                ScaleChangeAnomaly scaleChangeAnomaly = new ScaleChangeAnomaly(model);
+                // scaleChangeAnomaly.setOccurredChance(1);
+                scaleChangeAnomaly.setScaleList(new ArrayList<Double>(List.of(0.6, 1.5, 2.0)));
+                this.addControllers(scaleChangeAnomaly);
+            }
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
@@ -281,17 +297,24 @@ public class PlayWorld extends World {
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
             model.setScale(2);
-            model.followingSpeed = 0.08;
+            model.followingSpeed = 4.0;
+            model.setFlipSpeed(40);
             model.setMinX(-300);
             model.setMaxX(300);
             // model.setLockY(true);
             // model.y = 50;
             model.originY = 70;
+            model.originX = 15;
             model.setFollowingRateY(0.85);
             CameraView view = new CameraView(model);
             SmoothFollowingCameraController controller = new SmoothFollowingCameraController(model);
             controller.forceFollow();
             this.addViewAndController(view, controller);
+            {
+                CameraAnomaly cameraAnomaly = new CameraAnomaly(model);
+                cameraAnomaly.setOccurredChance(1);
+                this.addControllers(cameraAnomaly);
+            }
             camera = Optional.of(model);
         }
         {

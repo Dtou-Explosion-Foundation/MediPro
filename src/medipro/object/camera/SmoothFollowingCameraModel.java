@@ -12,6 +12,26 @@ public class SmoothFollowingCameraModel extends FollowingCameraModel {
      */
     public Double followingSpeed = 0.1;
 
+    private boolean isFlipOriginXWithPlayerDirection = true;
+
+    public boolean isFlipOriginXWithPlayerDirection() {
+        return isFlipOriginXWithPlayerDirection;
+    }
+
+    public void setFlipOriginXWithPlayerDirection(boolean isFlipOriginXWithPlayerDirection) {
+        this.isFlipOriginXWithPlayerDirection = isFlipOriginXWithPlayerDirection;
+    }
+
+    private double flipSpeed = 50;
+
+    public double getFlipSpeed() {
+        return flipSpeed;
+    }
+
+    public void setFlipSpeed(double flipSpeed) {
+        this.flipSpeed = flipSpeed;
+    }
+
     /**
      * カメラモデルを生成する.
      * 
