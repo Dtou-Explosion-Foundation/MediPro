@@ -222,12 +222,14 @@ public class PlayWorld extends World {
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
             model.setScale(2);
-            model.followingSpeed = 0.08;
+            model.followingSpeed = 4.0;
+            model.setFlipSpeed(40);
             model.setMinX(-300);
             model.setMaxX(300);
             // model.setLockY(true);
             // model.y = 50;
             model.originY = 70;
+            model.originX = 15;
             model.setFollowingRateY(0.85);
             CameraView view = new CameraView(model);
             SmoothFollowingCameraController controller = new SmoothFollowingCameraController(model);

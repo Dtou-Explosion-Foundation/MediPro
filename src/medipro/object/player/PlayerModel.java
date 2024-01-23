@@ -57,6 +57,11 @@ public class PlayerModel extends GameObjectModel {
      * 向いている方向.
      */
     byte direction = 1;
+
+    public byte getDirection() {
+        return direction;
+    }
+
     /**
      * 歩いているかどうか.
      */
