@@ -1,5 +1,7 @@
 package medipro.object.manager.gamemanager;
 
+import java.awt.event.KeyListener;
+
 import javax.swing.JPanel;
 
 import medipro.gui.panel.IGamePanel;
@@ -45,6 +47,10 @@ public class GameManagerModel extends GameObjectModel {
      */
     public void nextFloor(boolean isRight) {
         GameManagerModel.floor++;
+        KeyListener[] allKeyListeners = this.world.getPanel().getKeyListeners();
+        for (KeyListener keyListener : allKeyListeners) {
+            this.world.getPanel().removeKeyListener(keyListener);
+        }
         setFloorChangingState(FloorChangingState.from(isRight, true));
         regenerateWorld();
     }
@@ -54,6 +60,10 @@ public class GameManagerModel extends GameObjectModel {
      */
     public void prevFloor(boolean isRight) {
         GameManagerModel.floor++;
+        KeyListener[] allKeyListeners = this.world.getPanel().getKeyListeners();
+        for (KeyListener keyListener : allKeyListeners) {
+            this.world.getPanel().removeKeyListener(keyListener);
+        }
         setFloorChangingState(FloorChangingState.from(isRight, false));
         regenerateWorld();
     }
