@@ -40,8 +40,8 @@ public class ResultController extends GameObjectController implements KeyListene
                 for (KeyListener keyListener : allKeyListeners) {
                     panel.removeKeyListener(keyListener);
                 }
-                gamePanel.setWorld(new PlayWorld(panel));
                 GameManagerController.resetFloor();
+                gamePanel.setWorld(new PlayWorld(panel));
                 logger.info("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
