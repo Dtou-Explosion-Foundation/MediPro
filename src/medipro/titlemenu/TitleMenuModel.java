@@ -10,7 +10,7 @@ public class TitleMenuModel extends GameObjectModel {
     /**
      * メニュー項目.
      */
-    private String[] menuItems = { "Start Game", "Options", "Quit" };
+    private String[] menuItems = { "Start Game", "Quit" };
     /**
      * 選択中のメニュー項目.
      */
