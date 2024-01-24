@@ -56,6 +56,5 @@ public abstract class GameObjectController {
     }
 
     public void dispose() {
-
     }
 }

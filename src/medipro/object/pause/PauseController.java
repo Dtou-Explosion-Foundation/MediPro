@@ -22,9 +22,13 @@ public class PauseController extends GameObjectController implements KeyListener
         PauseModel pauseModel = (PauseModel) model;
         JPanel panel = pauseModel.world.getPanel();
         IGamePanel gamePanel = (IGamePanel) (panel);
-
-        KeyListener[] allKeyListeners = panel.getKeyListeners();
-        if (GameManagerModel.getPause() == 0) {
+        if (!GameManagerModel.isPause()) {
+            switch (e.getKeyCode()) {
+            case KeyEvent.VK_ESCAPE:
+                logger.info("paused");
+                GameManagerModel.Pause();
+            }
+        } else if (GameManagerModel.isPause()) {
             switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
@@ -36,30 +40,25 @@ public class PauseController extends GameObjectController implements KeyListener
                 break;
             case KeyEvent.VK_ESCAPE:
                 pauseModel.setSelectedItem(0);
+                GameManagerModel.unPause();
                 break;
             case KeyEvent.VK_ENTER:
             case KeyEvent.VK_Z:
                 switch (pauseModel.getSelectedItem()) {
                 case 0:
-                    GameManagerModel.setPause(1);
+                    GameManagerModel.unPause();
                     logger.info("Unpause");
                     break;
                 case 1:
                     pauseModel.setSelectedItem(0);
                     GameManagerController.resetFloor();
-                    GameManagerModel.setPause(1);
-                    for (KeyListener keyListener : allKeyListeners) {
-                        panel.removeKeyListener(keyListener);
-                    }
+                    GameManagerModel.unPause();
                     gamePanel.setWorld(new PlayWorld(panel));
                     logger.info("You selected: " + pauseModel.getSelectedItem());
                     break;
                 case 2:
                     pauseModel.setSelectedItem(0);
-                    GameManagerModel.setPause(1);
-                    for (KeyListener keyListener : allKeyListeners) {
-                        panel.removeKeyListener(keyListener);
-                    }
+                    GameManagerModel.unPause();
                     gamePanel.setWorld(new TitleMenuWorld(panel));
                     logger.info("You selected: " + pauseModel.getSelectedItem());
                     break;
@@ -79,6 +78,10 @@ public class PauseController extends GameObjectController implements KeyListener
 
     @Override
     public void update(double dt) {
+    }
 
+    @Override
+    public void dispose() {
+        this.model.world.getPanel().removeKeyListener(this);
     }
 }

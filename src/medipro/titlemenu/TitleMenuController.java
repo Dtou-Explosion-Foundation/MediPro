@@ -48,7 +48,6 @@ public class TitleMenuController extends GameObjectController implements KeyList
                 GameManagerController.resetFloor();
                 gamePanel.setWorld(new PlayWorld(panel));
                 logger.info("game start");
-                panel.removeKeyListener(this);
                 break;
             case 1:
                 logger.info("quit");
@@ -70,5 +69,10 @@ public class TitleMenuController extends GameObjectController implements KeyList
     @Override
     public void update(double dt) {
 
+    }
+
+    @Override
+    public void dispose() {
+        this.model.world.getPanel().removeKeyListener(this);
     }
 }

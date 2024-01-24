@@ -89,12 +89,20 @@ public class GameManagerModel extends GameObjectModel {
         panel.setWorld(newWorld);
     }
 
-    public static int getPause() {
-        return isPause;
+    public static boolean isPause() {
+        return GameManagerModel.isPause == 0;
     }
 
-    public static void setPause(int isPause) {
-        GameManagerModel.isPause = isPause;
+    public static int getPause() {
+        return GameManagerModel.isPause;
+    }
+
+    public static void Pause() {
+        GameManagerModel.isPause = 0;
+    }
+
+    public static void unPause() {
+        GameManagerModel.isPause = 1;
     }
 
     /**
