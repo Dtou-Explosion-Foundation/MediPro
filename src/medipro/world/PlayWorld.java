@@ -233,6 +233,19 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
+
+                    new String[] { "img/ornament/extinction.png", "img/ornament/zipper1.png", });
+            model.scaleX = 2;
+            model.scaleY = 2;
+            model.x = -200;
+            model.y = 47;
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/clock/clock-nomal.png", "img/ornament/clock/clock-breaking.png",
                             "img/ornament/clock/clock-toocircles.png", "img/ornament/clock/clock-toohands.png",
                             "img/ornament/clock/clock-human.png", "img/ornament/extinction.png" });
@@ -267,6 +280,20 @@ public class PlayWorld extends World {
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
             this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/extinction.png",
+                    "img/ornament/exit/exit-nomal.png", "img/ornament/exit/exit-reverse.png" });
+            model.setOccurredChance(10000);
+            model.scaleX = 1.2;
+            model.scaleY = 1.2;
+            model.x = 100;
+            model.y = 120;
+            // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureAlternatingChangeAnomaly(model));
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
