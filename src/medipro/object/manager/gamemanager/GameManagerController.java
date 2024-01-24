@@ -11,6 +11,7 @@ import medipro.gui.panel.IGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.object.manager.gamemanager.GameManagerModel.FloorChangingState;
 import medipro.world.ResultWorld;
 
 /**
@@ -81,6 +82,16 @@ public class GameManagerController extends GameObjectController {
     @Override
     public void update(double dt) {
         // occurAnormaly();
+    }
+
+    /**
+     * 初期の階に移動する.
+     */
+    public void resetFloor() {
+        GameManagerModel gameManagerModel = (GameManagerModel) model;
+        GameManagerModel.setFloor(0);
+        GameManagerModel.setFloorChangingState(FloorChangingState.LEFT_UP);
+        gameManagerModel.setCurrentAnomalyListener(null);
     }
 
     /**
