@@ -46,16 +46,8 @@ public class PlayerController extends GameObjectController implements KeyListene
             playerModel.moveRight();
             keyStateX = 1;
             break;
-        case KeyEvent.VK_UP:
-        case KeyEvent.VK_W:
-            playerModel.y += 10;
-            break;
-        case KeyEvent.VK_DOWN:
-        case KeyEvent.VK_S:
-            playerModel.y -= 10;
-            break;
         case KeyEvent.VK_ESCAPE:
-            switch(GameManagerModel.getPause()){
+            switch (GameManagerModel.getPause()) {
             case 1:
                 logger.info("paused");
                 GameManagerModel.setPause(0);
