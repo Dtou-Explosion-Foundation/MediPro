@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import medipro.anomaly.CameraAnomaly;
 import medipro.anomaly.PlayerMovementAnomaly;
 import medipro.anomaly.ScaleChangeAnomaly;
+import medipro.anomaly.TextureAlternatingChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
@@ -203,8 +204,9 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this,
 
-                new String[] { "img/ornament/whitebord/whitebord-nomal.png", "img/ornament/whitebord/whitebord-table.png", 
-                    "img/ornament/whitebord/whitebord-redroom.png", "img/ornament/extinction.png"});
+                    new String[] { "img/ornament/whitebord/whitebord-nomal.png",
+                            "img/ornament/whitebord/whitebord-table.png",
+                            "img/ornament/whitebord/whitebord-redroom.png", "img/ornament/extinction.png" });
             model.scaleX = 0.5;
             model.scaleY = 0.5;
             model.x = 200;
@@ -216,10 +218,25 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
+
+                    new String[] { "img/ornament/extinction.png", "img/ornament/idiot/Idiot1.png",
+                            "img/ornament/idiot/Idiot2.png" });
+
+            model.scaleX = 1.5;
+            model.scaleY = 1.27;
+            model.x = 213;
+            model.y = 47;
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureAlternatingChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/clock/clock-nomal.png", "img/ornament/clock/clock-breaking.png",
                             "img/ornament/clock/clock-toocircles.png", "img/ornament/clock/clock-toohands.png",
                             "img/ornament/clock/clock-human.png", "img/ornament/extinction.png" });
- 
+
             model.scaleX = 1;
             model.scaleY = 1;
             model.x = -100;
