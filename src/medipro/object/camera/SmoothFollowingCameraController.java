@@ -31,6 +31,7 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
         SmoothFollowingCameraModel model = (SmoothFollowingCameraModel) this.model;
         _originX = model.originX;
         _originY = model.originY;
+        this.forceFollow();
     }
 
     private double clamp(double value, double min, double max) {

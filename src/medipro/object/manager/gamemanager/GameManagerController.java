@@ -84,6 +84,13 @@ public class GameManagerController extends GameObjectController {
     }
 
     /**
+     * 初期の階に移動する.
+     */
+    public static void resetFloor() {
+        GameManagerModel.resetFloor();
+    }
+
+    /**
      * 次の階に移動する.
      */
     public void nextFloor(boolean isRight) {

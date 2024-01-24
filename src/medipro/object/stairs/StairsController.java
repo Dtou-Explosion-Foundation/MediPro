@@ -70,8 +70,10 @@ public class StairsController extends GameObjectController {
         if (stairsModel.isRight() != GameManagerModel.getFloorChangingState().isRight())
             return;
         startAutoWalker = new AutoWalker(model.x + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
-                model.y - stairsModel.getHeight() / 2
-                        * (!stairsModel.canGoPrevFloor() ? 0 : (!stairsModel.isGoingUp() ? 1 : -1)),
+
+                stairsModel.canGoPrevFloor()
+                        ? model.y - stairsModel.getHeight() / 2 * (!stairsModel.isGoingUp() ? 1 : -1)
+                        : playerModel.y,
                 model.x + stairsModel.getTriggerRange() / 2 * 1.2 * (stairsModel.isRight() ? -1 : 1), playerModel.y);
 
         startBlackFilterDuration = (float) startAutoWalker.setSpeed(playerModel.speedLimitX);

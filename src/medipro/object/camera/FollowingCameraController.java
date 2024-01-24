@@ -20,15 +20,10 @@ public class FollowingCameraController extends CameraController {
     @Override
     public void postSetupWorld() {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
-        if (followingCameraModel.target.isPresent()) {
-            GameObjectModel _target = followingCameraModel.target.get();
-            if (!followingCameraModel.isLockX())
-                followingCameraModel.x = _target.x + followingCameraModel.originX;
-            if (!followingCameraModel.isLockY())
-                followingCameraModel.y = _target.y * followingCameraModel.getFollowingRateY()
-                        + followingCameraModel.originY;
-        }
-        followingCameraModel.clampPosition();
+        if (!followingCameraModel.isLockX())
+            this.forceFollowX();
+        if (!followingCameraModel.isLockY())
+            this.forceFollowY();
     }
 
     /**
@@ -39,14 +34,10 @@ public class FollowingCameraController extends CameraController {
     @Override
     public void update(double dt) {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
-        if (followingCameraModel.target.isPresent()) {
-            GameObjectModel _target = followingCameraModel.target.get();
-            if (!followingCameraModel.isLockX())
-                followingCameraModel.x = _target.x + followingCameraModel.originX;
-            if (!followingCameraModel.isLockY())
-                followingCameraModel.y = _target.y + followingCameraModel.originY;
-            followingCameraModel.clampPosition();
-        }
+        if (!followingCameraModel.isLockX())
+            this.forceFollowX();
+        if (!followingCameraModel.isLockY())
+            this.forceFollowY();
     }
 
     /**
@@ -68,7 +59,9 @@ public class FollowingCameraController extends CameraController {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
         if (followingCameraModel.target.isPresent()) {
             GameObjectModel _target = followingCameraModel.target.get();
-            followingCameraModel.y = _target.y + followingCameraModel.originY;
+            // followingCameraModel.y = _target.y + followingCameraModel.originY;
+            followingCameraModel.y = _target.y * followingCameraModel.getFollowingRateY()
+                    + followingCameraModel.originY;
             followingCameraModel.clampPosition();
         }
     }
