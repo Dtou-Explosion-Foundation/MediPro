@@ -95,4 +95,12 @@ public class TextureObjectModel extends GameObjectModel {
         this.textureIndex = Math.max(0, Math.min(texturePaths.length - 1, textureIndex));
     }
 
+    public double getInterval() {
+        return interval;
+    }
+
+    public void setInterval(double interval) {
+        this.interval = interval;
+    }
+
 }

@@ -221,11 +221,11 @@ public class PlayWorld extends World {
 
                     new String[] { "img/ornament/extinction.png", "img/ornament/idiot/Idiot1.png",
                             "img/ornament/idiot/Idiot2.png" });
-
             model.scaleX = 1.5;
             model.scaleY = 1.27;
             model.x = 213;
             model.y = 47;
+            model.interval = 0.3;
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -284,11 +284,11 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/extinction.png",
                     "img/ornament/exit/exit-nomal.png", "img/ornament/exit/exit-reverse.png" });
-            model.setOccurredChance(10000);
             model.scaleX = 1.2;
             model.scaleY = 1.2;
             model.x = 100;
             model.y = 120;
+            model.interval = 0.2;
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);

@@ -52,21 +52,19 @@ public class TextureAlternatingChangeAnomaly extends GameObjectController implem
     }
 
     private double timer = 0;
-    private double interval = 1;
     private int textureIndex;
 
     @Override
     public void update(double dt) {
         if (!isAnomalyOccurred)
             return;
-
+        TextureObjectModel textureObjectModel = (TextureObjectModel) model;
         timer += dt;
-        if (timer < interval)
+        if (timer < textureObjectModel.getInterval())
             return;
         timer = 0;
 
         if (model instanceof TextureObjectModel) {
-            TextureObjectModel textureObjectModel = (TextureObjectModel) model;
             textureIndex = (textureObjectModel.getTextureIndex() + 1) % textureObjectModel.getTexturePaths().length;
             if (textureIndex == 0)
                 textureIndex++;

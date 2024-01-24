@@ -39,6 +39,8 @@ public abstract class GameObjectModel {
      */
     public double scaleY;
 
+    public double interval;
+
     /**
      * ゲームオブジェクトのモデルを生成する.
      * 
@@ -54,6 +56,8 @@ public abstract class GameObjectModel {
 
         this.scaleX = 1;
         this.scaleY = 1;
+
+        this.interval = 1;
     }
 
     /**
