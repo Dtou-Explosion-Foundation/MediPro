@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import medipro.gui.panel.IGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
-import medipro.object.manager.gamemanager.GameManagerModel;
+import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.world.PlayWorld;
 
 /**
@@ -45,7 +45,7 @@ public class TitleMenuController extends GameObjectController implements KeyList
             case 0:
                 // model.world.setWorld((World)new TestWorld(model.world.getPanel()));
                 titleMenuModel.setSelectedItem(0);
-                GameManagerModel.setFloor(0);
+                GameManagerController.resetFloor();
                 gamePanel.setWorld(new PlayWorld(panel));
                 logger.info("game start");
                 panel.removeKeyListener(this);

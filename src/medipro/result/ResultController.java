@@ -6,16 +6,14 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 import medipro.gui.panel.IGamePanel;
-
+import medipro.object.base.gameobject.GameObjectController;
+import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
-import medipro.object.base.gameobject.GameObjectController;
-import medipro.object.manager.gamemanager.GameManagerModel;
+public class ResultController extends GameObjectController implements KeyListener {
 
-public class ResultController extends GameObjectController implements KeyListener{
-
-    public ResultController(ResultModel model){
+    public ResultController(ResultModel model) {
         super(model);
     }
 
@@ -43,7 +41,7 @@ public class ResultController extends GameObjectController implements KeyListene
                     panel.removeKeyListener(keyListener);
                 }
                 gamePanel.setWorld(new PlayWorld(panel));
-                GameManagerModel.setFloor(0);
+                GameManagerController.resetFloor();
                 logger.info("You selected: " + resultModel.getSelectedItem());
                 panel.removeKeyListener(this);
                 break;
