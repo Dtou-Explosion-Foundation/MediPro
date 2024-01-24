@@ -43,6 +43,14 @@ public class GameManagerModel extends GameObjectModel {
     }
 
     /**
+     * 初期の階に移動する.
+     */
+    public static void resetFloor() {
+        GameManagerModel.setFloor(0);
+        GameManagerModel.setFloorChangingState(FloorChangingState.LEFT_UP);
+    }
+
+    /**
      * 次の階層に進む.
      */
     public void nextFloor(boolean isRight) {
