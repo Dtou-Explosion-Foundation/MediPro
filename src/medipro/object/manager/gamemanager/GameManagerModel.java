@@ -90,11 +90,7 @@ public class GameManagerModel extends GameObjectModel {
     }
 
     public static boolean isPause() {
-        if (GameManagerModel.isPause == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return GameManagerModel.isPause == 0;
     }
 
     public static int getPause() {
