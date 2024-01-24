@@ -104,6 +104,13 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
 
     @Override
     public void setWorld(World world) {
+        setWorld(world, true);
+    }
+
+    @Override
+    public void setWorld(World world, boolean disposeOldWorld) {
+        if (disposeOldWorld)
+            this.world.dispose();
         this.world = world;
     }
 }
