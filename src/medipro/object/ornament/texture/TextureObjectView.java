@@ -57,10 +57,10 @@ public class TextureObjectView extends GameObjectView {
         int textureIndex = textureModel.getTextureIndex();
         if (textures != null && textureIndex >= 0 && textureIndex < textures.length) {
             if (textureModel.hasDummies()) {
-                g.drawImage(textures[textureIndex], -200, 0, null);
-                g.drawImage(textures[textureIndex], -100, 0, null);
-                g.drawImage(textures[textureIndex], 100, 0, null);
-                g.drawImage(textures[textureIndex], 200, 0, null);
+                g.drawImage(textures[textureIndex], -250, 0, null);
+                g.drawImage(textures[textureIndex], -125, 0, null);
+                g.drawImage(textures[textureIndex], 125, 0, null);
+                g.drawImage(textures[textureIndex], 250, 0, null);
 
             }
             g.drawImage(textures[textureIndex], 0, 0, null);
