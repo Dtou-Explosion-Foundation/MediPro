@@ -73,12 +73,12 @@ public class StairsView extends GameObjectView {
 
     @Override
     protected float getSpriteWidth() {
-        return textures[0].getWidth(null);
+        return textures[0] != null ? textures[0].getWidth(null) : 0;
     }
 
     @Override
     protected float getSpriteHeight() {
-        return textures[0].getHeight(null);
+        return textures[0] != null ? textures[0].getHeight(null) : 0;
     }
 
     @Override

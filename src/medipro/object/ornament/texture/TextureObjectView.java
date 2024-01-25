@@ -3,12 +3,12 @@ package medipro.object.ornament.texture;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
+import java.util.NoSuchElementException;
 
 import javax.imageio.ImageIO;
 
@@ -20,6 +20,7 @@ import com.jogamp.opengl.util.texture.TextureData;
 
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
+import medipro.util.ImageUtil;
 
 /**
  * テクスチャを主としたオブジェクトのビュー.
@@ -43,9 +44,10 @@ public class TextureObjectView extends GameObjectView {
             textures = new Image[texturePaths.length];
             for (int i = 0; i < texturePaths.length; i++) {
                 try {
-                    textures[i] = ImageIO.read(new File(texturePaths[i]));
-                } catch (IOException | NullPointerException e) {
-                    logger.warning("Failed to load texture: " + texturePaths[i]);
+                    // textures[i] = ImageIO.read(new File(texturePaths[i]));
+                    textures[i] = ImageUtil.loadImages(texturePaths[i]).get();
+                } catch (NoSuchElementException e) {
+                    // logger.warning("Failed to load texture: " + texturePaths[i]);
                 }
             }
         }

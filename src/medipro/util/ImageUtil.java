@@ -3,8 +3,8 @@ package medipro.util;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -26,8 +26,20 @@ public class ImageUtil {
      * @return 画像
      */
     public static Optional<BufferedImage> loadImages(String path) {
+        // try {
+        //     return Optional.ofNullable(ImageIO.read(new File(path)));
+        // } catch (IOException e) {
+        //     logger.warning("Failed to load image");
+        //     e.printStackTrace();
+        //     return Optional.empty();
+        // }
+
+        ClassLoader classLoader = ImageUtil.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(path);
+        if (inputStream != null)
+            return Optional.empty();
         try {
-            return Optional.ofNullable(ImageIO.read(new File(path)));
+            return Optional.ofNullable(ImageIO.read(inputStream));
         } catch (IOException e) {
             logger.warning("Failed to load image");
             e.printStackTrace();
