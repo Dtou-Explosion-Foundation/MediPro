@@ -248,6 +248,24 @@ public class PlayWorld extends World {
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
+
+                    new String[] { "img/ornament/extinction.png", "img/character/charanomal1.png", });
+            model.scaleX = 1;
+            model.scaleY = 1;
+            model.x = 525;
+            model.y = -100;
+            model.deltaX = -3.5;
+            model.deltaY = 0;
+            model.delta2X = 0.005;
+            model.delta2Y = 0;
+            model.interval = 0.01;
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureMoveAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/fun/fun.png", "img/ornament/fun/fun-death.png" });
             model.scaleX = 0.15;
             model.scaleY = 0.15;
@@ -427,12 +445,12 @@ public class PlayWorld extends World {
             model.scaleX = 2;
             model.scaleY = 2;
             model.x = -600;
-            model.y = 80;
+            model.y = -40;
             model.deltaX = 10;
-            model.deltaY = 2;
+            model.deltaY = 6;
             model.delta2X = 0;
-            model.delta2Y = -0.04;
-            model.interval = 0.05;
+            model.delta2Y = -0.1;
+            model.interval = 0.03;
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
