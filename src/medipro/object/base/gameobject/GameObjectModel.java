@@ -41,6 +41,14 @@ public abstract class GameObjectModel {
 
     public double interval;
 
+    public double deltaX;
+    public double deltaY;
+    public double delta2X;
+    public double delta2Y;
+
+    public int timesX;
+    public int timesY;
+
     /**
      * ゲームオブジェクトのモデルを生成する.
      * 
@@ -58,6 +66,14 @@ public abstract class GameObjectModel {
         this.scaleY = 1;
 
         this.interval = 1;
+
+        this.deltaX = 0;
+        this.deltaY = 0;
+        this.delta2X = 0;
+        this.delta2Y = 0;
+
+        this.timesX = 0;
+        this.timesY = 0;
     }
 
     /**

@@ -14,7 +14,8 @@ import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureAlternatingChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
 import medipro.anomaly.TextureIncreasedAnomaly;
-import medipro.anomaly.TextureSizeChanging;
+import medipro.anomaly.TextureMoveAnomaly;
+import medipro.anomaly.TextureSizeChangingAnomaly;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -294,6 +295,10 @@ public class PlayWorld extends World {
             model.scaleY = 1.5;
             model.x = 100;
             model.y = 120;
+            model.deltaX = 100;
+            model.deltaY = 0;
+            model.timesX = 2;
+            model.timesY = 0;
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -388,7 +393,8 @@ public class PlayWorld extends World {
             this.addControllers(new TextureChangeAnomaly(model));
         }
         {
-            TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/table/table3.png" });
+            TextureObjectModel model = new TextureObjectModel(this,
+                    new String[] { "img/ornament/table/table3.png", "img/ornament/extinction.png" });
             model.scaleX = 2.2;
             model.scaleY = 2.2;
             model.x = -150;
@@ -417,16 +423,38 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this,
 
+                    new String[] { "img/ornament/extinction.png", "img/ornament/ball.png", });
+            model.scaleX = 2;
+            model.scaleY = 2;
+            model.x = -600;
+            model.y = 80;
+            model.deltaX = 10;
+            model.deltaY = 2;
+            model.delta2X = 0;
+            model.delta2Y = -0.04;
+            model.interval = 0.05;
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureMoveAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
+
                     new String[] { "img/ornament/extinction.png", "img/ornament/black-circle.png" });
             model.scaleX = 0;
             model.scaleY = 0;
             model.x = -600;
             model.y = 250;
+            model.deltaX = 0.01;
+            model.deltaY = 0.01;
+            model.delta2X = 0;
+            model.delta2Y = 0;
             model.interval = 0.05;
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
-            this.addControllers(new TextureSizeChanging(model));
+            this.addControllers(new TextureSizeChangingAnomaly(model));
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
