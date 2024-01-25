@@ -13,6 +13,7 @@ import medipro.anomaly.PlayerMovementAnomaly;
 import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureAlternatingChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
+import medipro.anomaly.TextureIncreasedAnomaly;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -286,6 +287,19 @@ public class PlayWorld extends World {
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
             this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
+                    new String[] { "img/ornament/exit/exit-nomal.png" });
+            model.scaleX = 1.2;
+            model.scaleY = 1.2;
+            model.x = 100;
+            model.y = 120;
+            // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureIncreasedAnomaly(model));
         }
         {
             TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/extinction.png",
