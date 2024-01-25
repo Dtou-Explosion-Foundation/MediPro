@@ -7,10 +7,6 @@ import medipro.object.player.PlayerModel;
 
 public class PlayerIncreasedAnomaly extends GameObjectController implements AnomalyListener {
 
-    double curX;
-    double nextX;
-    double prevX;
-
     public PlayerIncreasedAnomaly(GameObjectModel model) {
         super(model);
     }

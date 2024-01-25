@@ -7,10 +7,6 @@ import medipro.object.ornament.texture.TextureObjectModel;
 
 public class TextureIncreasedAnomaly extends GameObjectController implements AnomalyListener {
 
-    double curX;
-    double nextX;
-    double prevX;
-
     public TextureIncreasedAnomaly(GameObjectModel model) {
         super(model);
     }
