@@ -160,6 +160,12 @@ public class PlayerModel extends GameObjectModel {
         x += speedX * dt;
     }
 
+    public boolean isDummies = false;
+
+    public boolean hasDummies() {
+        return isDummies;
+    }
+
     /**
      * 自動移動処理を行う
      * 

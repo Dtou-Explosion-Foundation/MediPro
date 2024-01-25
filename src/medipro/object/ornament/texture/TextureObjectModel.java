@@ -103,4 +103,10 @@ public class TextureObjectModel extends GameObjectModel {
         this.interval = interval;
     }
 
+    public boolean isDummies = false;
+
+    public boolean hasDummies() {
+        return isDummies;
+    }
+
 }

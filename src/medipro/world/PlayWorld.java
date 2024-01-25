@@ -8,10 +8,13 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import medipro.anomaly.CameraAnomaly;
+import medipro.anomaly.PlayerIncreasedAnomaly;
 import medipro.anomaly.PlayerMovementAnomaly;
 import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureAlternatingChangeAnomaly;
 import medipro.anomaly.TextureChangeAnomaly;
+import medipro.anomaly.TextureIncreasedAnomaly;
+import medipro.anomaly.TextureSizeChanging;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -104,6 +107,11 @@ public class PlayWorld extends World {
                 PlayerMovementAnomaly playerMovementAnomaly = new PlayerMovementAnomaly(model);
                 // playerMovementAnomaly.setOccurredChance(1);
                 this.addControllers(playerMovementAnomaly);
+            }
+            {
+                PlayerIncreasedAnomaly playerIncreasedAnomaly = new PlayerIncreasedAnomaly(model);
+                // playerIncreasedAnomaly.setOccurredChance(1);
+                this.addControllers(playerIncreasedAnomaly);
             }
         }
         {
@@ -282,6 +290,19 @@ public class PlayWorld extends World {
             this.addControllers(new TextureChangeAnomaly(model));
         }
         {
+            TextureObjectModel model = new TextureObjectModel(this,
+                    new String[] { "img/ornament/exit/exit-nomal.png" });
+            model.scaleX = 1.2;
+            model.scaleY = 1.2;
+            model.x = 100;
+            model.y = 120;
+            // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureIncreasedAnomaly(model));
+        }
+        {
             TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/extinction.png",
                     "img/ornament/exit/exit-nomal.png", "img/ornament/exit/exit-reverse.png" });
             model.scaleX = 1.2;
@@ -337,6 +358,20 @@ public class PlayWorld extends World {
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
             this.addControllers(new TextureChangeAnomaly(model));
+        }
+        {
+            TextureObjectModel model = new TextureObjectModel(this,
+
+                    new String[] { "img/ornament/extinction.png", "img/ornament/black.png" });
+            model.scaleX = 1;
+            model.scaleY = 1;
+            model.x = -600;
+            model.y = 250;
+            model.interval = 0.1;
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureSizeChanging(model));
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);

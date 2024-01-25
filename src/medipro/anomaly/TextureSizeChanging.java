@@ -5,9 +5,9 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
 
-public class TextureAlternatingChangeAnomaly extends GameObjectController implements AnomalyListener {
+public class TextureSizeChanging extends GameObjectController implements AnomalyListener {
 
-    public TextureAlternatingChangeAnomaly(GameObjectModel model) {
+    public TextureSizeChanging(GameObjectModel model) {
         super(model);
     }
 
@@ -52,7 +52,6 @@ public class TextureAlternatingChangeAnomaly extends GameObjectController implem
     }
 
     private double timer = 0;
-    private int textureIndex;
 
     @Override
     public void update(double dt) {
@@ -65,10 +64,11 @@ public class TextureAlternatingChangeAnomaly extends GameObjectController implem
         timer = 0;
 
         if (model instanceof TextureObjectModel) {
-            textureIndex = (textureObjectModel.getTextureIndex() + 1) % textureObjectModel.getTexturePaths().length;
-            if (textureIndex == 0)
-                textureIndex++;
-            onAnomalyOccurred(textureIndex);
+            if (model.x < 500)
+                model.scaleX += 0.05;
+            if (model.y > -100)
+                model.scaleY += 0.05;
+            ((TextureObjectModel) model).setTextureIndex(1);
         }
     }
 
