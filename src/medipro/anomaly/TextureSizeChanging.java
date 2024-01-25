@@ -65,9 +65,9 @@ public class TextureSizeChanging extends GameObjectController implements Anomaly
 
         if (model instanceof TextureObjectModel) {
             if (model.x < 500)
-                model.scaleX += 0.05;
+                model.scaleX += 0.01;
             if (model.y > -100)
-                model.scaleY += 0.05;
+                model.scaleY += 0.01;
             ((TextureObjectModel) model).setTextureIndex(1);
         }
     }
