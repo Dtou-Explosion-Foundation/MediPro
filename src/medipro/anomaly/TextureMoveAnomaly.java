@@ -5,9 +5,9 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
 
-public class TextureSizeChanging extends GameObjectController implements AnomalyListener {
+public class TextureMoveAnomaly extends GameObjectController implements AnomalyListener {
 
-    public TextureSizeChanging(GameObjectModel model) {
+    public TextureMoveAnomaly(GameObjectModel model) {
         super(model);
     }
 
@@ -64,10 +64,14 @@ public class TextureSizeChanging extends GameObjectController implements Anomaly
         timer = 0;
 
         if (model instanceof TextureObjectModel) {
-            if (model.x < 500)
-                model.scaleX += 0.01;
-            if (model.y > -100)
-                model.scaleY += 0.01;
+            if (model.x < 650 || model.x > -650) {
+                textureObjectModel.setDeltaX(model.deltaX += model.delta2X);
+                model.x += textureObjectModel.getDeltaX();
+            }
+            if (model.y > -200 || model.y < 350) {
+                textureObjectModel.setDeltaY(model.deltaY += model.delta2Y);
+                model.y += textureObjectModel.getDeltaY();
+            }
             ((TextureObjectModel) model).setTextureIndex(1);
         }
     }
