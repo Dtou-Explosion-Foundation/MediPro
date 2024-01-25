@@ -6,6 +6,7 @@ import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
 
 import medipro.config.EngineConfig;
@@ -94,6 +95,11 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
             gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
             world.display(drawable);
         }
+    }
+
+    public static GLCapabilities getGlCapabilities() {
+        final GLProfile profile = GLProfile.get(GLProfile.GL4);
+        return new GLCapabilities(profile);
     }
 
     /**
