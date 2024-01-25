@@ -68,7 +68,6 @@ public class TextureAlternatingChangeAnomaly extends GameObjectController implem
             textureIndex = (textureObjectModel.getTextureIndex() + 1) % textureObjectModel.getTexturePaths().length;
             if (textureIndex == 0)
                 textureIndex++;
-            logger.fine("Change Texture textureidnex:" + textureIndex);
             onAnomalyOccurred(textureIndex);
         }
     }

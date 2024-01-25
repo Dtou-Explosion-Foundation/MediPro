@@ -8,6 +8,7 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import medipro.anomaly.CameraAnomaly;
+import medipro.anomaly.PlayerIncreasedAnomaly;
 import medipro.anomaly.PlayerMovementAnomaly;
 import medipro.anomaly.ScaleChangeAnomaly;
 import medipro.anomaly.TextureAlternatingChangeAnomaly;
@@ -104,6 +105,11 @@ public class PlayWorld extends World {
                 PlayerMovementAnomaly playerMovementAnomaly = new PlayerMovementAnomaly(model);
                 // playerMovementAnomaly.setOccurredChance(1);
                 this.addControllers(playerMovementAnomaly);
+            }
+            {
+                PlayerIncreasedAnomaly playerIncreasedAnomaly = new PlayerIncreasedAnomaly(model);
+                // playerIncreasedAnomaly.setOccurredChance(1);
+                this.addControllers(playerIncreasedAnomaly);
             }
         }
         {
