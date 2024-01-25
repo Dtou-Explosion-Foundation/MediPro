@@ -17,6 +17,11 @@ public class TitleMenuModel extends GameObjectModel {
     private int selectedItem = 0;
 
     /**
+     * 作品名.
+     */
+    private String gameTitle = "実験棟出口（仮）";
+
+    /**
      * タイトルメニューのモデルを生成する.
      * 
      * @param world オブジェクトが存在するワールド.
@@ -49,7 +54,7 @@ public class TitleMenuModel extends GameObjectModel {
         return selectedItem;
     }
 
-    public void setSelectedItem(int n){
+    public void setSelectedItem(int n) {
         selectedItem = n;
     }
 
@@ -60,6 +65,15 @@ public class TitleMenuModel extends GameObjectModel {
      */
     public String[] getMenuItems() {
         return menuItems;
+    }
+
+    /**
+     * 作品名を取得する.
+     * 
+     * @return 作品名
+     */
+    public String getGameTitle() {
+        return gameTitle;
     }
 
 }
