@@ -317,6 +317,20 @@ public class PlayWorld extends World {
             this.addControllers(new TextureAlternatingChangeAnomaly(model));
         }
         {
+            TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/fun/fun.png",
+                    "img/ornament/fun/fun.png", "img/ornament/fun/fun1.png", "img/ornament/fun/fun2.png" });
+            model.scaleX = 0.15;
+            model.scaleY = 0.15;
+            model.x = -300;
+            model.y = 100;
+            model.interval = 0.2;
+            // model.setOccurredChance(1);
+            TextureObjectView view = new TextureObjectView(model);
+            TextureObjectController controller = new TextureObjectController(model);
+            this.addViewAndController(view, controller, 30);
+            this.addControllers(new TextureAlternatingChangeAnomaly(model));
+        }
+        {
             TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/table/table-edge1-nomal.png", "img/ornament/table/table-edge1-big.png",
                             "img/ornament/table/table-edge1-fire.png",
