@@ -6,6 +6,8 @@ import medipro.object.base.World;
 import medipro.titlemenu.TitleMenuController;
 import medipro.titlemenu.TitleMenuModel;
 import medipro.titlemenu.TitleMenuView;
+import medipro.titlemenu.titlebackground.TitleBackgroundModel;
+import medipro.titlemenu.titlebackground.TitleBackgroundView;
 
 /**
  * タイトルメニューのワールド.
@@ -27,8 +29,13 @@ public class TitleMenuWorld extends World {
             model.x = -400;
             TitleMenuView view = new TitleMenuView(model);
             TitleMenuController controller = new TitleMenuController(model);
-            this.addViewAndController(view, controller);
+            this.addViewAndController(view, controller, 100);
             panel.addKeyListener(controller);
+        }
+        {
+            TitleBackgroundModel model = new TitleBackgroundModel(this);
+            TitleBackgroundView view = new TitleBackgroundView(model);
+            this.addView(view, 80);
         }
     }
 }

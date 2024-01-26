@@ -54,4 +54,7 @@ public abstract class GameObjectController {
      */
     public void postSetupWorld() {
     }
+
+    public void dispose() {
+    }
 }

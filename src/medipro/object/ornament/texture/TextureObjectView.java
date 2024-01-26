@@ -58,7 +58,15 @@ public class TextureObjectView extends GameObjectView {
         TextureObjectModel textureModel = (TextureObjectModel) model;
         int textureIndex = textureModel.getTextureIndex();
         if (textures != null && textureIndex >= 0 && textureIndex < textures.length) {
-            g.drawImage(textures[textureIndex], 0, 0, null);
+            if (textureModel.hasDummies()) {
+                for (int i = -model.timesX; i <= model.timesX; i++) {
+                    for (int j = -model.timesY; j <= model.timesY; j++) {
+                        g.drawImage(textures[textureIndex], (int) model.deltaX * i, (int) model.deltaY * j, null);
+                    }
+                }
+            } else {
+                g.drawImage(textures[textureIndex], 0, 0, null);
+            }
         }
     }
 

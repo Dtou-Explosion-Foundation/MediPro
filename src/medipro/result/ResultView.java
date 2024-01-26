@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import medipro.object.base.gameobject.GameObjectView;
 import medipro.object.manager.gamemanager.GameManagerModel;
 
-public class ResultView extends GameObjectView{
-    public ResultView(ResultModel model){
+public class ResultView extends GameObjectView {
+    public ResultView(ResultModel model) {
         super(model);
     }
 
@@ -20,7 +20,7 @@ public class ResultView extends GameObjectView{
         g.setFont(new Font("SansSerif", Font.BOLD, 40));
         g.drawString("あなたが攻略した階層の数は", 0, -250);
         g.setFont(new Font("SansSerif", Font.BOLD, 150));
-        g.drawString(String.valueOf(floor)+"層", 250, 50);
+        g.drawString(String.valueOf(floor) + "層", 250, 50);
         for (int i = 0; i < menuItems.length; i++) {
             g.setFont(new Font("SansSerif", Font.BOLD, 50));
             if (i == resultModel.getSelectedItem()) {
@@ -28,7 +28,7 @@ public class ResultView extends GameObjectView{
             } else {
                 g.setColor(Color.lightGray);
             }
-            g.drawString(menuItems[i], 125 + 200*i, 200);
+            g.drawString(menuItems[i], 125 + 200 * i, 200);
         }
     }
 
