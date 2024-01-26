@@ -19,7 +19,7 @@ public class PlayerModel extends GameObjectModel {
     /**
      * 最大移動速度.
      */
-    public double speedLimitX = 100;
+    public double speedLimitX = 150;
     /**
      * 減速度.
      */

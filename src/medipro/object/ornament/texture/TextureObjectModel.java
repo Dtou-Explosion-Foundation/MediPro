@@ -103,6 +103,22 @@ public class TextureObjectModel extends GameObjectModel {
         this.interval = interval;
     }
 
+    public double getDeltaX() {
+        return deltaX;
+    }
+
+    public void setDeltaX(double deltaX) {
+        this.deltaX = deltaX;
+    }
+
+    public double getDeltaY() {
+        return deltaY;
+    }
+
+    public void setDeltaY(double deltaY) {
+        this.deltaY = deltaY;
+    }
+
     public boolean isDummies = false;
 
     public boolean hasDummies() {
