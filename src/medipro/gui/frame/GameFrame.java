@@ -38,6 +38,8 @@ public class GameFrame extends JFrame implements ComponentListener {
     private GraphicsDevice currentGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getScreenDevices()[EngineConfig.DEFAULT_MONITOR];
 
+    private JPanel panel;
+
     /**
      * ゲームのウインドウを生成する. 生成後、FPSに基づいてPanelを再描画する.
      * 
@@ -53,9 +55,9 @@ public class GameFrame extends JFrame implements ComponentListener {
         // this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-
-        JPanel panel = InGameConfig.USE_OPENGL ? new GLGamePanel(this, GLGamePanel.getGlCapabilities())
+        panel = InGameConfig.USE_OPENGL ? new GLGamePanel(this, GLGamePanel.getGlCapabilities())
                 : new G2dGamePanel(this);
+
         panel.setFocusable(true);
         panel.setPreferredSize(new Dimension(width, height));
         this.add(panel);

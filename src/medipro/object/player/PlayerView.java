@@ -4,13 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
-
-import javax.imageio.ImageIO;
 
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL4;
@@ -21,6 +18,7 @@ import com.jogamp.opengl.util.texture.TextureIO;
 
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
+import medipro.util.ImageUtil;
 
 /**
  * プレイヤーのビュー.
@@ -42,7 +40,9 @@ public class PlayerView extends GameObjectView {
         sprites = new BufferedImage[playerModel.imagePaths.length * 2];
         try {
             for (int i = 0; i < playerModel.imagePaths.length; i++) {
-                sprites[i * 2] = ImageIO.read(new File(playerModel.imagePaths[i]));
+                sprites[i * 2] = ImageUtil.loadImage(playerModel.imagePaths[i]).orElse(null);
+                if (sprites[i * 2] == null)
+                    continue;
                 AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
                 tx.translate(-sprites[i * 2].getWidth(null), 0);
                 AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
@@ -61,7 +61,8 @@ public class PlayerView extends GameObjectView {
         PlayerModel playerModel = (PlayerModel) model;
         BufferedImage sprite = sprites[playerModel.animations[playerModel.animationIndex] * 2
                 + (playerModel.direction == -1 ? 1 : 0)];
-        g.drawImage(sprite, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
+        if (sprite != null)
+            g.drawImage(sprite, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
     }
 
     @Override

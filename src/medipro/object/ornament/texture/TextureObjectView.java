@@ -45,7 +45,7 @@ public class TextureObjectView extends GameObjectView {
             for (int i = 0; i < texturePaths.length; i++) {
                 try {
                     // textures[i] = ImageIO.read(new File(texturePaths[i]));
-                    textures[i] = ImageUtil.loadImages(texturePaths[i]).get();
+                    textures[i] = ImageUtil.loadImage(texturePaths[i]).get();
                 } catch (NoSuchElementException e) {
                     // logger.warning("Failed to load texture: " + texturePaths[i]);
                 }

@@ -1,6 +1,5 @@
 package medipro.world;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -148,40 +147,25 @@ public class PlayWorld extends World {
             this.addViewAndController(view, controller, 80);
         }
         {
-            try {
-                BackgroundModel model = new BackgroundModel(this);
-                BackgroundController controller = new BackgroundController(model);
-                BackgroundView view = new BackgroundView(model);
-                this.addViewAndController(view, controller, 0);
-            } catch (IOException e) {
-                logger.severe("Failed to load background image");
-                e.printStackTrace();
-            }
+            BackgroundModel model = new BackgroundModel(this);
+            BackgroundController controller = new BackgroundController(model);
+            BackgroundView view = new BackgroundView(model);
+            this.addViewAndController(view, controller, 0);
         }
         {
-            try {
-                CeilModel model = new CeilModel(this);
-                model.y = -160;
-                CeilController controller = new CeilController(model);
-                CeilView view = new CeilView(model);
-                this.addViewAndController(view, controller, 1);
-            } catch (IOException e) {
-                logger.severe("Failed to load ceil image");
-                e.printStackTrace();
-            }
-        }
-        {
-            try {
-                FloorModel model = new FloorModel(this);
-                model.y = 100;
-                FloorController controller = new FloorController(model);
-                FloorView view = new FloorView(model);
-                this.addViewAndController(view, controller, 1);
-            } catch (IOException e) {
-                logger.severe("Failed to load floor image");
-                e.printStackTrace();
-            }
+            CeilModel model = new CeilModel(this);
+            model.y = -160;
+            CeilController controller = new CeilController(model);
+            CeilView view = new CeilView(model);
+            this.addViewAndController(view, controller, 1);
 
+        }
+        {
+            FloorModel model = new FloorModel(this);
+            model.y = 100;
+            FloorController controller = new FloorController(model);
+            FloorView view = new FloorView(model);
+            this.addViewAndController(view, controller, 1);
         }
         {
             TextureObjectModel model = new TextureObjectModel(this,
@@ -203,8 +187,9 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this,
 
-                new String[] { "img/ornament/whitebord/whitebord-nomal.png", "img/ornament/whitebord/whitebord-table.png", 
-                    "img/ornament/whitebord/whitebord-redroom.png", "img/ornament/extinction.png"});
+                    new String[] { "img/ornament/whitebord/whitebord-nomal.png",
+                            "img/ornament/whitebord/whitebord-table.png",
+                            "img/ornament/whitebord/whitebord-redroom.png", "img/ornament/extinction.png" });
             model.scaleX = 0.5;
             model.scaleY = 0.5;
             model.x = 200;
@@ -219,7 +204,7 @@ public class PlayWorld extends World {
                     new String[] { "img/ornament/clock/clock-nomal.png", "img/ornament/clock/clock-breaking.png",
                             "img/ornament/clock/clock-toocircles.png", "img/ornament/clock/clock-toohands.png",
                             "img/ornament/clock/clock-human.png", "img/ornament/extinction.png" });
- 
+
             model.scaleX = 1;
             model.scaleY = 1;
             model.x = -100;

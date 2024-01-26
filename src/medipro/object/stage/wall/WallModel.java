@@ -18,8 +18,8 @@ public class WallModel extends GameObjectModel {
      */
     public WallModel(World world) {
         super(world);
-        image_black = ImageUtil.loadImages("img/layers/medipro_0002s_0000_Wall_Black.png");
-        image_white = ImageUtil.loadImages("img/layers/medipro_0002s_0001_Wall_White.png");
+        image_black = ImageUtil.loadImage("img/layers/medipro_0002s_0000_Wall_Black.png");
+        image_white = ImageUtil.loadImage("img/layers/medipro_0002s_0001_Wall_White.png");
     }
 
     /**
