@@ -5,7 +5,6 @@ import java.awt.event.KeyListener;
 
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
-import medipro.object.manager.gamemanager.GameManagerModel;
 
 /**
  * プレイヤーのコントローラ.
@@ -45,17 +44,6 @@ public class PlayerController extends GameObjectController implements KeyListene
         case KeyEvent.VK_D:
             playerModel.moveRight();
             keyStateX = 1;
-            break;
-        case KeyEvent.VK_ESCAPE:
-            switch (GameManagerModel.getPause()) {
-            case 1:
-                logger.info("paused");
-                GameManagerModel.setPause(0);
-                break;
-            case 0:
-                GameManagerModel.setPause(1);
-                break;
-            }
             break;
         }
 
@@ -101,6 +89,11 @@ public class PlayerController extends GameObjectController implements KeyListene
             break;
         }
         playerModel.update(dt);
+    }
+
+    @Override
+    public void dispose() {
+        this.model.world.getPanel().removeKeyListener(this);
     }
 
     /**

@@ -1,5 +1,4 @@
 # medipro
-![イメージ画像](https://pbs.twimg.com/media/DxeXVKDU0AAXEtR?format=jpg&name=large)
 
 ## 概要
 8番出口 パロディ

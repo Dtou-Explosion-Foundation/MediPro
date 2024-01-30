@@ -19,7 +19,7 @@ public class PlayerModel extends GameObjectModel {
     /**
      * 最大移動速度.
      */
-    public double speedLimitX = 100;
+    public double speedLimitX = 150;
     /**
      * 減速度.
      */
@@ -158,6 +158,12 @@ public class PlayerModel extends GameObjectModel {
 
         // update position
         x += speedX * dt;
+    }
+
+    public boolean isDummies = false;
+
+    public boolean hasDummies() {
+        return isDummies;
     }
 
     /**

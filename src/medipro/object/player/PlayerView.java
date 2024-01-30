@@ -56,11 +56,17 @@ public class PlayerView extends GameObjectView {
     /**
      * {@inheritDoc}
      */
+
     @Override
     public void draw(Graphics2D g) {
         PlayerModel playerModel = (PlayerModel) model;
         BufferedImage sprite = sprites[playerModel.animations[playerModel.animationIndex] * 2
                 + (playerModel.direction == -1 ? 1 : 0)];
+
+        if (playerModel.hasDummies()) {
+            g.drawImage(sprite, (int) (-getSpriteWidth() / 2) + 40, -(int) getSpriteHeight(), null);
+            g.drawImage(sprite, (int) (-getSpriteWidth() / 2) - 40, -(int) getSpriteHeight(), null);
+        }
         g.drawImage(sprite, (int) (-getSpriteWidth() / 2), -(int) getSpriteHeight(), null);
     }
 

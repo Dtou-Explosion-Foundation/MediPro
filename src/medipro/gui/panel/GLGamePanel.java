@@ -133,7 +133,13 @@ public class GLGamePanel extends GLJPanel implements GLEventListener, IGamePanel
     @Override
     public void setWorld(World world) {
         needInitialize = true;
-        this.world = world;
+        setWorld(world, true);
     }
 
+    @Override
+    public void setWorld(World world, boolean disposeOldWorld) {
+        if (disposeOldWorld)
+            this.world.dispose();
+        this.world = world;
+    }
 }
