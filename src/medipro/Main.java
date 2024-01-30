@@ -97,7 +97,7 @@ public class Main {
 			if (new File("jogamp-fat.jar").exists())
 				return true;
 			// ClassLoader classLoader = Main.class.getClassLoader();
-			InputStream inputStream = Main.class.getResourceAsStream("/lib/jogamp-fat.jar");
+			InputStream inputStream = Main.class.getResourceAsStream("/jogamp-fat.jar");
 
 			if (inputStream != null) {
 				// File directory = new File("lib");
@@ -117,10 +117,10 @@ public class Main {
 
 				logger.info("正常にライブラリが展開されました。アプリを再実行してください。");
 			} else {
-				logger.warning("Failed to extract library.(inputStream is null)");
+				logger.warning("Failed to extract library. (inputStream is null)");
 			}
 		} catch (IOException e) {
-			logger.warning("Failed to extract library.(IOException)");
+			logger.warning("Failed to extract library. (IOException)");
 			e.printStackTrace();
 		}
 		return false;
