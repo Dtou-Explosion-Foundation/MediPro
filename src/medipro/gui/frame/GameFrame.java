@@ -16,9 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLProfile;
-
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.panel.G2dGamePanel;
@@ -41,6 +38,8 @@ public class GameFrame extends JFrame implements ComponentListener {
     private GraphicsDevice currentGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getScreenDevices()[EngineConfig.DEFAULT_MONITOR];
 
+    private JPanel panel;
+
     /**
      * ゲームのウインドウを生成する. 生成後、FPSに基づいてPanelを再描画する.
      * 
@@ -56,11 +55,9 @@ public class GameFrame extends JFrame implements ComponentListener {
         // this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        panel = InGameConfig.USE_OPENGL ? new GLGamePanel(this, GLGamePanel.getGlCapabilities())
+                : new G2dGamePanel(this);
 
-        final GLProfile profile = GLProfile.get(GLProfile.GL4);
-        GLCapabilities capabilities = new GLCapabilities(profile);
-
-        JPanel panel = InGameConfig.USE_OPENGL ? new GLGamePanel(this, capabilities) : new G2dGamePanel(this);
         panel.setFocusable(true);
         panel.setPreferredSize(new Dimension(width, height));
         this.add(panel);
@@ -87,7 +84,8 @@ public class GameFrame extends JFrame implements ComponentListener {
                         long currentTime = System.nanoTime();
                         long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
                         lastRepaintTime = currentTime;
-                        ((IGamePanel) panel).update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
+                        ((IGamePanel) panel).update(
+                                deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
                     }
                     repaint();
                 }

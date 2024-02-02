@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,28 +42,21 @@ public class StairsView extends GameObjectView {
      */
     public StairsView(GameObjectModel model) {
         super(model);
-        try {
-            textures = new BufferedImage[2];
-            textures[0] = ImageIO.read(new File("img/layers/medipro_0001_Stairs.png"));
+        textures = new BufferedImage[2];
+        textures[0] = ImageUtil.loadImage("img/layers/medipro_0001_Stairs.png").orElse(null);
+        if (textures[0] != null) {
             AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
             tx.translate(-textures[0].getWidth(), 0);
             AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
             textures[1] = op.filter(textures[0], null);
-        } catch (IOException | NullPointerException e) {
-            logger.warning("Failed to load texture: img/layers/medipro_0001_Stairs.png");
         }
 
-        try {
-            arrow_textures = new BufferedImage[5];
-            arrow_textures[0] = ImageIO.read(new File("img/arrow/Arrow_RightUp.png"));
-            arrow_textures[1] = ImageIO.read(new File("img/arrow/Arrow_RightDown.png"));
-            arrow_textures[2] = ImageUtil.invertX(arrow_textures[0]);
-            arrow_textures[3] = ImageUtil.invertX(arrow_textures[1]);
-            arrow_textures[4] = ImageIO.read(new File("img/arrow/Arrow_Right.png"));
-
-        } catch (IOException | NullPointerException e) {
-            logger.warning("Failed to load texture: img/arrow/Arrow_XXX.png");
-        }
+        arrow_textures = new BufferedImage[5];
+        arrow_textures[0] = ImageUtil.loadImage("img/arrow/Arrow_RightUp.png").orElse(null);
+        arrow_textures[1] = ImageUtil.loadImage("img/arrow/Arrow_RightDown.png").orElse(null);
+        arrow_textures[2] = ImageUtil.invertX(arrow_textures[0]);
+        arrow_textures[3] = ImageUtil.invertX(arrow_textures[1]);
+        arrow_textures[4] = ImageUtil.loadImage("img/arrow/Arrow_RightStraight.png").orElse(null);
 
         StairsModel stairsModel = (StairsModel) model;
         stairsModel.setWidth(getSpriteWidth());
@@ -73,12 +65,12 @@ public class StairsView extends GameObjectView {
 
     @Override
     protected float getSpriteWidth() {
-        return textures[0].getWidth(null);
+        return textures[0] != null ? textures[0].getWidth(null) : 0;
     }
 
     @Override
     protected float getSpriteHeight() {
-        return textures[0].getHeight(null);
+        return textures[0] != null ? textures[0].getHeight(null) : 0;
     }
 
     @Override

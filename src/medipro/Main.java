@@ -1,7 +1,10 @@
 package medipro;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.Instant;
@@ -42,6 +45,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		setupLogger();
+		if (!extractLibrary())
+			return;
 		System.setProperty("sun.java2d.uiScale", "1");
 		logger.info("Start game");
 		JFrame window = new GameFrame("GameWindow", 1024, 768);
@@ -86,6 +91,41 @@ public class Main {
 		root.setLevel(Level.ALL);
 
 	}
+
+	private static boolean extractLibrary() {
+		try {
+			if (new File("jogamp-fat.jar").exists())
+				return true;
+			// ClassLoader classLoader = Main.class.getClassLoader();
+			InputStream inputStream = Main.class.getResourceAsStream("/jogamp-fat.jar");
+
+			if (inputStream != null) {
+				// File directory = new File("lib");
+				// if (!directory.exists())
+				// 	directory.mkdirs();
+				OutputStream outputStream = new FileOutputStream("jogamp-fat.jar");
+
+				byte[] buffer = new byte[1024];
+				int length;
+				while ((length = inputStream.read(buffer)) > 0) {
+					outputStream.write(buffer, 0, length);
+				}
+
+				// ストリームを閉じる
+				inputStream.close();
+				outputStream.close();
+
+				logger.info("正常にライブラリが展開されました。アプリを再実行してください。");
+			} else {
+				logger.warning("Failed to extract library. (inputStream is null)");
+			}
+		} catch (IOException e) {
+			logger.warning("Failed to extract library. (IOException)");
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
 
 /**

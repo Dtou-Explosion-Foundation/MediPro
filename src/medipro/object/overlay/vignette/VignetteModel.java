@@ -42,7 +42,7 @@ public class VignetteModel extends GameObjectModel {
      */
     public VignetteModel(World world) {
         super(world);
-        setTexture(ImageUtil.loadImages("img/layers/medipro_0000_Vignette.png"));
+        setTexture(ImageUtil.loadImage("img/layers/medipro_0000_Vignette.png"));
     }
 
 }

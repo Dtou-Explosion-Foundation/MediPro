@@ -1,14 +1,13 @@
 package medipro.object.stage.ceil;
 
 import java.awt.Image;
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
-
 import medipro.object.base.World;
 import medipro.object.base.gridobject.GridObjectModel;
+import medipro.util.ImageUtil;
 
 /**
  * 天井のモデル.
@@ -53,8 +52,8 @@ public class CeilModel extends GridObjectModel {
      * @param path  テクスチャのパス
      * @throws IOException テクスチャをロードできなかった時のエラー
      */
-    public CeilModel(World world, String path) throws IOException {
-        this(world, ImageIO.read(new File(path)));
+    public CeilModel(World world, String path) {
+        this(world, ImageUtil.loadImage(path));
     }
 
     /**
@@ -63,9 +62,11 @@ public class CeilModel extends GridObjectModel {
      * @param world   ワールド
      * @param texture テクスチャ
      */
-    public CeilModel(World world, Image texture) {
-        super(world, texture.getWidth(null), texture.getHeight(null));
-        setTexture(texture);
+    public CeilModel(World world, Optional<BufferedImage> texture) {
+        super(world, texture.isPresent() ? texture.get().getWidth(null) : 0,
+                texture.isPresent() ? texture.get().getHeight(null) : 0);
+        if (texture.isPresent())
+            setTexture(texture.get());
     }
 
     /**
@@ -74,7 +75,7 @@ public class CeilModel extends GridObjectModel {
      * @param world ワールド
      * @throws IOException テクスチャをロードできなかった時のエラー
      */
-    public CeilModel(World world) throws IOException {
+    public CeilModel(World world) {
         this(world, "img/layers/medipro_0003_Ceil.png");
     }
 

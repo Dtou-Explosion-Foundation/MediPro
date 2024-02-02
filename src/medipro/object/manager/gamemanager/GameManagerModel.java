@@ -2,12 +2,11 @@ package medipro.object.manager.gamemanager;
 
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
-
 import medipro.gui.panel.IGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.PlayWorld;
 
 /**
  * ゲームマネージャのモデル.
@@ -77,14 +76,7 @@ public class GameManagerModel extends GameObjectModel {
     }
 
     private void regenerateWorld() {
-        World newWorld;
-        try {
-            newWorld = this.world.getClass().getDeclaredConstructor(JPanel.class).newInstance(this.world.getPanel());
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-            e.printStackTrace();
-            return;
-        }
+        World newWorld = new PlayWorld(this.world.getPanel());
         IGamePanel panel = (IGamePanel) this.world.getPanel();
         panel.setWorld(newWorld);
     }
