@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 
+import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 
 /**
@@ -49,7 +50,7 @@ public class Main {
 			return;
 		System.setProperty("sun.java2d.uiScale", "1");
 		logger.info("Start game");
-		JFrame window = new GameFrame("GameWindow", 1024, 768);
+		JFrame window = new GameFrame("GameWindow", InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
 		window.setVisible(true);
 	}
 

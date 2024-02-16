@@ -34,9 +34,9 @@ public class CameraModel extends GameObjectModel {
      */
     public double getScale() {
         if (InGameConfig.USE_OPENGL)
-            return scale;
+            return scale * InGameConfig.WINDOW_SCALE_RATIO;
         else {
-            return scale * getScreenScaleFactor();
+            return scale * getScreenScaleFactor() * InGameConfig.WINDOW_SCALE_RATIO;
         }
     }
 
@@ -98,8 +98,8 @@ public class CameraModel extends GameObjectModel {
      */
     public Point2D.Double[] getVisibleArea() throws NoninvertibleTransformException {
         Point2D.Double[] points = new Point2D.Double[4];
-        double width = InGameConfig.WINDOW_WIDTH * getScreenScaleFactor();
-        double height = InGameConfig.WINDOW_HEIGHT * getScreenScaleFactor();
+        double width = InGameConfig.WINDOW_WIDTH_BASE * getScreenScaleFactor();
+        double height = InGameConfig.WINDOW_HEIGHT_BASE * getScreenScaleFactor();
         AffineTransform transform = getTransformMatrix().createInverse();
         points[0] = new Point2D.Double(0, 0);
         points[1] = new Point2D.Double(width, 0);

@@ -89,8 +89,8 @@ public class CameraView extends GameObjectView {
         Matrix4f projMat = new Matrix4f().transpose();
         Matrix4f viewMat = new Matrix4f() // カメラ中心の座標に変換
                 .scale((float) cameraModel.getScale(), (float) cameraModel.getScale(), 1, tempMat) // カメラのズーム倍率を適用
-                .scale((float) (2.0 / InGameConfig.WINDOW_WIDTH), (float) (2.0 / InGameConfig.WINDOW_HEIGHT), 1,
-                        tempMat) // -1~1をウインドウサイズに変換
+                .scale((float) (2.0 / InGameConfig.WINDOW_WIDTH_BASE), (float) (2.0 / InGameConfig.WINDOW_HEIGHT_BASE),
+                        1, tempMat) // -1~1をウインドウサイズに変換
                 // .scale(1, -1, 1, tempMat) // 上下反転
                 .translate((float) -cameraModel.x, (float) -cameraModel.y, 0, tempMat);
 

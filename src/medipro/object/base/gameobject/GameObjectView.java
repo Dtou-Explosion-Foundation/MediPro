@@ -22,6 +22,7 @@ import com.jogamp.opengl.util.texture.awt.AWTTextureIO;
 
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
+import medipro.util.ImageUtil;
 
 /**
  * ゲームオブジェクトのビュークラス.
@@ -109,7 +110,7 @@ public abstract class GameObjectView implements GLEventListener {
      */
     protected float getSpriteWidth() {
         float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().getScale() : 1f;
-        return InGameConfig.WINDOW_WIDTH / cameraScale;
+        return InGameConfig.WINDOW_WIDTH_BASE / cameraScale;
     }
 
     /**
@@ -119,7 +120,7 @@ public abstract class GameObjectView implements GLEventListener {
      */
     protected float getSpriteHeight() {
         float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().getScale() : 1f;
-        return InGameConfig.WINDOW_HEIGHT / cameraScale;
+        return InGameConfig.WINDOW_HEIGHT_BASE / cameraScale;
     }
 
     /**
@@ -166,7 +167,7 @@ public abstract class GameObjectView implements GLEventListener {
         GL4 gl = drawable.getGL().getGL4();
         AffineTransform cameraTransform = this.model.world.getCameraTransform();
 
-        BufferedImage bufferedImage = new BufferedImage(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT,
+        BufferedImage bufferedImage = new BufferedImage(InGameConfig.WINDOW_WIDTH_BASE, InGameConfig.WINDOW_HEIGHT_BASE,
                 BufferedImage.TYPE_INT_ARGB);
         {
             Graphics2D g = bufferedImage.createGraphics();
@@ -358,33 +359,6 @@ public abstract class GameObjectView implements GLEventListener {
     }
 
     /**
-     * BufferedImageをByteBufferに変換する.
-     * 
-     * @param bufferedImage 変換するBufferedImage
-     * @return 変換されたByteBuffer
-     */
-    protected ByteBuffer convertBufferedImageToByteBuffer(BufferedImage bufferedImage) {
-        int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
-        bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0,
-                bufferedImage.getWidth());
-        ByteBuffer buffer = ByteBuffer.allocateDirect(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
-
-        for (int h = bufferedImage.getHeight() - 1; h >= 0; h--) {
-            for (int w = 0; w < bufferedImage.getWidth(); w++) {
-                int pixel = pixels[h * bufferedImage.getWidth() + w];
-
-                buffer.put((byte) ((pixel >> 16) & 0xFF));
-                buffer.put((byte) ((pixel >> 8) & 0xFF));
-                buffer.put((byte) (pixel & 0xFF));
-                buffer.put((byte) ((pixel >> 24) & 0xFF));
-            }
-        }
-
-        buffer.flip();
-        return buffer;
-    }
-
-    /**
      * テクスチャを更新する. デフォルトではG2Dで描画した画像ををテクスチャに変換する.
      * 
      * @param drawable 描画対象
@@ -393,14 +367,14 @@ public abstract class GameObjectView implements GLEventListener {
         GL4 gl = drawable.getGL().getGL4();
         AffineTransform cameraTransform = this.model.world.getCameraTransform();
 
-        BufferedImage bufferedImage = new BufferedImage(InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT,
+        BufferedImage bufferedImage = new BufferedImage(InGameConfig.WINDOW_WIDTH_BASE, InGameConfig.WINDOW_HEIGHT_BASE,
                 BufferedImage.TYPE_INT_ARGB);
         {
             Graphics2D g = bufferedImage.createGraphics();
             draw(g, cameraTransform);
             g.dispose();
         }
-        ByteBuffer buffer = convertBufferedImageToByteBuffer(bufferedImage);
+        ByteBuffer buffer = ImageUtil.convertBufferedImageToByteBuffer(bufferedImage);
 
         gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
         gl.glTexSubImage2D(GL4.GL_TEXTURE_2D, 0, 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), GL4.GL_RGBA,

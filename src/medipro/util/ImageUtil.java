@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -69,5 +70,32 @@ public class ImageUtil {
         tx.translate(-image.getWidth(), 0);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return op.filter(image, null);
+    }
+
+    /**
+     * BufferedImageをByteBufferに変換する.
+     * 
+     * @param bufferedImage 変換するBufferedImage
+     * @return 変換されたByteBuffer
+     */
+    public static ByteBuffer convertBufferedImageToByteBuffer(BufferedImage bufferedImage) {
+        int[] pixels = new int[bufferedImage.getWidth() * bufferedImage.getHeight()];
+        bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), pixels, 0,
+                bufferedImage.getWidth());
+        ByteBuffer buffer = ByteBuffer.allocateDirect(bufferedImage.getWidth() * bufferedImage.getHeight() * 4);
+
+        for (int h = bufferedImage.getHeight() - 1; h >= 0; h--) {
+            for (int w = 0; w < bufferedImage.getWidth(); w++) {
+                int pixel = pixels[h * bufferedImage.getWidth() + w];
+
+                buffer.put((byte) ((pixel >> 16) & 0xFF));
+                buffer.put((byte) ((pixel >> 8) & 0xFF));
+                buffer.put((byte) (pixel & 0xFF));
+                buffer.put((byte) ((pixel >> 24) & 0xFF));
+            }
+        }
+
+        buffer.flip();
+        return buffer;
     }
 }

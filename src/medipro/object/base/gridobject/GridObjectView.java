@@ -6,21 +6,19 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 import java.util.Optional;
 
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.math.Matrix4f;
-import com.jogamp.opengl.util.texture.TextureData;
-import com.jogamp.opengl.util.texture.TextureIO;
 
 import medipro.config.InGameConfig;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
+import medipro.util.ImageUtil;
 
 /**
  * グリッドオブジェクトのビュー.
@@ -57,7 +55,7 @@ public abstract class GridObjectView extends GameObjectView {
             }
             bounds = getEnclosingRectangle(points[0], points[1], points[2], points[3]);
         } else {
-            bounds = new Rectangle2D.Double(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
+            bounds = new Rectangle2D.Double(0, 0, InGameConfig.WINDOW_WIDTH_BASE, InGameConfig.WINDOW_HEIGHT_BASE);
         }
 
         // 1グリッドのサイズを計算
@@ -147,25 +145,46 @@ public abstract class GridObjectView extends GameObjectView {
         GL4 gl = drawable.getGL().getGL4();
         textureName.clear();
         gl.glGenTextures(1, textureName);
-        TextureData textureData;
-        try {
-            InputStream textureStream = new FileInputStream("img/background/Brickwall3_Texture.png");
-            textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
-        } catch (IOException e) {
-            logger.warning(e.toString());
-            return;
-        }
+        // TextureData textureData;
+        // try {
+        //     InputStream textureStream = new FileInputStream("img/background/Brickwall3_Texture.png");
+        //     textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
+        // } catch (IOException e) {
+        //     logger.warning(e.toString());
+        //     return;
+        // }
 
+        GridObjectModel gridModel = (GridObjectModel) model;
+
+        BufferedImage image = new BufferedImage(gridModel.width, gridModel.height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = image.createGraphics();
+
+        drawGrid(model, g, new Rectangle(gridModel.width, gridModel.height), 0, 0);
+        g.dispose();
+
+        // Optional<BufferedImage> _image = ImageUtil.loadImage("img/background/Brickwall3_Texture.png");
+        // if (_image.isEmpty())
+        //     return;
+        // BufferedImage image = _image.get();
+
+        ByteBuffer byteBuffer = ImageUtil.convertBufferedImageToByteBuffer(image);
         gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-
         gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
         gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 16);
-
-        gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
-                textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
-                textureData.getBuffer());
-
+        gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, GL4.GL_RGBA, image.getWidth(), image.getHeight(), 0, GL4.GL_RGBA,
+                GL4.GL_UNSIGNED_BYTE, byteBuffer);
         gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
+
+        // gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
+
+        // gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
+        // gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 16);
+
+        // gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
+        //         textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
+        //         textureData.getBuffer());
+
+        // gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
     }
 
     @Override
@@ -189,9 +208,8 @@ public abstract class GridObjectView extends GameObjectView {
 
         int gridSizeLocation = gl.glGetUniformLocation(shaderProgram, "Grids");
         if (gridSizeLocation != -1)
-            gl.glUniform2fv(gridSizeLocation, 1,
-                    new float[] { InGameConfig.WINDOW_WIDTH / cameraScale / gridModel.width / (float) gridModel.scaleX,
-                            InGameConfig.WINDOW_HEIGHT / cameraScale / gridModel.height / (float) gridModel.scaleY },
-                    0);
+            gl.glUniform2fv(gridSizeLocation, 1, new float[] {
+                    InGameConfig.WINDOW_WIDTH_BASE / cameraScale / gridModel.width / (float) gridModel.scaleX,
+                    InGameConfig.WINDOW_HEIGHT_BASE / cameraScale / gridModel.height / (float) gridModel.scaleY }, 0);
     }
 }

@@ -160,7 +160,7 @@ public abstract class World implements GLEventListener {
             return ((CameraModel) _camera).getTransformMatrix();
         } else {
             AffineTransform transform = new AffineTransform();
-            transform.translate(InGameConfig.WINDOW_WIDTH / 2, InGameConfig.WINDOW_HEIGHT / 2);
+            transform.translate(InGameConfig.WINDOW_WIDTH_BASE / 2, InGameConfig.WINDOW_HEIGHT_BASE / 2);
             return transform;
         }
     }

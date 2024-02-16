@@ -183,12 +183,12 @@ public class FpsOverlayView extends GameObjectView {
 
     @Override
     protected float getSpriteWidth() {
-        return (float) TEXTURE_HEIGHT / InGameConfig.WINDOW_HEIGHT * super.getSpriteWidth();
+        return (float) TEXTURE_HEIGHT / InGameConfig.WINDOW_HEIGHT_BASE * super.getSpriteWidth();
     }
 
     @Override
     protected float getSpriteHeight() {
-        return (float) TEXTURE_HEIGHT / InGameConfig.WINDOW_HEIGHT * super.getSpriteHeight();
+        return (float) TEXTURE_HEIGHT / InGameConfig.WINDOW_HEIGHT_BASE * super.getSpriteHeight();
     }
 
     @Override
@@ -207,8 +207,8 @@ public class FpsOverlayView extends GameObjectView {
 
         Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
                 .translate(x, y, 0, tempMat) // 座標
-                .translate(-InGameConfig.WINDOW_WIDTH / cameraScale / 2,
-                        (InGameConfig.WINDOW_HEIGHT - TEXTURE_HEIGHT) / cameraScale / 2, 0, tempMat)
+                .translate(-InGameConfig.WINDOW_WIDTH_BASE / cameraScale / 2,
+                        (InGameConfig.WINDOW_HEIGHT_BASE - TEXTURE_HEIGHT) / cameraScale / 2, 0, tempMat)
                 .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
                 .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
                 .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング

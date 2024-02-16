@@ -107,7 +107,7 @@ public class StairsView extends GameObjectView {
         try {
             InputStream textureStream = new FileInputStream("img/layers/medipro_0001_階段.png");
             BufferedImage bufferedImage = ImageIO.read(textureStream);
-            ByteBuffer buffer = convertBufferedImageToByteBuffer(bufferedImage);
+            ByteBuffer buffer = ImageUtil.convertBufferedImageToByteBuffer(bufferedImage);
 
             textureData = new TextureData(gl.getGLProfile(), GL4.GL_RGBA, bufferedImage.getWidth(),
                     bufferedImage.getHeight(), 0, GL4.GL_RGBA, GL4.GL_UNSIGNED_BYTE, false, false, false, buffer, null);
