@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import medipro.gui.panel.G2dGamePanel;
+import medipro.gui.panel.GamePanel;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraModel;
@@ -24,7 +24,7 @@ public class TitleMenuWorld extends World {
      * 
      * @param panel ワールドを表示するパネル
      */
-    public TitleMenuWorld(G2dGamePanel panel) {
+    public TitleMenuWorld(GamePanel panel) {
         super(panel);
     }
 

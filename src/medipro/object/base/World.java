@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
-import medipro.gui.panel.G2dGamePanel;
+import medipro.gui.panel.GamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
@@ -40,7 +40,7 @@ public abstract class World {
     /**
      * Worldが配置されているパネル.
      */
-    public G2dGamePanel panel;
+    public GamePanel panel;
 
     /**
      * カメラ.
@@ -52,7 +52,7 @@ public abstract class World {
      * 
      * @param panel ワールドが配置されているパネル
      */
-    public World(G2dGamePanel panel) {
+    public World(GamePanel panel) {
         logger.info("Init " + this.getClass().getSimpleName());
         this.controllers = new ArrayList<GameObjectController>();
         this.views = new ArrayList<ArrayList<GameObjectView>>();
@@ -215,7 +215,7 @@ public abstract class World {
      * 
      * @return パネル
      */
-    public G2dGamePanel getPanel() {
+    public GamePanel getPanel() {
         return panel;
     }
 

@@ -18,7 +18,7 @@ import medipro.world.TitleMenuWorld;
 /**
  * Graphics2Dで描画されるゲームのパネルを実装するクラス.
  */
-public class G2dGamePanel extends JPanel {
+public class GamePanel extends JPanel {
 
     /**
      * パネルの子ワールド.
@@ -40,21 +40,11 @@ public class G2dGamePanel extends JPanel {
      * 
      * @param frame パネルが配置されたゲームのウインドウ
      */
-    public G2dGamePanel(GameFrame frame) {
+    public GamePanel(GameFrame frame) {
         super();
-        logger.info("Init G2dGamePanel");
+        logger.info("Init GamePanel");
         this.frame = frame;
         world = EngineConfig.SKIP_TITLE ? new PlayWorld(this) : new TitleMenuWorld(this);
-    }
-
-    /**
-     * {@code update(double)}をGameFrameから呼び出す必要があるかどうか. drawなどに紐付いており、独自の実装をする必要がある時のためのフラグ.
-     * 
-     * @return フレーム
-     */
-    public boolean shouldInvokeUpdate() {
-        // TODO:これいらない
-        return false;
     }
 
     /**
@@ -101,15 +91,10 @@ public class G2dGamePanel extends JPanel {
         this.update(this.getDeltaTime());
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-        // RenderingHints.VALUE_RENDER_QUALITY);
-        // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-        // RenderingHints.VALUE_RENDER_QUALITY);
+        // g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        // g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-        // g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-        // RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-
-        // world.updateAndDraw(g2, this.getDeltaTime());
+        // g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
         world.draw(g2);
     }
 

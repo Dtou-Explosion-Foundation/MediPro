@@ -17,7 +17,7 @@ import javax.swing.Timer;
 
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
-import medipro.gui.panel.G2dGamePanel;
+import medipro.gui.panel.GamePanel;
 import medipro.object.manager.gamemanager.GameManagerModel;
 
 /**
@@ -35,7 +35,10 @@ public class GameFrame extends JFrame implements ComponentListener {
     private GraphicsDevice currentGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
             .getScreenDevices()[EngineConfig.DEFAULT_MONITOR];
 
-    private G2dGamePanel panel;
+    /**
+     * 子パネル.
+     */
+    private GamePanel panel;
 
     /**
      * ゲームのウインドウを生成する. 生成後、FPSに基づいてPanelを再描画する.
@@ -47,12 +50,12 @@ public class GameFrame extends JFrame implements ComponentListener {
     public GameFrame(String title, int width, int height) {
         super(title);
         logger.info("Init GameFrame");
+        // ウィンドウの設定
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         // this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        // this.setSize(width, height);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        panel = new G2dGamePanel(this);
+        panel = new GamePanel(this);
 
         panel.setFocusable(true);
         panel.setPreferredSize(new Dimension(width, height));
@@ -69,6 +72,7 @@ public class GameFrame extends JFrame implements ComponentListener {
         logger.log(Level.FINE, "Frame size: " + this.getSize());
         logger.log(Level.FINE, "Panel size: " + panel.getSize());
 
+        // FPSに基づいてPanelを再描画する
         {
             Timer timer = new Timer(1000 / InGameConfig.FPS, new ActionListener() {
                 long lastRepaintTime = -1;
@@ -76,12 +80,10 @@ public class GameFrame extends JFrame implements ComponentListener {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    if (panel.shouldInvokeUpdate()) {
-                        long currentTime = System.nanoTime();
-                        long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
-                        lastRepaintTime = currentTime;
-                        panel.update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
-                    }
+                    long currentTime = System.nanoTime();
+                    long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
+                    lastRepaintTime = currentTime;
+                    panel.update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
                     repaint();
                 }
             });

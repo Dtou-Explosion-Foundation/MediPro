@@ -3,7 +3,7 @@ package medipro.titlemenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import medipro.gui.panel.G2dGamePanel;
+import medipro.gui.panel.GamePanel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.world.PlayWorld;
@@ -25,7 +25,7 @@ public class TitleMenuController extends GameObjectController implements KeyList
     @Override
     public void keyPressed(KeyEvent e) {
         TitleMenuModel titleMenuModel = (TitleMenuModel) model;
-        G2dGamePanel gamePanel = titleMenuModel.world.getPanel();
+        GamePanel gamePanel = titleMenuModel.world.getPanel();
 
         switch (e.getKeyCode()) {
         case KeyEvent.VK_UP:

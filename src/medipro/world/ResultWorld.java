@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import medipro.gui.panel.G2dGamePanel;
+import medipro.gui.panel.GamePanel;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraController;
 import medipro.object.base.camera.CameraModel;
@@ -18,7 +18,7 @@ import medipro.result.ResultModel;
 import medipro.result.ResultView;
 
 public class ResultWorld extends World {
-    public ResultWorld(G2dGamePanel panel) {
+    public ResultWorld(GamePanel panel) {
         super(panel);
     }
 

@@ -1,7 +1,7 @@
 package medipro.config;
 
 /**
- * ゲームの設定を保存するクラス.
+ * ゲームの設定を保存するクラス.動作中に変更される可能性がある（ようにするかもしれない）.
  */
 public final class InGameConfig {
 
@@ -33,6 +33,8 @@ public final class InGameConfig {
      * ゲームの速度.
      */
     public static final double GAME_SPEED = 1.0;
-
+    /**
+     * 異変が発生する確率.
+     */
     public static final double CHANCE_OF_ANOMALY = 0.6;
 }

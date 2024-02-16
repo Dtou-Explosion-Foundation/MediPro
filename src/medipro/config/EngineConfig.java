@@ -1,7 +1,7 @@
 package medipro.config;
 
 /**
- * エンジンの設定を保存するクラス.
+ * エンジンの設定を保存するクラス.動作時には変更されない.
  */
 public class EngineConfig {
     /**

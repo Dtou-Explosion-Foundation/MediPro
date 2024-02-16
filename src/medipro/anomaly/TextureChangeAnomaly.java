@@ -5,16 +5,19 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
 
+/**
+ * 静的にテクスチャが変化する異変.
+ */
 public class TextureChangeAnomaly extends GameObjectController implements AnomalyListener {
 
+    /**
+     * テクスチャが変化する異変を生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public TextureChangeAnomaly(GameObjectModel model) {
         super(model);
     }
-
-    // /**
-    //  * 異変は発生済みか.
-    //  */
-    // private static boolean anomalyOccurred = false;
 
     @Override
     public boolean canAnomalyOccurred() {

@@ -18,9 +18,6 @@ public class CameraView extends GameObjectView {
         super(model);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void draw(Graphics2D g) {
     }

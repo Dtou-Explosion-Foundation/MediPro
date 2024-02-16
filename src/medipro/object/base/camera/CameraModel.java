@@ -63,11 +63,6 @@ public class CameraModel extends GameObjectModel {
     }
 
     /**
-     * カメラの変換行列を保存するUBOの名前.
-     */
-    private int ubo = -1;
-
-    /**
      * グローバル座標からカメラ座標に変換するアフィン変換行列を取得する. ローカル座標とは違い,カメラの中心を原点とするので注意.
      * 
      * @return AffineTransform
@@ -97,32 +92,8 @@ public class CameraModel extends GameObjectModel {
         points[1] = new Point2D.Double(width, 0);
         points[2] = new Point2D.Double(width, height);
         points[3] = new Point2D.Double(0, height);
-        // points[0] = new Point2D.Double(this.x, this.y);
-        // points[1] = new Point2D.Double(this.x + width, this.y);
-        // points[2] = new Point2D.Double(this.x + width, this.y + height);
-        // points[3] = new Point2D.Double(this.x, this.y + height);
-        for (int i = 0; i < points.length; i++) {
+        for (int i = 0; i < points.length; i++)
             transform.transform(points[i], points[i]);
-        }
         return points;
     }
-
-    /**
-     * カメラの変換行列を保存するUBOの名前を取得する.
-     * 
-     * @return UBOの名前
-     */
-    public int getUBO() {
-        return ubo;
-    }
-
-    /**
-     * カメラの変換行列を保存するUBOの名前を設定する.
-     * 
-     * @param ubo UBOの名前
-     */
-    public void setUBO(int ubo) {
-        this.ubo = ubo;
-    }
-
 }
