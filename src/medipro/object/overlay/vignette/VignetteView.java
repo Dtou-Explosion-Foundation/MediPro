@@ -37,8 +37,4 @@ public class VignetteView extends GameObjectView {
 
     }
 
-    @Override
-    protected boolean needUpdateTexture() {
-        return false;
-    }
 }

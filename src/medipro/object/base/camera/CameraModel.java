@@ -5,7 +5,6 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
 import medipro.config.InGameConfig;
-import medipro.gui.panel.IGamePanel;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
@@ -33,11 +32,7 @@ public class CameraModel extends GameObjectModel {
      * @return カメラのズーム倍率
      */
     public double getScale() {
-        if (InGameConfig.USE_OPENGL)
-            return scale * InGameConfig.WINDOW_SCALE_RATIO;
-        else {
-            return scale * getScreenScaleFactor() * InGameConfig.WINDOW_SCALE_RATIO;
-        }
+        return scale * getScreenScaleFactor() * InGameConfig.WINDOW_SCALE_RATIO;
     }
 
     /**
@@ -64,10 +59,7 @@ public class CameraModel extends GameObjectModel {
      * @return スクリーン倍率
      */
     private double getScreenScaleFactor() {
-        if (this.world.panel instanceof IGamePanel)
-            return ((IGamePanel) this.world.panel).getFrame().getScreenScaleFactor();
-        else
-            return 1;
+        return this.world.panel.getFrame().getScreenScaleFactor();
     }
 
     /**

@@ -34,13 +34,4 @@ public class ResultView extends GameObjectView {
 
     int lastSelectedItem = -1;
 
-    @Override
-    protected boolean needUpdateTexture() {
-        int selectedItem = ((ResultModel) model).getSelectedItem();
-        if (lastSelectedItem != selectedItem) {
-            lastSelectedItem = selectedItem;
-            return true;
-        }
-        return false;
-    }
 }

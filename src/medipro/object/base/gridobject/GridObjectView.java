@@ -6,19 +6,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
-import java.util.Optional;
-
-import com.jogamp.opengl.GL4;
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.math.Matrix4f;
 
 import medipro.config.InGameConfig;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
-import medipro.util.ImageUtil;
 
 /**
  * グリッドオブジェクトのビュー.
@@ -114,102 +106,4 @@ public abstract class GridObjectView extends GameObjectView {
         return new Rectangle2D.Double(minX, minY, width, height);
     }
 
-    @Override
-    protected String getShaderPath(String ext) {
-        return "shader/GridObject/GridObject" + "." + ext;
-        // return "shader/gameobject/GameObject" + "." + ext;
-    }
-
-    @Override
-    protected boolean needUpdateTexture() {
-        return false;
-    }
-
-    @Override
-    protected Matrix4f getModelMatrix() {
-        Matrix4f tempMat = new Matrix4f();
-        Optional<CameraModel> cameraModel = this.model.world.camera;
-        float x = cameraModel.isPresent() ? (float) cameraModel.get().x : (float) model.x;
-        float y = cameraModel.isPresent() ? (float) cameraModel.get().y : (float) model.y;
-        Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
-                .translate(x, y, 0, tempMat) // 座標
-                .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
-                .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
-        // .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
-        ;
-        return modelMat;
-    }
-
-    @Override
-    protected void initTextures(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        textureName.clear();
-        gl.glGenTextures(1, textureName);
-        // TextureData textureData;
-        // try {
-        //     InputStream textureStream = new FileInputStream("img/background/Brickwall3_Texture.png");
-        //     textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
-        // } catch (IOException e) {
-        //     logger.warning(e.toString());
-        //     return;
-        // }
-
-        GridObjectModel gridModel = (GridObjectModel) model;
-
-        BufferedImage image = new BufferedImage(gridModel.width, gridModel.height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-
-        drawGrid(model, g, new Rectangle(gridModel.width, gridModel.height), 0, 0);
-        g.dispose();
-
-        // Optional<BufferedImage> _image = ImageUtil.loadImage("img/background/Brickwall3_Texture.png");
-        // if (_image.isEmpty())
-        //     return;
-        // BufferedImage image = _image.get();
-
-        ByteBuffer byteBuffer = ImageUtil.convertBufferedImageToByteBuffer(image);
-        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
-        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 16);
-        gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, GL4.GL_RGBA, image.getWidth(), image.getHeight(), 0, GL4.GL_RGBA,
-                GL4.GL_UNSIGNED_BYTE, byteBuffer);
-        gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
-
-        // gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-
-        // gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
-        // gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 16);
-
-        // gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
-        //         textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
-        //         textureData.getBuffer());
-
-        // gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
-    }
-
-    @Override
-    protected void initSamplers(GLAutoDrawable drawable) {
-        super.initSamplers(drawable);
-        GL4 gl = drawable.getGL().getGL4();
-
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_LINEAR_MIPMAP_LINEAR);
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_LINEAR_MIPMAP_LINEAR);
-    }
-
-    @Override
-    protected void updateUniforms(GLAutoDrawable drawable) {
-        super.updateUniforms(drawable);
-        GL4 gl = drawable.getGL().getGL4();
-        GridObjectModel gridModel = (GridObjectModel) model;
-        Float cameraScale = model.world.camera.isPresent() ? (float) model.world.camera.get().getScale() : 1f;
-        int originOffsetLocation = gl.glGetUniformLocation(shaderProgram, "OriginOffset");
-        if (originOffsetLocation != -1)
-            gl.glUniform2fv(originOffsetLocation, 1, new float[] { (float) model.x, (float) model.y }, 0);
-
-        int gridSizeLocation = gl.glGetUniformLocation(shaderProgram, "Grids");
-        if (gridSizeLocation != -1)
-            gl.glUniform2fv(gridSizeLocation, 1, new float[] {
-                    InGameConfig.WINDOW_WIDTH_BASE / cameraScale / gridModel.width / (float) gridModel.scaleX,
-                    InGameConfig.WINDOW_HEIGHT_BASE / cameraScale / gridModel.height / (float) gridModel.scaleY }, 0);
-    }
 }

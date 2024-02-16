@@ -3,9 +3,7 @@ package medipro.result;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
-
-import medipro.gui.panel.IGamePanel;
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.world.PlayWorld;
@@ -20,8 +18,7 @@ public class ResultController extends GameObjectController implements KeyListene
     @Override
     public void keyPressed(KeyEvent e) {
         ResultModel resultModel = (ResultModel) model;
-        JPanel panel = resultModel.world.getPanel();
-        IGamePanel gamePanel = (IGamePanel) (panel);
+        G2dGamePanel gamePanel = resultModel.world.getPanel();
         switch (e.getKeyCode()) {
         case KeyEvent.VK_LEFT:
         case KeyEvent.VK_A:
@@ -37,12 +34,12 @@ public class ResultController extends GameObjectController implements KeyListene
             case 0:
                 resultModel.setSelectedItem(0);
                 GameManagerController.resetFloor();
-                gamePanel.setWorld(new PlayWorld(panel));
+                gamePanel.setWorld(new PlayWorld(gamePanel));
                 logger.info("You selected: " + resultModel.getSelectedItem());
                 break;
             case 1:
                 resultModel.setSelectedItem(0);
-                gamePanel.setWorld(new TitleMenuWorld(panel));
+                gamePanel.setWorld(new TitleMenuWorld(gamePanel));
                 logger.info("You selected: " + resultModel.getSelectedItem());
                 break;
             }

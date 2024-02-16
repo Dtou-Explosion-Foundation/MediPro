@@ -2,7 +2,7 @@ package medipro.object.manager.gamemanager;
 
 import java.awt.event.KeyListener;
 
-import medipro.gui.panel.IGamePanel;
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -77,7 +77,7 @@ public class GameManagerModel extends GameObjectModel {
 
     private void regenerateWorld() {
         World newWorld = new PlayWorld(this.world.getPanel());
-        IGamePanel panel = (IGamePanel) this.world.getPanel();
+        G2dGamePanel panel = this.world.getPanel();
         panel.setWorld(newWorld);
     }
 

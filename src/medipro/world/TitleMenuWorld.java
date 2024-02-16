@@ -1,8 +1,14 @@
 package medipro.world;
 
+import java.util.Optional;
+
 import javax.swing.JPanel;
 
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.base.World;
+import medipro.object.base.camera.CameraController;
+import medipro.object.base.camera.CameraModel;
+import medipro.object.base.camera.CameraView;
 import medipro.titlemenu.TitleMenuController;
 import medipro.titlemenu.TitleMenuModel;
 import medipro.titlemenu.TitleMenuView;
@@ -18,12 +24,19 @@ public class TitleMenuWorld extends World {
      * 
      * @param panel ワールドを表示するパネル
      */
-    public TitleMenuWorld(JPanel panel) {
+    public TitleMenuWorld(G2dGamePanel panel) {
         super(panel);
     }
 
     @Override
     public void setupWorld(JPanel panel) {
+        {
+            CameraModel model = new CameraModel(this);
+            CameraView view = new CameraView(model);
+            CameraController controller = new CameraController(model);
+            this.addViewAndController(view, controller);
+            this.camera = Optional.of(model);
+        }
         {
             TitleMenuModel model = new TitleMenuModel(this);
             model.x = -400;

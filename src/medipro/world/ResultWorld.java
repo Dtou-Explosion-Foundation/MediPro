@@ -1,8 +1,14 @@
 package medipro.world;
 
+import java.util.Optional;
+
 import javax.swing.JPanel;
 
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.base.World;
+import medipro.object.base.camera.CameraController;
+import medipro.object.base.camera.CameraModel;
+import medipro.object.base.camera.CameraView;
 import medipro.object.overlay.blackfilter.BlackFilterController;
 import medipro.object.overlay.blackfilter.BlackFilterModel;
 import medipro.object.overlay.blackfilter.BlackFilterModel.BlackFilterColor;
@@ -12,12 +18,19 @@ import medipro.result.ResultModel;
 import medipro.result.ResultView;
 
 public class ResultWorld extends World {
-    public ResultWorld(JPanel panel) {
+    public ResultWorld(G2dGamePanel panel) {
         super(panel);
     }
 
     @Override
     public void setupWorld(JPanel panel) {
+        {
+            CameraModel model = new CameraModel(this);
+            CameraView view = new CameraView(model);
+            CameraController controller = new CameraController(model);
+            this.addViewAndController(view, controller);
+            this.camera = Optional.of(model);
+        }
         {
             BlackFilterModel model = new BlackFilterModel(this);
             BlackFilterController controller = new BlackFilterController(model);

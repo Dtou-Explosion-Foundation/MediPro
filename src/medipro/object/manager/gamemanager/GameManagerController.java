@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.JPanel;
-
 import medipro.config.InGameConfig;
-import medipro.gui.panel.IGamePanel;
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -96,8 +94,8 @@ public class GameManagerController extends GameObjectController {
     public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (gameManagerModel.isAnomalyListenerOccured()) {
-            JPanel gamePanel = this.model.world.getPanel();
-            ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+            G2dGamePanel gamePanel = this.model.world.getPanel();
+            gamePanel.setWorld(new ResultWorld(gamePanel));
         } else {
             gameManagerModel.nextFloor(isRight);
         }
@@ -111,8 +109,8 @@ public class GameManagerController extends GameObjectController {
     public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (!gameManagerModel.isAnomalyListenerOccured()) {
-            JPanel gamePanel = this.model.world.getPanel();
-            ((IGamePanel) gamePanel).setWorld(new ResultWorld(gamePanel));
+            G2dGamePanel gamePanel = this.model.world.getPanel();
+            gamePanel.setWorld(new ResultWorld(gamePanel));
         } else {
             gameManagerModel.prevFloor(isRight);
         }

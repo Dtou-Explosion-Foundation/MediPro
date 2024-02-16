@@ -18,7 +18,7 @@ import medipro.world.TitleMenuWorld;
 /**
  * Graphics2Dで描画されるゲームのパネルを実装するクラス.
  */
-public class G2dGamePanel extends JPanel implements IGamePanel {
+public class G2dGamePanel extends JPanel {
 
     /**
      * パネルの子ワールド.
@@ -47,17 +47,30 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
         world = EngineConfig.SKIP_TITLE ? new PlayWorld(this) : new TitleMenuWorld(this);
     }
 
-    @Override
+    /**
+     * {@code update(double)}をGameFrameから呼び出す必要があるかどうか. drawなどに紐付いており、独自の実装をする必要がある時のためのフラグ.
+     * 
+     * @return フレーム
+     */
     public boolean shouldInvokeUpdate() {
+        // TODO:これいらない
         return false;
     }
 
-    @Override
+    /**
+     * パネルを更新する.
+     * 
+     * @param deltaTime 前回の更新からの経過時間
+     */
     public void update(double deltaTime) {
         world.update(deltaTime);
     }
 
-    @Override
+    /**
+     * パネルが格納されているフレームを取得する.
+     * 
+     * @return フレーム
+     */
     public GameFrame getFrame() {
         return frame;
     }
@@ -86,28 +99,35 @@ public class G2dGamePanel extends JPanel implements IGamePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.update(this.getDeltaTime());
-        if (!InGameConfig.USE_OPENGL) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-            // RenderingHints.VALUE_RENDER_QUALITY);
-            // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-            // RenderingHints.VALUE_RENDER_QUALITY);
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-            // g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-            // RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+        // RenderingHints.VALUE_RENDER_QUALITY);
+        // g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+        // RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        // g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        // RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
-            // world.updateAndDraw(g2, this.getDeltaTime());
-            world.draw(g2);
-        }
+        // world.updateAndDraw(g2, this.getDeltaTime());
+        world.draw(g2);
     }
 
-    @Override
+    /**
+     * パネルにワールドを設定する.
+     * 
+     * @param world ワールド
+     */
     public void setWorld(World world) {
         setWorld(world, true);
     }
 
-    @Override
+    /**
+     * パネルにワールドを設定する.
+     * 
+     * @param world           ワールド
+     * @param disposeOldWorld 古いワールドを破棄するかどうか
+     */
     public void setWorld(World world, boolean disposeOldWorld) {
         if (disposeOldWorld)
             this.world.dispose();

@@ -3,9 +3,7 @@ package medipro.object.pause;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
-
-import medipro.gui.panel.IGamePanel;
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.object.manager.gamemanager.GameManagerModel;
@@ -20,8 +18,7 @@ public class PauseController extends GameObjectController implements KeyListener
     @Override
     public void keyPressed(KeyEvent e) {
         PauseModel pauseModel = (PauseModel) model;
-        JPanel panel = pauseModel.world.getPanel();
-        IGamePanel gamePanel = (IGamePanel) (panel);
+        G2dGamePanel gamePanel = pauseModel.world.getPanel();
         if (!GameManagerModel.isPause()) {
             switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
@@ -53,13 +50,13 @@ public class PauseController extends GameObjectController implements KeyListener
                     pauseModel.setSelectedItem(0);
                     GameManagerController.resetFloor();
                     GameManagerModel.unPause();
-                    gamePanel.setWorld(new PlayWorld(panel));
+                    gamePanel.setWorld(new PlayWorld(gamePanel));
                     logger.info("You selected: " + pauseModel.getSelectedItem());
                     break;
                 case 2:
                     pauseModel.setSelectedItem(0);
                     GameManagerModel.unPause();
-                    gamePanel.setWorld(new TitleMenuWorld(panel));
+                    gamePanel.setWorld(new TitleMenuWorld(gamePanel));
                     logger.info("You selected: " + pauseModel.getSelectedItem());
                     break;
                 }

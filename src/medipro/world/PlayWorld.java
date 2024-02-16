@@ -15,6 +15,7 @@ import medipro.anomaly.TextureChangeAnomaly;
 import medipro.anomaly.TextureIncreasedAnomaly;
 import medipro.anomaly.TextureMoveAnomaly;
 import medipro.anomaly.TextureSizeChangingAnomaly;
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
@@ -68,7 +69,7 @@ public class PlayWorld extends World {
      * 
      * @param panel ワールドを表示するパネル
      */
-    public PlayWorld(JPanel panel) {
+    public PlayWorld(G2dGamePanel panel) {
         super(panel);
     }
 
@@ -479,7 +480,7 @@ public class PlayWorld extends World {
                 cameraAnomaly.setOccurredChance(1);
                 this.addControllers(cameraAnomaly);
             }
-            camera = Optional.of(model);
+            this.camera = Optional.of(model);
         }
         {
             BlackFilterModel model = new BlackFilterModel(this);

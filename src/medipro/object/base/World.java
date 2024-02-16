@@ -10,11 +10,9 @@ import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLEventListener;
-
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
+import medipro.gui.panel.G2dGamePanel;
 import medipro.object.AnomalyListener;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
@@ -23,7 +21,7 @@ import medipro.object.base.gameobject.GameObjectView;
 /**
  * ワールドを管理するクラス。 コントローラーとビューを格納し、毎フレームごとに更新と描画を行う。 ビューはレイヤーごとに保存され、レイヤー0が最背面に描画される。
  */
-public abstract class World implements GLEventListener {
+public abstract class World {
     /**
      * ロガー.
      */
@@ -42,7 +40,7 @@ public abstract class World implements GLEventListener {
     /**
      * Worldが配置されているパネル.
      */
-    public JPanel panel;
+    public G2dGamePanel panel;
 
     /**
      * カメラ.
@@ -54,7 +52,7 @@ public abstract class World implements GLEventListener {
      * 
      * @param panel ワールドが配置されているパネル
      */
-    public World(JPanel panel) {
+    public World(G2dGamePanel panel) {
         logger.info("Init " + this.getClass().getSimpleName());
         this.controllers = new ArrayList<GameObjectController>();
         this.views = new ArrayList<ArrayList<GameObjectView>>();
@@ -178,42 +176,6 @@ public abstract class World implements GLEventListener {
         }
     }
 
-    @Override
-    public void init(GLAutoDrawable drawable) {
-        for (ArrayList<GameObjectView> views : views) {
-            for (GameObjectView view : views) {
-                view.init(drawable);
-            }
-        }
-    }
-
-    @Override
-    public void dispose(GLAutoDrawable drawable) {
-        for (ArrayList<GameObjectView> views : views) {
-            for (GameObjectView view : views) {
-                view.dispose(drawable);
-            }
-        }
-    }
-
-    @Override
-    public void display(GLAutoDrawable drawable) {
-        for (ArrayList<GameObjectView> views : views) {
-            for (GameObjectView view : views) {
-                view.display(drawable);
-            }
-        }
-    }
-
-    @Override
-    public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
-        for (ArrayList<GameObjectView> views : views) {
-            for (GameObjectView view : views) {
-                view.reshape(drawable, x, y, w, h);
-            }
-        }
-    }
-
     /**
      * 指定したクラスのコントローラーを全て取得する.
      * 
@@ -253,7 +215,7 @@ public abstract class World implements GLEventListener {
      * 
      * @return パネル
      */
-    public JPanel getPanel() {
+    public G2dGamePanel getPanel() {
         return panel;
     }
 

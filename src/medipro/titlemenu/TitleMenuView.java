@@ -43,13 +43,4 @@ public class TitleMenuView extends GameObjectView {
      */
     int lastSelectedItem = -1;
 
-    @Override
-    protected boolean needUpdateTexture() {
-        int selectedItem = ((TitleMenuModel) model).getSelectedItem();
-        if (lastSelectedItem != selectedItem) {
-            lastSelectedItem = selectedItem;
-            return true;
-        }
-        return false;
-    }
 }

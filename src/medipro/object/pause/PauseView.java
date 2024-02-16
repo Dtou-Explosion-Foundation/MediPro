@@ -8,17 +8,17 @@ import java.awt.geom.AffineTransform;
 import medipro.object.base.gameobject.GameObjectView;
 import medipro.object.manager.gamemanager.GameManagerModel;
 
-public class PauseView extends GameObjectView{
-    public PauseView(PauseModel model){
+public class PauseView extends GameObjectView {
+    public PauseView(PauseModel model) {
         super(model);
     }
 
     @Override
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         PauseModel pauseModel = (PauseModel) model;
         g.setTransform(new AffineTransform());
-        String [] menuItems = pauseModel.getMenuItems();
-        if(GameManagerModel.getPause()==0){
+        String[] menuItems = pauseModel.getMenuItems();
+        if (GameManagerModel.getPause() == 0) {
             g.setFont(new Font("SansSerif", Font.BOLD, 50));
             for (int i = 0; i < menuItems.length; i++) {
                 if (i == pauseModel.getSelectedItem()) {
@@ -33,13 +33,4 @@ public class PauseView extends GameObjectView{
 
     int lastSelectedItem = -1;
 
-    @Override
-    protected boolean needUpdateTexture() {
-        int selectedItem = ((PauseModel) model).getSelectedItem();
-        if (lastSelectedItem != selectedItem) {
-            lastSelectedItem = selectedItem;
-            return true;
-        }
-        return false;
-    }
 }
