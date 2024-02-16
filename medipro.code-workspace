@@ -9,7 +9,7 @@
 		"java.project.sourcePaths": [
 			"src"
 		],
-		"java.project.outputPath": "bin",
+		"java.project.outputPath": "classes",
 		"java.project.referencedLibraries": [
 			"lib/**/*.jar"
 		],

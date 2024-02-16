@@ -1,0 +1,2 @@
+Main-Class: medipro.Main
+Class-Path: jogamp-fat.jar

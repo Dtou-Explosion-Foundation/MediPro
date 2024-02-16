@@ -1,14 +1,12 @@
 package medipro.object.stage.background;
 
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 import java.util.Optional;
-
-import javax.imageio.ImageIO;
 
 import medipro.object.base.World;
 import medipro.object.base.gridobject.GridObjectModel;
+import medipro.util.ImageUtil;
 
 /**
  * 背景のモデル.
@@ -24,32 +22,21 @@ public class BackgroundModel extends GridObjectModel {
      * 背景のモデルを生成する.
      * 
      * @param world ワールド
-     * @param path  画像のパス
-     * @throws IOException 画像の読み込みに失敗した場合
-     */
-    public BackgroundModel(World world, String path) throws IOException {
-        this(world, ImageIO.read(new File(path)));
-    }
-
-    /**
-     * 背景のモデルを生成する.
-     * 
-     * @param world ワールド
      * @param image 画像
      */
-    public BackgroundModel(World world, Image image) {
-        super(world, image.getWidth(null), image.getHeight(null));
-        this.image = Optional.ofNullable(image);
+    public BackgroundModel(World world, Optional<BufferedImage> image) {
+        super(world, image.isPresent() ? image.get().getWidth(null) : 0,
+                image.isPresent() ? image.get().getHeight(null) : 0);
+        this.image = Optional.ofNullable(image.orElse(null));
     }
 
     /**
      * 背景のモデルを生成する.
      * 
      * @param world ワールド
-     * @throws IOException 画像の読み込みに失敗した場合
      */
-    public BackgroundModel(World world) throws IOException {
-        this(world, "img/layers/medipro_0004s_0000_Background_Grid.png");
+    public BackgroundModel(World world) {
+        this(world, ImageUtil.loadImage("img/layers/medipro_0004s_0000_Background_Grid.png"));
     }
 
     /**
