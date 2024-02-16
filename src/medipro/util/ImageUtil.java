@@ -3,6 +3,7 @@ package medipro.util;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -26,24 +27,31 @@ public class ImageUtil {
      * @return 画像
      */
     public static Optional<BufferedImage> loadImage(String path) {
-        // try {
-        //     return Optional.ofNullable(ImageIO.read(new File(path)));
-        // } catch (IOException e) {
-        //     logger.warning("Failed to load image");
-        //     e.printStackTrace();
-        //     return Optional.empty();
-        // }
-
         ClassLoader classLoader = ImageUtil.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(path);
         if (inputStream == null) {
             logger.warning("Failed to load texture: " + path);
-            return Optional.empty();
+            return loadImageFromFile(new File(path));
         }
         try {
             return Optional.ofNullable(ImageIO.read(inputStream));
         } catch (IOException e) {
             logger.warning("Failed to load texture(2)" + path);
+            return loadImageFromFile(new File(path));
+        }
+    }
+
+    /**
+     * Jarファイル外の画像を読み込む.
+     * 
+     * @param path 画像のパス
+     * @return 画像
+     */
+    private static Optional<BufferedImage> loadImageFromFile(File file) {
+        try {
+            return Optional.ofNullable(ImageIO.read(file));
+        } catch (IOException e) {
+            logger.warning("Failed to load texture(3)" + file);
             return Optional.empty();
         }
     }

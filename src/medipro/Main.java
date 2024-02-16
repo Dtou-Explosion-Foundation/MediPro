@@ -93,36 +93,36 @@ public class Main {
 	}
 
 	private static boolean extractLibrary() {
+
 		try {
-			if (new File("jogamp-fat.jar").exists())
-				return true;
-			// ClassLoader classLoader = Main.class.getClassLoader();
-			InputStream inputStream = Main.class.getResourceAsStream("/jogamp-fat.jar");
+			Class.forName("com.jogamp.opengl.GL");
+			return true;
+		} catch (ClassNotFoundException e) {
+		}
+		if (new File("jogamp-fat.jar").exists())
+			return true;
+		// ClassLoader classLoader = Main.class.getClassLoader();
+		InputStream inputStream = Main.class.getResourceAsStream("/jogamp-fat.jar");
 
-			if (inputStream != null) {
-				// File directory = new File("lib");
-				// if (!directory.exists())
-				// 	directory.mkdirs();
+		if (inputStream != null) {
+			try {
 				OutputStream outputStream = new FileOutputStream("jogamp-fat.jar");
-
 				byte[] buffer = new byte[1024];
 				int length;
 				while ((length = inputStream.read(buffer)) > 0) {
 					outputStream.write(buffer, 0, length);
 				}
-
-				// ストリームを閉じる
-				inputStream.close();
 				outputStream.close();
-
-				logger.info("正常にライブラリが展開されました。アプリを再実行してください。");
-			} else {
-				logger.warning("Failed to extract library. (inputStream is null)");
+				inputStream.close();
+			} catch (IOException e) {
+				logger.warning("ライブラリの展開に失敗しました。 (IOException)");
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			logger.warning("Failed to extract library. (IOException)");
-			e.printStackTrace();
+			logger.info("正常にライブラリが展開されました。アプリを再実行してください。");
+		} else {
+			logger.warning("ライブラリの展開に失敗しました。 (inputStream is null)");
 		}
+
 		return false;
 	}
 
