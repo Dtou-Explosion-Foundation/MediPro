@@ -24,16 +24,10 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
 
     @Override
     public void onAnomalyOccurred(int level) {
-        this.level = level = 1;
+        this.level = level;
         isAnomalyOccurred = true;
         switch (level) {
         case 0:
-            // change zoom level
-            // TODO: カメラのズームを変える異変の実装
-
-            break;
-
-        case 1:
             // 手ぶれ
             break;
 
@@ -47,11 +41,6 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
         isAnomalyOccurred = false;
         switch (level) {
         case 0:
-            // change zoom level
-
-            break;
-
-        case 1:
             // 手ぶれ
             break;
 
@@ -62,12 +51,12 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
 
     @Override
     public int minAnomalyLevel() {
-        return 1;
+        return 0;
     }
 
     @Override
     public int maxAnomalyLevel() {
-        return 1;
+        return 0;
     }
 
     private int occurredChance = 1;
@@ -95,7 +84,7 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
         if (!isAnomalyOccurred)
             return;
         switch (level) {
-        case 1:
+        case 0:
             timer += dt;
             if (timer < 0.2)
                 return;
