@@ -106,12 +106,10 @@ public class PlayWorld extends World {
             this.addViewAndController(view, controller, 50);
             {
                 PlayerMovementAnomaly playerMovementAnomaly = new PlayerMovementAnomaly(model);
-                // playerMovementAnomaly.setOccurredChance(1);
                 this.addControllers(playerMovementAnomaly);
             }
             {
                 PlayerIncreasedAnomaly playerIncreasedAnomaly = new PlayerIncreasedAnomaly(model);
-                // playerIncreasedAnomaly.setOccurredChance(1);
                 this.addControllers(playerIncreasedAnomaly);
             }
         }
@@ -152,7 +150,6 @@ public class PlayWorld extends World {
         }
         {
             WallModel model = new WallModel(this);
-            // model.setX(2 - 00);
             WallView view = new WallView(model);
             WallController controller = new WallController(model);
             this.addViewAndController(view, controller, 80);
@@ -184,12 +181,10 @@ public class PlayWorld extends World {
                     new String[] { "img/ornament/door/door-nomal.png", "img/ornament/door/door-human.png",
                             "img/ornament/door/door-open.png", "img/ornament/extinction.png" });
 
-            // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
             model.setScaleX(0.11);
             model.setScaleY(0.11);
             model.setX(-300);
             model.setY(15);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -219,14 +214,12 @@ public class PlayWorld extends World {
             model.setScaleY(1);
             model.setX(-100);
             model.setY(100);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
             this.addControllers(new TextureChangeAnomaly(model));
             {
                 ScaleChangeAnomaly scaleChangeAnomaly = new ScaleChangeAnomaly(model);
-                // scaleChangeAnomaly.setOccurredChance(1);
                 scaleChangeAnomaly.setScaleList(new ArrayList<Double>(List.of(0.6, 1.5, 2.0)));
                 this.addControllers(scaleChangeAnomaly);
             }
@@ -256,7 +249,6 @@ public class PlayWorld extends World {
             model.setScaleY(0.15);
             model.setX(-300);
             model.setY(100);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -270,7 +262,6 @@ public class PlayWorld extends World {
             model.setX(-300);
             model.setY(100);
             model.interval = 0.2;
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -285,7 +276,6 @@ public class PlayWorld extends World {
             model.setScaleY(1.5);
             model.setX(100);
             model.setY(120);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -302,7 +292,6 @@ public class PlayWorld extends World {
             model.deltaY = 0;
             model.timesX = 2;
             model.timesY = 0;
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -316,7 +305,6 @@ public class PlayWorld extends World {
             model.setX(100);
             model.setY(120);
             model.interval = 0.2;
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -361,7 +349,6 @@ public class PlayWorld extends World {
             model.setScaleY(2.2);
             model.setX(103);
             model.setY(20);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -374,7 +361,6 @@ public class PlayWorld extends World {
             model.setScaleY(2.2);
             model.setX(210);
             model.setY(20);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -389,7 +375,6 @@ public class PlayWorld extends World {
             model.setScaleY(2.2);
             model.setX(258);
             model.setY(20);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -402,7 +387,6 @@ public class PlayWorld extends World {
             model.setScaleY(2.2);
             model.setX(-150);
             model.setY(20);
-            // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -466,8 +450,6 @@ public class PlayWorld extends World {
             model.setFlipSpeed(40);
             model.setMinX(-300);
             model.setMaxX(300);
-            // model.setLockY(true);
-            // model.setY(50;
             model.originY = 70;
             model.originX = 15;
             model.setFollowingRateY(0.85);
