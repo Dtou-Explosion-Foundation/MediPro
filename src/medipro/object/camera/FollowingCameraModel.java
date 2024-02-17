@@ -56,10 +56,20 @@ public class FollowingCameraModel extends CameraModel {
      */
     private double followingRateY = 1.0;
 
+    /**
+     * カメラのY座標の追跡割合を取得する.
+     * 
+     * @return カメラのY座標の追跡割合
+     */
     public double getFollowingRateY() {
         return followingRateY;
     }
 
+    /**
+     * カメラのY座標の追跡割合を設定する.
+     * 
+     * @param followingRateY カメラのY座標の追跡割合
+     */
     public void setFollowingRateY(double followingRateY) {
         this.followingRateY = followingRateY;
     }

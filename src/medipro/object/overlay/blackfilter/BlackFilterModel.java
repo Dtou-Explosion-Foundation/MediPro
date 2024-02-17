@@ -94,16 +94,35 @@ public class BlackFilterModel extends GameObjectModel {
         return clampAlpha();
     }
 
+    /**
+     * ブラックフィルタの色.
+     */
     public enum BlackFilterColor {
-        BLACK, RED
+        /** 黒. */
+        BLACK,
+        /** 赤. */
+        RED
     }
 
+    /**
+     * ブラックフィルタの色.
+     */
     public BlackFilterColor color = BlackFilterColor.BLACK;
 
+    /**
+     * ブラックフィルタの色を設定する.
+     * 
+     * @param color ブラックフィルタの色
+     */
     public void setColor(BlackFilterColor color) {
         this.color = color;
     }
 
+    /**
+     * ブラックフィルタの色を取得する.
+     * 
+     * @return ブラックフィルタの色
+     */
     public Color getColor() {
         switch (color) {
         case BLACK:

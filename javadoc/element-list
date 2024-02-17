@@ -1,4 +1,5 @@
 medipro
+medipro.anomaly
 medipro.config
 medipro.gui.frame
 medipro.gui.panel
@@ -13,13 +14,13 @@ medipro.object.example.grid
 medipro.object.manager
 medipro.object.manager.gamemanager
 medipro.object.ornament
-medipro.object.ornament.glmarker
-medipro.object.ornament.marker
 medipro.object.ornament.texture
 medipro.object.overlay
 medipro.object.overlay.blackfilter
+medipro.object.overlay.floor
 medipro.object.overlay.fps
 medipro.object.overlay.vignette
+medipro.object.pause
 medipro.object.player
 medipro.object.stage
 medipro.object.stage.background
@@ -27,6 +28,8 @@ medipro.object.stage.ceil
 medipro.object.stage.floor
 medipro.object.stage.wall
 medipro.object.stairs
+medipro.result
 medipro.titlemenu
+medipro.titlemenu.titlebackground
 medipro.util
 medipro.world

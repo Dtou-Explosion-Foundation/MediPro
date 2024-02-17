@@ -16,7 +16,7 @@ public class PlayerView extends GameObjectView {
     /**
      * アニメーション用のスプライトの配列.
      */
-    private BufferedImage sprites[];
+    private BufferedImage[] sprites;
 
     /**
      * プレイヤービューを生成する.
@@ -41,10 +41,6 @@ public class PlayerView extends GameObjectView {
             logger.warning(e.toString());
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
 
     @Override
     public void draw(Graphics2D g) {

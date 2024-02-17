@@ -82,9 +82,6 @@ public class GamePanel extends JPanel {
         return deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

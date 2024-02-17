@@ -52,12 +52,17 @@ public class PlayerModel extends GameObjectModel {
     /**
      * スプライトのアニメーションの最大切り替え時間. changeSpriteTimerがこの値を超えたらスプライトを切り替える。
      */
-    final static float changeSpriteTime = 0.15f;
+    static final float CHANGE_SPRITE_TIME = 0.15f;
     /**
      * 向いている方向.
      */
     byte direction = 1;
 
+    /**
+     * 向いている方向を取得する.
+     * 
+     * @return 向いている方向
+     */
     public byte getDirection() {
         return direction;
     }
@@ -81,7 +86,8 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 次のフレームで右に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング. {@code direction}と{@code isWalking}を更新する.
+     * 次のフレームで右に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング.
+     * {@code direction}と{@code isWalking}を更新する.
      */
     public void moveRight() {
         direction = 1;
@@ -89,7 +95,8 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 次のフレームで左に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング. {@code direction}と{@code isWalking}を更新する.
+     * 次のフレームで左に移動する. 実際に移動処理が行われるのは{@code updateMovement()}のタイミング.
+     * {@code direction}と{@code isWalking}を更新する.
      */
     public void moveLeft() {
         direction = -1;
@@ -97,7 +104,7 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 1フレーム分、モデルを更新する。
+     * 1フレーム分、モデルを更新する.
      * 
      * @param dt 前フレームからの経過時間
      */
@@ -108,7 +115,9 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 1フレーム分、アニメーションを更新する。 {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える。 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる。
+     * 1フレーム分、アニメーションを更新する.
+     * {@code changeSpriteTimer}を更新し、{@code changeSpriteTime}を元にスプライトを切り替える.
+     * 速度が考慮され、{@code speedX}が{@code speedLimitX}に近いほど素早くスプライトが切り替わる.
      * 
      * @param dt 前フレームからの経過時間
      */
@@ -120,7 +129,7 @@ public class PlayerModel extends GameObjectModel {
         }
 
         changeSpriteTimer += dt;
-        if (changeSpriteTimer > changeSpriteTime / (Math.abs(this.speedX) / this.speedLimitX)) {
+        if (changeSpriteTimer > CHANGE_SPRITE_TIME / (Math.abs(this.speedX) / this.speedLimitX)) {
             if (++animationIndex >= animations.length)
                 animationIndex = 0;
             changeSpriteTimer = 0;
@@ -128,7 +137,8 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 1フレーム分、移動処理を行う。 スピードに加速度を加算し、位置を更新する。 また、スピードに抵抗を加算する。 さらに、スピードの上限を超えないようにする。
+     * 1フレーム分、移動処理を行う. スピードに加速度を加算し、位置を更新する. また、スピードに抵抗を加算する.
+     * さらに、スピードの上限を超えないようにする.
      * 
      * @param dt 前フレームからの経過時間
      */
@@ -160,14 +170,22 @@ public class PlayerModel extends GameObjectModel {
         this.addX(speedX * dt);
     }
 
+    /**
+     * ダミーを持っているかどうか.
+     */
     public boolean isDummies = false;
 
+    /**
+     * ダミーを持っているかどうかを取得する.
+     * 
+     * @return ダミーを持っているかどうか
+     */
     public boolean hasDummies() {
         return isDummies;
     }
 
     /**
-     * 自動移動処理を行う
+     * 自動移動処理を行う.
      * 
      * @param dt 前フレームからの経過時間
      * @return 自動移動処理が行われたかどうか
@@ -190,12 +208,12 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 自動移動処理のキュー
+     * 自動移動処理のキュー.
      */
     private Queue<AutoWalker> autoWalkerQueue = new LinkedBlockingQueue<>();
 
     /**
-     * 自動移動処理を追加する
+     * 自動移動処理を追加する.
      * 
      * @param autoWalker 自動移動処理
      */
@@ -206,7 +224,7 @@ public class PlayerModel extends GameObjectModel {
     }
 
     /**
-     * 自動移動処理が行われているか
+     * 自動移動処理が行われているか.
      * 
      * @return 自動移動処理が行われているか
      */

@@ -44,11 +44,23 @@ public class TextureAlternatingChangeAnomaly extends GameObjectController implem
         return 1;
     }
 
+    /**
+     * 発生確率.
+     */
+    private int occurredChance = 1;
+
+    /**
+     * 発生確率を設定する.
+     * 
+     * @param chance 発生確率
+     */
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
+    }
+
     @Override
     public int getOccurredChance() {
-        if (model instanceof TextureObjectModel)
-            return ((TextureObjectModel) model).getOccurredChance();
-        return 0;
+        return occurredChance;
     }
 
     private double timer = 0;

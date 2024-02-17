@@ -13,7 +13,7 @@ import medipro.util.ImageUtil;
  */
 public class TextureObjectView extends GameObjectView {
     /**
-     * テクスチャ
+     * テクスチャ.
      */
     private Image[] textures = null;
 
@@ -30,10 +30,9 @@ public class TextureObjectView extends GameObjectView {
             textures = new Image[texturePaths.length];
             for (int i = 0; i < texturePaths.length; i++) {
                 try {
-                    // textures[i] = ImageIO.read(new File(texturePaths[i]));
                     textures[i] = ImageUtil.loadImage(texturePaths[i]).get();
                 } catch (NoSuchElementException e) {
-                    // logger.warning("Failed to load texture: " + texturePaths[i]);
+                    // ImageUtil.loadImageで警告を出すので無視
                 }
             }
         }
@@ -45,9 +44,10 @@ public class TextureObjectView extends GameObjectView {
         int textureIndex = textureModel.getTextureIndex();
         if (textures != null && textureIndex >= 0 && textureIndex < textures.length) {
             if (textureModel.hasDummies()) {
-                for (int i = -model.timesX; i <= model.timesX; i++) {
-                    for (int j = -model.timesY; j <= model.timesY; j++) {
-                        g.drawImage(textures[textureIndex], (int) model.deltaX * i, (int) model.deltaY * j, null);
+                for (int i = -textureModel.timesX; i <= textureModel.timesX; i++) {
+                    for (int j = -textureModel.timesY; j <= textureModel.timesY; j++) {
+                        g.drawImage(textures[textureIndex], (int) textureModel.deltaX * i,
+                                (int) textureModel.deltaY * j, null);
                     }
                 }
             } else {

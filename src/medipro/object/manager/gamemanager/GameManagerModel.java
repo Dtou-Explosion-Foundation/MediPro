@@ -21,6 +21,10 @@ public class GameManagerModel extends GameObjectModel {
      * 現在の階層.
      */
     private static int floor = 0;
+
+    /**
+     * ゲームが一時停止中かどうか.
+     */
     private static int isPause = 1;
 
     /**
@@ -51,12 +55,14 @@ public class GameManagerModel extends GameObjectModel {
 
     /**
      * 次の階層に進む.
+     * 
+     * @param isRight 右側に移動するかどうか
      */
     public void nextFloor(boolean isRight) {
         GameManagerModel.floor++;
-        KeyListener[] allKeyListeners = this.world.getPanel().getKeyListeners();
+        KeyListener[] allKeyListeners = this.getWorld().getPanel().getKeyListeners();
         for (KeyListener keyListener : allKeyListeners) {
-            this.world.getPanel().removeKeyListener(keyListener);
+            this.getWorld().getPanel().removeKeyListener(keyListener);
         }
         setFloorChangingState(FloorChangingState.from(isRight, true));
         regenerateWorld();
@@ -64,35 +70,53 @@ public class GameManagerModel extends GameObjectModel {
 
     /**
      * 前の階層に戻る.
+     * 
+     * @param isRight 右側に移動するかどうか
      */
     public void prevFloor(boolean isRight) {
         GameManagerModel.floor++;
-        KeyListener[] allKeyListeners = this.world.getPanel().getKeyListeners();
+        KeyListener[] allKeyListeners = this.getWorld().getPanel().getKeyListeners();
         for (KeyListener keyListener : allKeyListeners) {
-            this.world.getPanel().removeKeyListener(keyListener);
+            this.getWorld().getPanel().removeKeyListener(keyListener);
         }
         setFloorChangingState(FloorChangingState.from(isRight, false));
         regenerateWorld();
     }
 
     private void regenerateWorld() {
-        World newWorld = new PlayWorld(this.world.getPanel());
-        GamePanel panel = this.world.getPanel();
+        World newWorld = new PlayWorld(this.getWorld().getPanel());
+        GamePanel panel = this.getWorld().getPanel();
         panel.setWorld(newWorld);
     }
 
+    /**
+     * ゲームが一時停止中かどうかを取得する.
+     * 
+     * @return ゲームが一時停止中かどうか
+     */
     public static boolean isPause() {
         return GameManagerModel.isPause == 0;
     }
 
+    /**
+     * ゲームが一時停止中かどうかを設定する.
+     * 
+     * @return ゲームが一時停止中かどうか
+     */
     public static int getPause() {
         return GameManagerModel.isPause;
     }
 
-    public static void Pause() {
+    /**
+     * ゲームを一時停止する.
+     */
+    public static void pause() {
         GameManagerModel.isPause = 0;
     }
 
+    /**
+     * ゲームを一時停止を解除する.
+     */
     public static void unPause() {
         GameManagerModel.isPause = 1;
     }
@@ -134,33 +158,81 @@ public class GameManagerModel extends GameObjectModel {
         logger.info("Floor: " + floor);
     }
 
+    /**
+     * フロア移動の状態.
+     */
     public enum FloorChangingState {
-        LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN;
+        /** 左から上に移動した. */
+        LEFT_UP,
+        /** 左から下に移動した. */
+        LEFT_DOWN,
+        /** 右から上に移動した. */
+        RIGHT_UP,
+        /** 右から下に移動した. */
+        RIGHT_DOWN;
 
+        /**
+         * 次のフロアで、左側にいるとき上に移動できるかどうか.
+         * 
+         * @return 上に移動できるかどうか
+         */
         public boolean isUpWhenOnLeft() {
             return this == LEFT_UP || this == RIGHT_DOWN;
         }
 
+        /**
+         * 次のフロアで、右側にいるとき上に移動できるかどうか.
+         * 
+         * @return 上に移動できるかどうか
+         */
         public boolean isUpWhenOnRight() {
             return this == RIGHT_UP || this == LEFT_DOWN;
         }
 
+        /**
+         * 次のフロアで上に移動できるかどうか.
+         * 
+         * @param onRight 右側にいるかどうか
+         * @return 上に移動できるかどうか
+         */
         public boolean isUpWhenOn(boolean onRight) {
             return onRight ? isUpWhenOnRight() : isUpWhenOnLeft();
         }
 
+        /**
+         * 上に移動したか.
+         * 
+         * @return 上に移動したか.
+         */
         public boolean isUp() {
             return this == LEFT_UP || this == RIGHT_UP;
         }
 
+        /**
+         * 右側から移動したか.
+         * 
+         * @return 右側から移動したか.
+         */
         public boolean isRight() {
             return this == RIGHT_DOWN || this == RIGHT_UP;
         }
 
+        /**
+         * Y軸を反転させた状態を取得する.
+         * 
+         * @return Y軸を反転させた状態
+         */
         public FloorChangingState reverseY() {
             return from(isRight(), !isUp());
         }
 
+        /**
+         * FloorChangingStateを取得する.
+         * 
+         * @param isRight 右側から移動したか
+         * @param isUp    上に移動したか
+         * @return FloorChangingState
+         */
         public static FloorChangingState from(boolean isRight, boolean isUp) {
             if (isRight) {
                 if (isUp)
@@ -203,6 +275,8 @@ public class GameManagerModel extends GameObjectModel {
 
     /**
      * 前の階に移動できるかどうか.
+     * 
+     * @return 移動できるかどうか
      */
     public static boolean canGoPrevFloor() {
         return floor > 0;

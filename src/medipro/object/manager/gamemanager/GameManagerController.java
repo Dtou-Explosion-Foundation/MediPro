@@ -29,6 +29,9 @@ public class GameManagerController extends GameObjectController {
         occurAnormaly();
     }
 
+    /**
+     * 乱数生成器.
+     */
     private static Random random = new Random();
 
     /**
@@ -47,7 +50,7 @@ public class GameManagerController extends GameObjectController {
         if (random.nextDouble() > InGameConfig.CHANCE_OF_ANOMALY)
             return;
 
-        List<AnomalyListener> listeners = Arrays.asList(this.model.world.getAnormalyListeners().stream()
+        List<AnomalyListener> listeners = Arrays.asList(this.model.getWorld().getAnormalyListeners().stream()
                 .filter(listener -> listener.canAnomalyOccurred()).toArray(AnomalyListener[]::new));
         int occuredChanceSum = listeners.stream().map(listener -> listener.getOccurredChance()).reduce(0,
                 (a, b) -> a + b);
@@ -90,11 +93,13 @@ public class GameManagerController extends GameObjectController {
 
     /**
      * 次の階に移動する.
+     * 
+     * @param isRight 右側から上るかどうか
      */
     public void nextFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (gameManagerModel.isAnomalyListenerOccured()) {
-            GamePanel gamePanel = this.model.world.getPanel();
+            GamePanel gamePanel = this.model.getWorld().getPanel();
             gamePanel.setWorld(new ResultWorld(gamePanel));
         } else {
             gameManagerModel.nextFloor(isRight);
@@ -105,11 +110,13 @@ public class GameManagerController extends GameObjectController {
 
     /**
      * 前の階に移動する.
+     * 
+     * @param isRight 右側から上るかどうか
      */
     public void prevFloor(boolean isRight) {
         GameManagerModel gameManagerModel = (GameManagerModel) model;
         if (!gameManagerModel.isAnomalyListenerOccured()) {
-            GamePanel gamePanel = this.model.world.getPanel();
+            GamePanel gamePanel = this.model.getWorld().getPanel();
             gamePanel.setWorld(new ResultWorld(gamePanel));
         } else {
             gameManagerModel.prevFloor(isRight);
@@ -120,6 +127,8 @@ public class GameManagerController extends GameObjectController {
 
     /**
      * 前の階に移動できるかどうか.
+     * 
+     * @return 移動できるかどうか
      */
     public static boolean canGoPrevFloor() {
         return GameManagerModel.canGoPrevFloor();

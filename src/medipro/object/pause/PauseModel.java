@@ -3,11 +3,11 @@ package medipro.object.pause;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 
-public class PauseModel extends GameObjectModel{
+public class PauseModel extends GameObjectModel {
     private String[] pauseMenuItems = { "再開", "やり直す", "ゲームをやめる" };
     private int selectedItem = 0;
 
-    public PauseModel(World world){
+    public PauseModel(World world) {
         super(world);
         logger.info("pause game");
     }
@@ -24,7 +24,7 @@ public class PauseModel extends GameObjectModel{
         return selectedItem;
     }
 
-    public void setSelectedItem(int n){
+    public void setSelectedItem(int n) {
         selectedItem = n;
     }
 

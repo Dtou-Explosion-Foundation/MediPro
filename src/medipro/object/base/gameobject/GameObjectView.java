@@ -21,7 +21,7 @@ public abstract class GameObjectView {
     public GameObjectModel model;
 
     /**
-     * ゲームオブジェクトビューを生成する。
+     * ゲームオブジェクトビューを生成する.
      * 
      * @param model 対象のモデル
      */
@@ -30,7 +30,7 @@ public abstract class GameObjectView {
     }
 
     /**
-     * 格納しているモデルに対してそれぞれdraw()を呼び出す。
+     * 格納しているモデルに対してそれぞれdraw()を呼び出す.
      * 
      * @param g               描画対象のGraphics2D
      * @param cameraTransform カメラ座標へ変換するためのアフィン変換行列
@@ -42,7 +42,7 @@ public abstract class GameObjectView {
     }
 
     /**
-     * モデルを元に描画を行う
+     * モデルを元に描画を行う.
      * 
      * @param g 描画対象のGraphics2D
      */
@@ -54,7 +54,9 @@ public abstract class GameObjectView {
      * @return スプライトの幅
      */
     protected float getSpriteWidth() {
-        float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().getScale() : 1f;
+        float cameraScale = this.model.getWorld().getCamera().isPresent()
+                ? (float) this.model.getWorld().getCamera().get().getScale()
+                : 1f;
         return InGameConfig.WINDOW_WIDTH_BASE / cameraScale;
     }
 
@@ -64,7 +66,9 @@ public abstract class GameObjectView {
      * @return スプライトの高さ
      */
     protected float getSpriteHeight() {
-        float cameraScale = this.model.world.camera.isPresent() ? (float) this.model.world.camera.get().getScale() : 1f;
+        float cameraScale = this.model.getWorld().getCamera().isPresent()
+                ? (float) this.model.getWorld().getCamera().get().getScale()
+                : 1f;
         return InGameConfig.WINDOW_HEIGHT_BASE / cameraScale;
     }
 

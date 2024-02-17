@@ -16,10 +16,15 @@ import javax.imageio.ImageIO;
  * 画像を扱うユーティリティクラス.
  */
 public class ImageUtil {
+    protected ImageUtil() {
+        // このクラスはインスタンス化しない
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * ロガー.
      */
-    protected final static Logger logger = Logger.getLogger(ImageUtil.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(ImageUtil.class.getName());
 
     /**
      * 画像を読み込む.
@@ -31,13 +36,13 @@ public class ImageUtil {
         ClassLoader classLoader = ImageUtil.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(path);
         if (inputStream == null) {
-            logger.warning("Failed to load texture: " + path);
+            LOGGER.warning("Failed to load texture: " + path);
             return loadImageFromFile(new File(path));
         }
         try {
             return Optional.ofNullable(ImageIO.read(inputStream));
         } catch (IOException e) {
-            logger.warning("Failed to load texture(2)" + path);
+            LOGGER.warning("Failed to load texture(2)" + path);
             return loadImageFromFile(new File(path));
         }
     }
@@ -45,23 +50,23 @@ public class ImageUtil {
     /**
      * Jarファイル外の画像を読み込む.
      * 
-     * @param path 画像のパス
+     * @param file 画像ファイル
      * @return 画像
      */
     private static Optional<BufferedImage> loadImageFromFile(File file) {
         try {
             return Optional.ofNullable(ImageIO.read(file));
         } catch (IOException e) {
-            logger.warning("Failed to load texture(3)" + file);
+            LOGGER.warning("Failed to load texture(3)" + file);
             return Optional.empty();
         }
     }
 
     /**
-     * 画像を読み込む.
+     * 画像をY軸反転する.
      * 
-     * @param path 画像のパス
-     * @return 画像
+     * @param image 入力画像
+     * @return 出力画像
      */
     public static BufferedImage invertX(BufferedImage image) {
         if (image == null)

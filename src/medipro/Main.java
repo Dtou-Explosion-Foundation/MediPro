@@ -28,175 +28,182 @@ import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
 
 /**
- * メインクラス ログの設定とゲームウィンドウの生成を行う。
+ * メインクラス ログの設定とゲームウィンドウの生成を行う.
  */
 public class Main {
-	/**
-	 * ロガー
-	 */
-	protected static final Logger logger = Logger.getLogger("medipro");
+    protected Main() {
+        // インスタンス化を禁止
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * メインメソッド
-	 * 
-	 * @param args コマンドライン引数
-	 */
-	public static void main(String[] args) {
-		setupLogger();
-		System.setProperty("sun.java2d.uiScale", "1");
-		logger.info("Start game");
-		JFrame window = new GameFrame("GameWindow", InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
-		window.setVisible(true);
-	}
+    /**
+     * ロガー.
+     */
+    protected static final Logger LOGGER = Logger.getLogger("medipro");
 
-	/**
-	 * ログの設定。 出力先としてコンソールとファイルを設定する。
-	 */
-	private static void setupLogger() {
-		LogManager.getLogManager().reset();
-		Logger root = Logger.getLogger("medipro");
-		Formatter formatter = new LogFormatter();
-		// Formatter formatter = new SimpleFormatter();
-		// デフォルトのハンドラを削除
-		root.setUseParentHandlers(false);
-		for (Handler h : root.getHandlers()) {
-			if (h instanceof ConsoleHandler) {
-				root.removeHandler(h);
-			}
-		}
-		try {
-			// ログを保存するフォルダを作成
-			File logFolder = new File("log");
-			logFolder.mkdir();
+    /**
+     * メインメソッド.
+     * 
+     * @param args コマンドライン引数
+     */
+    public static void main(String[] args) {
+        setupLogger();
+        System.setProperty("sun.java2d.uiScale", "1");
+        LOGGER.info("Start game");
+        JFrame window = new GameFrame("GameWindow", InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
+        window.setVisible(true);
+    }
 
-			// ファイルへの出力を設定
-			Handler rootFileHandler = new FileHandler(logFolder.toString() + "/"
-					+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
-			rootFileHandler.setFormatter(formatter);
-			rootFileHandler.setLevel(Level.ALL);
-			root.addHandler(rootFileHandler);
-		} catch (SecurityException | IOException e) {
-			System.err.println("Error on creating log file");
-			e.printStackTrace();
-		}
-		// コンソールへの出力を設定
-		Handler rootConsoleHandler = new ConsoleHandler();
-		rootConsoleHandler.setFormatter(new LogFormatter());
-		rootConsoleHandler.setLevel(Level.FINEST);
-		root.addHandler(rootConsoleHandler);
-		root.setLevel(Level.ALL);
+    /**
+     * ログの設定. 出力先としてコンソールとファイルを設定する.
+     */
+    private static void setupLogger() {
+        LogManager.getLogManager().reset();
+        Logger root = Logger.getLogger("medipro");
+        Formatter formatter = new LogFormatter();
+        // Formatter formatter = new SimpleFormatter();
+        // デフォルトのハンドラを削除
+        root.setUseParentHandlers(false);
+        for (Handler h : root.getHandlers()) {
+            if (h instanceof ConsoleHandler) {
+                root.removeHandler(h);
+            }
+        }
+        try {
+            // ログを保存するフォルダを作成
+            File logFolder = new File("log");
+            logFolder.mkdir();
 
-	}
+            // ファイルへの出力を設定
+            Handler rootFileHandler = new FileHandler(logFolder.toString() + "/"
+                    + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss")) + ".log");
+            rootFileHandler.setFormatter(formatter);
+            rootFileHandler.setLevel(Level.ALL);
+            root.addHandler(rootFileHandler);
+        } catch (SecurityException | IOException e) {
+            System.err.println("Error on creating log file");
+            e.printStackTrace();
+        }
+        // コンソールへの出力を設定
+        Handler rootConsoleHandler = new ConsoleHandler();
+        rootConsoleHandler.setFormatter(new LogFormatter());
+        rootConsoleHandler.setLevel(Level.FINEST);
+        root.addHandler(rootConsoleHandler);
+        root.setLevel(Level.ALL);
+
+    }
 }
 
 /**
- * ログのフォーマットを行うクラス。 こちらより引用 https://blog1.mammb.com/entry/2017/02/24/070608
+ * ログのフォーマットを行うクラス. こちらより引用 https://blog1.mammb.com/entry/2017/02/24/070608.
  */
 class LogFormatter extends Formatter {
+    /** 日時のフォーマッター. */
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
+    /** ログレベルの対応表. */
+    private static final Map<Level, String> LEVEL_MSG_MAP = Collections.unmodifiableMap(new HashMap<Level, String>() {
+        {
+            put(Level.SEVERE, "SEVERE");
+            put(Level.WARNING, "WARN");
+            put(Level.INFO, "INFO");
+            put(Level.CONFIG, "CONF");
+            put(Level.FINE, "FINE");
+            put(Level.FINER, "FINE");
+            put(Level.FINEST, "FINE");
+        }
+    });
 
-	private static final Map<Level, String> levelMsgMap = Collections.unmodifiableMap(new HashMap<Level, String>() {
-		{
-			put(Level.SEVERE, "SEVERE");
-			put(Level.WARNING, "WARN");
-			put(Level.INFO, "INFO");
-			put(Level.CONFIG, "CONF");
-			put(Level.FINE, "FINE");
-			put(Level.FINER, "FINE");
-			put(Level.FINEST, "FINE");
-		}
-	});
+    /** クラス名の長さ. */
+    private AtomicInteger nameColumnWidth = new AtomicInteger(16);
 
-	private AtomicInteger nameColumnWidth = new AtomicInteger(16);
+    public static void applyToRoot() {
+        applyToRoot(new ConsoleHandler());
+    }
 
-	public static void applyToRoot() {
-		applyToRoot(new ConsoleHandler());
-	}
+    public static void applyToRoot(Handler handler) {
+        handler.setFormatter(new LogFormatter());
+        Logger root = Logger.getLogger("");
+        root.setUseParentHandlers(false);
+        for (Handler h : root.getHandlers()) {
+            if (h instanceof ConsoleHandler)
+                root.removeHandler(h);
+        }
+        root.addHandler(handler);
+    }
 
-	public static void applyToRoot(Handler handler) {
-		handler.setFormatter(new LogFormatter());
-		Logger root = Logger.getLogger("");
-		root.setUseParentHandlers(false);
-		for (Handler h : root.getHandlers()) {
-			if (h instanceof ConsoleHandler)
-				root.removeHandler(h);
-		}
-		root.addHandler(handler);
-	}
+    @Override
+    public String format(LogRecord record) {
 
-	@Override
-	public String format(LogRecord record) {
+        StringBuilder sb = new StringBuilder(200);
 
-		StringBuilder sb = new StringBuilder(200);
+        Instant instant = Instant.ofEpochMilli(record.getMillis());
+        LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        sb.append(FORMATTER.format(ldt));
+        sb.append(" ");
 
-		Instant instant = Instant.ofEpochMilli(record.getMillis());
-		LocalDateTime ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-		sb.append(formatter.format(ldt));
-		sb.append(" ");
+        sb.append(LEVEL_MSG_MAP.get(record.getLevel()));
+        sb.append(" ");
 
-		sb.append(levelMsgMap.get(record.getLevel()));
-		sb.append(" ");
+        String category;
+        if (record.getSourceClassName() != null) {
+            category = record.getSourceClassName();
+            if (record.getSourceMethodName() != null) {
+                category += " " + record.getSourceMethodName();
+            }
+        } else {
+            category = record.getLoggerName();
+        }
+        int width = nameColumnWidth.intValue();
+        category = adjustLength(category, width);
+        sb.append("[");
+        sb.append(category);
+        sb.append("] ");
 
-		String category;
-		if (record.getSourceClassName() != null) {
-			category = record.getSourceClassName();
-			if (record.getSourceMethodName() != null) {
-				category += " " + record.getSourceMethodName();
-			}
-		} else {
-			category = record.getLoggerName();
-		}
-		int width = nameColumnWidth.intValue();
-		category = adjustLength(category, width);
-		sb.append("[");
-		sb.append(category);
-		sb.append("] ");
+        if (category.length() > width) {
+            // grow in length.
+            nameColumnWidth.compareAndSet(width, category.length());
+        }
 
-		if (category.length() > width) {
-			// grow in length.
-			nameColumnWidth.compareAndSet(width, category.length());
-		}
+        sb.append(formatMessage(record));
 
-		sb.append(formatMessage(record));
+        sb.append(System.lineSeparator());
+        if (record.getThrown() != null) {
+            try {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                record.getThrown().printStackTrace(pw);
+                pw.close();
+                sb.append(sw.toString());
+            } catch (Exception ex) {
+                System.err.println("Error on formatting log message");
+            }
+        }
 
-		sb.append(System.lineSeparator());
-		if (record.getThrown() != null) {
-			try {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				record.getThrown().printStackTrace(pw);
-				pw.close();
-				sb.append(sw.toString());
-			} catch (Exception ex) {
-				System.err.println("Error on formatting log message");
-			}
-		}
+        return sb.toString();
+    }
 
-		return sb.toString();
-	}
+    static String adjustLength(String packageName, int aimLength) {
 
-	static String adjustLength(String packageName, int aimLength) {
+        int overflowWidth = packageName.length() - aimLength;
 
-		int overflowWidth = packageName.length() - aimLength;
+        String[] fragment = packageName.split(Pattern.quote("."));
+        for (int i = 0; i < fragment.length - 1; i++) {
+            if (fragment[i].length() > 1 && overflowWidth > 0) {
 
-		String[] fragment = packageName.split(Pattern.quote("."));
-		for (int i = 0; i < fragment.length - 1; i++) {
-			if (fragment[i].length() > 1 && overflowWidth > 0) {
+                int cutting = (fragment[i].length() - 1) - overflowWidth;
+                cutting = (cutting < 0) ? (fragment[i].length() - 1) : overflowWidth;
 
-				int cutting = (fragment[i].length() - 1) - overflowWidth;
-				cutting = (cutting < 0) ? (fragment[i].length() - 1) : overflowWidth;
+                fragment[i] = fragment[i].substring(0, fragment[i].length() - cutting);
+                overflowWidth -= cutting;
+            }
+        }
 
-				fragment[i] = fragment[i].substring(0, fragment[i].length() - cutting);
-				overflowWidth -= cutting;
-			}
-		}
+        String result = String.join(".", fragment);
+        while (result.length() < aimLength) {
+            result += " ";
+        }
 
-		String result = String.join(".", fragment);
-		while (result.length() < aimLength) {
-			result += " ";
-		}
-
-		return result;
-	}
+        return result;
+    }
 }

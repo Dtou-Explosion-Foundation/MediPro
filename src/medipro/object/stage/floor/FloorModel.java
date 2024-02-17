@@ -2,7 +2,6 @@ package medipro.object.stage.floor;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Optional;
 
 import medipro.object.base.World;
@@ -14,7 +13,7 @@ import medipro.util.ImageUtil;
  */
 public class FloorModel extends GridObjectModel {
     /**
-     * テクスチャ
+     * テクスチャ.
      */
     private Optional<Image> texture = Optional.empty();
 
@@ -50,7 +49,6 @@ public class FloorModel extends GridObjectModel {
      * 
      * @param world ワールド
      * @param path  テクスチャのパス
-     * @throws IOException テクスチャをロードできなかった時のエラー
      */
     public FloorModel(World world, String path) {
         this(world, ImageUtil.loadImage(path));
@@ -74,7 +72,6 @@ public class FloorModel extends GridObjectModel {
      * 床のモデルを生成する.
      * 
      * @param world ワールド
-     * @throws IOException テクスチャをロードできなかった時のエラー
      */
     public FloorModel(World world) {
         this(world, "img/layers/medipro_0004_Floor.png");

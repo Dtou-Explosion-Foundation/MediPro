@@ -20,7 +20,7 @@ import medipro.titlemenu.titlebackground.TitleBackgroundView;
  */
 public class TitleMenuWorld extends World {
     /**
-     * タイトルメニューのワールドを生成する.
+     * TitleMenuWorldを生成する.
      * 
      * @param panel ワールドを表示するパネル
      */
@@ -35,7 +35,7 @@ public class TitleMenuWorld extends World {
             CameraView view = new CameraView(model);
             CameraController controller = new CameraController(model);
             this.addViewAndController(view, controller);
-            this.camera = Optional.of(model);
+            this.setCamera(Optional.of(model));
         }
         {
             TitleMenuModel model = new TitleMenuModel(this);

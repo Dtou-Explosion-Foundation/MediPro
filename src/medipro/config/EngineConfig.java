@@ -4,6 +4,11 @@ package medipro.config;
  * エンジンの設定を保存するクラス.動作時には変更されない.
  */
 public class EngineConfig {
+    protected EngineConfig() {
+        // インスタンス化を防ぐためのコンストラクタ
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * レイヤーの数.
      */

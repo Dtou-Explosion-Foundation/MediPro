@@ -17,7 +17,15 @@ import medipro.result.ResultController;
 import medipro.result.ResultModel;
 import medipro.result.ResultView;
 
+/**
+ * リザルト画面のワールド.
+ */
 public class ResultWorld extends World {
+    /**
+     * ResultWorldを生成する.
+     * 
+     * @param panel ワールドを表示するパネル
+     */
     public ResultWorld(GamePanel panel) {
         super(panel);
     }
@@ -29,7 +37,7 @@ public class ResultWorld extends World {
             CameraView view = new CameraView(model);
             CameraController controller = new CameraController(model);
             this.addViewAndController(view, controller);
-            this.camera = Optional.of(model);
+            this.setCamera(Optional.of(model));
         }
         {
             BlackFilterModel model = new BlackFilterModel(this);

@@ -18,7 +18,7 @@ public class ResultController extends GameObjectController implements KeyListene
     @Override
     public void keyPressed(KeyEvent e) {
         ResultModel resultModel = (ResultModel) model;
-        GamePanel gamePanel = resultModel.world.getPanel();
+        GamePanel gamePanel = resultModel.getWorld().getPanel();
         switch (e.getKeyCode()) {
         case KeyEvent.VK_LEFT:
         case KeyEvent.VK_A:
@@ -62,6 +62,6 @@ public class ResultController extends GameObjectController implements KeyListene
 
     @Override
     public void dispose() {
-        this.model.world.getPanel().removeKeyListener(this);
+        this.model.getWorld().getPanel().removeKeyListener(this);
     }
 }

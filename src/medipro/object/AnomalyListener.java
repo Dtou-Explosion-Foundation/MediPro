@@ -1,46 +1,46 @@
 package medipro.object;
 
 /**
- * 異常の内容を提供し、異常発生の通知を受け取ることができる。
+ * 異常の内容を提供し、異常発生の通知を受け取ることができる.
  */
 public interface AnomalyListener {
     /**
-     * 異常が発生できるかどうかを返す。
+     * 異常が発生できるかどうかを返す.
      * 
      * @return 異常が発生できるかどうか
      */
-    public boolean canAnomalyOccurred();
+    boolean canAnomalyOccurred();
 
     /**
-     * 異常が発生したときに呼び出される。
+     * 異常が発生したときに呼び出される.
      * 
      * @param level 異常のレベル
      */
-    public void onAnomalyOccurred(int level);
+    void onAnomalyOccurred(int level);
 
     /**
-     * 異常が終了したときに呼び出される。
+     * 異常が終了したときに呼び出される.
      */
-    public void onAnomalyFinished();
+    void onAnomalyFinished();
 
     /**
-     * 異常の最小レベルを返す。
+     * 異常の最小レベルを返す.
      * 
      * @return 異常の最小レベル
      */
-    public int minAnomalyLevel();
+    int minAnomalyLevel();
 
     /**
-     * 異常の最大レベルを返す。
+     * 異常の最大レベルを返す.
      * 
      * @return 異常の最大レベル
      */
-    public int maxAnomalyLevel();
+    int maxAnomalyLevel();
 
     /**
-     * 異常が発生する確率を返す。
+     * 異常が発生する確率を返す.
      * 
      * @return 異常が発生する確率
      */
-    public int getOccurredChance();
+    int getOccurredChance();
 }

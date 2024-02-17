@@ -18,12 +18,12 @@ public class PauseController extends GameObjectController implements KeyListener
     @Override
     public void keyPressed(KeyEvent e) {
         PauseModel pauseModel = (PauseModel) model;
-        GamePanel gamePanel = pauseModel.world.getPanel();
+        GamePanel gamePanel = pauseModel.getWorld().getPanel();
         if (!GameManagerModel.isPause()) {
             switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
                 logger.info("paused");
-                GameManagerModel.Pause();
+                GameManagerModel.pause();
             }
         } else if (GameManagerModel.isPause()) {
             switch (e.getKeyCode()) {
@@ -79,6 +79,6 @@ public class PauseController extends GameObjectController implements KeyListener
 
     @Override
     public void dispose() {
-        this.model.world.getPanel().removeKeyListener(this);
+        this.model.getWorld().getPanel().removeKeyListener(this);
     }
 }

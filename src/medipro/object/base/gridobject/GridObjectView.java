@@ -33,11 +33,11 @@ public abstract class GridObjectView extends GameObjectView {
      */
     @Override
     public void draw(Graphics2D g) {
-        g.setTransform(model.world.getCameraTransform());
+        g.setTransform(model.getWorld().getCameraTransform());
         GridObjectModel gridModel = (GridObjectModel) model;
         Rectangle2D.Double bounds;
-        if (model.world.camera.isPresent()) {
-            CameraModel cameraModel = model.world.camera.get();
+        if (model.getWorld().getCamera().isPresent()) {
+            CameraModel cameraModel = model.getWorld().getCamera().get();
             Point2D.Double[] points;
             try {
                 points = cameraModel.getVisibleArea();
@@ -51,8 +51,8 @@ public abstract class GridObjectView extends GameObjectView {
         }
 
         // 1グリッドのサイズを計算
-        int gridWidth = (int) (gridModel.width * gridModel.getScaleX());
-        int gridHeight = (int) (gridModel.height * gridModel.getScaleY());
+        int gridWidth = (int) (gridModel.getWidth() * gridModel.getScaleX());
+        int gridHeight = (int) (gridModel.getHeight() * gridModel.getScaleY());
 
         // グリッドの原点(最左上)を計算
         int originX = (int) (bounds.x / gridWidth) * gridWidth + (int) (model.getX() % gridWidth) - gridWidth / 2;

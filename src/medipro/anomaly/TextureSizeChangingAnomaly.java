@@ -44,11 +44,23 @@ public class TextureSizeChangingAnomaly extends GameObjectController implements 
         return 1;
     }
 
+    /**
+     * 発生確率.
+     */
+    private int occurredChance = 1;
+
+    /**
+     * 発生確率を設定する.
+     * 
+     * @param chance 発生確率
+     */
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
+    }
+
     @Override
     public int getOccurredChance() {
-        if (model instanceof TextureObjectModel)
-            return ((TextureObjectModel) model).getOccurredChance();
-        return 0;
+        return occurredChance;
     }
 
     private double timer = 0;
@@ -65,11 +77,11 @@ public class TextureSizeChangingAnomaly extends GameObjectController implements 
 
         if (model instanceof TextureObjectModel) {
             if (model.getScaleX() < 50) {
-                textureObjectModel.setDeltaX(model.deltaX += model.delta2X);
+                textureObjectModel.setDeltaX(textureObjectModel.deltaX += textureObjectModel.delta2X);
                 model.addScaleX(textureObjectModel.getDeltaX());
             }
             if (model.getScaleY() < 50) {
-                textureObjectModel.setDeltaY(model.deltaY += model.delta2Y);
+                textureObjectModel.setDeltaY(textureObjectModel.deltaY += textureObjectModel.delta2Y);
                 model.addScaleY(textureObjectModel.getDeltaY());
             }
             ((TextureObjectModel) model).setTextureIndex(1);

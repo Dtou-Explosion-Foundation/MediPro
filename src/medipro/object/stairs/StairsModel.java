@@ -107,10 +107,20 @@ public class StairsModel extends GameObjectModel {
         super(world);
     }
 
+    /**
+     * 前の階層に戻れるかどうかを取得する.
+     * 
+     * @return 前の階層に戻れるかどうか
+     */
     public boolean canGoPrevFloor() {
         return GameManagerController.canGoPrevFloor() || isGoingUp();
     }
 
+    /**
+     * 階段が上向きかどうかを取得する.
+     * 
+     * @return 階段が上向きかどうか
+     */
     public boolean isGoingUp() {
         return GameManagerModel.getFloorChangingState().reverseY().isUpWhenOn(this.isRight());
     }

@@ -49,7 +49,7 @@ public class CameraModel extends GameObjectModel {
      * 
      * @param scale カメラのズーム倍率
      */
-    public void setScale(double scale) {
+    public void setRawScale(double scale) {
         this.scale = scale;
     }
 
@@ -59,7 +59,7 @@ public class CameraModel extends GameObjectModel {
      * @return スクリーン倍率
      */
     private double getScreenScaleFactor() {
-        return this.world.panel.getFrame().getScreenScaleFactor();
+        return this.getWorld().getPanel().getFrame().getScreenScaleFactor();
     }
 
     /**

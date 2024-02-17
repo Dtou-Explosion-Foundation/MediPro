@@ -25,7 +25,7 @@ public class TitleMenuController extends GameObjectController implements KeyList
     @Override
     public void keyPressed(KeyEvent e) {
         TitleMenuModel titleMenuModel = (TitleMenuModel) model;
-        GamePanel gamePanel = titleMenuModel.world.getPanel();
+        GamePanel gamePanel = titleMenuModel.getWorld().getPanel();
 
         switch (e.getKeyCode()) {
         case KeyEvent.VK_UP:
@@ -70,6 +70,6 @@ public class TitleMenuController extends GameObjectController implements KeyList
 
     @Override
     public void dispose() {
-        this.model.world.getPanel().removeKeyListener(this);
+        this.model.getWorld().getPanel().removeKeyListener(this);
     }
 }

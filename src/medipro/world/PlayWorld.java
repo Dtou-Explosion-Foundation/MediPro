@@ -60,12 +60,12 @@ import medipro.object.stairs.StairsModel;
 import medipro.object.stairs.StairsView;
 
 /**
- * プレイワールド.
+ * プレイワールド.ゲームをプレイするためのワールド.
  */
 public class PlayWorld extends World {
 
     /**
-     * プレイワールドを生成する.
+     * PlayWorldを生成する.
      * 
      * @param panel ワールドを表示するパネル
      */
@@ -461,7 +461,7 @@ public class PlayWorld extends World {
         }
         {
             SmoothFollowingCameraModel model = new SmoothFollowingCameraModel(this, cameraTarget);
-            model.setScale(2);
+            model.setRawScale(2);
             model.followingSpeed = 4.0;
             model.setFlipSpeed(40);
             model.setMinX(-300);
@@ -480,7 +480,7 @@ public class PlayWorld extends World {
                 cameraAnomaly.setOccurredChance(1);
                 this.addControllers(cameraAnomaly);
             }
-            this.camera = Optional.of(model);
+            this.setCamera(Optional.of(model));
         }
         {
             BlackFilterModel model = new BlackFilterModel(this);

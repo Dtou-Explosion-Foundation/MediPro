@@ -61,7 +61,12 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
      * 軸.
      */
     public enum Axis {
-        X, Y, BOTH
+        /** X軸. */
+        X,
+        /** Y軸. */
+        Y,
+        /** 両方. */
+        BOTH
     }
 
     /**
@@ -116,12 +121,12 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
     private int occurredChance = 1;
 
     /**
-     * 発生確率を取得する.
+     * 発生確率を設定する.
      * 
-     * @return 発生確率
+     * @param chance 発生確率
      */
-    public void setOccurredChance(int occurredChance) {
-        this.occurredChance = occurredChance;
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
     }
 
     @Override

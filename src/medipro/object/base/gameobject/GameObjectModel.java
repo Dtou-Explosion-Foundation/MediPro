@@ -16,7 +16,25 @@ public abstract class GameObjectModel {
     /**
      * ゲームオブジェクトが存在するワールド.
      */
-    public World world;
+    private World world;
+
+    /**
+     * ワールドを取得する.
+     * 
+     * @return ワールド
+     */
+    public World getWorld() {
+        return world;
+    }
+
+    /**
+     * ワールドを設定する.
+     * 
+     * @param world ワールド
+     */
+    public void setWorld(World world) {
+        this.world = world;
+    }
 
     /**
      * オブジェクトのx座標.
@@ -187,16 +205,6 @@ public abstract class GameObjectModel {
         this.scaleY *= scaleY;
     }
 
-    public double interval;
-
-    public double deltaX;
-    public double deltaY;
-    public double delta2X;
-    public double delta2Y;
-
-    public int timesX;
-    public int timesY;
-
     /**
      * ゲームオブジェクトのモデルを生成する.
      * 
@@ -213,19 +221,10 @@ public abstract class GameObjectModel {
         this.scaleX = 1;
         this.scaleY = 1;
 
-        this.interval = 1;
-
-        this.deltaX = 0;
-        this.deltaY = 0;
-        this.delta2X = 0;
-        this.delta2Y = 0;
-
-        this.timesX = 0;
-        this.timesY = 0;
     }
 
     /**
-     * グローバル座標からローカル座標に変換するアフィン変換行列を取得する
+     * グローバル座標からローカル座標に変換するアフィン変換行列を取得する.
      * 
      * @return AffineTransform
      */

@@ -4,6 +4,10 @@ package medipro.config;
  * ゲームの設定を保存するクラス.動作中に変更される可能性がある（ようにするかもしれない）.
  */
 public final class InGameConfig {
+    protected InGameConfig() {
+        // インスタンス化を防ぐためのコンストラクタ
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * ウィンドウの幅の既定値.

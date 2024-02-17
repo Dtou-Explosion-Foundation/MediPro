@@ -22,7 +22,7 @@ public class StairsView extends GameObjectView {
     /**
      * 矢印のテクスチャ.
      */
-    private BufferedImage[] arrow_textures = null;
+    private BufferedImage[] arrowTextures = null;
 
     /**
      * 階段のビューを生成する.
@@ -40,12 +40,12 @@ public class StairsView extends GameObjectView {
             textures[1] = op.filter(textures[0], null);
         }
 
-        arrow_textures = new BufferedImage[5];
-        arrow_textures[0] = ImageUtil.loadImage("img/arrow/Arrow_RightUp.png").orElse(null);
-        arrow_textures[1] = ImageUtil.loadImage("img/arrow/Arrow_RightDown.png").orElse(null);
-        arrow_textures[2] = ImageUtil.invertX(arrow_textures[0]);
-        arrow_textures[3] = ImageUtil.invertX(arrow_textures[1]);
-        arrow_textures[4] = ImageUtil.loadImage("img/arrow/Arrow_RightStraight.png").orElse(null);
+        arrowTextures = new BufferedImage[5];
+        arrowTextures[0] = ImageUtil.loadImage("img/arrow/Arrow_RightUp.png").orElse(null);
+        arrowTextures[1] = ImageUtil.loadImage("img/arrow/Arrow_RightDown.png").orElse(null);
+        arrowTextures[2] = ImageUtil.invertX(arrowTextures[0]);
+        arrowTextures[3] = ImageUtil.invertX(arrowTextures[1]);
+        arrowTextures[4] = ImageUtil.loadImage("img/arrow/Arrow_RightStraight.png").orElse(null);
 
         StairsModel stairsModel = (StairsModel) model;
         stairsModel.setWidth(getSpriteWidth());
@@ -66,13 +66,13 @@ public class StairsView extends GameObjectView {
     protected void draw(Graphics2D g) {
         StairsModel stairsModel = (StairsModel) model;
         if (textures != null) {
-            int arrow_index = 4;
+            int arrowIndex = 4;
             if (stairsModel.canGoPrevFloor()) {
                 g.drawImage(textures[stairsModel.isRight() ? 0 : 1], (int) (-getSpriteWidth() / 2),
                         (int) (-getSpriteHeight() / 2), null);
-                arrow_index = (stairsModel.isGoingUp() ? 0 : 1) + (stairsModel.isRight() ? 0 : 2);
+                arrowIndex = (stairsModel.isGoingUp() ? 0 : 1) + (stairsModel.isRight() ? 0 : 2);
             }
-            g.drawImage(arrow_textures[arrow_index], stairsModel.isRight() ? 10 : -35, 5, null);
+            g.drawImage(arrowTextures[arrowIndex], stairsModel.isRight() ? 10 : -35, 5, null);
         }
     }
 

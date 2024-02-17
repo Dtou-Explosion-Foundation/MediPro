@@ -7,8 +7,16 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.camera.FollowingCameraModel;
 
+/**
+ * カメラの手ぶれを発生させる異変.
+ */
 public class CameraAnomaly extends GameObjectController implements AnomalyListener {
 
+    /**
+     * CameraAnomalyを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public CameraAnomaly(GameObjectModel model) {
         super(model);
     }
@@ -51,10 +59,10 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
     /**
      * 発生確率を設定する.
      * 
-     * @param occurredChance 発生確率
+     * @param chance 発生確率
      */
-    public void setOccurredChance(int occurredChance) {
-        this.occurredChance = occurredChance;
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
     }
 
     @Override
@@ -84,7 +92,12 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
     /**
      * 手ぶれの範囲.
      */
-    private double diffRange = 10;
+    private static final double DIFF_RANGE = 10;
+
+    /**
+     * 手ぶれのインターバル.
+     */
+    private static final double INTERVAL = 0.2;
 
     @Override
     public void update(double dt) {
@@ -92,7 +105,7 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
             return;
 
         timer += dt;
-        if (timer < 0.2)
+        if (timer < INTERVAL)
             return;
         timer = 0;
 
@@ -100,8 +113,8 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
             FollowingCameraModel cameraModel = (FollowingCameraModel) model;
             cameraModel.originX -= prevDiffX;
             cameraModel.originY -= prevDiffY;
-            prevDiffX = random.nextDouble() * diffRange - diffRange / 2;
-            prevDiffY = random.nextDouble() * diffRange - diffRange / 2;
+            prevDiffX = random.nextDouble() * DIFF_RANGE - DIFF_RANGE / 2;
+            prevDiffY = random.nextDouble() * DIFF_RANGE - DIFF_RANGE / 2;
             cameraModel.originX += prevDiffX;
             cameraModel.originY += prevDiffY;
         }

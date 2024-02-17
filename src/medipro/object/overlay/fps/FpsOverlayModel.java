@@ -23,7 +23,7 @@ public class FpsOverlayModel extends GameObjectModel {
     /**
      * 履歴のサイズ.
      */
-    static final int queueSize = (int) (0.1 * InGameConfig.FPS);
+    static final int QUEU_SIZE = (int) (0.1 * InGameConfig.FPS);
     /**
      * 文字の色.
      */
@@ -36,8 +36,8 @@ public class FpsOverlayModel extends GameObjectModel {
      */
     public FpsOverlayModel(World world) {
         super(world);
-        fpsHistory = new LinkedBlockingQueue<Short>(queueSize);
-        for (int index = 0; index < queueSize; index++) {
+        fpsHistory = new LinkedBlockingQueue<Short>(QUEU_SIZE);
+        for (int index = 0; index < QUEU_SIZE; index++) {
             fpsHistory.add((short) 0);
         }
     }
@@ -77,6 +77,6 @@ public class FpsOverlayModel extends GameObjectModel {
      * @return fpsの平均値
      */
     public int getFps() {
-        return fpsSum / queueSize;
+        return fpsSum / QUEU_SIZE;
     }
 }

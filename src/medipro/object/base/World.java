@@ -19,7 +19,8 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectView;
 
 /**
- * ワールドを管理するクラス。 コントローラーとビューを格納し、毎フレームごとに更新と描画を行う。 ビューはレイヤーごとに保存され、レイヤー0が最背面に描画される。
+ * ワールドを管理するクラス. コントローラーとビューを格納し、毎フレームごとに更新と描画を行う.
+ * ビューはレイヤーごとに保存され、レイヤー0が最背面に描画される.
  */
 public abstract class World {
     /**
@@ -30,22 +31,40 @@ public abstract class World {
     /**
      * 格納しているコントローラー.
      */
-    public ArrayList<GameObjectController> controllers;
+    private ArrayList<GameObjectController> controllers;
 
     /**
      * 格納しているビュー.
      */
-    public ArrayList<ArrayList<GameObjectView>> views;
+    private ArrayList<ArrayList<GameObjectView>> views;
 
     /**
      * Worldが配置されているパネル.
      */
-    public GamePanel panel;
+    private GamePanel panel;
 
     /**
      * カメラ.
      */
-    public Optional<CameraModel> camera = Optional.empty();
+    private Optional<CameraModel> camera = Optional.empty();
+
+    /**
+     * カメラを取得する.
+     * 
+     * @return カメラ
+     */
+    public Optional<CameraModel> getCamera() {
+        return camera;
+    }
+
+    /**
+     * カメラを設定する.
+     * 
+     * @param camera カメラ
+     */
+    public void setCamera(Optional<CameraModel> camera) {
+        this.camera = camera;
+    }
 
     /**
      * ワールドを生成する.
@@ -67,6 +86,9 @@ public abstract class World {
             controller.postSetupWorld();
     }
 
+    /**
+     * ワールドを破棄する.
+     */
     public void dispose() {
         logger.info("Dispose " + this.getClass().getSimpleName());
         for (GameObjectController controller : controllers)
@@ -74,7 +96,7 @@ public abstract class World {
     }
 
     /**
-     * コントローラーを追加する。（複数可）
+     * コントローラーを追加する（複数可）.
      * 
      * @param controllers 格納するコントローラー
      */
@@ -84,7 +106,7 @@ public abstract class World {
     }
 
     /**
-     * ビューを追加する。（複数可）
+     * ビューを追加する（複数可）.
      * 
      * @param views 格納するビュー
      */
@@ -94,7 +116,7 @@ public abstract class World {
     }
 
     /**
-     * レイヤーを指定して、ビューを追加する。
+     * レイヤーを指定して、ビューを追加する.
      * 
      * @param view  格納するビュー
      * @param layer レイヤー
@@ -104,7 +126,7 @@ public abstract class World {
     }
 
     /**
-     * ビューとコントローラーを追加する。
+     * ビューとコントローラーを追加する.
      * 
      * @param view       格納するビュー
      * @param controller 格納するコントローラー
@@ -115,7 +137,7 @@ public abstract class World {
     }
 
     /**
-     * レイヤーを指定して、ビューとコントローラーを追加する。
+     * レイヤーを指定して、ビューとコントローラーを追加する.
      * 
      * @param view       格納するビュー
      * @param controller 格納するコントローラー
@@ -127,14 +149,14 @@ public abstract class World {
     }
 
     /**
-     * ワールドの初期化を行う。 モデル、ビュー、コントローラーを生成し、addViewAndControllerなどで追加する。
+     * ワールドの初期化を行う. モデル、ビュー、コントローラーを生成し、addViewAndControllerなどで追加する.
      * 
      * @param panel ワールドが配置されているパネル
      */
     public abstract void setupWorld(JPanel panel);
 
     /**
-     * 格納しているコントローラにアップデート通知を送る。
+     * 格納しているコントローラにアップデート通知を送る.
      * 
      * @param deltaTime 前フレームからの経過時間
      */
@@ -154,8 +176,7 @@ public abstract class World {
      */
     public AffineTransform getCameraTransform() {
         if (camera.isPresent()) {
-            CameraModel _camera = camera.get();
-            return ((CameraModel) _camera).getTransformMatrix();
+            return ((CameraModel) camera.get()).getTransformMatrix();
         } else {
             AffineTransform transform = new AffineTransform();
             transform.translate(InGameConfig.WINDOW_WIDTH_BASE / 2, InGameConfig.WINDOW_HEIGHT_BASE / 2);
@@ -164,7 +185,7 @@ public abstract class World {
     }
 
     /**
-     * 格納しているビューに描画通知を送る。
+     * 格納しているビューに描画通知を送る.
      * 
      * @param g Graphics2D
      */

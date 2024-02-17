@@ -16,20 +16,20 @@ import medipro.object.player.PlayerModel;
  */
 public class StairsController extends GameObjectController {
     /**
-     * プレイヤーのコントローラー
+     * プレイヤーのコントローラー.
      */
     private PlayerController playerController;
     /**
-     * ブラックフィルターのコントローラー
+     * ブラックフィルターのコントローラー.
      */
     private BlackFilterController blackFilterController;
     /**
-     * ゲームマネージャーのコントローラー
+     * ゲームマネージャーのコントローラー.
      */
     private GameManagerController gameManagerController;
 
     /**
-     * 生成直後にプレイヤーを階段の上に移動させるためのオートウォーカー
+     * 生成直後にプレイヤーを階段の上に移動させるためのオートウォーカー.
      */
     private static AutoWalker startAutoWalker;
 
@@ -44,27 +44,25 @@ public class StairsController extends GameObjectController {
 
     @Override
     public void postSetupWorld() {
-
         // それぞれのコントローラーをワールドから取得する.
-        List<PlayerController> playerControllers = this.model.world.getControllers(PlayerController.class);
+        List<PlayerController> playerControllers = this.model.getWorld().getControllers(PlayerController.class);
         if (playerControllers.size() > 0) {
             this.playerController = playerControllers.get(0);
         }
 
-        List<BlackFilterController> blackFilterControllers = this.model.world
+        List<BlackFilterController> blackFilterControllers = this.model.getWorld()
                 .getControllers(BlackFilterController.class);
         if (blackFilterControllers.size() > 0) {
             this.blackFilterController = blackFilterControllers.get(0);
         }
 
-        List<GameManagerController> gameManagerControllers = this.model.world
+        List<GameManagerController> gameManagerControllers = this.model.getWorld()
                 .getControllers(GameManagerController.class);
         if (gameManagerControllers.size() > 0) {
             this.gameManagerController = gameManagerControllers.get(0);
         }
 
         // 階段を登るアニメーションを発行する.
-
         StairsModel stairsModel = (StairsModel) model;
         PlayerModel playerModel = (PlayerModel) playerController.model;
         if (stairsModel.isRight() != GameManagerModel.getFloorChangingState().isRight())

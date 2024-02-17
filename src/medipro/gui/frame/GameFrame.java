@@ -107,6 +107,7 @@ public class GameFrame extends JFrame implements ComponentListener {
 
     @Override
     public void componentMoved(ComponentEvent e) {
+        // ウィンドウが移動したときに、ScreenScaleFactorを再取得する
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] screenDevices = ge.getScreenDevices();
 

@@ -19,9 +19,15 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
         super(model);
     }
 
-    // 描画上のorigin
-    private double _originX = 0;
-    private double _originY = 0;
+    // 
+    /**
+     * 描画上のorigin. model.originXを数フレームかけて追従する.
+     */
+    private double originX = 0;
+    /**
+     * 描画上のorigin. model.originYを数フレームかけて追従する.
+     */
+    private double originY = 0;
 
     /**
      * setupWorld()が実行された後に呼ばれる.
@@ -29,8 +35,8 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
     @Override
     public void postSetupWorld() {
         SmoothFollowingCameraModel model = (SmoothFollowingCameraModel) this.model;
-        _originX = model.originX;
-        _originY = model.originY;
+        originX = model.originX;
+        originY = model.originY;
         this.forceFollow();
     }
 
@@ -51,17 +57,17 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
             newOriginX *= player.getDirection();
         double newOriginY = model.originY;
 
-        // 線形で_originを更新する
+        // 線形でoriginを更新する
         double speed = model.getFlipSpeed() * dt;
-        if (Math.abs(_originX - newOriginX) < speed)
-            _originX = newOriginX;
+        if (Math.abs(originX - newOriginX) < speed)
+            originX = newOriginX;
         else
-            _originX += Math.signum(newOriginX - _originX) * speed;
+            originX += Math.signum(newOriginX - originX) * speed;
 
-        if (Math.abs(_originY - newOriginY) < speed)
-            _originY = newOriginY;
+        if (Math.abs(originY - newOriginY) < speed)
+            originY = newOriginY;
         else
-            _originY += Math.signum(newOriginY - _originY) * speed;
+            originY += Math.signum(newOriginY - originY) * speed;
 
     }
 
@@ -73,27 +79,26 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
     @Override
     public void update(double dt) {
         updateOrigin(dt);
-        SmoothFollowingCameraModel _model = (SmoothFollowingCameraModel) model;
-        if (_model.target.isPresent()) {
-            GameObjectModel _target = _model.target.get();
+        SmoothFollowingCameraModel model = (SmoothFollowingCameraModel) this.model;
+        if (model.target.isPresent()) {
+            GameObjectModel target = model.target.get();
             // originを考慮したカメラの位置
-            double _cameraX = _model.getX() - _originX;
-            double _cameraY = (_model.getY() - _originY) / _model.getFollowingRateY();
+            double cameraX = model.getX() - originX;
+            double cameraY = (model.getY() - originY) / model.getFollowingRateY();
             // dtを考慮したカメラの移動速度
-            double _followingSpeed = _model.followingSpeed * dt;
+            double followingSpeed = model.followingSpeed * dt;
             // カメラの移動範囲を考慮したターゲットの位置
-            double _targetX = clamp(_target.getX(), _model.getMinX() - _originX, _model.getMaxX() - _originX);
-            double _targetY = clamp(_target.getY(), _model.getMinY() - _originY, _model.getMaxY() - _originY);
+            double targetX = clamp(target.getX(), model.getMinX() - originX, model.getMaxX() - originX);
+            double targetY = clamp(target.getY(), model.getMinY() - originY, model.getMaxY() - originY);
 
-            Point2D.Double newCameraPos = new Point2D.Double(
-                    _targetX * _followingSpeed + _cameraX * (1 - _followingSpeed),
-                    _targetY * _followingSpeed + _cameraY * (1 - _followingSpeed));
+            Point2D.Double newCameraPos = new Point2D.Double(targetX * followingSpeed + cameraX * (1 - followingSpeed),
+                    targetY * followingSpeed + cameraY * (1 - followingSpeed));
 
-            if (!_model.isLockX())
-                _model.setX(newCameraPos.x + _originX);
-            if (!_model.isLockY())
-                _model.setY(newCameraPos.y * _model.getFollowingRateY() + _originY);
-            _model.clampPosition();
+            if (!model.isLockX())
+                model.setX(newCameraPos.x + originX);
+            if (!model.isLockY())
+                model.setY(newCameraPos.y * model.getFollowingRateY() + originY);
+            model.clampPosition();
         }
     }
 }

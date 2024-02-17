@@ -28,5 +28,11 @@
 		"clang-format.executable": "C:\\Program Files\\LLVM\\bin\\clang-format.exe",
 		"clang-format.language.glsl.style": "{BasedOnStyle: llvm, IndentWidth: 4, ColumnLimit: 0}",
 		"java.debug.settings.onBuildFailureProceed": true,
+		"java.checkstyle.configuration": "${workspaceFolder}/checkstyle/sun_checks.xml",
+	},
+	"extensions": {
+		"recommendations": [
+			"shengchen.vscode-checkstyle"
+		]
 	}
 }
