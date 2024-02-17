@@ -69,12 +69,13 @@ public class StairsController extends GameObjectController {
         PlayerModel playerModel = (PlayerModel) playerController.model;
         if (stairsModel.isRight() != GameManagerModel.getFloorChangingState().isRight())
             return;
-        startAutoWalker = new AutoWalker(model.x + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
+        startAutoWalker = new AutoWalker(model.getX() + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
 
                 stairsModel.canGoPrevFloor()
-                        ? model.y - stairsModel.getHeight() / 2 * (!stairsModel.isGoingUp() ? 1 : -1)
-                        : playerModel.y,
-                model.x + stairsModel.getTriggerRange() / 2 * 1.2 * (stairsModel.isRight() ? -1 : 1), playerModel.y);
+                        ? model.getY() - stairsModel.getHeight() / 2 * (!stairsModel.isGoingUp() ? 1 : -1)
+                        : playerModel.getY(),
+                model.getX() + stairsModel.getTriggerRange() / 2 * 1.2 * (stairsModel.isRight() ? -1 : 1),
+                playerModel.getY());
 
         startBlackFilterDuration = (float) startAutoWalker.setSpeed(playerModel.speedLimitX);
 
@@ -108,7 +109,7 @@ public class StairsController extends GameObjectController {
         PlayerModel playerModel = (PlayerModel) playerController.model;
         float triggerRange = stairsModel.getTriggerRange() / 2;
         // 階段の範囲外のためスキップ
-        if (playerModel.x < model.x - triggerRange || playerModel.x > model.x + triggerRange) {
+        if (playerModel.getX() < model.getX() - triggerRange || playerModel.getX() > model.getX() + triggerRange) {
             isPlayerOnStairs = false;
             return;
         }
@@ -122,9 +123,9 @@ public class StairsController extends GameObjectController {
             return;
 
         // 現在の位置から、階段の端までのオートウォーカーを生成する.
-        AutoWalker endAutoWalker = new AutoWalker(playerModel.x, playerModel.y,
-                model.x + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
-                model.y + stairsModel.getHeight() / 2 * (stairsModel.isGoingUp() ? 1 : -1));
+        AutoWalker endAutoWalker = new AutoWalker(playerModel.getX(), playerModel.getY(),
+                model.getX() + stairsModel.getWidth() / 2 * (stairsModel.isRight() ? 1 : -1),
+                model.getY() + stairsModel.getHeight() / 2 * (stairsModel.isGoingUp() ? 1 : -1));
         double endDuration = endAutoWalker.setSpeed(playerModel.speedLimitX);
         if (blackFilterController != null)
             blackFilterController.blackIn((float) endDuration);

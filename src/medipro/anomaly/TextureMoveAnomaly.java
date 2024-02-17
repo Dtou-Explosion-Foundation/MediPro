@@ -64,13 +64,13 @@ public class TextureMoveAnomaly extends GameObjectController implements AnomalyL
         timer = 0;
 
         if (model instanceof TextureObjectModel) {
-            if (model.x < 650 || model.x > -650) {
+            if (model.getX() < 650 || model.getX() > -650) {
                 textureObjectModel.setDeltaX(model.deltaX += model.delta2X);
-                model.x += textureObjectModel.getDeltaX();
+                model.addX(textureObjectModel.getDeltaX());
             }
-            if (model.y > -200 || model.y < 350) {
+            if (model.getY() > -200 || model.getY() < 350) {
                 textureObjectModel.setDeltaY(model.deltaY += model.delta2Y);
-                model.y += textureObjectModel.getDeltaY();
+                model.addY(textureObjectModel.getDeltaY());
             }
             ((TextureObjectModel) model).setTextureIndex(1);
         }

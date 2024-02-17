@@ -51,16 +51,16 @@ public abstract class GridObjectView extends GameObjectView {
         }
 
         // 1グリッドのサイズを計算
-        int gridWidth = (int) (gridModel.width * gridModel.scaleX);
-        int gridHeight = (int) (gridModel.height * gridModel.scaleY);
+        int gridWidth = (int) (gridModel.width * gridModel.getScaleX());
+        int gridHeight = (int) (gridModel.height * gridModel.getScaleY());
 
         // グリッドの原点(最左上)を計算
-        int originX = (int) (bounds.x / gridWidth) * gridWidth + (int) (model.x % gridWidth) - gridWidth / 2;
-        int originY = (int) (bounds.y / gridHeight) * gridHeight + (int) (model.y % gridHeight) - gridHeight / 2;
+        int originX = (int) (bounds.x / gridWidth) * gridWidth + (int) (model.getX() % gridWidth) - gridWidth / 2;
+        int originY = (int) (bounds.y / gridHeight) * gridHeight + (int) (model.getY() % gridHeight) - gridHeight / 2;
 
         // グリッドの原点の通し番号を計算
-        int originGridX = (int) Math.ceil((originX - model.x) / gridWidth);
-        int originGridY = (int) Math.ceil((originY - model.y) / gridHeight);
+        int originGridX = (int) Math.ceil((originX - model.getX()) / gridWidth);
+        int originGridY = (int) Math.ceil((originY - model.getY()) / gridHeight);
 
         for (int ix = -2; ix < bounds.width / gridWidth + 2; ix++) {
             for (int iy = -2; iy < bounds.height / gridHeight + 2; iy++) {

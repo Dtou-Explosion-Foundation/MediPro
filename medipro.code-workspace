@@ -13,7 +13,7 @@
 		"java.project.referencedLibraries": [
 			"lib/**/*.jar"
 		],
-		"java.cleanup.actionsOnSave": [
+		"java.cleanup.actions": [
 			"addOverride",
 		],
 		"editor.codeActionsOnSave": {
@@ -23,20 +23,6 @@
 			"editor.pasteAs.enabled": false,
 			"editor.defaultFormatter": "redhat.java",
 		},
-		// "extensions.ignoreRecommendations": true,
-		"cSpell.words": [
-			"gameobject",
-			"glautodrawable",
-			"glcapabilities",
-			"gljpanel",
-			"glprofile",
-			"glsl",
-			"gridobject",
-			"jframe",
-			"JOGL",
-			"medipro",
-			"windowevent"
-		],
 		"java.format.settings.url": ".vscode/java-formatter.xml",
 		"java.debug.settings.vmArgs": "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
 		"clang-format.executable": "C:\\Program Files\\LLVM\\bin\\clang-format.exe",

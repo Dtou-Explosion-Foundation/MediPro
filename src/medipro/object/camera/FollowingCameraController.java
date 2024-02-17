@@ -47,7 +47,7 @@ public class FollowingCameraController extends CameraController {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
         if (followingCameraModel.target.isPresent()) {
             GameObjectModel _target = followingCameraModel.target.get();
-            followingCameraModel.x = _target.x + followingCameraModel.originX;
+            followingCameraModel.setX(_target.getX() + followingCameraModel.originX);
             followingCameraModel.clampPosition();
         }
     }
@@ -60,8 +60,8 @@ public class FollowingCameraController extends CameraController {
         if (followingCameraModel.target.isPresent()) {
             GameObjectModel _target = followingCameraModel.target.get();
             // followingCameraModel.y = _target.y + followingCameraModel.originY;
-            followingCameraModel.y = _target.y * followingCameraModel.getFollowingRateY()
-                    + followingCameraModel.originY;
+            followingCameraModel
+                    .setY(_target.getY() * followingCameraModel.getFollowingRateY() + followingCameraModel.originY);
             followingCameraModel.clampPosition();
         }
     }

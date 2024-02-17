@@ -81,22 +81,22 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
     @Override
     public void onAnomalyOccurred(int level) {
         if (axis == Axis.X || axis == Axis.BOTH) {
-            defaultScaleX = model.scaleX;
-            model.scaleX *= scaleList.get(level);
+            defaultScaleX = model.getScaleX();
+            model.multiplyScaleX(scaleList.get(level));
         }
         if (axis == Axis.Y || axis == Axis.BOTH) {
-            defaultScaleY = model.scaleY;
-            model.scaleY *= scaleList.get(level);
+            defaultScaleY = model.getScaleY();
+            model.multiplyScaleY(scaleList.get(level));
         }
     }
 
     @Override
     public void onAnomalyFinished() {
         if (axis == Axis.X || axis == Axis.BOTH) {
-            model.scaleX = defaultScaleX;
+            model.setScaleX(defaultScaleX);
         }
         if (axis == Axis.Y || axis == Axis.BOTH) {
-            model.scaleY = defaultScaleY;
+            model.setScaleY(defaultScaleY);
         }
     }
 
@@ -131,7 +131,6 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
 
     @Override
     public void update(double dt) {
-
     }
 
 }

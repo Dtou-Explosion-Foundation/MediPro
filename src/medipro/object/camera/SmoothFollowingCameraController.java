@@ -77,22 +77,22 @@ public class SmoothFollowingCameraController extends FollowingCameraController {
         if (_model.target.isPresent()) {
             GameObjectModel _target = _model.target.get();
             // originを考慮したカメラの位置
-            double _cameraX = _model.x - _originX;
-            double _cameraY = (_model.y - _originY) / _model.getFollowingRateY();
+            double _cameraX = _model.getX() - _originX;
+            double _cameraY = (_model.getY() - _originY) / _model.getFollowingRateY();
             // dtを考慮したカメラの移動速度
             double _followingSpeed = _model.followingSpeed * dt;
             // カメラの移動範囲を考慮したターゲットの位置
-            double _targetX = clamp(_target.x, _model.getMinX() - _originX, _model.getMaxX() - _originX);
-            double _targetY = clamp(_target.y, _model.getMinY() - _originY, _model.getMaxY() - _originY);
+            double _targetX = clamp(_target.getX(), _model.getMinX() - _originX, _model.getMaxX() - _originX);
+            double _targetY = clamp(_target.getY(), _model.getMinY() - _originY, _model.getMaxY() - _originY);
 
             Point2D.Double newCameraPos = new Point2D.Double(
                     _targetX * _followingSpeed + _cameraX * (1 - _followingSpeed),
                     _targetY * _followingSpeed + _cameraY * (1 - _followingSpeed));
 
             if (!_model.isLockX())
-                _model.x = newCameraPos.x + _originX;
+                _model.setX(newCameraPos.x + _originX);
             if (!_model.isLockY())
-                _model.y = newCameraPos.y * _model.getFollowingRateY() + _originY;
+                _model.setY(newCameraPos.y * _model.getFollowingRateY() + _originY);
             _model.clampPosition();
         }
     }

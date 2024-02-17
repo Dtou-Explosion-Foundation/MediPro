@@ -98,8 +98,8 @@ public class PlayWorld extends World {
         {
             PlayerModel model = new PlayerModel(this);
             cameraTarget = model;
-            model.y = -80;
-            model.x = -400;
+            model.setY(-80);
+            model.setX(-400);
             PlayerView view = new PlayerView(model);
             PlayerController controller = new PlayerController(model);
             panel.addKeyListener(controller);
@@ -134,8 +134,8 @@ public class PlayWorld extends World {
         }
         {
             StairsModel model = new StairsModel(this);
-            model.x = -500;
-            model.y = -65;
+            model.setX(-500);
+            model.setY(-65);
             model.setTriggerRange(100f);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
@@ -143,8 +143,8 @@ public class PlayWorld extends World {
         }
         {
             StairsModel model = new StairsModel(this);
-            model.x = 500;
-            model.y = -65;
+            model.setX(500);
+            model.setY(-65);
             model.setTriggerRange(100f);
             StairsView view = new StairsView(model);
             StairsController controller = new StairsController(model);
@@ -152,7 +152,7 @@ public class PlayWorld extends World {
         }
         {
             WallModel model = new WallModel(this);
-            model.x = 2 - 00;
+            // model.setX(2 - 00);
             WallView view = new WallView(model);
             WallController controller = new WallController(model);
             this.addViewAndController(view, controller, 80);
@@ -165,7 +165,7 @@ public class PlayWorld extends World {
         }
         {
             CeilModel model = new CeilModel(this);
-            model.y = -160;
+            model.setY(-160);
             CeilController controller = new CeilController(model);
             CeilView view = new CeilView(model);
             this.addViewAndController(view, controller, 1);
@@ -173,7 +173,7 @@ public class PlayWorld extends World {
         }
         {
             FloorModel model = new FloorModel(this);
-            model.y = 100;
+            model.setY(100);
             FloorController controller = new FloorController(model);
             FloorView view = new FloorView(model);
             this.addViewAndController(view, controller, 1);
@@ -185,10 +185,10 @@ public class PlayWorld extends World {
                             "img/ornament/door/door-open.png", "img/ornament/extinction.png" });
 
             // TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/door-nomal-15.png" });
-            model.scaleX = 0.11;
-            model.scaleY = 0.11;
-            model.x = -300;
-            model.y = 15;
+            model.setScaleX(0.11);
+            model.setScaleY(0.11);
+            model.setX(-300);
+            model.setY(15);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -200,10 +200,10 @@ public class PlayWorld extends World {
             TextureObjectModel model = new TextureObjectModel(this,
 
                     new String[] { "img/ornament/extinction.png", "img/ornament/zipper1.png", });
-            model.scaleX = 2;
-            model.scaleY = 2;
-            model.x = -200;
-            model.y = 47;
+            model.setScaleX(2);
+            model.setScaleY(2);
+            model.setX(-200);
+            model.setY(47);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -215,10 +215,10 @@ public class PlayWorld extends World {
                             "img/ornament/clock/clock-toocircles.png", "img/ornament/clock/clock-toohands.png",
                             "img/ornament/clock/clock-human.png", "img/ornament/extinction.png" });
 
-            model.scaleX = 1;
-            model.scaleY = 1;
-            model.x = -100;
-            model.y = 100;
+            model.setScaleX(1);
+            model.setScaleY(1);
+            model.setX(-100);
+            model.setY(100);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -235,10 +235,10 @@ public class PlayWorld extends World {
             TextureObjectModel model = new TextureObjectModel(this,
 
                     new String[] { "img/ornament/extinction.png", "img/character/charanomal1.png", });
-            model.scaleX = 1;
-            model.scaleY = 1;
-            model.x = 525;
-            model.y = -100;
+            model.setScaleX(1);
+            model.setScaleY(1);
+            model.setX(525);
+            model.setY(-100);
             model.deltaX = -3.5;
             model.deltaY = 0;
             model.delta2X = 0.005;
@@ -252,10 +252,10 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/fun/fun.png", "img/ornament/fun/fun-death.png" });
-            model.scaleX = 0.15;
-            model.scaleY = 0.15;
-            model.x = -300;
-            model.y = 100;
+            model.setScaleX(0.15);
+            model.setScaleY(0.15);
+            model.setX(-300);
+            model.setY(100);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -265,10 +265,10 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/extinction.png",
                     "img/ornament/fun/fun.png", "img/ornament/fun/fun1.png", "img/ornament/fun/fun2.png" });
-            model.scaleX = 0.15;
-            model.scaleY = 0.15;
-            model.x = -300;
-            model.y = 100;
+            model.setScaleX(0.15);
+            model.setScaleY(0.15);
+            model.setX(-300);
+            model.setY(100);
             model.interval = 0.2;
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
@@ -281,10 +281,10 @@ public class PlayWorld extends World {
                     new String[] { "img/ornament/exit/exit-nomal.png", "img/ornament/exit/exit-longpillar.png",
                             "img/ornament/exit/exit-anomalycolor.png", "img/ornament/exit/exit-longarrow.png",
                             "img/ornament/exit/exit-uparrow.png", "img/ornament/extinction.png" });
-            model.scaleX = 1.5;
-            model.scaleY = 1.5;
-            model.x = 100;
-            model.y = 120;
+            model.setScaleX(1.5);
+            model.setScaleY(1.5);
+            model.setX(100);
+            model.setY(120);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -294,10 +294,10 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/exit/exit-nomal.png" });
-            model.scaleX = 1.5;
-            model.scaleY = 1.5;
-            model.x = 100;
-            model.y = 120;
+            model.setScaleX(1.5);
+            model.setScaleY(1.5);
+            model.setX(100);
+            model.setY(120);
             model.deltaX = 100;
             model.deltaY = 0;
             model.timesX = 2;
@@ -311,10 +311,10 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this, new String[] { "img/ornament/extinction.png",
                     "img/ornament/exit/exit-nomal.png", "img/ornament/exit/exit-reverse.png" });
-            model.scaleX = 1.5;
-            model.scaleY = 1.5;
-            model.x = 100;
-            model.y = 120;
+            model.setScaleX(1.5);
+            model.setScaleY(1.5);
+            model.setX(100);
+            model.setY(120);
             model.interval = 0.2;
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
@@ -328,10 +328,10 @@ public class PlayWorld extends World {
                     new String[] { "img/ornament/whitebord/whitebord-nomal.png",
                             "img/ornament/whitebord/whitebord-table.png",
                             "img/ornament/whitebord/whitebord-redroom.png", "img/ornament/extinction.png" });
-            model.scaleX = 0.5;
-            model.scaleY = 0.5;
-            model.x = 200;
-            model.y = 75;
+            model.setScaleX(0.5);
+            model.setScaleY(0.5);
+            model.setX(200);
+            model.setY(75);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
             this.addViewAndController(view, controller, 30);
@@ -342,10 +342,10 @@ public class PlayWorld extends World {
 
                     new String[] { "img/ornament/extinction.png", "img/ornament/idiot/Idiot1.png",
                             "img/ornament/idiot/Idiot2.png" });
-            model.scaleX = 1.5;
-            model.scaleY = 1.27;
-            model.x = 213;
-            model.y = 47;
+            model.setScaleX(1.5);
+            model.setScaleY(1.27);
+            model.setX(213);
+            model.setY(47);
             model.interval = 0.3;
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -357,10 +357,10 @@ public class PlayWorld extends World {
                     new String[] { "img/ornament/table/table-edge1-nomal.png", "img/ornament/table/table-edge1-big.png",
                             "img/ornament/table/table-edge1-fire.png",
                             "img/ornament/table/table-edge1-increase_leg.png" });
-            model.scaleX = 2.2;
-            model.scaleY = 2.2;
-            model.x = 103;
-            model.y = 20;
+            model.setScaleX(2.2);
+            model.setScaleY(2.2);
+            model.setX(103);
+            model.setY(20);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -370,10 +370,10 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this, new String[] {
                     "img/ornament/table/table-mid-nomal.png", "img/ornament/table/table-mid-blood.png" });
-            model.scaleX = 2.2;
-            model.scaleY = 2.2;
-            model.x = 210;
-            model.y = 20;
+            model.setScaleX(2.2);
+            model.setScaleY(2.2);
+            model.setX(210);
+            model.setY(20);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -385,10 +385,10 @@ public class PlayWorld extends World {
                     new String[] { "img/ornament/table/table-edge2-nomal.png",
                             "img/ornament/table/table-edge2-increase_chare.png",
                             "img/ornament/table/table-edge2-locate_switch.png" });
-            model.scaleX = 2.2;
-            model.scaleY = 2.2;
-            model.x = 258;
-            model.y = 20;
+            model.setScaleX(2.2);
+            model.setScaleY(2.2);
+            model.setX(258);
+            model.setY(20);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -398,10 +398,10 @@ public class PlayWorld extends World {
         {
             TextureObjectModel model = new TextureObjectModel(this,
                     new String[] { "img/ornament/table/table3.png", "img/ornament/extinction.png" });
-            model.scaleX = 2.2;
-            model.scaleY = 2.2;
-            model.x = -150;
-            model.y = 20;
+            model.setScaleX(2.2);
+            model.setScaleY(2.2);
+            model.setX(-150);
+            model.setY(20);
             // model.setOccurredChance(1);
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -413,10 +413,10 @@ public class PlayWorld extends World {
 
                     new String[] { "img/ornament/extinction.png", "img/ornament/deathman/deathman0.png",
                             "img/ornament/deathman/deathman1.png" });
-            model.scaleX = 2;
-            model.scaleY = 2;
-            model.x = -130;
-            model.y = 5;
+            model.setScaleX(2);
+            model.setScaleY(2);
+            model.setX(-130);
+            model.setY(5);
             model.interval = 0.5;
             TextureObjectView view = new TextureObjectView(model);
             TextureObjectController controller = new TextureObjectController(model);
@@ -427,10 +427,10 @@ public class PlayWorld extends World {
             TextureObjectModel model = new TextureObjectModel(this,
 
                     new String[] { "img/ornament/extinction.png", "img/ornament/ball.png", });
-            model.scaleX = 2;
-            model.scaleY = 2;
-            model.x = -600;
-            model.y = -40;
+            model.setScaleX(2);
+            model.setScaleY(2);
+            model.setX(-600);
+            model.setY(-40);
             model.deltaX = 10;
             model.deltaY = 6;
             model.delta2X = 0;
@@ -445,10 +445,10 @@ public class PlayWorld extends World {
             TextureObjectModel model = new TextureObjectModel(this,
 
                     new String[] { "img/ornament/extinction.png", "img/ornament/black-circle.png" });
-            model.scaleX = 0;
-            model.scaleY = 0;
-            model.x = -600;
-            model.y = 250;
+            model.setScaleX(0);
+            model.setScaleY(0);
+            model.setX(-600);
+            model.setY(250);
             model.deltaX = 0.01;
             model.deltaY = 0.01;
             model.delta2X = 0;
@@ -467,7 +467,7 @@ public class PlayWorld extends World {
             model.setMinX(-300);
             model.setMaxX(300);
             // model.setLockY(true);
-            // model.y = 50;
+            // model.setY(50;
             model.originY = 70;
             model.originX = 15;
             model.setFollowingRateY(0.85);

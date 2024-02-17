@@ -19,40 +19,18 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
     }
 
     /**
-     * 異常レベル.
-     */
-    private int level = -1;
-
-    /**
      * 異常が発生しているか.
      */
     private boolean isAnomalyOccurred = false;
 
     @Override
     public void onAnomalyOccurred(int level) {
-        this.level = level;
         isAnomalyOccurred = true;
-        switch (level) {
-        case 0:
-            // 手ぶれ
-            break;
-
-        default:
-            break;
-        }
     }
 
     @Override
     public void onAnomalyFinished() {
         isAnomalyOccurred = false;
-        switch (level) {
-        case 0:
-            // 手ぶれ
-            break;
-
-        default:
-            break;
-        }
     }
 
     @Override
@@ -112,28 +90,20 @@ public class CameraAnomaly extends GameObjectController implements AnomalyListen
     public void update(double dt) {
         if (!isAnomalyOccurred)
             return;
-        switch (level) {
-        case 0:
-            timer += dt;
-            if (timer < 0.2)
-                return;
-            timer = 0;
 
-            if (model instanceof FollowingCameraModel) {
-                FollowingCameraModel cameraModel = (FollowingCameraModel) model;
-                cameraModel.originX -= prevDiffX;
-                cameraModel.originY -= prevDiffY;
-                prevDiffX = random.nextDouble() * diffRange - diffRange / 2;
-                prevDiffY = random.nextDouble() * diffRange - diffRange / 2;
-                cameraModel.originX += prevDiffX;
-                cameraModel.originY += prevDiffY;
-            }
-            break;
+        timer += dt;
+        if (timer < 0.2)
+            return;
+        timer = 0;
 
-        default:
-            break;
+        if (model instanceof FollowingCameraModel) {
+            FollowingCameraModel cameraModel = (FollowingCameraModel) model;
+            cameraModel.originX -= prevDiffX;
+            cameraModel.originY -= prevDiffY;
+            prevDiffX = random.nextDouble() * diffRange - diffRange / 2;
+            prevDiffY = random.nextDouble() * diffRange - diffRange / 2;
+            cameraModel.originX += prevDiffX;
+            cameraModel.originY += prevDiffY;
         }
-
     }
-
 }

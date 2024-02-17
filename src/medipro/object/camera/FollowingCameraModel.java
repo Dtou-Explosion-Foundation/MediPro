@@ -188,14 +188,14 @@ public class FollowingCameraModel extends CameraModel {
      * カメラの位置に制限を適用する.
      */
     public void clampPosition() {
-        if (x < minX)
-            x = minX;
-        if (x > maxX)
-            x = maxX;
-        if (y < minY)
-            y = minY;
-        if (y > maxY)
-            y = maxY;
+        if (this.getX() < minX)
+            this.setX(minX);
+        if (this.getX() > maxX)
+            this.setX(maxX);
+        if (this.getY() < minY)
+            this.setY(minY);
+        if (this.getY() > maxY)
+            this.setY(maxY);
     }
 
 }

@@ -34,7 +34,7 @@ public class WallView extends GameObjectView {
             double diff = 0;
             if (model.world.camera.isPresent()) {
                 CameraModel camera = model.world.camera.get();
-                diff = (camera.x - model.x) * camera.getScale() * -0.02;
+                diff = (camera.getX() - model.getX()) * camera.getScale() * -0.02;
 
             }
             AffineTransform transform = g.getTransform();

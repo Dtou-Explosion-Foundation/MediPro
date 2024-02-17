@@ -39,7 +39,7 @@ public class TitleMenuWorld extends World {
         }
         {
             TitleMenuModel model = new TitleMenuModel(this);
-            model.x = -400;
+            model.setX(-400);
             TitleMenuView view = new TitleMenuView(model);
             TitleMenuController controller = new TitleMenuController(model);
             this.addViewAndController(view, controller, 100);

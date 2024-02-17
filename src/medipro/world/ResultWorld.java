@@ -51,7 +51,7 @@ public class ResultWorld extends World {
         }
         {
             ResultModel model = new ResultModel(this);
-            model.x = -400;
+            model.setX(-400);
             ResultView view = new ResultView(model);
             ResultController controller = new ResultController(model);
             this.addViewAndController(view, controller);

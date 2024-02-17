@@ -85,7 +85,7 @@ public class StairsModel extends GameObjectModel {
      * @return 階段が右上に上れるかどうか
      */
     public boolean isRight() {
-        return this.x > 0;
+        return this.getX() > 0;
     }
 
     /**

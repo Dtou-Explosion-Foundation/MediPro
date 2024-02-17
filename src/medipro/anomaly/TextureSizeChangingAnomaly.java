@@ -64,13 +64,13 @@ public class TextureSizeChangingAnomaly extends GameObjectController implements 
         timer = 0;
 
         if (model instanceof TextureObjectModel) {
-            if (model.scaleX < 50) {
+            if (model.getScaleX() < 50) {
                 textureObjectModel.setDeltaX(model.deltaX += model.delta2X);
-                model.scaleX += textureObjectModel.getDeltaX();
+                model.addScaleX(textureObjectModel.getDeltaX());
             }
-            if (model.scaleY < 50) {
+            if (model.getScaleY() < 50) {
                 textureObjectModel.setDeltaY(model.deltaY += model.delta2Y);
-                model.scaleY += textureObjectModel.getDeltaY();
+                model.addScaleY(textureObjectModel.getDeltaY());
             }
             ((TextureObjectModel) model).setTextureIndex(1);
         }

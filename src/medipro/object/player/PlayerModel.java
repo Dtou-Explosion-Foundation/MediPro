@@ -157,7 +157,7 @@ public class PlayerModel extends GameObjectModel {
             speedX = -speedLimitX;
 
         // update position
-        x += speedX * dt;
+        this.addX(speedX * dt);
     }
 
     public boolean isDummies = false;
@@ -178,8 +178,8 @@ public class PlayerModel extends GameObjectModel {
         }
         AutoWalker autoWalker = autoWalkerQueue.peek();
         autoWalker.update(dt);
-        x = autoWalker.getNewX();
-        y = autoWalker.getNewY();
+        this.setX(autoWalker.getNewX());
+        this.setY(autoWalker.getNewY());
         speedX = autoWalker.getSpeed();
         direction = autoWalker.getDirection();
         if (autoWalker.isFinished()) {
@@ -201,8 +201,8 @@ public class PlayerModel extends GameObjectModel {
      */
     public void pushAutoWalker(AutoWalker autoWalker) {
         autoWalkerQueue.add(autoWalker);
-        x = autoWalker.getNewX();
-        y = autoWalker.getNewY();
+        this.setX(autoWalker.getNewX());
+        this.setY(autoWalker.getNewY());
     }
 
     /**

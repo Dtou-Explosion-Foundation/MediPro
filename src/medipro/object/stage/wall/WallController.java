@@ -20,7 +20,7 @@ public class WallController extends GameObjectController {
     @Override
     public void update(double dt) {
         if (this.model.world.camera.isPresent()) {
-            this.model.y = this.model.world.camera.get().y;
+            this.model.setY(this.model.world.camera.get().getY());
         }
     }
 }

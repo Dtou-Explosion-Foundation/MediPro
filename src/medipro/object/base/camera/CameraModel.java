@@ -73,7 +73,7 @@ public class CameraModel extends GameObjectModel {
         transform.translate(InGameConfig.WINDOW_WIDTH / 2 * getScreenScaleFactor(),
                 InGameConfig.WINDOW_HEIGHT / 2 * getScreenScaleFactor());
         transform.scale(getScale(), getScale());
-        transform.translate(-x, y);
+        transform.translate(-getX(), getY());
         return transform;
     }
 
