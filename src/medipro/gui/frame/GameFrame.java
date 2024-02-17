@@ -18,7 +18,6 @@ import javax.swing.Timer;
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
-import medipro.object.manager.gamemanager.GameManagerModel;
 
 /**
  * ゲームのウインドウを実装するクラス.
@@ -75,15 +74,8 @@ public class GameFrame extends JFrame implements ComponentListener {
         // FPSに基づいてPanelを再描画する
         {
             Timer timer = new Timer(1000 / InGameConfig.FPS, new ActionListener() {
-                long lastRepaintTime = -1;
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    long currentTime = System.nanoTime();
-                    long deltaTime = lastRepaintTime == -1 ? 0 : currentTime - lastRepaintTime;
-                    lastRepaintTime = currentTime;
-                    panel.update(deltaTime / 1000000000.0 * InGameConfig.GAME_SPEED * GameManagerModel.getPause());
                     repaint();
                 }
             });
