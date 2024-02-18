@@ -3,9 +3,9 @@ package medipro.object.stage.wall;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.util.ImageUtil;
+import medipro.world.World;
 
 /**
  * 壁のモデル.

@@ -1,7 +1,7 @@
 package medipro.result;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class ResultModel extends GameObjectModel {
     private String[] menuItems = { "Retry", "Return to title" };

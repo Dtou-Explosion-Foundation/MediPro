@@ -1,7 +1,7 @@
 package medipro.object.base.gridobject;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * グリッドオブジェクトのモデル.

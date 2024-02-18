@@ -5,8 +5,8 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
 import medipro.config.InGameConfig;
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * カメラのモデルを実装するクラス.

@@ -1,4 +1,4 @@
-package medipro.object.base;
+package medipro.world;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;

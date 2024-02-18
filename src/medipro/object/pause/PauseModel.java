@@ -1,7 +1,7 @@
 package medipro.object.pause;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class PauseModel extends GameObjectModel {
     private String[] pauseMenuItems = { "再開", "やり直す", "ゲームをやめる" };

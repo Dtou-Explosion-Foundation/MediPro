@@ -10,10 +10,10 @@ import javax.swing.JPanel;
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.frame.GameFrame;
-import medipro.object.base.World;
 import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
+import medipro.world.World;
 
 /**
  * Graphics2Dで描画されるゲームのパネルを実装するクラス.

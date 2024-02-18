@@ -2,9 +2,9 @@ package medipro.object.camera;
 
 import java.util.Optional;
 
-import medipro.object.base.World;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * ターゲットを追跡するカメラのモデル.

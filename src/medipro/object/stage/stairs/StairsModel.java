@@ -1,9 +1,9 @@
 package medipro.object.stage.stairs;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.object.manager.gamemanager.GameManagerModel;
+import medipro.world.World;
 
 /**
  * 階段のモデル.

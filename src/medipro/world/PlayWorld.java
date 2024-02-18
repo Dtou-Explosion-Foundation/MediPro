@@ -16,7 +16,6 @@ import medipro.anomaly.TextureIncreasedAnomaly;
 import medipro.anomaly.TextureMoveAnomaly;
 import medipro.anomaly.TextureSizeChangingAnomaly;
 import medipro.gui.panel.GamePanel;
-import medipro.object.base.World;
 import medipro.object.base.camera.CameraView;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.camera.SmoothFollowingCameraController;

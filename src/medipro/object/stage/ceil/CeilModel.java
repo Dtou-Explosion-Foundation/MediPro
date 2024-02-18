@@ -4,9 +4,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
-import medipro.object.base.World;
 import medipro.object.base.gridobject.GridObjectModel;
 import medipro.util.ImageUtil;
+import medipro.world.World;
 
 /**
  * 天井のモデル.
