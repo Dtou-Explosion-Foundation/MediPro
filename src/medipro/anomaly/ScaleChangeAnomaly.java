@@ -2,7 +2,6 @@ package medipro.anomaly;
 
 import java.util.ArrayList;
 
-import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 

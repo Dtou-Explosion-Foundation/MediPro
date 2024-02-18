@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import medipro.anomaly.AnomalyListener;
 import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
-import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.world.ResultWorld;

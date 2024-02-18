@@ -2,8 +2,8 @@ package medipro.object.manager.gamemanager;
 
 import java.awt.event.KeyListener;
 
+import medipro.anomaly.AnomalyListener;
 import medipro.gui.panel.GamePanel;
-import medipro.object.AnomalyListener;
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.world.PlayWorld;

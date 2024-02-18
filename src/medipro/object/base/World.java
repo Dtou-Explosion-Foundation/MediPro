@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
+import medipro.anomaly.AnomalyListener;
 import medipro.config.EngineConfig;
 import medipro.config.InGameConfig;
 import medipro.gui.panel.GamePanel;
-import medipro.object.AnomalyListener;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectView;

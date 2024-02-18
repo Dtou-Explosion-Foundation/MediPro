@@ -1,4 +1,4 @@
-package medipro.object.stairs;
+package medipro.object.stage.stairs;
 
 import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;

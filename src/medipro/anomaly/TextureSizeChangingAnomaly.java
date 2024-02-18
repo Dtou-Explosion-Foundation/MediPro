@@ -1,6 +1,5 @@
 package medipro.anomaly;
 
-import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;

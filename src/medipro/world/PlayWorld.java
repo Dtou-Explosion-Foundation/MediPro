@@ -52,12 +52,12 @@ import medipro.object.stage.ceil.CeilView;
 import medipro.object.stage.floor.FloorController;
 import medipro.object.stage.floor.FloorModel;
 import medipro.object.stage.floor.FloorView;
+import medipro.object.stage.stairs.StairsController;
+import medipro.object.stage.stairs.StairsModel;
+import medipro.object.stage.stairs.StairsView;
 import medipro.object.stage.wall.WallController;
 import medipro.object.stage.wall.WallModel;
 import medipro.object.stage.wall.WallView;
-import medipro.object.stairs.StairsController;
-import medipro.object.stairs.StairsModel;
-import medipro.object.stairs.StairsView;
 
 /**
  * プレイワールド.ゲームをプレイするためのワールド.

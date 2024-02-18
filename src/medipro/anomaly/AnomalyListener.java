@@ -1,4 +1,4 @@
-package medipro.object;
+package medipro.anomaly;
 
 /**
  * 異常の内容を提供し、異常発生の通知を受け取ることができる.
