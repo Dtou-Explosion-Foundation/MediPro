@@ -23,6 +23,39 @@ public class BlackFilterModel extends GameObjectModel {
      * 透明度.
      */
     private float alpha = 0;
+
+    /**
+     * 変化の状態を表す. 0: none, 1: blackIn, -1: blackOut
+     */
+    private byte state = 0;
+
+    /**
+     * 変化の状態を取得する.
+     * 
+     * @return 変化の状態
+     */
+    public byte getState() {
+        return state;
+    }
+
+    /**
+     * 変化中かどうか.
+     * 
+     * @return 変化の状態
+     */
+    public boolean isChanging() {
+        return state != 0;
+    }
+
+    /**
+     * 変化の状態を設定する.
+     * 
+     * @param state 変化の状態
+     */
+    public void setState(byte state) {
+        this.state = state;
+    }
+
     /**
      * 変化にかかる時間.
      */
