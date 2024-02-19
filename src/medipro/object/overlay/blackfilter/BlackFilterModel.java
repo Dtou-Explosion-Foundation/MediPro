@@ -30,6 +30,16 @@ public class BlackFilterModel extends GameObjectModel {
     private byte state = 0;
 
     /**
+     * 変化を進める.
+     * 
+     * @param dt 変化量
+     */
+    public void update(double dt) {
+        if (isChanging() && addAlpha(dt * state / duration))
+            setState((byte) 0);
+    }
+
+    /**
      * 変化の状態を取得する.
      * 
      * @return 変化の状態

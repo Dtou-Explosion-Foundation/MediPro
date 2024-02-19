@@ -20,9 +20,7 @@ public class BlackFilterController extends GameObjectController {
     @Override
     public void update(double dt) {
         BlackFilterModel model = (BlackFilterModel) this.model;
-        float duration = model.getDuration();
-        if (model.isChanging() && model.addAlpha(dt * model.getState() / duration))
-            model.setState((byte) 0);
+        model.update(dt);
     }
 
     /**
