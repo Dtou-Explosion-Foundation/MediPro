@@ -150,7 +150,7 @@ public class BlackFilterModel extends GameObjectModel {
     /**
      * ブラックフィルタの色.
      */
-    public BlackFilterColor color = BlackFilterColor.BLACK;
+    private BlackFilterColor color = BlackFilterColor.BLACK;
 
     /**
      * ブラックフィルタの色を設定する.
