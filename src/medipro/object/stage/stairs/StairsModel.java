@@ -89,16 +89,6 @@ public class StairsModel extends GameObjectModel {
     }
 
     /**
-     * 階段が右上に上れるかどうかを設定する.
-     * 
-     * @param setRight 階段が右上に上れるかどうか
-     * @deprecated 階段の向きはx座標で判断するようになったため、このメソッドは廃止されました。
-     */
-    public void setRight(boolean setRight) {
-        // this.setRight = setRight;
-    }
-
-    /**
      * 階段のモデルを生成する.
      * 
      * @param world ワールド
