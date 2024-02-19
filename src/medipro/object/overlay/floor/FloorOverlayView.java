@@ -18,10 +18,12 @@ public class FloorOverlayView extends GameObjectView {
     public void draw(Graphics2D g) {
         g.setTransform(new AffineTransform());
         int floor = GameManagerModel.getFloor();
+        int windowWidth = (int) (InGameConfig.WINDOW_WIDTH
+                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
         g.setFont(new Font("SansSerif", Font.BOLD, 75));
         g.setColor(Color.WHITE);
-        g.drawString(String.valueOf(floor) + "層", InGameConfig.WINDOW_WIDTH - 200, 175);
+        g.drawString(String.valueOf(floor) + "層", windowWidth - 200, 175);
         g.setFont(new Font("SansSerif", Font.BOLD, 50));
-        g.drawString("現在", InGameConfig.WINDOW_WIDTH - 300, 100);
+        g.drawString("現在", windowWidth - 300, 100);
     }
 }

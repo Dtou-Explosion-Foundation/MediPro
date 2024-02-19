@@ -23,9 +23,13 @@ public class BlackFilterView extends GameObjectView {
 
     @Override
     protected void draw(Graphics2D g) {
+        int windowWidth = (int) (InGameConfig.WINDOW_WIDTH
+                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
+        int windowHeight = (int) (InGameConfig.WINDOW_HEIGHT
+                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
         g.setTransform(new AffineTransform());
         g.setColor(((BlackFilterModel) model).getColor());
-        g.fillRect(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
+        g.fillRect(0, 0, windowWidth, windowHeight);
     }
 
 }
