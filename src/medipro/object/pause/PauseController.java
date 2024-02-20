@@ -10,7 +10,15 @@ import medipro.object.manager.gamemanager.GameManagerModel;
 import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
+/**
+ * ポーズのコントローラ.
+ */
 public class PauseController extends GameObjectController implements KeyListener {
+    /**
+     * ポーズのコントローラを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public PauseController(PauseModel model) {
         super(model);
     }

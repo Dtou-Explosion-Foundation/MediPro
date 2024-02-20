@@ -8,7 +8,15 @@ import java.awt.geom.AffineTransform;
 import medipro.object.base.gameobject.GameObjectView;
 import medipro.object.manager.gamemanager.GameManagerModel;
 
+/**
+ * ポーズのビュー.
+ */
 public class PauseView extends GameObjectView {
+    /**
+     * ポーズのビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public PauseView(PauseModel model) {
         super(model);
     }
@@ -31,6 +39,9 @@ public class PauseView extends GameObjectView {
         }
     }
 
+    /**
+     * 最後に選択されたメニュー項目.
+     */
     int lastSelectedItem = -1;
 
 }

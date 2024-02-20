@@ -54,6 +54,11 @@ public class TitleMenuModel extends GameObjectModel {
         return selectedItem;
     }
 
+    /**
+     * メニュー項目を選択する.
+     * 
+     * @param n 選択するメニュー項目
+     */
     public void setSelectedItem(int n) {
         selectedItem = n;
     }
