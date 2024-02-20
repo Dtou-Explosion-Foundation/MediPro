@@ -3,9 +3,9 @@ package medipro.object.overlay.vignette;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.util.ImageUtil;
+import medipro.world.World;
 
 /**
  * ビネットのモデル.

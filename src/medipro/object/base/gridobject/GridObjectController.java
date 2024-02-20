@@ -17,9 +17,6 @@ public abstract class GridObjectController extends GameObjectController {
         super(model);
     }
 
-    /**
-     * グリッドオブジェクトのコントローラを生成する.
-     */
     @Override
     public void update(double dt) {
     }

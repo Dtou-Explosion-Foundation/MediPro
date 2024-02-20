@@ -1,9 +1,14 @@
 package medipro.config;
 
 /**
- * エンジンの設定を保存するクラス.
+ * エンジンの設定を保存するクラス.動作時には変更されない.
  */
 public class EngineConfig {
+    protected EngineConfig() {
+        // インスタンス化を防ぐためのコンストラクタ
+        throw new UnsupportedOperationException();
+    }
+
     /**
      * レイヤーの数.
      */
@@ -22,8 +27,4 @@ public class EngineConfig {
      * タイトルをスキップするかどうか.
      */
     public static final boolean SKIP_TITLE = false;
-    /**
-     * デバッグレベル.
-     */
-    public static final int DEBUG_LEVEL = 2; // 0: none, 1: info, 2: debug
 }

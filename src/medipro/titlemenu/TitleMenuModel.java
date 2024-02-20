@@ -1,7 +1,7 @@
 package medipro.titlemenu;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * タイトルメニューのモデル.

@@ -55,6 +55,9 @@ public abstract class GameObjectController {
     public void postSetupWorld() {
     }
 
+    /**
+     * オブジェクトが破棄されるときに呼ばれる.
+     */
     public void dispose() {
     }
 }

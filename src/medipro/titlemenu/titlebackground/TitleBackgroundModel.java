@@ -1,7 +1,7 @@
 package medipro.titlemenu.titlebackground;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 public class TitleBackgroundModel extends GameObjectModel {
     private String imgPath = "img/titlemenu/heroImage.jpg";

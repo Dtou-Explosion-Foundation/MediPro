@@ -5,9 +5,8 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
 import medipro.config.InGameConfig;
-import medipro.gui.panel.IGamePanel;
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * カメラのモデルを実装するクラス.
@@ -33,11 +32,7 @@ public class CameraModel extends GameObjectModel {
      * @return カメラのズーム倍率
      */
     public double getScale() {
-        if (InGameConfig.USE_OPENGL)
-            return scale;
-        else {
-            return scale * getScreenScaleFactor();
-        }
+        return scale * getScreenScaleFactor() * InGameConfig.WINDOW_SCALE_RATIO;
     }
 
     /**
@@ -54,7 +49,7 @@ public class CameraModel extends GameObjectModel {
      * 
      * @param scale カメラのズーム倍率
      */
-    public void setScale(double scale) {
+    public void setRawScale(double scale) {
         this.scale = scale;
     }
 
@@ -64,16 +59,8 @@ public class CameraModel extends GameObjectModel {
      * @return スクリーン倍率
      */
     private double getScreenScaleFactor() {
-        if (this.world.panel instanceof IGamePanel)
-            return ((IGamePanel) this.world.panel).getFrame().getScreenScaleFactor();
-        else
-            return 1;
+        return this.getWorld().getPanel().getFrame().getScreenScaleFactor();
     }
-
-    /**
-     * カメラの変換行列を保存するUBOの名前.
-     */
-    private int ubo = -1;
 
     /**
      * グローバル座標からカメラ座標に変換するアフィン変換行列を取得する. ローカル座標とは違い,カメラの中心を原点とするので注意.
@@ -86,7 +73,7 @@ public class CameraModel extends GameObjectModel {
         transform.translate(InGameConfig.WINDOW_WIDTH / 2 * getScreenScaleFactor(),
                 InGameConfig.WINDOW_HEIGHT / 2 * getScreenScaleFactor());
         transform.scale(getScale(), getScale());
-        transform.translate(-x, y);
+        transform.translate(-getX(), getY());
         return transform;
     }
 
@@ -98,39 +85,15 @@ public class CameraModel extends GameObjectModel {
      */
     public Point2D.Double[] getVisibleArea() throws NoninvertibleTransformException {
         Point2D.Double[] points = new Point2D.Double[4];
-        double width = InGameConfig.WINDOW_WIDTH * getScreenScaleFactor();
-        double height = InGameConfig.WINDOW_HEIGHT * getScreenScaleFactor();
+        double width = InGameConfig.WINDOW_WIDTH_BASE * getScreenScaleFactor();
+        double height = InGameConfig.WINDOW_HEIGHT_BASE * getScreenScaleFactor();
         AffineTransform transform = getTransformMatrix().createInverse();
         points[0] = new Point2D.Double(0, 0);
         points[1] = new Point2D.Double(width, 0);
         points[2] = new Point2D.Double(width, height);
         points[3] = new Point2D.Double(0, height);
-        // points[0] = new Point2D.Double(this.x, this.y);
-        // points[1] = new Point2D.Double(this.x + width, this.y);
-        // points[2] = new Point2D.Double(this.x + width, this.y + height);
-        // points[3] = new Point2D.Double(this.x, this.y + height);
-        for (int i = 0; i < points.length; i++) {
+        for (int i = 0; i < points.length; i++)
             transform.transform(points[i], points[i]);
-        }
         return points;
     }
-
-    /**
-     * カメラの変換行列を保存するUBOの名前を取得する.
-     * 
-     * @return UBOの名前
-     */
-    public int getUBO() {
-        return ubo;
-    }
-
-    /**
-     * カメラの変換行列を保存するUBOの名前を設定する.
-     * 
-     * @param ubo UBOの名前
-     */
-    public void setUBO(int ubo) {
-        this.ubo = ubo;
-    }
-
 }

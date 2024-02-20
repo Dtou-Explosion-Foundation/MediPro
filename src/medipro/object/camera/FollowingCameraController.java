@@ -46,8 +46,8 @@ public class FollowingCameraController extends CameraController {
     public void forceFollowX() {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
         if (followingCameraModel.target.isPresent()) {
-            GameObjectModel _target = followingCameraModel.target.get();
-            followingCameraModel.x = _target.x + followingCameraModel.originX;
+            GameObjectModel target = followingCameraModel.target.get();
+            followingCameraModel.setX(target.getX() + followingCameraModel.originX);
             followingCameraModel.clampPosition();
         }
     }
@@ -58,10 +58,10 @@ public class FollowingCameraController extends CameraController {
     public void forceFollowY() {
         FollowingCameraModel followingCameraModel = (FollowingCameraModel) model;
         if (followingCameraModel.target.isPresent()) {
-            GameObjectModel _target = followingCameraModel.target.get();
+            GameObjectModel target = followingCameraModel.target.get();
             // followingCameraModel.y = _target.y + followingCameraModel.originY;
-            followingCameraModel.y = _target.y * followingCameraModel.getFollowingRateY()
-                    + followingCameraModel.originY;
+            followingCameraModel
+                    .setY(target.getY() * followingCameraModel.getFollowingRateY() + followingCameraModel.originY);
             followingCameraModel.clampPosition();
         }
     }

@@ -3,9 +3,6 @@ package medipro.object.overlay.blackfilter;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import com.jogamp.opengl.GL4;
-import com.jogamp.opengl.GLAutoDrawable;
-
 import medipro.config.InGameConfig;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.base.gameobject.GameObjectView;
@@ -26,41 +23,13 @@ public class BlackFilterView extends GameObjectView {
 
     @Override
     protected void draw(Graphics2D g) {
+        int windowWidth = (int) (InGameConfig.WINDOW_WIDTH
+                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
+        int windowHeight = (int) (InGameConfig.WINDOW_HEIGHT
+                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
         g.setTransform(new AffineTransform());
         g.setColor(((BlackFilterModel) model).getColor());
-        g.fillRect(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
+        g.fillRect(0, 0, windowWidth, windowHeight);
     }
 
-    @Override
-    protected String getShaderPath(String ext) {
-        super.getShaderPath(ext);
-        return "shader/blackfilter/BlackFilter" + "." + ext;
-    }
-
-    @Override
-    protected boolean needUpdateTexture() {
-        return false;
-    }
-
-    @Override
-    protected void initTextures(GLAutoDrawable drawable) {
-
-    }
-
-    @Override
-    protected void initSamplers(GLAutoDrawable drawable) {
-
-    }
-
-    @Override
-    protected void updateUniforms(GLAutoDrawable drawable) {
-        BlackFilterModel blackFilterModel = (BlackFilterModel) model;
-        GL4 gl = drawable.getGL().getGL4();
-
-        int modelMatUniform = gl.glGetUniformLocation(shaderProgram, "uAlpha");
-        if (modelMatUniform != -1) {
-
-            gl.glUniform1f(modelMatUniform, blackFilterModel.getAlpha());
-        }
-    }
 }

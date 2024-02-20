@@ -2,19 +2,18 @@ package medipro.object.stage.ceil;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Optional;
 
-import medipro.object.base.World;
 import medipro.object.base.gridobject.GridObjectModel;
 import medipro.util.ImageUtil;
+import medipro.world.World;
 
 /**
  * 天井のモデル.
  */
 public class CeilModel extends GridObjectModel {
     /**
-     * テクスチャ
+     * テクスチャ.
      */
     private Optional<Image> texture = Optional.empty();
 
@@ -50,7 +49,6 @@ public class CeilModel extends GridObjectModel {
      * 
      * @param world ワールド
      * @param path  テクスチャのパス
-     * @throws IOException テクスチャをロードできなかった時のエラー
      */
     public CeilModel(World world, String path) {
         this(world, ImageUtil.loadImage(path));
@@ -73,7 +71,6 @@ public class CeilModel extends GridObjectModel {
      * 天井のモデルを生成する.
      * 
      * @param world ワールド
-     * @throws IOException テクスチャをロードできなかった時のエラー
      */
     public CeilModel(World world) {
         this(world, "img/layers/medipro_0003_Ceil.png");

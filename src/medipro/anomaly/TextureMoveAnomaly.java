@@ -1,6 +1,5 @@
 package medipro.anomaly;
 
-import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
@@ -44,11 +43,23 @@ public class TextureMoveAnomaly extends GameObjectController implements AnomalyL
         return 1;
     }
 
+    /**
+     * 発生確率.
+     */
+    private int occurredChance = 1;
+
+    /**
+     * 発生確率を設定する.
+     * 
+     * @param chance 発生確率
+     */
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
+    }
+
     @Override
     public int getOccurredChance() {
-        if (model instanceof TextureObjectModel)
-            return ((TextureObjectModel) model).getOccurredChance();
-        return 0;
+        return occurredChance;
     }
 
     private double timer = 0;
@@ -64,13 +75,13 @@ public class TextureMoveAnomaly extends GameObjectController implements AnomalyL
         timer = 0;
 
         if (model instanceof TextureObjectModel) {
-            if (model.x < 650 || model.x > -650) {
-                textureObjectModel.setDeltaX(model.deltaX += model.delta2X);
-                model.x += textureObjectModel.getDeltaX();
+            if (model.getX() < 650 || model.getX() > -650) {
+                textureObjectModel.setDeltaX(textureObjectModel.deltaX += textureObjectModel.delta2X);
+                model.addX(textureObjectModel.getDeltaX());
             }
-            if (model.y > -200 || model.y < 350) {
-                textureObjectModel.setDeltaY(model.deltaY += model.delta2Y);
-                model.y += textureObjectModel.getDeltaY();
+            if (model.getY() > -200 || model.getY() < 350) {
+                textureObjectModel.setDeltaY(textureObjectModel.deltaY += textureObjectModel.delta2Y);
+                model.addY(textureObjectModel.getDeltaY());
             }
             ((TextureObjectModel) model).setTextureIndex(1);
         }

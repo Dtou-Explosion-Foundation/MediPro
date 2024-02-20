@@ -2,35 +2,77 @@ package medipro.anomaly;
 
 import java.util.ArrayList;
 
-import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 
+/**
+ * 静的にスケールが変化する異変.
+ */
 public class ScaleChangeAnomaly extends GameObjectController implements AnomalyListener {
 
+    /**
+     * スケールの変化量の候補.
+     */
     private ArrayList<Double> scaleList = new ArrayList<Double>();
 
+    /**
+     * スケールの変化量の候補を設定する.
+     * 
+     * @param scaleList スケールの変化量の候補
+     */
     public void setScaleList(ArrayList<Double> scaleList) {
         this.scaleList = scaleList;
     }
 
+    /**
+     * デフォルトのスケール.元に戻すために使用する.
+     */
     private double defaultScaleX = 1.0;
+    /**
+     * デフォルトのスケール.元に戻すために使用する.
+     */
     private double defaultScaleY = 1.0;
 
+    /**
+     * スケールの変化軸.
+     */
     private Axis axis = Axis.BOTH;
 
+    /**
+     * スケールの変化軸を取得する.
+     * 
+     * @return スケールの変化軸
+     */
     public Axis getAxis() {
         return axis;
     }
 
+    /**
+     * スケールの変化軸を設定する.
+     * 
+     * @param axis スケールの変化軸
+     */
     public void setAxis(Axis axis) {
         this.axis = axis;
     }
 
+    /**
+     * 軸.
+     */
     public enum Axis {
-        X, Y, BOTH
+        /** X軸. */
+        X,
+        /** Y軸. */
+        Y,
+        /** 両方. */
+        BOTH
     }
 
+    /**
+     * スケールの変化異変を生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public ScaleChangeAnomaly(GameObjectModel model) {
         super(model);
     }
@@ -43,22 +85,22 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
     @Override
     public void onAnomalyOccurred(int level) {
         if (axis == Axis.X || axis == Axis.BOTH) {
-            defaultScaleX = model.scaleX;
-            model.scaleX *= scaleList.get(level);
+            defaultScaleX = model.getScaleX();
+            model.multiplyScaleX(scaleList.get(level));
         }
         if (axis == Axis.Y || axis == Axis.BOTH) {
-            defaultScaleY = model.scaleY;
-            model.scaleY *= scaleList.get(level);
+            defaultScaleY = model.getScaleY();
+            model.multiplyScaleY(scaleList.get(level));
         }
     }
 
     @Override
     public void onAnomalyFinished() {
         if (axis == Axis.X || axis == Axis.BOTH) {
-            model.scaleX = defaultScaleX;
+            model.setScaleX(defaultScaleX);
         }
         if (axis == Axis.Y || axis == Axis.BOTH) {
-            model.scaleY = defaultScaleY;
+            model.setScaleY(defaultScaleY);
         }
     }
 
@@ -72,10 +114,18 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
         return scaleList.size() - 1;
     }
 
+    /**
+     * 発生確率.
+     */
     private int occurredChance = 1;
 
-    public void setOccurredChance(int occurredChance) {
-        this.occurredChance = occurredChance;
+    /**
+     * 発生確率を設定する.
+     * 
+     * @param chance 発生確率
+     */
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
     }
 
     @Override
@@ -85,7 +135,6 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
 
     @Override
     public void update(double dt) {
-
     }
 
 }
