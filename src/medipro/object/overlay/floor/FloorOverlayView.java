@@ -9,7 +9,15 @@ import medipro.config.InGameConfig;
 import medipro.object.base.gameobject.GameObjectView;
 import medipro.object.manager.gamemanager.GameManagerModel;
 
+/**
+ * フロア表示のビュー.
+ */
 public class FloorOverlayView extends GameObjectView {
+    /**
+     * フロア表示のビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public FloorOverlayView(FloorOverlayModel model) {
         super(model);
     }

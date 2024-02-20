@@ -7,7 +7,15 @@ import java.awt.Graphics2D;
 import medipro.object.base.gameobject.GameObjectView;
 import medipro.object.manager.gamemanager.GameManagerModel;
 
+/**
+ * リザルトのビュー.
+ */
 public class ResultView extends GameObjectView {
+    /**
+     * リザルトのビューを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public ResultView(ResultModel model) {
         super(model);
     }
@@ -32,6 +40,9 @@ public class ResultView extends GameObjectView {
         }
     }
 
+    /**
+     * 最後に選択されたメニュー項目.
+     */
     int lastSelectedItem = -1;
 
 }

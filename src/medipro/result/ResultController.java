@@ -9,12 +9,25 @@ import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.world.PlayWorld;
 import medipro.world.TitleMenuWorld;
 
+/**
+ * リザルトのコントローラ.
+ */
 public class ResultController extends GameObjectController implements KeyListener {
 
+    /**
+     * リザルトのコントローラを生成する.
+     * 
+     * @param model 対象のモデル
+     */
     public ResultController(ResultModel model) {
         super(model);
     }
 
+    /**
+     * キーが押された時の処理. 対象のモデルに対してprevItem()やnextItem()を呼び出す. 対象のパネルに対してsetWorld()を呼び出す.
+     * 
+     * @param e キーイベント
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         ResultModel resultModel = (ResultModel) model;
