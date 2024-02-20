@@ -9,8 +9,6 @@ medipro.object.base.camera
 medipro.object.base.gameobject
 medipro.object.base.gridobject
 medipro.object.camera
-medipro.object.example
-medipro.object.example.grid
 medipro.object.manager
 medipro.object.manager.gamemanager
 medipro.object.ornament
@@ -26,8 +24,8 @@ medipro.object.stage
 medipro.object.stage.background
 medipro.object.stage.ceil
 medipro.object.stage.floor
+medipro.object.stage.stairs
 medipro.object.stage.wall
-medipro.object.stairs
 medipro.result
 medipro.titlemenu
 medipro.titlemenu.titlebackground
