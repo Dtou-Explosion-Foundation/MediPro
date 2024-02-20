@@ -45,7 +45,7 @@
             // javac -sourcepath src -d classes -cp lib/*.jar src/medipro/Main.java && jar cfm app.jar manifest.txt -C classes . -C src . lib img
             "label": "gen jar",
             "type": "shell",
-            "command": "javac -sourcepath src -d classes -cp lib/*.jar src/medipro/Main.java && jar cfm bin/app.jar manifest.txt -C classes . -C src medipro -C lib . img",
+            "command": "javac --release 17 -sourcepath src -d classes -cp lib/*.jar src/medipro/Main.java && jar cfm bin/app.jar manifest.txt -C classes . -C src medipro img",
         }
     ]
 }
