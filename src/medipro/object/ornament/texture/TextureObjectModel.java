@@ -16,15 +16,33 @@ public class TextureObjectModel extends GameObjectModel {
      * 現在のテクスチャのインデックス.
      */
     private int textureIndex = 0;
-
+    /**
+     * オブジェクトの時間間隔
+     */
     public double interval;
-
+    /**
+     * オブジェクトのx変数
+     */
     public double deltaX;
+    /**
+     * オブジェクトのｙ変数
+     */
     public double deltaY;
+    /**
+     * オブジェクトのx変数
+     */
     public double delta2X;
+    /**
+     * オブジェクトのy変数
+     */
     public double delta2Y;
-
+    /**
+     * オブジェクトのx倍率
+     */
     public int timesX;
+    /**
+     * オブジェクトのy倍率
+     */
     public int timesY;
 
     /**
