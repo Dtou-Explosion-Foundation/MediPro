@@ -4,8 +4,14 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
 
+/** 
+ * テクスチャを動かす異変のコントローラー
+*/
 public class TextureMoveAnomaly extends GameObjectController implements AnomalyListener {
-
+    /**
+     * テクスチャを動かす異変のコントローラーの生成
+     * @param model 対象のモデル
+     */
     public TextureMoveAnomaly(GameObjectModel model) {
         super(model);
     }

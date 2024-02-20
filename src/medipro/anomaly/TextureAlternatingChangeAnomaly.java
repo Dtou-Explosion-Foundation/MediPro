@@ -3,9 +3,14 @@ package medipro.anomaly;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
-
+/**
+ * 表示するテクスチャが定期的に変更する異変のコントローラ
+ */
 public class TextureAlternatingChangeAnomaly extends GameObjectController implements AnomalyListener {
-
+    /**
+    * 表示するテクスチャが定期的に変更する異変のコントローラ
+     * @param model 対象のモデル
+     */
     public TextureAlternatingChangeAnomaly(GameObjectModel model) {
         super(model);
     }

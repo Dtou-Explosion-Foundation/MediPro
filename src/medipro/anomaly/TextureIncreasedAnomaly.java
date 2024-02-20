@@ -4,8 +4,14 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
 
+/**
+ * テクスチャが表示される数を増やしダミーを生成するコントローラ
+ */
 public class TextureIncreasedAnomaly extends GameObjectController implements AnomalyListener {
-
+    /**
+     * テクスチャが表示される数を増やしダミーを生成するコントローラの生成
+     * @param model 対象のモデル
+     */
     public TextureIncreasedAnomaly(GameObjectModel model) {
         super(model);
     }

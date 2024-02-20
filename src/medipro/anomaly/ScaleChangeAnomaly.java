@@ -68,6 +68,7 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
         BOTH
     }
 
+
     /**
      * スケールの変化異変を生成する.
      * 
