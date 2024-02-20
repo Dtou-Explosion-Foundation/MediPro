@@ -6,10 +6,16 @@ import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 
+/**
+ * テクスチャのサイズを変更する異変のコントローラー
+ */
 public class ScaleChangeAnomaly extends GameObjectController implements AnomalyListener {
 
     private ArrayList<Double> scaleList = new ArrayList<Double>();
-
+    /**
+     * 
+     * @param scaleList
+     */
     public void setScaleList(ArrayList<Double> scaleList) {
         this.scaleList = scaleList;
     }
@@ -18,11 +24,17 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
     private double defaultScaleY = 1.0;
 
     private Axis axis = Axis.BOTH;
-
+    /**
+     * 現在の軸を取得する
+     * @return 軸
+     */
     public Axis getAxis() {
         return axis;
     }
-
+    /**
+     * 現在の軸を設定する
+     * @param axis 軸
+     */
     public void setAxis(Axis axis) {
         this.axis = axis;
     }
@@ -30,7 +42,10 @@ public class ScaleChangeAnomaly extends GameObjectController implements AnomalyL
     public enum Axis {
         X, Y, BOTH
     }
-
+    /**
+     * テクスチャのサイズを変更する異変のコントローラー
+     * @param model 対象のモデル
+     */
     public ScaleChangeAnomaly(GameObjectModel model) {
         super(model);
     }

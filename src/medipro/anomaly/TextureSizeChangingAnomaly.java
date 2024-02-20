@@ -4,9 +4,14 @@ import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
-
+/**
+ * テクスチャのサイズを変更する異変のコントローラー
+ */
 public class TextureSizeChangingAnomaly extends GameObjectController implements AnomalyListener {
-
+    /**
+     * テクスチャのサイズを変更する異変のコントローラーの生成
+     * @param model 対象のモデル
+     */
     public TextureSizeChangingAnomaly(GameObjectModel model) {
         super(model);
     }

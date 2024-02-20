@@ -95,32 +95,69 @@ public class TextureObjectModel extends GameObjectModel {
         this.textureIndex = Math.max(0, Math.min(texturePaths.length - 1, textureIndex));
     }
 
+    /**
+     * 現在のテクスチャの時間間隔を取得する.
+     * 
+     * @return テクスチャの時間間隔
+     */
     public double getInterval() {
         return interval;
     }
 
+    /**
+     * 現在のテクスチャの時間間隔を設定する.
+     * 
+     * @param interval テクスチャの時間間隔
+     */
     public void setInterval(double interval) {
         this.interval = interval;
     }
 
+    /**
+     * 現在のテクスチャのx変数を取得する
+     * 
+     * @return テクスチャのx変数
+     */
     public double getDeltaX() {
         return deltaX;
     }
 
+    /**
+     * 現在のテクスチャのx変数を設定する
+     * 
+     * @param deltaX テクスチャのx変数
+     */
     public void setDeltaX(double deltaX) {
         this.deltaX = deltaX;
     }
 
+    /**
+     * 現在のテクスチャのy変数を取得する
+     * 
+     * @return テクスチャのy変数
+     */
     public double getDeltaY() {
         return deltaY;
     }
 
+    /**
+     * 現在のテクスチャのy変数を設定する
+     * 
+     * @param deltaY テクスチャのy変数
+     */
     public void setDeltaY(double deltaY) {
         this.deltaY = deltaY;
     }
-
+    
+    /**
+     * ダミーの有無
+     */
     public boolean isDummies = false;
 
+    /**
+     * 
+     * @return ダミーの有無
+     */
     public boolean hasDummies() {
         return isDummies;
     }

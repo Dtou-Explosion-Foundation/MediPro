@@ -5,8 +5,15 @@ import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.player.PlayerModel;
 
+/**
+ * 表示されるプレイヤーを前後に増加させる異変のコントローラ
+ */
 public class PlayerIncreasedAnomaly extends GameObjectController implements AnomalyListener {
 
+    /**
+     * 表示されるプレイヤーを前後に増加させる異変のコントローラの生成
+     * @param model 対象のモデル
+     */
     public PlayerIncreasedAnomaly(GameObjectModel model) {
         super(model);
     }

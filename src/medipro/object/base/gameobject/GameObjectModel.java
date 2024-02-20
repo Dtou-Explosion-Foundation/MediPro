@@ -38,15 +38,33 @@ public abstract class GameObjectModel {
      * オブジェクトのY座標方向のスケール.
      */
     public double scaleY;
-
+    /**
+     * オブジェクトの時間間隔
+     */
     public double interval;
-
+    /**
+     * オブジェクトのx変数
+     */
     public double deltaX;
+    /**
+     * オブジェクトのｙ変数
+     */
     public double deltaY;
+    /**
+     * オブジェクトのx変数
+     */
     public double delta2X;
+    /**
+     * オブジェクトのy変数
+     */
     public double delta2Y;
-
+    /**
+     * オブジェクトのx倍率
+     */
     public int timesX;
+    /**
+     * オブジェクトのy倍率
+     */
     public int timesY;
 
     /**
