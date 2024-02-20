@@ -25,16 +25,16 @@ public class WallView extends GameObjectView {
     @Override
     protected void draw(Graphics2D g) {
         WallModel model = (WallModel) this.model;
-        if (model.image_white.isPresent()) {
-            BufferedImage image = model.image_white.get();
+        if (model.imageWhite.isPresent()) {
+            BufferedImage image = model.imageWhite.get();
             g.drawImage(image, -image.getWidth() / 2, -image.getHeight() / 2, null);
         }
-        if (model.image_black.isPresent()) {
-            BufferedImage image = model.image_black.get();
+        if (model.imageBlack.isPresent()) {
+            BufferedImage image = model.imageBlack.get();
             double diff = 0;
-            if (model.world.camera.isPresent()) {
-                CameraModel camera = model.world.camera.get();
-                diff = (camera.x - model.x) * camera.getScale() * -0.02;
+            if (model.getWorld().getCamera().isPresent()) {
+                CameraModel camera = model.getWorld().getCamera().get();
+                diff = (camera.getX() - model.getX()) * camera.getScale() * -0.02;
 
             }
             AffineTransform transform = g.getTransform();

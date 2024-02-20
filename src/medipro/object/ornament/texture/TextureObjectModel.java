@@ -1,7 +1,7 @@
 package medipro.object.ornament.texture;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * テクスチャのモデル.
@@ -17,15 +17,15 @@ public class TextureObjectModel extends GameObjectModel {
      */
     private int textureIndex = 0;
 
-    private int occurredChance = 1;
+    public double interval;
 
-    public int getOccurredChance() {
-        return occurredChance;
-    }
+    public double deltaX;
+    public double deltaY;
+    public double delta2X;
+    public double delta2Y;
 
-    public void setOccurredChance(int occurredChance) {
-        this.occurredChance = occurredChance;
-    }
+    public int timesX;
+    public int timesY;
 
     /**
      * テクスチャのモデルを生成する.
@@ -57,6 +57,15 @@ public class TextureObjectModel extends GameObjectModel {
      */
     public TextureObjectModel(World world) {
         this(world, null, 0);
+        this.interval = 1;
+
+        this.deltaX = 0;
+        this.deltaY = 0;
+        this.delta2X = 0;
+        this.delta2Y = 0;
+
+        this.timesX = 0;
+        this.timesY = 0;
     }
 
     /**

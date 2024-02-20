@@ -1,16 +1,17 @@
 package medipro.anomaly;
 
-import medipro.object.AnomalyListener;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.base.gameobject.GameObjectModel;
 import medipro.object.ornament.texture.TextureObjectModel;
 
 /**
- * 通常とは異なるテクスチャを表示する異変のコントローラー
+ * 静的にテクスチャが変化する異変.
  */
 public class TextureChangeAnomaly extends GameObjectController implements AnomalyListener {
+
     /**
-     * 通常とは異なるテクスチャを表示する異変のコントローラーの生成
+     * テクスチャが変化する異変を生成する.
+     * 
      * @param model 対象のモデル
      */
     public TextureChangeAnomaly(GameObjectModel model) {
@@ -47,11 +48,23 @@ public class TextureChangeAnomaly extends GameObjectController implements Anomal
         return 1;
     }
 
+    /**
+     * 発生確率.
+     */
+    private int occurredChance = 1;
+
+    /**
+     * 発生確率を設定する.
+     * 
+     * @param chance 発生確率
+     */
+    public void setOccurredChance(int chance) {
+        this.occurredChance = chance;
+    }
+
     @Override
     public int getOccurredChance() {
-        if (model instanceof TextureObjectModel)
-            return ((TextureObjectModel) model).getOccurredChance();
-        return 0;
+        return occurredChance;
     }
 
     @Override

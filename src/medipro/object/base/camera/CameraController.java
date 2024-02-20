@@ -17,9 +17,6 @@ public class CameraController extends GameObjectController {
         super(model);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void update(double dt) {
 

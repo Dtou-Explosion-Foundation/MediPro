@@ -1,7 +1,7 @@
 package medipro.object.camera;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * ターゲットをスムーズに追跡するカメラのモデル.
@@ -12,22 +12,48 @@ public class SmoothFollowingCameraModel extends FollowingCameraModel {
      */
     public Double followingSpeed = 0.1;
 
+    /**
+     * OriginXをプレイヤーの向きに合わせて反転するかどうか.
+     */
     private boolean isFlipOriginXWithPlayerDirection = true;
 
+    /**
+     * OriginXをプレイヤーの向きに合わせて反転するかどうかを取得する.
+     * 
+     * @return OriginXをプレイヤーの向きに合わせて反転するかどうか
+     */
     public boolean isFlipOriginXWithPlayerDirection() {
         return isFlipOriginXWithPlayerDirection;
     }
 
+    /**
+     * OriginXをプレイヤーの向きに合わせて反転するかどうかを設定する.
+     * 
+     * @param isFlipOriginXWithPlayerDirection OriginXをプレイヤーの向きに合わせて反転するかどうか
+     */
     public void setFlipOriginXWithPlayerDirection(boolean isFlipOriginXWithPlayerDirection) {
         this.isFlipOriginXWithPlayerDirection = isFlipOriginXWithPlayerDirection;
     }
 
+    /**
+     * OriginXを反転するときのスピード.
+     */
     private double flipSpeed = 50;
 
+    /**
+     * OriginXを反転するときのスピードを取得する.
+     * 
+     * @return OriginXを反転するときのスピード
+     */
     public double getFlipSpeed() {
         return flipSpeed;
     }
 
+    /**
+     * OriginXを反転するときのスピードを設定する.
+     * 
+     * @param flipSpeed OriginXを反転するときのスピード
+     */
     public void setFlipSpeed(double flipSpeed) {
         this.flipSpeed = flipSpeed;
     }

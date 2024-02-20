@@ -2,9 +2,9 @@ package medipro.object.camera;
 
 import java.util.Optional;
 
-import medipro.object.base.World;
 import medipro.object.base.camera.CameraModel;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * ターゲットを追跡するカメラのモデル.
@@ -56,10 +56,20 @@ public class FollowingCameraModel extends CameraModel {
      */
     private double followingRateY = 1.0;
 
+    /**
+     * カメラのY座標の追跡割合を取得する.
+     * 
+     * @return カメラのY座標の追跡割合
+     */
     public double getFollowingRateY() {
         return followingRateY;
     }
 
+    /**
+     * カメラのY座標の追跡割合を設定する.
+     * 
+     * @param followingRateY カメラのY座標の追跡割合
+     */
     public void setFollowingRateY(double followingRateY) {
         this.followingRateY = followingRateY;
     }
@@ -188,14 +198,14 @@ public class FollowingCameraModel extends CameraModel {
      * カメラの位置に制限を適用する.
      */
     public void clampPosition() {
-        if (x < minX)
-            x = minX;
-        if (x > maxX)
-            x = maxX;
-        if (y < minY)
-            y = minY;
-        if (y > maxY)
-            y = maxY;
+        if (this.getX() < minX)
+            this.setX(minX);
+        if (this.getX() > maxX)
+            this.setX(maxX);
+        if (this.getY() < minY)
+            this.setY(minY);
+        if (this.getY() > maxY)
+            this.setY(maxY);
     }
 
 }

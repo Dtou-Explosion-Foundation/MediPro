@@ -1,9 +1,9 @@
 package medipro.result;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
-public class ResultModel extends GameObjectModel{
+public class ResultModel extends GameObjectModel {
     private String[] menuItems = { "Retry", "Return to title" };
     private int selectedItem = 0;
 
@@ -25,12 +25,12 @@ public class ResultModel extends GameObjectModel{
         return selectedItem;
     }
 
-    public void setSelectedItem(int n){
+    public void setSelectedItem(int n) {
         selectedItem = n;
     }
 
     public String[] getMenuItems() {
         return menuItems;
     }
-   
+
 }

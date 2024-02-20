@@ -2,8 +2,8 @@ package medipro.object.overlay.blackfilter;
 
 import java.awt.Color;
 
-import medipro.object.base.World;
 import medipro.object.base.gameobject.GameObjectModel;
+import medipro.world.World;
 
 /**
  * 暗転のモデル.
@@ -23,6 +23,49 @@ public class BlackFilterModel extends GameObjectModel {
      * 透明度.
      */
     private float alpha = 0;
+
+    /**
+     * 変化の状態を表す. 0: none, 1: blackIn, -1: blackOut
+     */
+    private byte state = 0;
+
+    /**
+     * 変化を進める.
+     * 
+     * @param dt 変化量
+     */
+    public void update(double dt) {
+        if (isChanging() && addAlpha(dt * state / duration))
+            setState((byte) 0);
+    }
+
+    /**
+     * 変化の状態を取得する.
+     * 
+     * @return 変化の状態
+     */
+    public byte getState() {
+        return state;
+    }
+
+    /**
+     * 変化中かどうか.
+     * 
+     * @return 変化の状態
+     */
+    public boolean isChanging() {
+        return state != 0;
+    }
+
+    /**
+     * 変化の状態を設定する.
+     * 
+     * @param state 変化の状態
+     */
+    public void setState(byte state) {
+        this.state = state;
+    }
+
     /**
      * 変化にかかる時間.
      */
@@ -94,16 +137,35 @@ public class BlackFilterModel extends GameObjectModel {
         return clampAlpha();
     }
 
+    /**
+     * ブラックフィルタの色.
+     */
     public enum BlackFilterColor {
-        BLACK, RED
+        /** 黒. */
+        BLACK,
+        /** 赤. */
+        RED
     }
 
-    public BlackFilterColor color = BlackFilterColor.BLACK;
+    /**
+     * ブラックフィルタの色.
+     */
+    private BlackFilterColor color = BlackFilterColor.BLACK;
 
+    /**
+     * ブラックフィルタの色を設定する.
+     * 
+     * @param color ブラックフィルタの色
+     */
     public void setColor(BlackFilterColor color) {
         this.color = color;
     }
 
+    /**
+     * ブラックフィルタの色を取得する.
+     * 
+     * @return ブラックフィルタの色
+     */
     public Color getColor() {
         switch (color) {
         case BLACK:

@@ -6,16 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Optional;
-
-import com.jogamp.opengl.GL4;
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.math.Matrix4f;
-import com.jogamp.opengl.util.texture.TextureData;
-import com.jogamp.opengl.util.texture.TextureIO;
 
 import medipro.config.InGameConfig;
 import medipro.object.base.camera.CameraModel;
@@ -43,11 +33,11 @@ public abstract class GridObjectView extends GameObjectView {
      */
     @Override
     public void draw(Graphics2D g) {
-        g.setTransform(model.world.getCameraTransform());
+        g.setTransform(model.getWorld().getCameraTransform());
         GridObjectModel gridModel = (GridObjectModel) model;
         Rectangle2D.Double bounds;
-        if (model.world.camera.isPresent()) {
-            CameraModel cameraModel = model.world.camera.get();
+        if (model.getWorld().getCamera().isPresent()) {
+            CameraModel cameraModel = model.getWorld().getCamera().get();
             Point2D.Double[] points;
             try {
                 points = cameraModel.getVisibleArea();
@@ -57,20 +47,20 @@ public abstract class GridObjectView extends GameObjectView {
             }
             bounds = getEnclosingRectangle(points[0], points[1], points[2], points[3]);
         } else {
-            bounds = new Rectangle2D.Double(0, 0, InGameConfig.WINDOW_WIDTH, InGameConfig.WINDOW_HEIGHT);
+            bounds = new Rectangle2D.Double(0, 0, InGameConfig.WINDOW_WIDTH_BASE, InGameConfig.WINDOW_HEIGHT_BASE);
         }
 
         // 1グリッドのサイズを計算
-        int gridWidth = (int) (gridModel.width * gridModel.scaleX);
-        int gridHeight = (int) (gridModel.height * gridModel.scaleY);
+        int gridWidth = (int) (gridModel.getWidth() * gridModel.getScaleX());
+        int gridHeight = (int) (gridModel.getHeight() * gridModel.getScaleY());
 
         // グリッドの原点(最左上)を計算
-        int originX = (int) (bounds.x / gridWidth) * gridWidth + (int) (model.x % gridWidth) - gridWidth / 2;
-        int originY = (int) (bounds.y / gridHeight) * gridHeight + (int) (model.y % gridHeight) - gridHeight / 2;
+        int originX = (int) (bounds.x / gridWidth) * gridWidth + (int) (model.getX() % gridWidth) - gridWidth / 2;
+        int originY = (int) (bounds.y / gridHeight) * gridHeight + (int) (model.getY() % gridHeight) - gridHeight / 2;
 
         // グリッドの原点の通し番号を計算
-        int originGridX = (int) Math.ceil((originX - model.x) / gridWidth);
-        int originGridY = (int) Math.ceil((originY - model.y) / gridHeight);
+        int originGridX = (int) Math.ceil((originX - model.getX()) / gridWidth);
+        int originGridY = (int) Math.ceil((originY - model.getY()) / gridHeight);
 
         for (int ix = -2; ix < bounds.width / gridWidth + 2; ix++) {
             for (int iy = -2; iy < bounds.height / gridHeight + 2; iy++) {
@@ -116,82 +106,4 @@ public abstract class GridObjectView extends GameObjectView {
         return new Rectangle2D.Double(minX, minY, width, height);
     }
 
-    @Override
-    protected String getShaderPath(String ext) {
-        return "shader/GridObject/GridObject" + "." + ext;
-        // return "shader/gameobject/GameObject" + "." + ext;
-    }
-
-    @Override
-    protected boolean needUpdateTexture() {
-        return false;
-    }
-
-    @Override
-    protected Matrix4f getModelMatrix() {
-        Matrix4f tempMat = new Matrix4f();
-        Optional<CameraModel> cameraModel = this.model.world.camera;
-        float x = cameraModel.isPresent() ? (float) cameraModel.get().x : (float) model.x;
-        float y = cameraModel.isPresent() ? (float) cameraModel.get().y : (float) model.y;
-        Matrix4f modelMat = new Matrix4f() // モデルの座標変換行列
-                .translate(x, y, 0, tempMat) // 座標
-                .scale(getSpriteWidth(), getSpriteHeight(), 1, tempMat)// 基準サイズ
-                .rotate((float) model.rotation, 0, 0, 1, tempMat) // 回転
-        // .scale((float) model.scaleX, (float) model.scaleY, 1, tempMat) // スケーリング
-        ;
-        return modelMat;
-    }
-
-    @Override
-    protected void initTextures(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        textureName.clear();
-        gl.glGenTextures(1, textureName);
-        TextureData textureData;
-        try {
-            InputStream textureStream = new FileInputStream("img/background/Brickwall3_Texture.png");
-            textureData = TextureIO.newTextureData(gl.getGLProfile(), textureStream, false, TextureIO.PNG);
-        } catch (IOException e) {
-            logger.warning(e.toString());
-            return;
-        }
-
-        gl.glBindTexture(GL4.GL_TEXTURE_2D, textureName.get(0));
-
-        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_BASE_LEVEL, 0);
-        gl.glTexParameteri(GL4.GL_TEXTURE_2D, GL4.GL_TEXTURE_MAX_LEVEL, 16);
-
-        gl.glTexImage2D(GL4.GL_TEXTURE_2D, 0, textureData.getInternalFormat(), textureData.getWidth(),
-                textureData.getHeight(), 0, textureData.getPixelFormat(), textureData.getPixelType(),
-                textureData.getBuffer());
-
-        gl.glGenerateMipmap(GL4.GL_TEXTURE_2D);
-    }
-
-    @Override
-    protected void initSamplers(GLAutoDrawable drawable) {
-        super.initSamplers(drawable);
-        GL4 gl = drawable.getGL().getGL4();
-
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MAG_FILTER, GL4.GL_LINEAR_MIPMAP_LINEAR);
-        gl.glSamplerParameteri(samplerName.get(0), GL4.GL_TEXTURE_MIN_FILTER, GL4.GL_LINEAR_MIPMAP_LINEAR);
-    }
-
-    @Override
-    protected void updateUniforms(GLAutoDrawable drawable) {
-        super.updateUniforms(drawable);
-        GL4 gl = drawable.getGL().getGL4();
-        GridObjectModel gridModel = (GridObjectModel) model;
-        Float cameraScale = model.world.camera.isPresent() ? (float) model.world.camera.get().getScale() : 1f;
-        int originOffsetLocation = gl.glGetUniformLocation(shaderProgram, "OriginOffset");
-        if (originOffsetLocation != -1)
-            gl.glUniform2fv(originOffsetLocation, 1, new float[] { (float) model.x, (float) model.y }, 0);
-
-        int gridSizeLocation = gl.glGetUniformLocation(shaderProgram, "Grids");
-        if (gridSizeLocation != -1)
-            gl.glUniform2fv(gridSizeLocation, 1,
-                    new float[] { InGameConfig.WINDOW_WIDTH / cameraScale / gridModel.width / (float) gridModel.scaleX,
-                            InGameConfig.WINDOW_HEIGHT / cameraScale / gridModel.height / (float) gridModel.scaleY },
-                    0);
-    }
 }

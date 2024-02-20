@@ -3,9 +3,7 @@ package medipro.titlemenu;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.JPanel;
-
-import medipro.gui.panel.IGamePanel;
+import medipro.gui.panel.GamePanel;
 import medipro.object.base.gameobject.GameObjectController;
 import medipro.object.manager.gamemanager.GameManagerController;
 import medipro.world.PlayWorld;
@@ -27,8 +25,7 @@ public class TitleMenuController extends GameObjectController implements KeyList
     @Override
     public void keyPressed(KeyEvent e) {
         TitleMenuModel titleMenuModel = (TitleMenuModel) model;
-        JPanel panel = titleMenuModel.world.getPanel();
-        IGamePanel gamePanel = (IGamePanel) (panel);
+        GamePanel gamePanel = titleMenuModel.getWorld().getPanel();
 
         switch (e.getKeyCode()) {
         case KeyEvent.VK_UP:
@@ -46,7 +43,7 @@ public class TitleMenuController extends GameObjectController implements KeyList
                 // model.world.setWorld((World)new TestWorld(model.world.getPanel()));
                 titleMenuModel.setSelectedItem(0);
                 GameManagerController.resetFloor();
-                gamePanel.setWorld(new PlayWorld(panel));
+                gamePanel.setWorld(new PlayWorld(gamePanel));
                 logger.info("game start");
                 break;
             case 1:
@@ -73,6 +70,6 @@ public class TitleMenuController extends GameObjectController implements KeyList
 
     @Override
     public void dispose() {
-        this.model.world.getPanel().removeKeyListener(this);
+        this.model.getWorld().getPanel().removeKeyListener(this);
     }
 }

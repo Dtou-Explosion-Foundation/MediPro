@@ -17,17 +17,10 @@ public class BlackFilterController extends GameObjectController {
         super(model);
     }
 
-    /**
-     * 変化の状態を表す. 0: none, 1: blackIn, -1: blackOut
-     */
-    private byte state = 0;
-
     @Override
     public void update(double dt) {
         BlackFilterModel model = (BlackFilterModel) this.model;
-        float duration = model.getDuration();
-        if (state != 0 && model.addAlpha(dt * state / duration))
-            state = 0;
+        model.update(dt);
     }
 
     /**
@@ -37,7 +30,7 @@ public class BlackFilterController extends GameObjectController {
      */
     public void blackIn(float duration) {
         BlackFilterModel model = (BlackFilterModel) this.model;
-        state = 1;
+        model.setState((byte) 1);
         model.setDuration(duration);
     }
 
@@ -48,7 +41,7 @@ public class BlackFilterController extends GameObjectController {
      */
     public void blackOut(float duration) {
         BlackFilterModel model = (BlackFilterModel) this.model;
-        state = -1;
+        model.setState((byte) -1);
         model.setDuration(duration);
     }
 
@@ -58,7 +51,8 @@ public class BlackFilterController extends GameObjectController {
      * @param alpha 透明度
      */
     public void setAlpha(float alpha) {
-        ((BlackFilterModel) model).setAlpha(alpha);
-        state = 0;
+        BlackFilterModel model = (BlackFilterModel) this.model;
+        model.setAlpha(alpha);
+        model.setState((byte) 0);
     }
 }
