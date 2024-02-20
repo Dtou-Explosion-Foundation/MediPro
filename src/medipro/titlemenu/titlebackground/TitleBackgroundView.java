@@ -7,8 +7,16 @@ import medipro.object.base.gameobject.GameObjectView;
 import medipro.util.ImageUtil;
 
 public class TitleBackgroundView extends GameObjectView {
+    /**
+     * 背景画像データのバッファ.
+     */
     private BufferedImage heroImage;
 
+    /**
+     * タイトルバックグラウンドのビューを生成.
+     * 
+     * @param model 対象のモデル
+     */
     public TitleBackgroundView(TitleBackgroundModel model) {
         super(model);
         TitleBackgroundModel titleBackgroundModel = (TitleBackgroundModel) model;
