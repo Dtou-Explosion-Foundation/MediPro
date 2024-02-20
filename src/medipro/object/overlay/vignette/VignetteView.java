@@ -25,14 +25,13 @@ public class VignetteView extends GameObjectView {
     @Override
     protected void draw(Graphics2D g) {
         VignetteModel vignetteModel = (VignetteModel) this.model;
-        int windowWidth = (int) (InGameConfig.WINDOW_WIDTH
-                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
-        int windowHeight = (int) (InGameConfig.WINDOW_HEIGHT
-                * model.getWorld().getPanel().getFrame().getScreenScaleFactor());
+        double windowWidth = InGameConfig.WINDOW_WIDTH * model.getWorld().getPanel().getFrame().getScreenScaleFactor();
+        double windowHeight = InGameConfig.WINDOW_HEIGHT
+                * model.getWorld().getPanel().getFrame().getScreenScaleFactor();
         if (vignetteModel.getTexture().isPresent()) {
             BufferedImage image = vignetteModel.getTexture().get();
-            g.setTransform(AffineTransform.getScaleInstance((double) windowWidth / image.getWidth(),
-                    (double) windowHeight / image.getHeight()));
+            g.setTransform(
+                    AffineTransform.getScaleInstance(windowWidth / image.getWidth(), windowHeight / image.getHeight()));
             g.drawImage(image, 0, 0, null);
         }
 
